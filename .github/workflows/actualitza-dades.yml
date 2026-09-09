@@ -1,1 +1,43 @@
+name: Dades
 
+on:
+  workflow_dispatch:          # botó «Run workflow» a la pestanya Actions
+  schedule:
+    - cron: '0 5 * * *'       # cada dia a les 05:00 UTC
+  push:
+    branches: [main]
+
+jobs:
+  comprova:
+    name: Comprovar que el full es llegeix bé
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Generar les dades
+        run: npm run build
+      - name: Comptar les unitats
+        run: |
+          n=$(node -e "console.log(JSON.parse(require('fs').readFileSync('public/data.json')).ua.length)")
+          echo "Unitats generades: $n"
+          if [ "$n" -lt 100 ]; then
+            echo "::error::Només $n unitats. El full no s'ha llegit bé."
+            exit 1
+          fi
+
+  redesplega:
+    name: Demanar a Vercel que torni a publicar
+    needs: comprova
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cridar el Deploy Hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "No hi ha el secret VERCEL_DEPLOY_HOOK: no es redesplega."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" && echo "Desplegament demanat."
