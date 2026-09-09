@@ -116,10 +116,16 @@ instruccions.
 
 ## El plànol interactiu
 
-A la portada, sota el cercador, hi ha el plànol de la parròquia: s'hi pot arrossegar, fer zoom
-amb la roda o pessigant, passar per sobre d'una unitat per veure'n el nom i clicar-la per obrir
-la seva fitxa. Les unitats van pintades segons la classificació del sòl, i de prop en surten
-els noms.
+A la portada, sota el cercador, hi ha el plànol de la parròquia: s'hi pot arrossegar i fer zoom
+amb la roda o pessigant. Les unitats van pintades segons la classificació del sòl, i de prop en
+surten els noms.
+
+Amb ratolí, passar per sobre d'una unitat n'ensenya el nom i clicar-la obre la fitxa. Sense
+ratolí no hi ha «passar per sobre», així que el primer toc ensenya el nom i el segon obre la
+fitxa; la pàgina ho detecta amb `matchMedia('(hover: hover)')` i ajusta també el text d'ajuda.
+
+A partir de 900 px d'amplada el plànol se surt de la columna de text i ocupa fins a 1.280 px:
+triar una unitat damunt del mapa demana espai, mentre que la fitxa es llegeix millor estreta.
 
 La geometria surt del DWG cadastral del Comú, que porta els perímetres de les unitats en capes
 per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua (cada nom cau

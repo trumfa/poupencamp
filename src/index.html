@@ -99,13 +99,17 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 
 /* el plànol */
 .plan{margin:28px 0 0}
-.plan .cap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.plan h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
-.plan .cap p{margin:0;font-size:13.5px;color:var(--ink-3)}
+.plan .cap{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;margin-bottom:10px}
+.plan h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em;flex:none}
+.plan .cap p{margin:0;font-size:13.5px;color:var(--ink-3);flex:1 1 24ch;min-width:0;max-width:72ch}
 .planbox{position:relative;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;
   background:var(--surface);height:min(62vh,520px);touch-action:none}
 .planbox canvas{display:block;width:100%;height:100%;cursor:grab}
 .planbox canvas.arrossega{cursor:grabbing}
+@media (min-width:900px){        /* el plànol se surt de la columna de text */
+  .plan{position:relative;left:50%;transform:translateX(-50%);width:min(1280px,94vw)}
+  .planbox{height:min(74vh,660px)}
+}
 .fons{position:absolute;left:10px;top:10px;display:flex;gap:0;border-radius:8px;overflow:hidden;
   border:1px solid var(--line-2);box-shadow:var(--shadow)}
 .fons button{appearance:none;font:inherit;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;
@@ -311,8 +315,9 @@ function vistaLlista(){
       <p class="cbcount">${esc(T.cerca_ajuda)}</p>
       ${D.mapa ? `<div class="plan">
         <div class="cap"><h2>O tria-la al plànol</h2>
-          <p>Arrossega per moure't, pessiga o fes servir la roda per acostar-t'hi. Passa-hi
-            per sobre per veure'n el nom i clica per obrir la fitxa.</p></div>
+          <p>${matchMedia('(hover: hover)').matches
+            ? "Arrossega per moure't, fes servir la roda per acostar-t'hi, passa per sobre d'una unitat per veure'n el nom i clica-la per obrir la fitxa."
+            : "Arrossega per moure't i pessiga per acostar-t'hi. Toca una unitat per veure'n el nom, i torna-la a tocar per obrir la fitxa."}</p></div>
         <div class="planbox">
           <canvas id="plan-cv"></canvas>
           <div class="fons" role="group" aria-label="Mapa de fons">
@@ -544,6 +549,9 @@ function arrencaPla(){
   const ctx = cv.getContext('2d');
   const credit = document.getElementById('plan-credit');
   let escala = 1, cx = 0, cy = 0, sobre = null, w = 0, h = 0;
+  // Amb ratolí, el nom surt en passar-hi per sobre i el clic obre la fitxa. Sense
+  // ratolí no hi ha «passar per sobre»: el primer toc ensenya el nom i el segon obre.
+  const ambRatoli = matchMedia('(hover: hover)').matches;
   let capa = localStorage.getItem('poupe-fons') || 'orto';
 
   /* ---- mosaics del mapa de fons */
@@ -648,11 +656,12 @@ function arrencaPla(){
           ctx.fillStyle = tinta; ctx.fillText(u.n, px, py);
         }
       }
-      if (sobre){                               // el nom del que hi ha sota el ratolí
+      if (sobre){                               // el nom de la unitat assenyalada
+        const text = ambRatoli ? sobre.n : sobre.n + '  ›  obre la fitxa';
         const [px, py] = aPant((sobre.bb[0] + sobre.bb[2]) / 2, (sobre.bb[1] + sobre.bb[3]) / 2);
         ctx.font = "600 14px 'Public Sans', sans-serif";
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        const am = ctx.measureText(sobre.n).width + 16;
+        const am = ctx.measureText(text).width + 16;
         const x = Math.max(am / 2 + 4, Math.min(w - am / 2 - 4, px));
         const y = Math.max(16, Math.min(h - 12, py));
         ctx.fillStyle = ambFons ? 'rgba(0,0,0,.72)' : (est.getPropertyValue('--ink').trim() || '#000');
@@ -660,7 +669,7 @@ function arrencaPla(){
         ctx.roundRect(x - am / 2, y - 12, am, 24, 6);
         ctx.fill();
         ctx.fillStyle = ambFons ? '#FFFFFF' : (est.getPropertyValue('--paper').trim() || '#fff');
-        ctx.fillText(sobre.n, x, y);
+        ctx.fillText(text, x, y);
       }
     });
   }
@@ -670,10 +679,12 @@ function arrencaPla(){
       if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
     return null;
   }
-  function trien(px, py){
+  function trien(px, py, toc){
     const [x, y] = aMon(px, py);
     const u = unitatA(x, y);
-    if (u) location.hash = '#/ua/' + encodeURIComponent(u.id);
+    if (!u){ if (sobre){ sobre = null; pinta(); } return; }
+    if (!toc || sobre === u) location.hash = '#/ua/' + encodeURIComponent(u.id);
+    else { sobre = u; pinta(); }
   }
 
   /* ---- gestos */
@@ -713,7 +724,7 @@ function arrencaPla(){
   function solta(e){
     punters.delete(e.pointerId);
     if (punters.size === 0){
-      if (arrossegant && mogut < 6) trien(e.offsetX, e.offsetY);
+      if (arrossegant && mogut < 6) trien(e.offsetX, e.offsetY, e.pointerType !== 'mouse' || !ambRatoli);
       arrossegant = false; cv.classList.remove('arrossega');
     }
   }
