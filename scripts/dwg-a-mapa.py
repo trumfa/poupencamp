@@ -39,6 +39,9 @@ CAPES_UA = {'01 1 UA SUC': 'SUC', '01 2 UA SUNC': 'SUNC', '01 3 UA SUBLE': 'SUBL
             '01 5 SÒL COMUNAL': 'COMUNAL'}
 CAPA_NOMS = 'ÀMBITS NOM'
 TOL = 1.0          # simplificació, en metres
+# Quant es pot allunyar l'àrea del recinte de la superfície que diu la fitxa abans de
+# donar per fet que el recinte no és d'aquella unitat. 0.92 ≈ un factor de 2,5.
+LIMIT_AREA = 1.2
 # Noms que al DWG s'escriuen diferent que a les fitxes. La clau i el valor van
 # passats per nrm(): tot en minúscules, sense accents ni punts.
 ALIES = {
@@ -183,27 +186,63 @@ def main(dwg_json, data_json, sortida):
                                   'x': sum(noms[j]['x'] for j in grup) / k,
                                   'y': sum(noms[j]['y'] for j in grup) / k})
 
-    caixes = []
-    for p in polis:
-        xs = [q[0] for q in p]
-        ys = [q[1] for q in p]
-        caixes.append((min(xs), min(ys), max(xs), max(ys),
-                       sum(xs) / len(xs), sum(ys) / len(ys)))
+    caixes = [(min(q[0] for q in p), min(q[1] for q in p),
+               max(q[0] for q in p), max(q[1] for q in p)) for p in polis]
+    arees = [area(p) for p in polis]
 
-    casat = collections.defaultdict(list)
-    for et in etiquetes:
+    def lluny(i, pt):   # distància a la caixa, no al centre: hi ha unitats molt llargues
+        b = caixes[i]
+        return math.hypot(max(b[0] - pt[0], 0, pt[0] - b[2]), max(b[1] - pt[1], 0, pt[1] - b[3]))
+
+    # La superfície de la fitxa desempata. Sense ella, una etiqueta que cau fora del seu
+    # recinte s'enganxa al primer veí que troba, que sol ser el més gros del costat.
+    sup = {}
+    for u in web['ua']:
+        try:
+            v = float(str(u.get('sup', '')).replace('.', '').replace(',', '.').strip())
+            if v > 0:
+                sup[u['id']] = v
+        except ValueError:
+            pass
+
+    # Cada etiqueta es queda un polígon, i cap polígon és de dues unitats alhora.
+    # Es reparteixen de la parella més convincent a la menys.
+    parelles = []
+    for e, et in enumerate(etiquetes):
         pt = (et['x'], et['y'])
-        tr = next((i for i, b in enumerate(caixes)
-                   if b[0] <= pt[0] <= b[2] and b[1] <= pt[1] <= b[3] and dins(pt, polis[i])), None)
-        if tr is None:      # etiqueta fora del seu polígon: el més proper, fins a 150 m
-            def lluny(i):       # distància a la caixa, no al centre: hi ha unitats molt llargues
-                b = caixes[i]
-                return math.hypot(max(b[0] - pt[0], 0, pt[0] - b[2]), max(b[1] - pt[1], 0, pt[1] - b[3]))
-            tr = min(range(len(polis)), key=lluny)
-            if lluny(tr) > 150:
+        for i in range(len(polis)):
+            if not (caixes[i][0] - 150 <= pt[0] <= caixes[i][2] + 150
+                    and caixes[i][1] - 150 <= pt[1] <= caixes[i][3] + 150):
                 continue
-        if tr not in casat[et['id']]:
-            casat[et['id']].append(tr)
+            a_dins = (caixes[i][0] <= pt[0] <= caixes[i][2] and caixes[i][1] <= pt[1] <= caixes[i][3]
+                      and dins(pt, polis[i]))
+            d = 0 if a_dins else lluny(i, pt)
+            if d > 150:
+                continue
+            s_ua = sup.get(et['id'])
+            err = abs(math.log(arees[i] / s_ua)) if s_ua and arees[i] > 0 else 0.35
+            if s_ua and err > LIMIT_AREA:   # el recinte no és d'aquesta unitat
+                continue
+            punts = (0 if a_dins else 1.2) + err + d / 400
+            parelles.append((punts, e, i))
+
+    parelles.sort()
+    fets, presos = set(), set()
+    casat = collections.defaultdict(list)
+    acumulat = collections.defaultdict(float)
+    for punts, e, i in parelles:
+        idu = etiquetes[e]['id']
+        if e in fets or i in presos:
+            continue
+        # Una unitat pot tenir més d'un recinte, però no en pot acumular més
+        # superfície de la que diu la fitxa: el mateix nom surt escrit diverses
+        # vegades damunt d'un sol recinte i, si no, s'endú els del costat.
+        s_ua = sup.get(idu)
+        if s_ua and acumulat[idu] + arees[i] > 1.6 * s_ua:
+            continue
+        fets.add(e); presos.add(i)
+        acumulat[idu] += arees[i]
+        casat[idu].append(i)
 
     # ara sí: a Web Mercator
     bons = sorted({i for v in casat.values() for i in v})

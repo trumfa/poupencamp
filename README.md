@@ -128,10 +128,26 @@ A partir de 900 px d'amplada el plànol se surt de la columna de text i ocupa fi
 triar una unitat damunt del mapa demana espai, mentre que la fitxa es llegeix millor estreta.
 
 La geometria surt del DWG cadastral del Comú, que porta els perímetres de les unitats en capes
-per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua (cada nom cau
-dins del seu polígon) i escriu `data/mapa.json`, que el build incrusta dins de `data.json`. El
-DWG no es puja al repositori: els navegadors no el saben llegir i pesa 3,5 MB; el que es publica
-és el JSON, simplificat al metre i amb les coordenades desades com a deltes entre vèrtexs.
+per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua i escriu
+`data/mapa.json`, que el build incrusta dins de `data.json`. El DWG no es puja al repositori:
+els navegadors no el saben llegir i pesa 3,5 MB; el que es publica és el JSON, simplificat al
+metre i amb les coordenades desades com a deltes entre vèrtexs.
+
+**Com es decideix quin recinte és de quina unitat.** El primer criteri és que el nom caigui dins
+del polígon, però al DWG moltes etiquetes surten a fora, amb una línia de guia, i llavors la més
+propera sol ser la del veí gros. Per això el guió fa servir tres regles més:
+
+- **La superfície de la fitxa desempata.** Si l'àrea del recinte s'allunya més d'un factor 2 de
+  la superfície que diu la fitxa, aquell recinte no és d'aquella unitat i el guió el descarta.
+- **Cap recinte és de dues unitats alhora.** Les parelles nom–recinte es reparteixen de la més
+  convincent a la menys, i un recinte ja repartit no es torna a donar.
+- **Una unitat no acumula més superfície de la que li toca.** El mateix nom surt escrit diverses
+  vegades damunt d'un sol recinte; sense aquesta regla, s'enduia també els del costat.
+
+Amb això, de les 371 unitats dibuixades, 345 tenen una àrea que quadra amb la fitxa (±25%) i 25
+queden dins d'un factor 2, que és el marge normal entre el perímetre dibuixat i la superfície
+comptada. Val la pena tornar a mirar aquests números cada cop que arribi un DWG nou: si una
+unitat surt amb un recinte cinc vegades més gros del que diu la fitxa, és que està mal assignat.
 
 `data/mapa.json` guarda també les 4.432 parcel·les del cadastre, però ara no es publiquen: el
 plànol només ensenya les unitats. Per tornar-les a enviar al navegador, treu el `delete mapa.p`
@@ -150,7 +166,7 @@ ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Goog
 clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
 condicions no permeten agafar-ne els mosaics pel seu compte.
 
-De les 405 unitats, 377 tenen perímetre. Les 26 que falten són, sobretot, àmbits grans de sòl no
+De les 405 unitats, 371 tenen perímetre. Les 34 que falten són, sobretot, àmbits grans de sòl no
 urbanitzable (domini esquiable, concessions, refugis, «Sòl no urbanitzable restant») que al DWG
 no surten com a recinte d'unitat; es troben igualment pel cercador. Per afegir-ne, n'hi ha prou
 amb posar el nom com surt al DWG al diccionari `ALIES` del guió i tornar-lo a executar: així és
