@@ -40,8 +40,26 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 .brand small{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-3);font-weight:400}
 .spacer{flex:1}
-.indep{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 7px}
+.top .wrap{min-height:0}
+.topline{min-height:48px}
+.ubar{display:flex;align-items:center;gap:9px;padding-top:6px;padding-bottom:8px;
+  border-top:1px solid var(--line);overflow:hidden}
+.ubar b{font-family:var(--f-display);font-size:15.5px;font-weight:600;letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ubar .chips{display:flex;gap:5px;flex:none;margin-left:auto}
+.ubar .chip{font-size:10px;padding:2px 6px}
+.ubar .chip.cls{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
+
+.uatop{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.uatop h1{margin:0;flex:1 1 12ch;min-width:0}
+.uaacts{display:flex;flex-wrap:wrap;gap:7px;flex:none;padding-top:4px}
+.nomes-imprimir{display:none}
+.btn2{appearance:none;font:inherit;font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;
+  display:inline-flex;align-items:center;gap:5px;padding:7px 11px;border-radius:8px;cursor:pointer;
+  text-decoration:none;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
+.btn2:hover{border-color:var(--accent);color:var(--accent)}
+.btn2.ple{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn2:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .hero{padding:40px 0 20px}
 .hero h1{font-family:var(--f-display);font-size:clamp(29px,6.6vw,42px);line-height:1.08;font-weight:600;
@@ -142,7 +160,7 @@ section.bloc{margin:32px 0 0}
 .clau p{margin:0;font-size:15px;color:var(--ink-2);max-width:62ch}
 .clau .art{margin-top:7px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
 
-figure.planol{margin:6px 0 14px;padding:0}
+figure.planol{margin:0 0 18px;padding:0}
 figure.planol a{display:block;border:1px solid var(--line-2);border-radius:10px;overflow:hidden;background:var(--surface)}
 figure.planol img{display:block;width:100%;height:auto}
 figure.planol figcaption{margin-top:7px;font-size:12.5px;color:var(--ink-3)}
@@ -178,13 +196,33 @@ footer p{margin:0 0 6px;max-width:64ch}
   .dl dd{padding-top:2px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media print{
+  header.top,.back,.picker,.uaacts,details.glos summary{display:none!important}
+  .nomes-imprimir{display:block;font-size:8.5pt;line-height:1.45;color:#444;margin:0 0 14px;
+    padding-bottom:8px;border-bottom:1px solid #bbb}
+  body{background:#fff;color:#000;font-size:11pt}
+  .wrap{max-width:none;padding:0}
+  a{color:#000;text-decoration:none}
+  .point,.clau,.docs li{break-inside:avoid}
+  section.bloc{break-inside:auto;margin-top:18px}
+  .blochead{border-top:1.5px solid #000}
+  .src{background:#f6f6f4;border-left:2px solid #666}
+  figure.planol{max-width:16cm}
+  details.glos{border-top:1px solid #999}
+  details.glos[open]{display:block}
+  footer{border-top:1px solid #999;font-size:9pt}
+  @page{margin:16mm 14mm}
+}
 </style>
 
 <header class="top">
-  <div class="wrap">
+  <div class="wrap topline">
     <a class="brand" href="#/">POUPE <small>Encamp</small></a>
-    <span class="spacer"></span>
-    <span class="indep">Web independent</span>
+  </div>
+  <div class="wrap ubar" id="ubar" hidden>
+    <b id="ubar-nom"></b>
+    <span class="chips" id="ubar-claus"></span>
   </div>
 </header>
 
@@ -340,11 +378,35 @@ function punt(it, i){
   </div>`;
 }
 
+const ara = () => new Date().toLocaleDateString('ca-ES', {day:'numeric', month:'long', year:'numeric'});
+
+// Què s'està mostrant ara mateix, per deixar-ho escrit a la fitxa impresa.
+function filtreActiu(u){
+  const parts = [];
+  if (sel.zona) parts.push('zona ' + ((D.claus[sel.zona] || {}).n || sel.zona));
+  if (sel.subzona) parts.push('subzona ' + ((D.claus[sel.subzona] || {}).n || sel.subzona));
+  for (const z of [...(u.z || []), ...(u.sz || [])])
+    if (regims(z.c)) parts.push((D.claus[regimActiu(z.c)] || {}).n || regimActiu(z.c));
+  return parts.length ? 'Filtrada per: ' + parts.join(' · ')
+                      : "Mostra tot el que afecta la unitat, sense filtrar per zona ni subzona.";
+}
+
+function barraUA(u){
+  const b = document.getElementById('ubar');
+  if (!u){ b.hidden = true; return; }
+  document.getElementById('ubar-nom').textContent = u.n;
+  document.getElementById('ubar-claus').innerHTML =
+    (u.clau ? `<span class="chip">${esc(u.clau)}</span>` : '') +
+    (u.cls ? `<span class="chip cls">${esc(S(u.cls))}</span>` : '');
+  b.hidden = false;
+}
+
 function vistaUA(id, mantenirScroll){
   const u = D.ua.find(x => x.id === id);
   if (!u){ location.hash = '#/'; return; }
   const y = window.scrollY;
   document.title = u.n + ' · POUPE Encamp';
+  barraUA(u);
   const zs = u.z || [], szs = u.sz || [];
   const ambRegims = [...zs, ...szs].filter(z => regims(z.c));
   const calFiltre = (zs.length + szs.length) > 1;     // filtrar per zona/subzona només si n'hi ha més d'una
@@ -360,16 +422,7 @@ function vistaUA(id, mantenirScroll){
       <figcaption>${esc(T.planol_nota)}</figcaption>
     </figure>` : '';
 
-  const identitat = planol + `<dl class="dl">
-    <dt>Clau de la unitat</dt><dd>${zs.concat(szs).length
-      ? zs.concat(szs).map(x => `<span class="chip">${esc(x.c)}</span>`).join(' ')
-      : '—'}</dd>
-    <dt>Classificació del sòl</dt><dd>${esc(CLS[S(u.cls)] || S(u.cls) || '—')}${
-      u.cls ? ` <span class="chip">${esc(S(u.cls))}</span>` : ''}</dd>
-    ${u.sup ? `<dt>Superfície</dt><dd><b>${esc(u.sup)}</b> m²</dd>` : ''}
-    <dt>Tipus de fitxa</dt><dd>${esc(TIP[S(u.tf)] || S(u.tf) || '—')}</dd>
-    <dt>Com surt el sostre</dt><dd>${esc(COB[S(u.cob)] || S(u.cob) || '—')}</dd>
-  </dl>`;
+  const pdfBopa = vigent && vigent.pdf ? drivePdf(vigent.pdf) : '';
 
   const clausHtml = `<div class="claus">${
     [...zs.map(z => [z, 'Zona']), ...szs.map(z => [z, 'Subzona'])].map(([z, tipus]) => {
@@ -396,7 +449,7 @@ function vistaUA(id, mantenirScroll){
   const items = itemsDe(u).filter(visible);
   const cossos = D.blocs.map(b => {
     let cos;
-    if (b.id === 'B1') cos = identitat;
+    if (b.id === 'B1') return '';          // fos amb la capçalera de la fitxa
     else if (b.id === 'B15') cos = clausHtml;
     else if (b.id === 'B9') cos = documents;
     else {
@@ -410,13 +463,26 @@ function vistaUA(id, mantenirScroll){
   app.innerHTML = `
     <a class="back" href="#/">← Totes les unitats</a>
     <div class="uahead">
-      <h1>${esc(u.n)}</h1>
+      <div class="uatop">
+        <h1>${esc(u.n)}</h1>
+        <div class="uaacts">
+          ${pdfBopa ? `<a class="btn2" href="${esc(pdfBopa)}" target="_blank" rel="noopener"
+             >${esc(T.btn_fitxa_bopa || 'Fitxa del BOPA')} ↗</a>` : ''}
+          <button class="btn2 ple" id="btn-imprimeix" type="button"
+            title="S'obre el diàleg d'impressió: tria «Desa com a PDF»"
+            >${esc(T.btn_fitxa_completa || 'Fitxa completa')} ↓</button>
+        </div>
+      </div>
+      <p class="nomes-imprimir">Fitxa generada el ${esc(ara())} · ${esc(filtreActiu(u))}<br>
+        ${esc(T.avis_legal || '')} ${esc(T.avis_bopa || '')}</p>
       <div class="facts">
         ${u.clau ? `<span class="fact clau"><i>Clau</i><b>${esc(u.clau)}</b></span>` : ''}
         ${u.cls ? `<span class="fact">${esc(CLS[S(u.cls)] || S(u.cls))}</span>` : ''}
         ${u.sup ? `<span class="fact"><b>${esc(u.sup)}</b> m²</span>` : ''}
         <span class="fact">${esc(TIP[S(u.tf)] || S(u.tf))}</span>
+        ${u.cob ? `<span class="fact">${esc(COB[S(u.cob)] || S(u.cob))}</span>` : ''}
       </div>
+      ${planol}
       <div class="lede">${(u.res || []).map(S).filter(Boolean).map(r => `<p>${esc(r)}</p>`).join('')}</div>
       ${(u.av || []).length ? `<div class="notices">${u.av.map(a => `
         <div class="notice ${esc(a.to)}"><i>${a.to === 'atencio' ? 'Atenció' : 'Nota'}</i><span>${esc(S(a.x))}</span></div>`).join('')}</div>` : ''}
@@ -461,6 +527,22 @@ function vistaUA(id, mantenirScroll){
     else sel[b.dataset.t] = b.dataset.v;
     vistaUA(id, true);
   }));
+  const imp = document.getElementById('btn-imprimeix');
+  if (imp) imp.addEventListener('click', () => {
+    const tancats = [...app.querySelectorAll('.src[hidden]')];
+    const glos = app.querySelector('details.glos');
+    const glosTancat = glos && !glos.open;
+    tancats.forEach(p => { p.hidden = false; });
+    if (glos) glos.open = true;
+    const desfes = () => {
+      tancats.forEach(p => { p.hidden = true; });
+      if (glosTancat) glos.open = false;
+      window.removeEventListener('afterprint', desfes);
+    };
+    window.addEventListener('afterprint', desfes);
+    window.print();
+    setTimeout(desfes, 3000);          // navegadors que no llancen afterprint
+  });
   app.querySelectorAll('.srcbtn').forEach(b => b.addEventListener('click', () => {
     const p = document.getElementById('src-' + b.dataset.src);
     const obert = !p.hidden; p.hidden = obert; b.setAttribute('aria-expanded', String(!obert));
@@ -471,7 +553,7 @@ function vistaUA(id, mantenirScroll){
 function ruta(){
   const m = (location.hash || '#/').match(/^#\/ua\/(.+)$/);
   if (m){ vistaUA(decodeURIComponent(m[1])); window.scrollTo(0, 0); }
-  else { sel = {zona:'', subzona:'', variant:{}}; vistaLlista(); window.scrollTo(0, 0); }
+  else { sel = {zona:'', subzona:'', variant:{}}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
 }
 window.addEventListener('hashchange', ruta);
 ruta();
