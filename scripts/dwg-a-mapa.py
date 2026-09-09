@@ -39,9 +39,9 @@ CAPES_UA = {'01 1 UA SUC': 'SUC', '01 2 UA SUNC': 'SUNC', '01 3 UA SUBLE': 'SUBL
             '01 5 SÒL COMUNAL': 'COMUNAL'}
 CAPA_NOMS = 'ÀMBITS NOM'
 TOL = 1.0          # simplificació, en metres
-# Quant es pot allunyar l'àrea del recinte de la superfície que diu la fitxa abans de
-# donar per fet que el recinte no és d'aquella unitat. 0.92 ≈ un factor de 2,5.
-LIMIT_AREA = 1.2
+# Un recinte no pot ser més gros que la superfície que diu la fitxa: 0.8 ≈ un factor 2,2.
+# Cap avall no hi ha límit, perquè una unitat pot estar feta de diversos recintes.
+LIMIT_AREA = 0.8
 # Noms que al DWG s'escriuen diferent que a les fitxes. La clau i el valor van
 # passats per nrm(): tot en minúscules, sense accents ni punts.
 ALIES = {
@@ -220,9 +220,15 @@ def main(dwg_json, data_json, sortida):
             if d > 150:
                 continue
             s_ua = sup.get(et['id'])
-            err = abs(math.log(arees[i] / s_ua)) if s_ua and arees[i] > 0 else 0.35
-            if s_ua and err > LIMIT_AREA:   # el recinte no és d'aquesta unitat
-                continue
+            if s_ua and arees[i] > 0:
+                r = math.log(arees[i] / s_ua)
+                if r > LIMIT_AREA:      # un recinte més gros que tota la unitat no és seu
+                    continue
+                # Que sigui més petit no vol dir res: una unitat pot tenir-ne uns quants.
+                # Només compta si el nom no hi cau a dins, on cal alguna cosa que desempati.
+                err = max(0.0, r) if a_dins else abs(r)
+            else:
+                err = 0.35
             punts = (0 if a_dins else 1.2) + err + d / 400
             parelles.append((punts, e, i))
 
@@ -243,6 +249,13 @@ def main(dwg_json, data_json, sortida):
         fets.add(e); presos.add(i)
         acumulat[idu] += arees[i]
         casat[idu].append(i)
+
+    # Última comprovació: si tot el que hem assignat a una unitat no arriba ni a la
+    # meitat del que diu la fitxa, el més calent és a l'aigüera. Val més deixar-la
+    # sense dibuix que ensenyar-ne un retall.
+    for idu in [k for k in casat if sup.get(k) and acumulat[k] < 0.5 * sup[k]]:
+        print(f'   descartada {idu}: {round(acumulat[idu])} m² per a una fitxa de {round(sup[idu])} m²')
+        del casat[idu]
 
     # ara sí: a Web Mercator
     bons = sorted({i for v in casat.values() for i in v})

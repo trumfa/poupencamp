@@ -137,17 +137,20 @@ metre i amb les coordenades desades com a deltes entre vèrtexs.
 del polígon, però al DWG moltes etiquetes surten a fora, amb una línia de guia, i llavors la més
 propera sol ser la del veí gros. Per això el guió fa servir tres regles més:
 
-- **La superfície de la fitxa desempata.** Si l'àrea del recinte s'allunya més d'un factor 2 de
-  la superfície que diu la fitxa, aquell recinte no és d'aquella unitat i el guió el descarta.
+- **Un recinte no pot ser més gros que la unitat.** Si la seva àrea passa del doble de la
+  superfície que diu la fitxa, no és d'aquella unitat. Cap avall no hi ha límit: una unitat pot
+  estar feta de quatre recintes, i cadascun és una fracció del total.
 - **Cap recinte és de dues unitats alhora.** Les parelles nom–recinte es reparteixen de la més
   convincent a la menys, i un recinte ja repartit no es torna a donar.
 - **Una unitat no acumula més superfície de la que li toca.** El mateix nom surt escrit diverses
   vegades damunt d'un sol recinte; sense aquesta regla, s'enduia també els del costat.
+- **I si al final no arriba ni a la meitat, fora.** Val més deixar una unitat sense dibuix que
+  ensenyar-ne un retall.
 
-Amb això, de les 371 unitats dibuixades, 345 tenen una àrea que quadra amb la fitxa (±25%) i 25
-queden dins d'un factor 2, que és el marge normal entre el perímetre dibuixat i la superfície
-comptada. Val la pena tornar a mirar aquests números cada cop que arribi un DWG nou: si una
-unitat surt amb un recinte cinc vegades més gros del que diu la fitxa, és que està mal assignat.
+Amb això, les 370 unitats dibuixades queden totes dins d'un factor 2 de la superfície de la seva
+fitxa: 341 hi quadren amb un marge del 25% i 28 es queden entre 1,25 i 2 vegades, que és la
+diferència normal entre el perímetre dibuixat i la superfície comptada. Val la pena repetir
+aquesta comprovació cada cop que arribi un DWG nou.
 
 `data/mapa.json` guarda també les 4.432 parcel·les del cadastre, però ara no es publiquen: el
 plànol només ensenya les unitats. Per tornar-les a enviar al navegador, treu el `delete mapa.p`
@@ -166,7 +169,7 @@ ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Goog
 clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
 condicions no permeten agafar-ne els mosaics pel seu compte.
 
-De les 405 unitats, 371 tenen perímetre. Les 34 que falten són, sobretot, àmbits grans de sòl no
+De les 405 unitats, 370 tenen perímetre. Les 35 que falten són, sobretot, àmbits grans de sòl no
 urbanitzable (domini esquiable, concessions, refugis, «Sòl no urbanitzable restant») que al DWG
 no surten com a recinte d'unitat; es troben igualment pel cercador. Per afegir-ne, n'hi ha prou
 amb posar el nom com surt al DWG al diccionari `ALIES` del guió i tornar-lo a executar: així és
