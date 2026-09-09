@@ -3,7 +3,7 @@
 // És un de sol i ho porta tot: les pestanyes de la base de dades (surten de l'extracció, no es
 // toquen a mà) i les de contingut (els textos planers, que edites tu). Ha d'estar compartit com a
 // «Qualsevol amb l'enllaç · Lector»; si no, el build s'atura amb un 401.
-export const FULL = 'POSA_AQUI_L_IDENTIFICADOR_DEL_FULL';
+export const FULL = 772779087;
 
 // Les pestanyes que llegeix el build, per famílies.
 export const PESTANYES = {
