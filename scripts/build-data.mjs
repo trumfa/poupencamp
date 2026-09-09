@@ -1,11 +1,11 @@
 /**
- * Llegeix els dos fulls de càlcul i escriu public/data.json.
+ * Llegeix el full de càlcul del POUPE i escriu public/data.json.
  * No té cap dependència: només Node 18 o superior.
  *
  *   node scripts/build-data.mjs
  */
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
-import { SHEETS, PESTANYES } from './config.mjs';
+import { FULL, PESTANYES } from './config.mjs';
 
 const ARREL = new URL('..', import.meta.url).pathname;
 
@@ -123,10 +123,12 @@ const llista = xs => {
 };
 
 /* ------------------------------------------------------------------ build */
-console.log('Llegint la base de dades…');
-const F = await llegeixFull(SHEETS.bd, PESTANYES.bd);
-console.log('Llegint la capa de contingut…');
-const C = await llegeixFull(SHEETS.contingut, PESTANYES.contingut);
+if (!LOCAL && /^POSA_AQUI/.test(FULL))
+  throw new Error("Falta l'identificador del full a scripts/config.mjs.");
+console.log('Llegint les pestanyes de la base de dades…');
+const F = await llegeixFull(FULL, PESTANYES.bd);
+console.log('Llegint les pestanyes de contingut…');
+const C = await llegeixFull(FULL, PESTANYES.contingut);
 
 const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
 const T = Object.fromEntries(C.textos_web.map(r => [r.id_text, r.text_ca]));
