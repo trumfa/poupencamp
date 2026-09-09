@@ -1,12 +1,11 @@
-// Identificadors dels dos fulls de càlcul.
-// Tots dos han d'estar compartits com a «Qualsevol amb l'enllaç · Lector».
-export const SHEETS = {
-  // Base de dades del POUPE (OCR de les fitxes i la normativa). No es toca a mà.
-  bd: '1lOE1ahkudXNJS8tix0RBt0_RywUHxiJITqpmcSdkkls',
-  // Capa de contingut: com s'explica cada cosa i què es publica.
-  contingut: '12a6RTqNlAPNcxmmxr2jDNPCvbwidcqg3-gG6xkrTPPc',
-};
+// Identificador del full de càlcul del POUPE.
+//
+// És un de sol i ho porta tot: les pestanyes de la base de dades (surten de l'extracció, no es
+// toquen a mà) i les de contingut (els textos planers, que edites tu). Ha d'estar compartit com a
+// «Qualsevol amb l'enllaç · Lector»; si no, el build s'atura amb un 401.
+export const FULL = 'POSA_AQUI_L_IDENTIFICADOR_DEL_FULL';
 
+// Les pestanyes que llegeix el build, per famílies.
 export const PESTANYES = {
   bd: ['Fitxes', 'Parametres', 'UA', 'Normativa', 'Claus', 'Glossari',
        'Claus_parametres', 'Claus_subdivisions', 'Proteccions', 'Planols'],
