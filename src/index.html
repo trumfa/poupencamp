@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --paper:#F1F2EE; --surface:#FBFBF9; --ink:#17211D; --ink-2:#4C5852; --ink-3:#78837D;
-  --line:#DCDFD8; --line-2:#C9CDC4; --accent:#1F5C4A; --accent-soft:#E4EDE7;
+  --paper:#FFFFFF; --surface:#F6F7F4; --ink:#17211D; --ink-2:#4C5852; --ink-3:#78837D;
+  --line:#E3E6DF; --line-2:#CBCFC6; --accent:#1F5C4A; --accent-soft:#E4EDE7;
   --warn:#8C4526; --warn-soft:#F4E7E0; --shadow:0 1px 2px rgba(23,33,29,.05);
   --pop:0 6px 24px rgba(23,33,29,.12);
   --f-display:'Petrona',Georgia,'Times New Roman',serif;
@@ -40,15 +40,19 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 .brand small{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-3);font-weight:400}
 .spacer{flex:1}
-.top .wrap{min-height:0}
-.topline{min-height:48px}
-.ubar{display:flex;align-items:center;gap:9px;padding-top:6px;padding-bottom:8px;
-  border-top:1px solid var(--line);overflow:hidden}
-.ubar b{font-family:var(--f-display);font-size:15.5px;font-weight:600;letter-spacing:-.01em;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.ubar .chips{display:flex;gap:5px;flex:none;margin-left:auto}
-.ubar .chip{font-size:10px;padding:2px 6px}
-.ubar .chip.cls{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
+.topline{min-height:50px;gap:10px}
+.brand{flex:none}
+.ubar-nom{font-family:var(--f-display);font-size:15px;font-weight:600;letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:2ch;flex:1 1 auto;
+  padding-left:10px;border-left:1px solid var(--line-2)}
+.chips{display:flex;gap:5px;flex:none;margin-left:auto}
+.chips:empty{display:none}
+.chips .chip{font-size:10px;padding:2px 6px}
+.chips .chip.cls{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
+@media (max-width:400px){
+  .brand small{display:none}
+  .chips .chip.cls{display:none}
+}
 
 .uatop{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .uatop h1{margin:0;flex:1 1 12ch;min-width:0}
@@ -116,9 +120,13 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
   text-transform:uppercase;flex:none;padding-top:2px}
 .notice.info i{color:var(--ink-3)}
 
-.picker{margin:24px 0 4px;padding:15px 16px;border:1px solid var(--line-2);border-radius:12px;background:var(--surface)}
-.picker h2{font-size:14px;margin:0 0 3px;font-weight:600}
-.picker p{margin:0 0 12px;font-size:13px;color:var(--ink-3)}
+.picker{margin:0 0 18px;padding:14px 16px 15px;border:1.5px solid var(--accent);border-radius:12px;
+  background:var(--surface)}
+.picker .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--accent);
+  padding:3px 8px;border-radius:999px;margin-bottom:9px}
+.picker h2{font-family:var(--f-display);font-size:18px;margin:0 0 3px;font-weight:600;letter-spacing:-.01em}
+.picker p{margin:0 0 12px;font-size:13.5px;color:var(--ink-2)}
 .pgroup{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
 .pgroup:last-child{margin-bottom:0}
 .plabel{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
@@ -218,10 +226,8 @@ footer p{margin:0 0 6px;max-width:64ch}
 
 <header class="top">
   <div class="wrap topline">
-    <a class="brand" href="#/">POUPE <small>Encamp</small></a>
-  </div>
-  <div class="wrap ubar" id="ubar" hidden>
-    <b id="ubar-nom"></b>
+    <a class="brand" href="#/">POUP <small>Encamp</small></a>
+    <b class="ubar-nom" id="ubar-nom" hidden></b>
     <span class="chips" id="ubar-claus"></span>
   </div>
 </header>
@@ -392,13 +398,12 @@ function filtreActiu(u){
 }
 
 function barraUA(u){
-  const b = document.getElementById('ubar');
-  if (!u){ b.hidden = true; return; }
-  document.getElementById('ubar-nom').textContent = u.n;
-  document.getElementById('ubar-claus').innerHTML =
-    (u.clau ? `<span class="chip">${esc(u.clau)}</span>` : '') +
-    (u.cls ? `<span class="chip cls">${esc(S(u.cls))}</span>` : '');
-  b.hidden = false;
+  const nom = document.getElementById('ubar-nom'), claus = document.getElementById('ubar-claus');
+  if (!u){ nom.hidden = true; nom.textContent = ''; claus.innerHTML = ''; return; }
+  nom.textContent = u.n;
+  nom.hidden = false;
+  claus.innerHTML = (u.clau ? `<span class="chip">${esc(u.clau)}</span>` : '') +
+                    (u.cls ? `<span class="chip cls">${esc(S(u.cls))}</span>` : '');
 }
 
 function vistaUA(id, mantenirScroll){
@@ -446,6 +451,24 @@ function vistaUA(id, mantenirScroll){
       </span></li>`).join('')}</ul>
     <p class="phelp" style="margin-top:12px">${esc(T.historic_nota)}</p>`;
 
+  const selector = !calSel ? '' : `<div class="picker">
+      <span class="flag">Tria una opció</span>
+      <h2>${(zs.length + szs.length) > 1 ? 'La teva parcel·la, on és?' : 'Quin tipus et toca?'}</h2>
+      <p>${(zs.length + szs.length) > 1
+        ? "Aquesta unitat té més d'una zona o subzona, i no diuen el mateix. Tria la teva i la fitxa es quedarà només amb el que t'afecta."
+        : "La fitxa no concreta de quin tipus és aquesta subzona. Tria el que et toca i la fitxa es quedarà només amb el que t'afecta."}</p>
+      ${calFiltre && zs.length ? `<div class="pgroup"><span class="plabel">Zona</span>
+        <button class="pick" data-t="zona" data-v="" aria-pressed="${!sel.zona}">Totes</button>
+        ${zs.map(z => `<button class="pick" data-t="zona" data-v="${esc(z.c)}" aria-pressed="${sel.zona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
+      ${calFiltre && szs.length ? `<div class="pgroup"><span class="plabel">Subzona</span>
+        <button class="pick" data-t="subzona" data-v="" aria-pressed="${!sel.subzona}">Totes</button>
+        ${szs.map(z => `<button class="pick" data-t="subzona" data-v="${esc(z.c)}" aria-pressed="${sel.subzona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
+      ${ambRegims.map(z => `<div class="pgroup"><span class="plabel">Tipus de ${
+        esc((D.claus[z.c]||{}).n || 'clau ' + z.c)}</span>
+        ${regims(z.c).map(r => `<button class="pick" data-t="regim" data-mare="${esc(z.c)}" data-v="${esc(r)}" aria-pressed="${
+          regimActiu(z.c) === r}">${esc((D.claus[r]||{}).n || r)}</button>`).join('')}</div>`).join('')}
+    </div>`;
+
   const items = itemsDe(u).filter(visible);
   const cossos = D.blocs.map(b => {
     let cos;
@@ -482,27 +505,12 @@ function vistaUA(id, mantenirScroll){
         <span class="fact">${esc(TIP[S(u.tf)] || S(u.tf))}</span>
         ${u.cob ? `<span class="fact">${esc(COB[S(u.cob)] || S(u.cob))}</span>` : ''}
       </div>
+      ${selector}
       ${planol}
       <div class="lede">${(u.res || []).map(S).filter(Boolean).map(r => `<p>${esc(r)}</p>`).join('')}</div>
       ${(u.av || []).length ? `<div class="notices">${u.av.map(a => `
         <div class="notice ${esc(a.to)}"><i>${a.to === 'atencio' ? 'Atenció' : 'Nota'}</i><span>${esc(S(a.x))}</span></div>`).join('')}</div>` : ''}
     </div>
-    ${calSel ? `<div class="picker">
-      <h2>${(zs.length + szs.length) > 1 ? 'La teva parcel·la, on és?' : 'Quin tipus et toca?'}</h2>
-      <p>${(zs.length + szs.length) > 1
-        ? "Aquesta unitat té més d'una zona o subzona. Tria la teva i deixarem només el que t'afecta."
-        : "La fitxa no concreta de quin tipus és aquesta subzona. Tria el que et toca i deixarem només el que t'afecta."}</p>
-      ${calFiltre && zs.length ? `<div class="pgroup"><span class="plabel">Zona</span>
-        <button class="pick" data-t="zona" data-v="" aria-pressed="${!sel.zona}">Totes</button>
-        ${zs.map(z => `<button class="pick" data-t="zona" data-v="${esc(z.c)}" aria-pressed="${sel.zona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
-      ${calFiltre && szs.length ? `<div class="pgroup"><span class="plabel">Subzona</span>
-        <button class="pick" data-t="subzona" data-v="" aria-pressed="${!sel.subzona}">Totes</button>
-        ${szs.map(z => `<button class="pick" data-t="subzona" data-v="${esc(z.c)}" aria-pressed="${sel.subzona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
-      ${ambRegims.map(z => `<div class="pgroup"><span class="plabel">Tipus de ${
-        esc((D.claus[z.c]||{}).n || 'clau ' + z.c)}</span>
-        ${regims(z.c).map(r => `<button class="pick" data-t="regim" data-mare="${esc(z.c)}" data-v="${esc(r)}" aria-pressed="${
-          regimActiu(z.c) === r}">${esc((D.claus[r]||{}).n || r)}</button>`).join('')}</div>`).join('')}
-    </div>` : ''}
     ${cossos}
     <details class="glos"><summary>Paraules que surten en aquesta pàgina</summary>
       <dl class="dl">${D.glossari.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}</dd>`).join('')}</dl>

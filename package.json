@@ -1,0 +1,13 @@
+{
+  "name": "poupe-encamp",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Consulta ciutadana del POUPE d'Encamp per unitat d'actuació",
+  "scripts": {
+    "build": "node scripts/build-data.mjs",
+    "dev": "npm run build && node --run serve",
+    "serve": "cd public && python3 -m http.server 8080"
+  },
+  "engines": { "node": "22.x" }
+}
