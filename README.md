@@ -11,31 +11,33 @@ errors. L'únic text que preval és el publicat al BOPA.
 
 ## Com està muntat
 
-Tres peces, i cadascuna té un sol ofici:
+Dues peces, i cadascuna té un sol ofici:
 
 | Peça | Què hi ha | Qui la toca |
 |---|---|---|
-| **Full «POUPE — Base de dades web»** | Les dades extretes per OCR: fitxes, valors de la normativa, articles, plànols, proteccions | Ningú a mà; surt del procés d'extracció |
-| **Full «POUPE_web_v2_contingut»** | Com s'explica cada cosa: textos planers, noms públics de les claus, avisos, plantilles, què es publica | Tu, quan vulguis canviar un text |
-| **Aquest repositori** | La pàgina i el guió que uneix els dos fulls | Només si es canvia el disseny o la lògica |
+| **El full de càlcul** | Tot: les pestanyes de la base de dades (`Fitxes`, `Parametres`, `UA`, `Normativa`, `Claus`…), que surten de l'extracció per OCR, i les de contingut (`config`, `textos_web`, `valors_public`…), que diuen com s'explica cada cosa | Les de contingut, tu. Les de la base de dades, el procés d'extracció |
+| **Aquest repositori** | La pàgina i el guió que llegeix el full | Només si es canvia el disseny o la lògica |
 
-El guió `scripts/build-data.mjs` llegeix els dos fulls, els creua i escriu `public/data.json`.
+El guió `scripts/build-data.mjs` llegeix les pestanyes del full, les creua i escriu `public/data.json`.
 La pàgina és un sol fitxer estàtic que llegeix aquest JSON. No hi ha servidor, ni base de dades,
 ni cap dependència de npm.
 
 ```
-scripts/build-data.mjs      llegeix els fulls -> public/data.json + public/index.html
-scripts/config.mjs          identificadors dels dos fulls i pestanyes que llegeix
+scripts/build-data.mjs      llegeix el full -> public/data.json + public/index.html
+scripts/config.mjs          identificador del full i pestanyes que llegeix
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
 public/                     el que es publica
 ```
 
-## Requisit previ: compartir els dos fulls
+## Requisit previ: compartir el full
 
-El build els llegeix sense credencials, així que tots dos han d'estar compartits com a
+El build el llegeix sense credencials, així que ha d'estar compartit com a
 **«Qualsevol amb l'enllaç · Lector»**. Amb això n'hi ha prou; no cal cap clau d'API ni cap
-compte de servei. Si algun dia els tornes privats, el build fallarà amb un 403 i t'ho dirà.
+compte de servei. Si algun dia el tornes privat, el build fallarà amb un 401 i t'ho dirà.
+
+L'identificador del full va a `scripts/config.mjs`, a la constant `FULL`. És el tros de la URL
+entre `/d/` i `/edit`.
 
 ## Posar-ho en marxa
 
@@ -79,7 +81,7 @@ El JSON es genera a cada desplegament, o sigui que n'hi ha prou amb tornar a des
   (*Settings → Secrets and variables → Actions*). El workflow `Dades` la crida cada dia a les
   05:00 UTC, i també quan pitges *Run workflow* a mà.
 
-El mateix workflow comprova, a cada push, que els fulls es llegeixen i que en surten més de 100
+El mateix workflow comprova, a cada push, que el full es llegeix i que en surten més de 100
 unitats. Si algú trenca una capçalera del full, salta abans d'arribar a producció.
 
 ## Els plànols
