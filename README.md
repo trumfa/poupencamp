@@ -117,16 +117,19 @@ instruccions.
 ## El plànol interactiu
 
 A la portada, sota el cercador, hi ha el plànol de la parròquia: s'hi pot arrossegar, fer zoom
-amb la roda o pessigant, i clicant una unitat s'obre la seva fitxa. Les unitats van pintades
-segons la classificació del sòl i, quan t'hi acostes prou, apareixen les parcel·les del cadastre
-i els noms de les unitats.
+amb la roda o pessigant, passar per sobre d'una unitat per veure'n el nom i clicar-la per obrir
+la seva fitxa. Les unitats van pintades segons la classificació del sòl, i de prop en surten
+els noms.
 
 La geometria surt del DWG cadastral del Comú, que porta els perímetres de les unitats en capes
 per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua (cada nom cau
 dins del seu polígon) i escriu `data/mapa.json`, que el build incrusta dins de `data.json`. El
 DWG no es puja al repositori: els navegadors no el saben llegir i pesa 3,5 MB; el que es publica
-és el JSON, simplificat al metre i amb les coordenades desades com a deltes entre vèrtexs —
-319 KB per a 377 unitats i 4.432 parcel·les.
+és el JSON, simplificat al metre i amb les coordenades desades com a deltes entre vèrtexs.
+
+`data/mapa.json` guarda també les 4.432 parcel·les del cadastre, però ara no es publiquen: el
+plànol només ensenya les unitats. Per tornar-les a enviar al navegador, treu el `delete mapa.p`
+de `scripts/build-data.mjs` i el dibuix del canvas.
 
 **El sistema de coordenades.** El cadastre va en NTF (Paris) / Lambert Sud, `EPSG:27563`, que és
 el sistema històric d'Andorra. El guió el passa a Web Mercator (`EPSG:3857`), que és el que fan

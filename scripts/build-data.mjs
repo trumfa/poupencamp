@@ -305,6 +305,9 @@ for (const r of UA) {
 let mapa = null;
 try {
   mapa = JSON.parse(await readFile(ARREL + 'data/mapa.json', 'utf8'));
+  // Les parcel·les del cadastre es guarden al fitxer però ara no es publiquen: el
+  // plànol només ensenya les unitats. Treu aquesta línia per tornar-les a enviar.
+  delete mapa.p;
   mapa.n = Object.keys(mapa.ua).filter(id => UA.some(u => u.id === id)).length;
   for (const id of Object.keys(mapa.ua)) if (!UA.some(u => u.id === id)) delete mapa.ua[id];
   console.log(`\nPlànol: ${mapa.n} unitats amb perímetre`);

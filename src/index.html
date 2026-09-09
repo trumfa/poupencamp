@@ -124,13 +124,6 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 .zoom button:hover{border-color:var(--accent);color:var(--accent)}
 .zoom button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .zoom button.re{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.04em}
-.tria{position:absolute;left:10px;right:56px;bottom:10px;display:flex;align-items:center;gap:10px;
-  padding:9px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line-2);
-  box-shadow:var(--pop);font-size:14px}
-.tria b{font-family:var(--f-display);font-size:15.5px;font-weight:600;white-space:nowrap;overflow:hidden;
-  text-overflow:ellipsis;flex:1;min-width:0}
-.tria a{flex:none;font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;text-decoration:none;
-  background:var(--accent);color:var(--paper);padding:7px 11px;border-radius:7px}
 .llegenda{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:var(--ink-3)}
 .llegenda span{display:inline-flex;align-items:center;gap:6px}
 .llegenda i{width:13px;height:13px;border-radius:3px;display:inline-block;border:1px solid}
@@ -318,8 +311,8 @@ function vistaLlista(){
       <p class="cbcount">${esc(T.cerca_ajuda)}</p>
       ${D.mapa ? `<div class="plan">
         <div class="cap"><h2>O tria-la al plànol</h2>
-          <p>Arrossega per moure't, pessiga o fes servir la roda per acostar-t'hi. Clica una
-            unitat —o una parcel·la de dins— per obrir-ne la fitxa.</p></div>
+          <p>Arrossega per moure't, pessiga o fes servir la roda per acostar-t'hi. Passa-hi
+            per sobre per veure'n el nom i clica per obrir la fitxa.</p></div>
         <div class="planbox">
           <canvas id="plan-cv"></canvas>
           <div class="fons" role="group" aria-label="Mapa de fons">
@@ -333,8 +326,6 @@ function vistaLlista(){
             <button type="button" id="plan-menys" aria-label="Allunyar">−</button>
             <button type="button" class="re" id="plan-tot" aria-label="Veure-ho tot">TOT</button>
           </div>
-          <div class="tria" id="plan-tria" hidden><b id="plan-nom"></b>
-            <a href="#/" id="plan-obre">Obre la fitxa →</a></div>
         </div>
         <div class="llegenda">
           <span><i style="background:#1F5C4A33;border-color:#1F5C4A">&nbsp;</i>Sòl urbà consolidat</span>
@@ -343,8 +334,7 @@ function vistaLlista(){
           <span><i style="background:#78837D26;border-color:#78837D">&nbsp;</i>Sòl no urbanitzable</span>
         </div>
         <p class="ajuda">${D.mapa.n} de les ${D.ua.length} unitats tenen el perímetre dibuixat; la resta
-          es troben pel nom. Les línies fines de dins són les parcel·les del cadastre: clicant-ne
-          una, s'obre la unitat que la conté.</p>
+          es troben pel nom.</p>
       </div>` : `<div class="soon">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
           <path d="M1 4.5 5.5 2.5 10.5 4.5 15 2.5v9L10.5 13.5 5.5 11.5 1 13.5z"/><path d="M5.5 2.5v9M10.5 4.5v9"/>
@@ -515,7 +505,6 @@ function muntaPla(){
       const p = desfes(anell);
       ua.push({id, n: nom[id] || id, c: COLORS[cls[id]] || COLORS.SNU, p, bb: caixa(p)});
     }
-  const par = (D.mapa.p || []).map(d => { const p = desfes(d); return {p, bb: caixa(p)}; });
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const u of ua){
     if (u.bb[0] < x0) x0 = u.bb[0]; if (u.bb[1] < y0) y0 = u.bb[1];
@@ -535,7 +524,7 @@ function muntaPla(){
     if (u.bb[0] < n0) n0 = u.bb[0]; if (u.bb[1] < m0) m0 = u.bb[1];
     if (u.bb[2] > n1) n1 = u.bb[2]; if (u.bb[3] > m1) m1 = u.bb[3];
   }
-  PLA = {ua, par, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
+  PLA = {ua, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
   return PLA;
 }
 
@@ -553,11 +542,8 @@ function arrencaPla(){
   const cv = document.getElementById('plan-cv');
   if (!M || !cv) return;
   const ctx = cv.getContext('2d');
-  const caixaTria = document.getElementById('plan-tria');
-  const nomTria = document.getElementById('plan-nom');
-  const obreTria = document.getElementById('plan-obre');
   const credit = document.getElementById('plan-credit');
-  let escala = 1, cx = 0, cy = 0, tria = null, parTria = null, sobre = null, w = 0, h = 0;
+  let escala = 1, cx = 0, cy = 0, sobre = null, w = 0, h = 0;
   let capa = localStorage.getItem('poupe-fons') || 'orto';
 
   /* ---- mosaics del mapa de fons */
@@ -636,27 +622,14 @@ function arrencaPla(){
       const ambFons = !!FONS[capa];
       ctx.clearRect(0, 0, w, h);
       pintaFons();
-      if (escala > 0.35){                       // el cadastre, només de prop
-        ctx.strokeStyle = ambFons ? 'rgba(255,255,255,.75)' : (est.getPropertyValue('--ink-3').trim() || '#888');
-        ctx.lineWidth = ambFons ? 0.8 : 0.7;
-        ctx.globalAlpha = Math.min(ambFons ? 1 : 0.55, (escala - 0.35) * 8);
-        for (const q of M.par){ if (veu(q.bb)){ traça(q.p); ctx.stroke(); } }
-        ctx.globalAlpha = 1;
-      }
       for (const u of M.ua){
         if (!veu(u.bb)) continue;
-        const punt = u === tria || u === sobre;
         traça(u.p);
-        ctx.fillStyle = u.c + (u === tria ? '73' : punt ? '55' : (ambFons ? '3A' : '2E'));
+        ctx.fillStyle = u.c + (u === sobre ? '73' : (ambFons ? '3A' : '2E'));
         ctx.fill();
         ctx.strokeStyle = u.c;
-        ctx.lineWidth = punt ? 2.4 : 1.1;
+        ctx.lineWidth = u === sobre ? 2.4 : 1.1;
         ctx.stroke();
-      }
-      if (parTria){
-        traça(parTria.p);
-        ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 3; ctx.stroke();
-        ctx.strokeStyle = est.getPropertyValue('--ink').trim() || '#000'; ctx.lineWidth = 1.4; ctx.stroke();
       }
       const fons = ambFons ? 'rgba(0,0,0,.65)' : (est.getPropertyValue('--paper').trim() || '#fff');
       const tinta = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink-2').trim() || '#333');
@@ -666,7 +639,7 @@ function arrencaPla(){
         ctx.lineWidth = 3; ctx.lineJoin = 'round';
         const posats = [];
         for (const u of M.ua){
-          if (u === tria || !veu(u.bb)) continue;
+          if (u === sobre || !veu(u.bb)) continue;
           if ((u.bb[2] - u.bb[0]) * escala < 80) continue;
           const [px, py] = aPant((u.bb[0] + u.bb[2]) / 2, (u.bb[1] + u.bb[3]) / 2);
           if (posats.some(q => Math.abs(q[0] - px) < 70 && Math.abs(q[1] - py) < 15)) continue;
@@ -675,14 +648,19 @@ function arrencaPla(){
           ctx.fillStyle = tinta; ctx.fillText(u.n, px, py);
         }
       }
-      if (tria && escala > 0.3){
-        const [px, py] = aPant((tria.bb[0] + tria.bb[2]) / 2, (tria.bb[1] + tria.bb[3]) / 2);
-        ctx.font = "600 13.5px 'Public Sans', sans-serif";
+      if (sobre){                               // el nom del que hi ha sota el ratolí
+        const [px, py] = aPant((sobre.bb[0] + sobre.bb[2]) / 2, (sobre.bb[1] + sobre.bb[3]) / 2);
+        ctx.font = "600 14px 'Public Sans', sans-serif";
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.lineWidth = 3.5; ctx.lineJoin = 'round';
-        ctx.strokeStyle = fons; ctx.strokeText(tria.n, px, py);
-        ctx.fillStyle = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink').trim() || '#000');
-        ctx.fillText(tria.n, px, py);
+        const am = ctx.measureText(sobre.n).width + 16;
+        const x = Math.max(am / 2 + 4, Math.min(w - am / 2 - 4, px));
+        const y = Math.max(16, Math.min(h - 12, py));
+        ctx.fillStyle = ambFons ? 'rgba(0,0,0,.72)' : (est.getPropertyValue('--ink').trim() || '#000');
+        ctx.beginPath();
+        ctx.roundRect(x - am / 2, y - 12, am, 24, 6);
+        ctx.fill();
+        ctx.fillStyle = ambFons ? '#FFFFFF' : (est.getPropertyValue('--paper').trim() || '#fff');
+        ctx.fillText(sobre.n, x, y);
       }
     });
   }
@@ -692,30 +670,10 @@ function arrencaPla(){
       if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
     return null;
   }
-  function parcelaA(x, y){
-    for (const q of M.par)
-      if (x >= q.bb[0] && x <= q.bb[2] && y >= q.bb[1] && y <= q.bb[3] && dinsAnell(x, y, q.p)) return q;
-    return null;
-  }
   function trien(px, py){
     const [x, y] = aMon(px, py);
-    parTria = escala > 0.35 ? parcelaA(x, y) : null;
-    tria = unitatA(x, y);
-    if (!tria && parTria){                       // la parcel·la mana: mira on cau el seu centre
-      const c = parTria.bb;
-      tria = unitatA((c[0] + c[2]) / 2, (c[1] + c[3]) / 2);
-    }
-    if (tria){
-      nomTria.textContent = tria.n;
-      obreTria.href = '#/ua/' + encodeURIComponent(tria.id);
-      obreTria.hidden = false;
-      caixaTria.hidden = false;
-    } else if (parTria){
-      nomTria.textContent = 'Aquesta parcel·la no és dins de cap unitat d\'actuació';
-      obreTria.hidden = true;
-      caixaTria.hidden = false;
-    } else caixaTria.hidden = true;
-    pinta();
+    const u = unitatA(x, y);
+    if (u) location.hash = '#/ua/' + encodeURIComponent(u.id);
   }
 
   /* ---- gestos */
@@ -773,9 +731,7 @@ function arrencaPla(){
   const puja = k => { escala = limita(escala * k); pinta(); };
   document.getElementById('plan-mes').addEventListener('click', () => puja(1.5));
   document.getElementById('plan-menys').addEventListener('click', () => puja(1 / 1.5));
-  document.getElementById('plan-tot').addEventListener('click', () => {
-    tria = null; parTria = null; caixaTria.hidden = true; tot(); pinta();
-  });
+  document.getElementById('plan-tot').addEventListener('click', () => { tot(); pinta(); });
   function posaCredit(){
     credit.textContent = FONS[capa] ? FONS[capa].c : '';
     credit.hidden = !FONS[capa];
