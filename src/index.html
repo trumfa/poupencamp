@@ -97,6 +97,45 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
   font-size:14px;color:var(--ink-2);display:flex;gap:11px;align-items:flex-start}
 .soon svg{flex:none;margin-top:2px;color:var(--ink-3)}
 
+/* el plànol */
+.plan{margin:28px 0 0}
+.plan .cap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.plan h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
+.plan .cap p{margin:0;font-size:13.5px;color:var(--ink-3)}
+.planbox{position:relative;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;
+  background:var(--surface);height:min(62vh,520px);touch-action:none}
+.planbox canvas{display:block;width:100%;height:100%;cursor:grab}
+.planbox canvas.arrossega{cursor:grabbing}
+.fons{position:absolute;left:10px;top:10px;display:flex;gap:0;border-radius:8px;overflow:hidden;
+  border:1px solid var(--line-2);box-shadow:var(--shadow)}
+.fons button{appearance:none;font:inherit;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;
+  padding:6px 10px;border:0;border-left:1px solid var(--line-2);background:var(--paper);
+  color:var(--ink-2);cursor:pointer}
+.fons button:first-child{border-left:0}
+.fons button[aria-pressed="true"]{background:var(--accent);color:var(--paper)}
+.fons button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.credit{position:absolute;left:10px;top:44px;margin:0;font-size:10px;line-height:1.3;color:var(--ink-3);
+  background:color-mix(in srgb,var(--paper) 80%,transparent);padding:2px 6px;border-radius:4px;
+  max-width:60%}
+.zoom{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+.zoom button{appearance:none;width:34px;height:34px;border-radius:8px;cursor:pointer;font:inherit;
+  font-size:16px;line-height:1;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);
+  box-shadow:var(--shadow)}
+.zoom button:hover{border-color:var(--accent);color:var(--accent)}
+.zoom button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.zoom button.re{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.04em}
+.tria{position:absolute;left:10px;right:56px;bottom:10px;display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line-2);
+  box-shadow:var(--pop);font-size:14px}
+.tria b{font-family:var(--f-display);font-size:15.5px;font-weight:600;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;flex:1;min-width:0}
+.tria a{flex:none;font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;text-decoration:none;
+  background:var(--accent);color:var(--paper);padding:7px 11px;border-radius:7px}
+.llegenda{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:var(--ink-3)}
+.llegenda span{display:inline-flex;align-items:center;gap:6px}
+.llegenda i{width:13px;height:13px;border-radius:3px;display:inline-block;border:1px solid}
+.plan .ajuda{margin-top:8px;font-size:12.5px;color:var(--ink-3)}
+
 .back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-2);
   text-decoration:none;padding:20px 0 0}
 .back:hover{color:var(--accent)}
@@ -277,17 +316,48 @@ function vistaLlista(){
       </div>
       <p class="cbcount">${D.ua.length} unitats d'actuació. Tria-la a la llista o escriu-ne el nom.</p>
       <p class="cbcount">${esc(T.cerca_ajuda)}</p>
-      <div class="soon">
+      ${D.mapa ? `<div class="plan">
+        <div class="cap"><h2>O tria-la al plànol</h2>
+          <p>Arrossega per moure't, pessiga o fes servir la roda per acostar-t'hi. Clica una
+            unitat —o una parcel·la de dins— per obrir-ne la fitxa.</p></div>
+        <div class="planbox">
+          <canvas id="plan-cv"></canvas>
+          <div class="fons" role="group" aria-label="Mapa de fons">
+            <button type="button" data-fons="orto">Ortofoto</button>
+            <button type="button" data-fons="mapa">Mapa</button>
+            <button type="button" data-fons="cap">Cap</button>
+          </div>
+          <p class="credit" id="plan-credit"></p>
+          <div class="zoom">
+            <button type="button" id="plan-mes" aria-label="Acostar">+</button>
+            <button type="button" id="plan-menys" aria-label="Allunyar">−</button>
+            <button type="button" class="re" id="plan-tot" aria-label="Veure-ho tot">TOT</button>
+          </div>
+          <div class="tria" id="plan-tria" hidden><b id="plan-nom"></b>
+            <a href="#/" id="plan-obre">Obre la fitxa →</a></div>
+        </div>
+        <div class="llegenda">
+          <span><i style="background:#1F5C4A33;border-color:#1F5C4A">&nbsp;</i>Sòl urbà consolidat</span>
+          <span><i style="background:#B4540033;border-color:#B45400">&nbsp;</i>Sòl urbà no consolidat</span>
+          <span><i style="background:#2E6E8633;border-color:#2E6E86">&nbsp;</i>Sòl urbanitzable</span>
+          <span><i style="background:#78837D26;border-color:#78837D">&nbsp;</i>Sòl no urbanitzable</span>
+        </div>
+        <p class="ajuda">${D.mapa.n} de les ${D.ua.length} unitats tenen el perímetre dibuixat; la resta
+          es troben pel nom. Les línies fines de dins són les parcel·les del cadastre: clicant-ne
+          una, s'obre la unitat que la conté.</p>
+      </div>` : `<div class="soon">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
           <path d="M1 4.5 5.5 2.5 10.5 4.5 15 2.5v9L10.5 13.5 5.5 11.5 1 13.5z"/><path d="M5.5 2.5v9M10.5 4.5v9"/>
         </svg><span>${esc(T.mapa_promesa)}</span>
-      </div>
+      </div>`}
     </div>
     <footer>
       <p><strong>${esc(T.avis_legal)}</strong></p>
       <p>${esc(T.avis_bopa)}</p>
       <p>${esc(T.peu_credits)}</p>
     </footer>`;
+
+  arrencaPla();
 
   const q = document.getElementById('q'), ul = document.getElementById('llista'), tg = document.getElementById('tg');
   let obert = false, idx = -1, vis = [];
@@ -404,6 +474,326 @@ function barraUA(u){
   nom.hidden = false;
   claus.innerHTML = (u.clau ? `<span class="chip">${esc(u.clau)}</span>` : '') +
                     (u.cls ? `<span class="chip cls">${esc(S(u.cls))}</span>` : '');
+}
+
+/* ------------------------------------------------------------------ el plànol
+   La geometria ve del DWG cadastral, projectada a Web Mercator (els metres dels
+   mapes de fons) i desada com a deltes entre vèrtexs perquè ocupi poc. */
+const COLORS = {SUC:'#1F5C4A', SUCc:'#1F5C4A', SUNC:'#B45400', SUBLE:'#2E6E86',
+                SNU:'#78837D', SNUBLE:'#78837D'};
+const FONS = {
+  orto: {u: z => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z.z}/${z.y}/${z.x}`,
+         c: 'Imatges: Esri, Maxar, Earthstar Geographics', fosc: true, max: 19},
+  mapa: {u: z => `https://tile.openstreetmap.org/${z.z}/${z.x}/${z.y}.png`,
+         c: '© col·laboradors d\'OpenStreetMap', fosc: false, max: 19},
+  cap:  null,
+};
+const MERCATOR = 20037508.342789244;
+let PLA = null;
+
+function muntaPla(){
+  if (PLA || !D.mapa) return PLA;
+  const desfes = d => {
+    const p = new Float64Array(d.length);
+    p[0] = d[0]; p[1] = d[1];
+    for (let i = 2; i < d.length; i += 2){ p[i] = p[i-2] + d[i]; p[i+1] = p[i-1] + d[i+1]; }
+    return p;
+  };
+  const caixa = p => {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let i = 0; i < p.length; i += 2){
+      if (p[i] < x0) x0 = p[i]; if (p[i] > x1) x1 = p[i];
+      if (p[i+1] < y0) y0 = p[i+1]; if (p[i+1] > y1) y1 = p[i+1];
+    }
+    return [x0, y0, x1, y1];
+  };
+  const nom = {}, cls = {};
+  for (const u of D.ua){ nom[u.id] = u.n; cls[u.id] = S(u.cls); }
+  const ua = [];
+  for (const id in D.mapa.ua)
+    for (const anell of D.mapa.ua[id]){
+      const p = desfes(anell);
+      ua.push({id, n: nom[id] || id, c: COLORS[cls[id]] || COLORS.SNU, p, bb: caixa(p)});
+    }
+  const par = (D.mapa.p || []).map(d => { const p = desfes(d); return {p, bb: caixa(p)}; });
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const u of ua){
+    if (u.bb[0] < x0) x0 = u.bb[0]; if (u.bb[1] < y0) y0 = u.bb[1];
+    if (u.bb[2] > x1) x1 = u.bb[2]; if (u.bb[3] > y1) y1 = u.bb[3];
+  }
+  // La parròquia té dos nuclis molt separats (la vall i el Pas de la Casa). La vista
+  // inicial encaixa el que té més unitats; el botó TOT els ensenya tots dos.
+  const cents = ua.map(u => [(u.bb[0] + u.bb[2]) / 2, u]).sort((a, b) => a[0] - b[0]);
+  const grups = [[cents[0][1]]];
+  for (let i = 1; i < cents.length; i++){
+    if (cents[i][0] - cents[i-1][0] > 2500) grups.push([]);
+    grups[grups.length - 1].push(cents[i][1]);
+  }
+  const gran = grups.reduce((a, b) => (b.length > a.length ? b : a), grups[0]);
+  let n0 = Infinity, m0 = Infinity, n1 = -Infinity, m1 = -Infinity;
+  for (const u of gran){
+    if (u.bb[0] < n0) n0 = u.bb[0]; if (u.bb[1] < m0) m0 = u.bb[1];
+    if (u.bb[2] > n1) n1 = u.bb[2]; if (u.bb[3] > m1) m1 = u.bb[3];
+  }
+  PLA = {ua, par, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
+  return PLA;
+}
+
+function dinsAnell(x, y, p){
+  let dins = false;
+  for (let i = 0, j = p.length - 2; i < p.length; j = i, i += 2){
+    const yi = p[i+1], yj = p[j+1];
+    if ((yi > y) !== (yj > y) && x < (p[j] - p[i]) * (y - yi) / (yj - yi) + p[i]) dins = !dins;
+  }
+  return dins;
+}
+
+function arrencaPla(){
+  const M = muntaPla();
+  const cv = document.getElementById('plan-cv');
+  if (!M || !cv) return;
+  const ctx = cv.getContext('2d');
+  const caixaTria = document.getElementById('plan-tria');
+  const nomTria = document.getElementById('plan-nom');
+  const obreTria = document.getElementById('plan-obre');
+  const credit = document.getElementById('plan-credit');
+  let escala = 1, cx = 0, cy = 0, tria = null, parTria = null, sobre = null, w = 0, h = 0;
+  let capa = localStorage.getItem('poupe-fons') || 'orto';
+
+  /* ---- mosaics del mapa de fons */
+  const rajoles = new Map();
+  function rajola(z, x, y){
+    const n = 1 << z;
+    if (x < 0 || y < 0 || x >= n || y >= n) return null;
+    const k = capa + '/' + z + '/' + x + '/' + y;
+    if (rajoles.has(k)) return rajoles.get(k);
+    const im = new Image();
+    im.crossOrigin = 'anonymous';
+    im.onload = () => pinta();
+    im.onerror = () => { im.fallat = true; };
+    im.src = FONS[capa].u({z, x, y});
+    rajoles.set(k, im);
+    if (rajoles.size > 400) for (const vell of [...rajoles.keys()].slice(0, 120)) rajoles.delete(vell);
+    return im;
+  }
+  function pintaFons(){
+    const f = FONS[capa];
+    if (!f) return;
+    const z = Math.max(0, Math.min(f.max, Math.round(Math.log2(escala * 2 * MERCATOR / 256))));
+    const n = 1 << z, mida = 2 * MERCATOR / n;            // metres per rajola
+    const [X0, Y1] = aMon(0, 0), [X1, Y0] = aMon(w, h);   // cantonades del que es veu
+    const tx0 = Math.floor((X0 + M.o[0] + MERCATOR) / mida);
+    const tx1 = Math.floor((X1 + M.o[0] + MERCATOR) / mida);
+    const ty0 = Math.floor((MERCATOR - (Y1 + M.o[1])) / mida);
+    const ty1 = Math.floor((MERCATOR - (Y0 + M.o[1])) / mida);
+    if ((tx1 - tx0 + 1) * (ty1 - ty0 + 1) > 200) return;  // massa: no val la pena
+    for (let tx = tx0; tx <= tx1; tx++)
+      for (let ty = ty0; ty <= ty1; ty++){
+        const im = rajola(z, tx, ty);
+        if (!im || !im.complete || im.fallat || !im.naturalWidth) continue;
+        const X = tx * mida - MERCATOR - M.o[0], Y = MERCATOR - ty * mida - M.o[1];
+        const [px, py] = aPant(X, Y);
+        const costat = mida * escala;
+        ctx.drawImage(im, px, py, costat + 1, costat + 1);
+      }
+  }
+
+  function mida(){
+    const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function encaixa(bb){
+    const [x0, y0, x1, y1] = bb;
+    escala = Math.min(w / Math.max(x1 - x0, 1), h / Math.max(y1 - y0, 1)) * 0.92;
+    cx = (x0 + x1) / 2; cy = (y0 + y1) / 2;
+  }
+  const tot = () => encaixa(M.bb);
+  const inici = () => encaixa(M.nucli);
+  const aPant = (x, y) => [(x - cx) * escala + w / 2, h / 2 - (y - cy) * escala];
+  const aMon = (px, py) => [(px - w / 2) / escala + cx, cy - (py - h / 2) / escala];
+
+  function traça(p){
+    ctx.beginPath();
+    const [sx, sy] = aPant(p[0], p[1]);
+    ctx.moveTo(sx, sy);
+    for (let i = 2; i < p.length; i += 2){ const q = aPant(p[i], p[i+1]); ctx.lineTo(q[0], q[1]); }
+    ctx.closePath();
+  }
+  const veu = bb => {
+    const a = aPant(bb[0], bb[3]), b = aPant(bb[2], bb[1]);
+    return b[0] > -40 && a[0] < w + 40 && b[1] > -40 && a[1] < h + 40;
+  };
+
+  let pendent = false;
+  function pinta(){
+    if (pendent) return;
+    pendent = true;
+    requestAnimationFrame(() => {
+      pendent = false;
+      const est = getComputedStyle(document.documentElement);
+      const ambFons = !!FONS[capa];
+      ctx.clearRect(0, 0, w, h);
+      pintaFons();
+      if (escala > 0.35){                       // el cadastre, només de prop
+        ctx.strokeStyle = ambFons ? 'rgba(255,255,255,.75)' : (est.getPropertyValue('--ink-3').trim() || '#888');
+        ctx.lineWidth = ambFons ? 0.8 : 0.7;
+        ctx.globalAlpha = Math.min(ambFons ? 1 : 0.55, (escala - 0.35) * 8);
+        for (const q of M.par){ if (veu(q.bb)){ traça(q.p); ctx.stroke(); } }
+        ctx.globalAlpha = 1;
+      }
+      for (const u of M.ua){
+        if (!veu(u.bb)) continue;
+        const punt = u === tria || u === sobre;
+        traça(u.p);
+        ctx.fillStyle = u.c + (u === tria ? '73' : punt ? '55' : (ambFons ? '3A' : '2E'));
+        ctx.fill();
+        ctx.strokeStyle = u.c;
+        ctx.lineWidth = punt ? 2.4 : 1.1;
+        ctx.stroke();
+      }
+      if (parTria){
+        traça(parTria.p);
+        ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 3; ctx.stroke();
+        ctx.strokeStyle = est.getPropertyValue('--ink').trim() || '#000'; ctx.lineWidth = 1.4; ctx.stroke();
+      }
+      const fons = ambFons ? 'rgba(0,0,0,.65)' : (est.getPropertyValue('--paper').trim() || '#fff');
+      const tinta = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink-2').trim() || '#333');
+      if (escala > 0.8){                        // noms, quan hi caben
+        ctx.font = "500 12px 'Public Sans', sans-serif";
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 3; ctx.lineJoin = 'round';
+        const posats = [];
+        for (const u of M.ua){
+          if (u === tria || !veu(u.bb)) continue;
+          if ((u.bb[2] - u.bb[0]) * escala < 80) continue;
+          const [px, py] = aPant((u.bb[0] + u.bb[2]) / 2, (u.bb[1] + u.bb[3]) / 2);
+          if (posats.some(q => Math.abs(q[0] - px) < 70 && Math.abs(q[1] - py) < 15)) continue;
+          posats.push([px, py]);
+          ctx.strokeStyle = fons; ctx.strokeText(u.n, px, py);
+          ctx.fillStyle = tinta; ctx.fillText(u.n, px, py);
+        }
+      }
+      if (tria && escala > 0.3){
+        const [px, py] = aPant((tria.bb[0] + tria.bb[2]) / 2, (tria.bb[1] + tria.bb[3]) / 2);
+        ctx.font = "600 13.5px 'Public Sans', sans-serif";
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 3.5; ctx.lineJoin = 'round';
+        ctx.strokeStyle = fons; ctx.strokeText(tria.n, px, py);
+        ctx.fillStyle = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink').trim() || '#000');
+        ctx.fillText(tria.n, px, py);
+      }
+    });
+  }
+
+  function unitatA(x, y){
+    for (const u of M.ua)
+      if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
+    return null;
+  }
+  function parcelaA(x, y){
+    for (const q of M.par)
+      if (x >= q.bb[0] && x <= q.bb[2] && y >= q.bb[1] && y <= q.bb[3] && dinsAnell(x, y, q.p)) return q;
+    return null;
+  }
+  function trien(px, py){
+    const [x, y] = aMon(px, py);
+    parTria = escala > 0.35 ? parcelaA(x, y) : null;
+    tria = unitatA(x, y);
+    if (!tria && parTria){                       // la parcel·la mana: mira on cau el seu centre
+      const c = parTria.bb;
+      tria = unitatA((c[0] + c[2]) / 2, (c[1] + c[3]) / 2);
+    }
+    if (tria){
+      nomTria.textContent = tria.n;
+      obreTria.href = '#/ua/' + encodeURIComponent(tria.id);
+      obreTria.hidden = false;
+      caixaTria.hidden = false;
+    } else if (parTria){
+      nomTria.textContent = 'Aquesta parcel·la no és dins de cap unitat d\'actuació';
+      obreTria.hidden = true;
+      caixaTria.hidden = false;
+    } else caixaTria.hidden = true;
+    pinta();
+  }
+
+  /* ---- gestos */
+  const punters = new Map();
+  let arrossegant = false, mogut = 0, ultim = null, distIni = 0, escIni = 1;
+  const limita = k => Math.max(0.02, Math.min(40, k));
+  cv.addEventListener('pointerdown', e => {
+    cv.setPointerCapture(e.pointerId);
+    punters.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (punters.size === 1){ arrossegant = true; mogut = 0; ultim = [e.offsetX, e.offsetY]; cv.classList.add('arrossega'); }
+    else if (punters.size === 2){
+      const [a, b] = [...punters.values()];
+      distIni = Math.hypot(a[0] - b[0], a[1] - b[1]); escIni = escala;
+    }
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!punters.has(e.pointerId)){
+      const [x, y] = aMon(e.offsetX, e.offsetY);
+      const u = unitatA(x, y);
+      if (u !== sobre){ sobre = u; cv.style.cursor = u ? 'pointer' : 'grab'; pinta(); }
+      return;
+    }
+    punters.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (punters.size === 2){
+      const [a, b] = [...punters.values()];
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (distIni > 0) escala = limita(escIni * d / distIni);
+      pinta(); return;
+    }
+    if (!arrossegant) return;
+    const dx = e.offsetX - ultim[0], dy = e.offsetY - ultim[1];
+    mogut += Math.abs(dx) + Math.abs(dy);
+    cx -= dx / escala; cy += dy / escala;
+    ultim = [e.offsetX, e.offsetY];
+    pinta();
+  });
+  function solta(e){
+    punters.delete(e.pointerId);
+    if (punters.size === 0){
+      if (arrossegant && mogut < 6) trien(e.offsetX, e.offsetY);
+      arrossegant = false; cv.classList.remove('arrossega');
+    }
+  }
+  cv.addEventListener('pointerup', solta);
+  cv.addEventListener('pointercancel', solta);
+  cv.addEventListener('wheel', e => {
+    e.preventDefault();
+    const [mx, my] = aMon(e.offsetX, e.offsetY);
+    escala = limita(escala * (e.deltaY < 0 ? 1.2 : 1 / 1.2));
+    const [nx, ny] = aMon(e.offsetX, e.offsetY);
+    cx += mx - nx; cy += my - ny;
+    pinta();
+  }, {passive: false});
+
+  const puja = k => { escala = limita(escala * k); pinta(); };
+  document.getElementById('plan-mes').addEventListener('click', () => puja(1.5));
+  document.getElementById('plan-menys').addEventListener('click', () => puja(1 / 1.5));
+  document.getElementById('plan-tot').addEventListener('click', () => {
+    tria = null; parTria = null; caixaTria.hidden = true; tot(); pinta();
+  });
+  function posaCredit(){
+    credit.textContent = FONS[capa] ? FONS[capa].c : '';
+    credit.hidden = !FONS[capa];
+  }
+  for (const b of document.querySelectorAll('.fons button'))
+    b.addEventListener('click', () => {
+      capa = b.dataset.fons;
+      try { localStorage.setItem('poupe-fons', capa); } catch (err) {}
+      for (const o of document.querySelectorAll('.fons button'))
+        o.setAttribute('aria-pressed', String(o.dataset.fons === capa));
+      posaCredit(); pinta();
+    });
+  addEventListener('resize', () => { mida(); pinta(); }, {passive: true});
+
+  for (const b of document.querySelectorAll('.fons button'))
+    b.setAttribute('aria-pressed', String(b.dataset.fons === capa));
+  posaCredit();
+  mida(); inici(); pinta();
 }
 
 function vistaUA(id, mantenirScroll){

@@ -301,7 +301,16 @@ for (const r of UA) {
   for (const f of r.fx) { f.fase = intern(f.fase); f.b = intern(f.b); }
 }
 
-const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA,
+// Geometria de les unitats, treta del DWG cadastral (mira scripts/dwg-a-mapa.py).
+let mapa = null;
+try {
+  mapa = JSON.parse(await readFile(ARREL + 'data/mapa.json', 'utf8'));
+  mapa.n = Object.keys(mapa.ua).filter(id => UA.some(u => u.id === id)).length;
+  for (const id of Object.keys(mapa.ua)) if (!UA.some(u => u.id === id)) delete mapa.ua[id];
+  console.log(`\nPlànol: ${mapa.n} unitats amb perímetre`);
+} catch { console.log('\nSense data/mapa.json: la web sortirà sense plànol.'); }
+
+const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA, mapa,
                glossari: C.glossari_public.filter(g => g.visible === 'SÍ')
                  .map(g => ({ t: g.terme, d: g.definicio_planera })),
                generat: new Date().toISOString() };

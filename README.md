@@ -26,6 +26,8 @@ ni cap dependència de npm.
 scripts/build-data.mjs      llegeix el full -> public/data.json + public/index.html
 scripts/config.mjs          identificador del full i pestanyes que llegeix
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
+scripts/dwg-a-mapa.py       DWG cadastral -> data/mapa.json (perímetres de les unitats)
+data/mapa.json              geometria del plànol interactiu
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
 public/                     el que es publica
 ```
@@ -112,6 +114,41 @@ python scripts/converteix-planols.py \
 També es pot fer des de Google Colab muntant el Drive; la capçalera del guió porta les
 instruccions.
 
+## El plànol interactiu
+
+A la portada, sota el cercador, hi ha el plànol de la parròquia: s'hi pot arrossegar, fer zoom
+amb la roda o pessigant, i clicant una unitat s'obre la seva fitxa. Les unitats van pintades
+segons la classificació del sòl i, quan t'hi acostes prou, apareixen les parcel·les del cadastre
+i els noms de les unitats.
+
+La geometria surt del DWG cadastral del Comú, que porta els perímetres de les unitats en capes
+per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua (cada nom cau
+dins del seu polígon) i escriu `data/mapa.json`, que el build incrusta dins de `data.json`. El
+DWG no es puja al repositori: els navegadors no el saben llegir i pesa 3,5 MB; el que es publica
+és el JSON, simplificat al metre i amb les coordenades desades com a deltes entre vèrtexs —
+319 KB per a 373 unitats i 4.432 parcel·les.
+
+**El sistema de coordenades.** El cadastre va en NTF (Paris) / Lambert Sud, `EPSG:27563`, que és
+el sistema històric d'Andorra. El guió el passa a Web Mercator (`EPSG:3857`), que és el que fan
+servir els mosaics de qualsevol proveïdor de mapes: així el dibuix quadra amb el fons sense cap
+altre ajust.
+
+**El mapa de fons.** Es tria amb els botons de dalt a l'esquerra: *Ortofoto* (World Imagery
+d'Esri), *Mapa* (OpenStreetMap) o *Cap*. Tots dos són gratuïts i només demanen que se'n digui la
+procedència, cosa que la pàgina fa a sota dels botons. Els mosaics es demanen directament amb
+`<img>` i es dibuixen al canvas; no hi ha cap biblioteca de mapes. Per canviar de proveïdor n'hi
+ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Google Maps, cal una
+clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
+condicions no permeten agafar-ne els mosaics pel seu compte.
+
+De les 405 unitats, 373 tenen perímetre. Les 30 que falten són, sobretot, àmbits grans de sòl no
+urbanitzable (domini esquiable, concessions) i unes quantes que al DWG surten amb un altre nom;
+es troben igualment pel cercador. Per afegir-ne, n'hi ha prou amb posar el nom com surt al DWG
+al diccionari `ALIES` del guió i tornar-lo a executar.
+
+La capa d'ortofoto del DWG és una referència externa i la imatge no és dins del fitxer; per això
+el fons ve d'un servei de mosaics i no del DWG.
+
 ## Claus amb més d'un tipus
 
 Alguna clau del pla no és una sola cosa. La subzona 11, per exemple, en són dues: la **11-A**
@@ -129,9 +166,6 @@ lletra.
 
 ## Què queda per fer
 
-- **Plànol interactiu.** Quan hi hagi el DWG de les unitats convertit a GeoJSON, el selector de
-  zona i subzona es pot substituir per una tria damunt del mapa. Els identificadors (`id_ua`) ja
-  són els que faria servir el mapa, o sigui que no cal tocar res més.
 - **Cerca per referència cadastral.** La pestanya `Cadastre` del full de dades encara és buida.
 - **Revisar els textos planers.** A `valors_public` i `claus_public` la majoria de files encara
   tenen `revisat = NO`: són redaccions fetes llegint la norma, però sense validar una per una.
