@@ -39,7 +39,14 @@ CAPES_UA = {'01 1 UA SUC': 'SUC', '01 2 UA SUNC': 'SUNC', '01 3 UA SUBLE': 'SUBL
             '01 5 SÒL COMUNAL': 'COMUNAL'}
 CAPA_NOMS = 'ÀMBITS NOM'
 TOL = 1.0          # simplificació, en metres
-ALIES = {}         # noms del DWG que s'escriuen diferent a les fitxes
+# Noms que al DWG s'escriuen diferent que a les fitxes. La clau i el valor van
+# passats per nrm(): tot en minúscules, sense accents ni punts.
+ALIES = {
+    'es esso': 'esso',              # «E.S. Esso» al DWG, «ESSO» a les fitxes
+    'es figueredo': 'figueredo',
+    'es mobil': 'mobil',
+    'es arajol': 'arajol',
+}
 
 
 def nrm(s):

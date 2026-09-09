@@ -126,7 +126,7 @@ per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els cr
 dins del seu polígon) i escriu `data/mapa.json`, que el build incrusta dins de `data.json`. El
 DWG no es puja al repositori: els navegadors no el saben llegir i pesa 3,5 MB; el que es publica
 és el JSON, simplificat al metre i amb les coordenades desades com a deltes entre vèrtexs —
-319 KB per a 373 unitats i 4.432 parcel·les.
+319 KB per a 377 unitats i 4.432 parcel·les.
 
 **El sistema de coordenades.** El cadastre va en NTF (Paris) / Lambert Sud, `EPSG:27563`, que és
 el sistema històric d'Andorra. El guió el passa a Web Mercator (`EPSG:3857`), que és el que fan
@@ -141,10 +141,12 @@ ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Goog
 clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
 condicions no permeten agafar-ne els mosaics pel seu compte.
 
-De les 405 unitats, 373 tenen perímetre. Les 30 que falten són, sobretot, àmbits grans de sòl no
-urbanitzable (domini esquiable, concessions) i unes quantes que al DWG surten amb un altre nom;
-es troben igualment pel cercador. Per afegir-ne, n'hi ha prou amb posar el nom com surt al DWG
-al diccionari `ALIES` del guió i tornar-lo a executar.
+De les 405 unitats, 377 tenen perímetre. Les 26 que falten són, sobretot, àmbits grans de sòl no
+urbanitzable (domini esquiable, concessions, refugis, «Sòl no urbanitzable restant») que al DWG
+no surten com a recinte d'unitat; es troben igualment pel cercador. Per afegir-ne, n'hi ha prou
+amb posar el nom com surt al DWG al diccionari `ALIES` del guió i tornar-lo a executar: així és
+com les quatre estacions de servei, que al DWG són «E.S. Esso» i companyia, van a parar a les
+unitats `ESSO`, `Figueredo`, `Mòbil` i `Arajol`.
 
 La capa d'ortofoto del DWG és una referència externa i la imatge no és dins del fitxer; per això
 el fons ve d'un servei de mosaics i no del DWG.
