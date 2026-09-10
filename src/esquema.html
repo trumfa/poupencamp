@@ -1,0 +1,616 @@
+<title>Qui regula què · POUP Encamp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --surface:#F6F7F4; --ink:#17211D; --ink-2:#4C5852; --ink-3:#78837D;
+  --line:#E3E6DF; --line-2:#CBCFC6; --accent:#1F5C4A; --accent-soft:#E4EDE7;
+  --warn:#8C4526; --warn-soft:#F4E7E0; --shadow:0 1px 2px rgba(23,33,29,.05);
+  --pop:0 6px 24px rgba(23,33,29,.12);
+  --fitxa:#8C4526;   --fitxa-b:#F4E7E0;
+  --subzona:#1F5C4A; --subzona-b:#E4EDE7;
+  --zona:#3D4E7A;    --zona-b:#E5E9F2;
+  --generic:#5C5330; --generic-b:#EFEBDD;
+  --extra:#6B3A63;   --extra-b:#F0E6EF;
+  --f-display:'Petrona',Georgia,'Times New Roman',serif;
+  --f-body:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121714; --surface:#1A211D; --ink:#E9EDE9; --ink-2:#AAB5AF; --ink-3:#7C8781;
+    --line:#28312C; --line-2:#3A443E; --accent:#7FC0A6; --accent-soft:#173028;
+    --warn:#E09B76; --warn-soft:#33221A;
+    --fitxa:#E09B76;   --fitxa-b:#33221A;
+    --subzona:#7FC0A6; --subzona-b:#153028;
+    --zona:#9DAEDC;    --zona-b:#1D2333;
+    --generic:#C9BC85; --generic-b:#2A2718;
+    --extra:#C79BC0;   --extra-b:#2B1E29;
+    --shadow:0 1px 2px rgba(0,0,0,.4); --pop:0 6px 24px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121714; --surface:#1A211D; --ink:#E9EDE9; --ink-2:#AAB5AF; --ink-3:#7C8781;
+  --line:#28312C; --line-2:#3A443E; --accent:#7FC0A6; --accent-soft:#173028;
+  --warn:#E09B76; --warn-soft:#33221A;
+  --fitxa:#E09B76;   --fitxa-b:#33221A;
+  --subzona:#7FC0A6; --subzona-b:#153028;
+  --zona:#9DAEDC;    --zona-b:#1D2333;
+  --generic:#C9BC85; --generic-b:#2A2718;
+  --extra:#C79BC0;   --extra-b:#2B1E29;
+  --shadow:0 1px 2px rgba(0,0,0,.4); --pop:0 6px 24px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);line-height:1.18;margin:0;text-wrap:balance}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* barra superior, com la de la web */
+.topbar{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:14px;padding:11px 20px;min-height:52px}
+.topbar .marca{font-family:var(--f-display);font-weight:700;font-size:16px;letter-spacing:.01em;
+  text-decoration:none;white-space:nowrap;color:var(--ink)}
+.topbar .sep{width:1px;height:18px;background:var(--line-2);flex:none}
+.topbar .on{font-size:13.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .tornar{margin-left:auto;font-size:13px;color:var(--ink-2);text-decoration:none;
+  border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;white-space:nowrap}
+.topbar .tornar:hover{border-color:var(--accent);color:var(--accent)}
+
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px;padding-block:44px 72px}
+
+/* capçalera */
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 12px}
+h1{font-size:clamp(32px,5vw,50px);font-weight:700;letter-spacing:-.015em;max-width:15ch}
+.dek{max-width:62ch;margin:18px 0 0;font-size:17px;color:var(--ink-2)}
+.dek strong{color:var(--ink);font-weight:600}
+
+/* cascada */
+section{margin-top:52px}
+h2{font-size:clamp(22px,2.8vw,28px);font-weight:700;letter-spacing:-.01em}
+h2+.sub{max-width:64ch;margin:11px 0 24px;color:var(--ink-2);font-size:15.5px}
+.cascada{display:grid;gap:12px;grid-template-columns:repeat(4,1fr)}
+@media (max-width:860px){.cascada{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.cascada{grid-template-columns:1fr}}
+.nivell{appearance:none;text-align:left;cursor:pointer;background:var(--paper);
+  border:1px solid var(--line);border-top:3px solid var(--c);padding:15px 16px 16px;
+  display:flex;flex-direction:column;gap:7px;transition:box-shadow .15s,border-color .15s}
+.nivell:hover{box-shadow:var(--shadow);border-color:var(--line-2);border-top-color:var(--c)}
+.nivell[aria-pressed="true"]{background:var(--cb);box-shadow:var(--shadow)}
+.nivell .ordre{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;color:var(--c);
+  text-transform:uppercase;font-weight:600}
+.nivell h3{font-size:18px;font-weight:600}
+.nivell p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.nivell .arts{margin-top:auto;padding-top:9px;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.nivell .compta{font-family:var(--f-mono);font-size:11px;color:var(--c);font-weight:600}
+.n-fitxa{--c:var(--fitxa);--cb:var(--fitxa-b)}
+.n-subzona{--c:var(--subzona);--cb:var(--subzona-b)}
+.n-zona{--c:var(--zona);--cb:var(--zona-b)}
+.n-generic{--c:var(--generic);--cb:var(--generic-b)}
+
+/* citacions */
+.regles{display:grid;gap:10px;margin-top:22px}
+.cita{display:grid;grid-template-columns:auto 1fr;gap:6px 15px;align-items:baseline;
+  padding:13px 17px;border-left:3px solid var(--c,var(--line-2));background:var(--surface)}
+@media (max-width:620px){.cita{grid-template-columns:1fr;gap:5px}.cita .glossa{grid-column:1}}
+.cita .art{font-family:var(--f-mono);font-size:11.5px;font-weight:600;color:var(--c);white-space:nowrap}
+.cita q{font-family:var(--f-display);font-size:15px;color:var(--ink-2);font-style:italic;quotes:"«" "»"}
+.cita .glossa{display:block;grid-column:2;margin-top:0;font-size:13px;color:var(--ink-3);font-style:normal}
+.cita .glossa::before{content:none}
+
+/* controls */
+.controls{position:sticky;top:52px;z-index:20;background:var(--paper);
+  padding-block:12px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.controls .fila1{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.cerca{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line-2);border-radius:999px;padding:7px 14px;background:var(--paper)}
+.cerca input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:14.5px;color:inherit;outline:none}
+.cerca svg{flex:none;color:var(--ink-3)}
+.xip{appearance:none;cursor:pointer;border:1px solid var(--line-2);background:var(--paper);
+  border-radius:999px;padding:6px 13px;font-size:13.5px;color:var(--ink-2);white-space:nowrap;
+  display:inline-flex;align-items:center;gap:7px}
+.xip .punt{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.xip[aria-pressed="true"]{background:var(--cb,var(--accent-soft));border-color:var(--c,var(--accent));
+  color:var(--c,var(--accent));font-weight:600}
+.xip.tot{--c:var(--ink-2);--cb:var(--surface)}
+.estat{margin:10px 0 0;font-size:13px;color:var(--ink-3);font-family:var(--f-mono);
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.estat button{appearance:none;border:0;background:none;cursor:pointer;color:var(--accent);
+  font-family:var(--f-body);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:0}
+
+/* files */
+.grup{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;padding:26px 0 8px;border-bottom:1px solid var(--line-2)}
+.fila{border-bottom:1px solid var(--line)}
+.fila.oculta{display:none}
+.cap{appearance:none;width:100%;border:0;background:none;cursor:pointer;text-align:left;
+  display:grid;grid-template-columns:1.35fr 1.5fr .8fr 1.2fr 22px;gap:16px;align-items:start;
+  padding:13px 4px;transition:background .12s}
+.cap:hover{background:var(--surface)}
+@media (max-width:900px){
+  .cap{grid-template-columns:1fr 22px;gap:7px}
+  .cap .c-art,.cap .c-camp{grid-column:1}
+}
+.c-que{font-weight:500;font-size:15px}
+.c-que small{display:block;font-weight:400;color:var(--ink-3);font-size:12.5px;margin-top:2px}
+.c-qui{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start}
+.c-art{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+.c-camp{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);word-break:break-word}
+.fletxa{color:var(--ink-3);transition:transform .18s;justify-self:end;margin-top:3px}
+.fila[data-obert="1"] .fletxa{transform:rotate(90deg)}
+.qui{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;
+  padding:2px 9px;border-radius:3px;line-height:1.55;white-space:nowrap;
+  color:var(--c);background:var(--cb)}
+.q-fitxa{--c:var(--fitxa);--cb:var(--fitxa-b)}
+.q-subzona{--c:var(--subzona);--cb:var(--subzona-b)}
+.q-zona{--c:var(--zona);--cb:var(--zona-b)}
+.q-generic{--c:var(--generic);--cb:var(--generic-b)}
+.q-extra{--c:var(--extra);--cb:var(--extra-b)}
+
+/* detall */
+.det{padding:2px 4px 22px;display:grid;gap:16px;max-width:78ch}
+.det .nota{font-size:14.5px;color:var(--ink-2);border-left:3px solid var(--line-2);padding-left:14px}
+.tabs{display:flex;flex-wrap:wrap;gap:7px}
+.tab{appearance:none;cursor:pointer;border:1px solid var(--line-2);background:var(--paper);
+  border-radius:999px;padding:5px 12px;font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+.tab[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.norma{background:var(--surface);border:1px solid var(--line);padding:16px 18px}
+.norma h4{margin:0 0 3px;font-family:var(--f-display);font-size:17px;font-weight:600}
+.norma .font{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin:0 0 12px}
+.norma ol{margin:0;padding-left:26px;display:grid;gap:9px}
+.norma li{font-size:14.5px;color:var(--ink-2);line-height:1.62}
+.norma li::marker{font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+.norma .mes{margin:12px 0 0;font-size:12.5px;color:var(--ink-3)}
+.norma .params{margin:14px 0 0;display:grid;gap:0}
+.norma .params dt{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;
+  font-size:13.5px;font-weight:600;padding:12px 0 3px;border-top:1px solid var(--line)}
+.norma .params dt .ll{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);border-radius:3px;padding:1px 6px;text-transform:lowercase}
+.norma .params dt b{font-family:var(--f-mono);font-size:12.5px;color:var(--ink);font-weight:600}
+.norma .params dt i{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);font-style:normal}
+.norma .params dd{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.camps{font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+.camps b{color:var(--ink-2);font-weight:500}
+
+/* seccions finals */
+.dues{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.dues{grid-template-columns:1fr}}
+.caixa{background:var(--surface);border:1px solid var(--line);padding:17px 19px 19px}
+.caixa h3{font-size:16.5px;font-weight:600;margin-bottom:9px}
+.caixa ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink-2);display:grid;gap:5px}
+code{font-family:var(--f-mono);font-size:12.5px;background:var(--paper);border:1px solid var(--line);
+  padding:1px 5px;border-radius:2px;color:var(--ink-2)}
+.avis{border:1px solid var(--line-2);border-left:3px solid var(--warn);background:var(--surface);
+  padding:15px 19px;font-size:14.5px;color:var(--ink-2);margin-top:22px}
+.avis b{color:var(--ink)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);max-width:72ch}
+.buit{padding:34px 4px;color:var(--ink-3);font-size:15px}
+</style>
+
+<header class="topbar">
+  <a class="marca" href="index.html">POUP Encamp</a>
+  <span class="sep"></span>
+  <span class="on">Qui regula què</span>
+  <a class="tornar" href="index.html">← Les unitats</a>
+</header>
+
+<div class="wrap">
+  <p class="eyebrow">Esquema de lectura del pla</p>
+  <h1>Qui regula què</h1>
+  <p class="dek">Cap paràmetre del pla es llegeix en un sol lloc. Una alçada màxima surt de la
+  <strong>fitxa de la unitat</strong>, però com es mesura ho diu l'article 30; el color d'una barana
+  el mana l'article 36 tret que la subzona digui una altra cosa. Aquest és el mapa: per a cada cosa
+  que et pot preguntar algú, <strong>quin nivell del pla decideix</strong> i quin article ho diu.
+  Clica qualsevol fila i s'obre el text de la norma.</p>
+
+  <section>
+    <h2>Els quatre nivells</h2>
+    <p class="sub">Van del més concret al més general. Quan dos diuen coses diferents, mana el de
+    l'esquerra — però la majoria de vegades no es contradiuen: el concret <em>remet</em> al general,
+    i és el general qui posa el valor. Clica un nivell per veure només el que decideix.</p>
+    <div class="cascada" id="cascada"></div>
+
+    <div class="regles">
+      <div class="cita" style="--c:var(--fitxa)">
+        <span class="art">Art. 67.h</span>
+        <q>les alçades reguladores màximes s'estableixen d'acord a les fitxes urbanístiques de les
+        ordinacions reguladores de la normativa subsidiària de les unitats d'actuació</q>
+        <span class="glossa">La subzona no diu el número: el busca a la fitxa. Per això dues
+        parcel·les de la mateixa subzona poden tenir alçades diferents.</span>
+      </div>
+      <div class="cita" style="--c:var(--generic)">
+        <span class="art">Art. 67.i</span>
+        <q>l'aplicació de les alçades reguladores s'estableix d'acord amb l'article 30 i les figures
+        de l'annex 01 de la present normativa</q>
+        <span class="glossa">El valor és de la fitxa; el mètode de mesura, de la norma general. Són
+        dues preguntes diferents i tenen dues respostes en dos llocs.</span>
+      </div>
+      <div class="cita" style="--c:var(--subzona)">
+        <span class="art">Art. 36.5</span>
+        <q>si la normativa específica de cada zona no estableix altres determinacions, s'admet
+        qualsevol material d'acabat de façana</q>
+        <span class="glossa">Aquesta és la regla de prioritat, escrita a la norma mateixa: el
+        genèric val <em>mentre</em> la subzona calli. La subzona 1 no calla: exigeix un 50% de
+        pedra rústica natural.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Busca-hi el que necessitis</h2>
+    <p class="sub">Cada fila és una pregunta que arriba per taulell. Quan hi ha dos nivells, el
+    primer posa el valor i el segon posa la regla.</p>
+
+    <div class="controls">
+      <div class="fila1">
+        <label class="cerca">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"></circle>
+            <path d="M11 11l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+          <input id="q" type="search" placeholder="alçada, color, aparcament, article 37…"
+                 autocomplete="off" aria-label="Cerca un paràmetre">
+        </label>
+        <div id="xips" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <p class="estat"><span id="compte"></span><button type="button" id="neteja" hidden>Treu els filtres</button></p>
+    </div>
+
+    <div id="llista"></div>
+  </section>
+
+  <section>
+    <h2>Els divuit paràmetres de subzona</h2>
+    <p class="sub">Cada subzona, de la 1 a la 13, té la mateixa graella al seu article. Saber que
+    sempre són els mateixos, i en el mateix ordre, permet comparar-ne dues d'un cop d'ull i veure
+    de seguida quan una calla i deixa manar la norma general.</p>
+    <div class="dues">
+      <div class="caixa">
+        <h3>La graella, per lletres</h3>
+        <ul>
+          <li><code>a</code> Parcel·la mínima · <code>b</code> Front mínim de parcel·la</li>
+          <li><code>c</code> Ocupació màxima de la parcel·la</li>
+          <li><code>d–g</code> Separacions a veïns, separació a vial, modificació del terreny,
+            planta soterrani</li>
+          <li><code>h–i</code> Alçades reguladores i la seva aplicació</li>
+          <li><code>j–n</code> Planta sota coberta, dimensió màxima en planta, cossos volats,
+            edificacions auxiliars, acabats de la parcel·la lliure</li>
+          <li><code>o–r</code> Cobertes, composició i acabats de façanes, densitat màxima
+            d'habitatges, usos</li>
+        </ul>
+      </div>
+      <div class="caixa">
+        <h3>Les claus amb lletra</h3>
+        <ul>
+          <li><code>5</code> agrícola (5A), ramadera (5B), forestal (5C)</li>
+          <li><code>6</code> industrial lleugera i logística (6A), intensa (6B), industrial (6C)</li>
+          <li><code>7</code> serveis (7A), arrendaments (7B), concessions (7C), domini esquiable (7D),
+            lúdico-esportiu d'estiu (7E)</li>
+          <li><code>8</code> protecció natural (8A), protecció (8B), cultural (8C), de serveis (8D),
+            de riscos naturals (8E)</li>
+          <li><code>11</code> unihabitatge i hotels (11-A), hotel de natura (11B)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="avis">
+      <b>Per què això importa.</b> Quan la fitxa diu «Clau 5» a seques no n'hi ha prou per respondre:
+      5A, 5B i 5C no permeten el mateix. Per això la fitxa de la unitat demana que triïs, en comptes
+      d'endevinar-ho. El mateix passa amb la 7, la 8 i l'11.
+    </div>
+  </section>
+
+  <footer>
+    Web independent, feta a títol particular. No és una web oficial ni té cap valor administratiu:
+    no substitueix cap certificat urbanístic ni cap consulta oficial. L'únic text que preval és el
+    publicat al BOPA. Els articles que s'hi mostren surten del volum II de les normes urbanístiques
+    del POUPE, en la darrera modificació publicada.
+  </footer>
+</div>
+
+<script id="arts-dades" type="application/json">__ARTICLES__</script>
+<script id="claus-dades" type="application/json">__CLAUS__</script>
+<script>
+(function(){
+'use strict';
+const NIVELLS = [
+  {k:'fitxa', ordre:'1 · el més concret', n:'La fitxa de la unitat',
+   d:"El que és d'aquesta unitat i de cap altra: quant fa, quina classificació té, quines zones i subzones hi conviuen, quines alçades li toquen i com es desenvolupa.",
+   arts:'Volums III–VII · una fitxa per volum'},
+  {k:'subzona', ordre:'2', n:'La subzona',
+   d:"El gruix de les condicions d'edificació: parcel·la mínima, ocupació, separacions, cobertes, façanes, usos admesos. Divuit paràmetres per subzona.",
+   arts:'Articles 67 – 80 · claus 1 a 13'},
+  {k:'zona', ordre:'3', n:'La zona',
+   d:"Molt poca cosa, i sempre la mateixa: el coeficient màxim d'edificabilitat. La zona dibuixa el caràcter del teixit; qui posa números és la subzona.",
+   arts:'Articles 61 – 66 · ZC, ZA, ZB, ZD, ZR, ZP'},
+  {k:'generic', ordre:'4 · el més general', n:'Les normes genèriques',
+   d:"El que val a tota la parròquia mentre ningú no digui el contrari: com es mesuren les alçades, què és un cos volat, quins materials, quin aparcament.",
+   arts:'Volum II · articles 1 – 59'},
+];
+const ETI = {fitxa:'Fitxa', subzona:'Subzona', zona:'Zona', generic:'Genèric',
+             catàleg:'Catàleg', sistema:'Sistema', risc:'Àrea diferenciada'};
+const EXTRA = {'catàleg':1, sistema:1, risc:1};
+
+const FILES = [
+ {g:'El terreny: què és i quant fa',
+  q:'Classificació del sòl', s:'urbà, urbanitzable, no urbanitzable', qui:['fitxa'],
+  nota:'El volum de la fitxa ja ho diu: el VII és sempre sòl no urbanitzable.',
+  arts:['Article 6'], camp:['Parametres.classificacio']},
+ {q:'Superfície de la unitat', qui:['fitxa'], arts:['Article 7'],
+  camp:['Parametres.superficie_m2']},
+ {q:'Quines zones i subzones hi ha', s:'la «clau» de cada tros', qui:['fitxa'],
+  nota:'La fitxa reparteix la unitat; el plànol de la fitxa diu on cau cada clau.',
+  arts:['Article 10','Article 60'], camp:['Parametres.zones','Parametres.subzones']},
+ {q:'Si és una àrea diferenciada', s:'règim propi, sovint per un risc natural', qui:['fitxa'],
+  arts:['Article 8'], camp:['Fitxes.tipus_fitxa']},
+
+ {g:'Quant es pot construir',
+  q:'Sostre màxim', s:'els m² edificables', qui:['fitxa','zona'],
+  nota:"Si la fitxa l'assigna directament, mana la fitxa. Si no, surt del coeficient de la zona multiplicat per la superfície neta de parcel·la.",
+  arts:['Article 62','Article 63','Article 64','Article 65','Article 66'],
+  camp:['Parametres.edificabilitat_max_m2','Claus.coef_edificabilitat']},
+ {q:"Coeficient d'edificabilitat", s:'ZA 7,0 · ZB 2,5 · ZD 3,5 · ZR 0,8 · ZP 7,0', qui:['zona'],
+  nota:"L'únic paràmetre numèric que posa la zona.",
+  arts:['Article 62','Article 63','Article 64','Article 65','Article 66'],
+  camp:['Claus.coef_edificabilitat','Regles_calcul.formula']},
+ {q:'Ocupació màxima de la parcel·la', qui:['subzona','generic'],
+  nota:"El percentatge el posa la subzona; què compta com a ocupació, l'article 19.",
+  arts:['Article 19','Article 67'], camp:['Claus_parametres «Ocupació màxima de la parcel·la»']},
+ {q:'Quines superfícies computen', s:'sota coberta, soterranis, porxos', qui:['generic'],
+  arts:['Article 38'], camp:['Normativa_apartats · tema «superfícies»']},
+ {q:"Nombre màxim d'habitatges", qui:['subzona'], arts:['Article 67'],
+  camp:['Claus_parametres «Densitat màxima habitatges»']},
+
+ {g:"La forma de l'edifici",
+  q:'Alçada màxima', s:'de façana i de carener, en metres', qui:['fitxa'],
+  nota:"La subzona ho remet expressament a la fitxa (art. 67.h). I va per zona dins de la unitat: la fitxa en pot donar una de diferent a cada zona.",
+  arts:['Article 67','Article 30'], camp:['Parametres.alcades','Parametres.ordenacio']},
+ {q:"Com es mesura l'alçada", s:'des d\'on, amb quin terreny, amb quines figures', qui:['generic'],
+  arts:['Article 30'], camp:['Normativa_apartats · tema «alçades»']},
+ {q:'Alçada lliure interior', qui:['generic'], arts:['Article 35'],
+  camp:['Normativa_apartats · tema «alçades»']},
+ {q:'Planta soterrani i planta sota coberta', qui:['subzona'], arts:['Article 67'],
+  camp:['Claus_parametres «Planta soterrani»','Claus_parametres «Planta sota coberta»']},
+ {q:'Dimensió màxima en planta', qui:['subzona','generic'], arts:['Article 29','Article 67'],
+  camp:['Claus_parametres «Dimensió màxima en planta»']},
+ {q:'Cossos volats i elements sortints', s:'balcons, tribunes, ràfecs', qui:['subzona','generic'],
+  nota:"La subzona diu si en pot haver sobre la via pública; la mida i el vol, els articles 32 i 33.",
+  arts:['Article 31','Article 32','Article 33'],
+  camp:['Claus_parametres «Cossos volats sobre la via pública»']},
+ {q:'Obertures', qui:['generic'], arts:['Article 34'],
+  camp:['Normativa_apartats · tema «obertures»']},
+ {q:'Edificacions auxiliars', qui:['subzona','generic'], arts:['Article 28'],
+  camp:['Claus_parametres «Edificacions auxiliars»']},
+
+ {g:'L\'aspecte: materials, colors, cobertes',
+  q:'Materials i composició de la façana', qui:['subzona','generic'],
+  nota:"L'article 36.5 admet qualsevol material «si la normativa específica de cada zona no estableix altres determinacions». Diverses subzones sí que ho fan: la subzona 1 exigeix un 50% de pedra rústica natural a cada façana.",
+  arts:['Article 36','Article 67'], camp:['Claus_parametres «Composició i acabats de façanes»']},
+ {q:'El color', s:'baranes, fusteries, tancaments, coberta', qui:['generic'],
+  nota:"No hi ha carta de colors: la norma demana integració. Baranes i elements arquitectònics, art. 36.6 i 36.11; cobertes, art. 37.9 i 37.12; tanques, art. 23.9 i 23.11.",
+  arts:['Article 36','Article 37','Article 23'],
+  camp:['Normativa_apartats · temes «façanes i acabats», «cobertes»']},
+ {q:'Cobertes', s:'pendent, tipus, materials', qui:['generic','subzona'],
+  nota:"Diverses subzones remeten l'article 37 sencer (art. 67.o); d'altres, com la subzona 11, hi posen condicions pròpies per tipus de nucli.",
+  arts:['Article 37','Article 78'], camp:['Claus_parametres «Cobertes»']},
+ {q:'Parets mitgeres vistes', qui:['zona','generic'],
+  nota:'Regla específica per al nucli tradicional (clau ZC), a l\'apartat 9 de l\'article 36.',
+  arts:['Article 36','Article 61'], camp:['Normativa_apartats.claus_aplicables']},
+
+ {g:'La parcel·la i el terreny',
+  q:'Parcel·la mínima i front mínim', qui:['subzona','fitxa'],
+  nota:'La subzona posa el mínim general; algunes fitxes en fixen un de propi.',
+  arts:['Article 18','Article 67'],
+  camp:['Claus_parametres «Parcel·la mínima»','Parametres.parcela_minima_m2','Parametres.front_minim_m']},
+ {q:'Separacions a veïns i a vial', qui:['subzona','generic'], arts:['Article 21','Article 67'],
+  camp:['Claus_parametres «Separacions a veïns»','Claus_parametres «Separació a vial»']},
+ {q:'Fondària màxima edificable', qui:['generic'], arts:['Article 22'],
+  camp:['Normativa_apartats · tema «parcel·la i separacions»']},
+ {q:'Tanques i tancat de terrenys', qui:['generic'], arts:['Article 23'],
+  camp:['Normativa_apartats · tema «parcel·la i separacions»']},
+ {q:'Moviments de terra i murs', s:'desmunts, terraplens, ancoratges', qui:['generic','subzona'],
+  arts:['Article 24','Article 25','Article 26'], camp:['Claus_parametres «Modificació del terreny»']},
+ {q:"Acabat del sòl lliure d'edificació", qui:['subzona','generic'], arts:['Article 20','Article 67'],
+  camp:["Claus_parametres «Acabats de la parcel·la lliure d'edificació»"]},
+
+ {g:"Què s'hi pot fer",
+  q:'Usos admesos', qui:['subzona','fitxa'],
+  nota:"La subzona dona la llista; la fitxa en pot excloure algun per a aquella unitat.",
+  arts:['Article 39','Article 67'], camp:['Claus_parametres «Usos»','Parametres.usos']},
+ {q:"Usos prohibits i condicions d'habitabilitat", qui:['generic'], arts:['Article 43','Article 44'],
+  camp:['Normativa_apartats · tema «usos»']},
+ {q:'Aparcament', s:'places exigides, mides, rampes', qui:['generic'],
+  arts:['Article 41','Article 42'], camp:['Normativa_apartats · tema «aparcament»']},
+ {q:'Càmpings i estacions de servei', qui:['generic'], arts:['Article 45','Article 46'],
+  camp:['Normativa_apartats · tema «usos»']},
+
+ {g:'Abans de poder edificar',
+  q:'Com es desenvolupa la unitat', s:'pla parcial o actuació directa', qui:['fitxa'],
+  arts:['Article 13'], camp:['Parametres.gestio']},
+ {q:"Sistema d'ordenació", qui:['fitxa'], arts:['Article 13'], camp:['Parametres.sistema_ordenacio']},
+ {q:'Cessions i deures', qui:['generic'], arts:['Article 14','Article 15','Article 16'],
+  camp:['Normativa_apartats · tema «cessions i deures»']},
+ {q:"Edificis existents que no s'ajusten", qui:['generic'], arts:['Article 17'],
+  camp:['Normativa_apartats · tema «classificació i planejament»']},
+
+ {g:'El que se sobreposa a tot',
+  q:'Béns protegits i entorns de protecció', qui:['catàleg'],
+  nota:"Va per damunt de la subzona: si el bé hi és, la legislació sectorial de patrimoni s'aplica igualment.",
+  arts:['Article 81','Article 82','Article 83','Article 84'],
+  camp:['Proteccions.obligacio','Proteccions.id_ua']},
+ {q:'Sistemes urbanístics', s:'vials, espais lliures, equipaments', qui:['sistema'],
+  nota:"No són zona ni subzona: tenen el seu propi règim i no admeten aprofitament privat.",
+  arts:['Article 11','Article 49','Article 53'], camp:['Claus · tipus «sistema»']},
+ {q:'Riscos naturals', qui:['risc'], nota:"Subzona 8E i fitxes d'àrea diferenciada.",
+  arts:['Article 8','Article 74'], camp:['Fitxes.tipus_fitxa','clau 8E']},
+];
+
+const llegeix = id => {
+  try { return JSON.parse(document.getElementById(id).textContent) || {}; }
+  catch (e) { return {}; }
+};
+const ARTS = llegeix('arts-dades');      // el text dels articles, apartat per apartat
+const CLAUS = llegeix('claus-dades');    // els paràmetres de zona i subzona, per lletra
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sensAcc = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+let filtre = '', cerca = '', obert = null;
+
+// index de cerca
+FILES.forEach((f, i) => {
+  f.i = i;
+  f.txt = sensAcc([f.q, f.s || '', f.nota || '', (f.qui||[]).map(k => ETI[k]).join(' '),
+                   (f.arts||[]).join(' '), (f.camp||[]).join(' '),
+                   (f.arts||[]).map(a => (ARTS[a]||{}).t || '').join(' ')].join(' '));
+});
+
+function xipHtml(k, n, actiu){
+  const cls = EXTRA[k] ? 'q-extra' : 'q-' + k;
+  return `<button type="button" class="xip ${cls}" data-k="${k}" aria-pressed="${actiu}"
+    ><span class="punt"></span>${esc(ETI[k])}<span style="opacity:.7">${n}</span></button>`;
+}
+
+function compta(k){ return FILES.filter(f => f.q && (f.qui||[]).includes(k)).length; }
+
+function pintaCascada(){
+  document.getElementById('cascada').innerHTML = NIVELLS.map(n => `
+    <button type="button" class="nivell n-${n.k}" data-k="${n.k}" aria-pressed="${filtre === n.k}">
+      <span class="ordre">${esc(n.ordre)}</span>
+      <h3>${esc(n.n)}</h3>
+      <p>${esc(n.d)}</p>
+      <span class="arts">${esc(n.arts)}</span>
+      <span class="compta">${compta(n.k)} paràmetres</span>
+    </button>`).join('');
+}
+
+function pintaXips(){
+  const ks = ['fitxa','subzona','zona','generic','catàleg','sistema','risc'];
+  document.getElementById('xips').innerHTML =
+    `<button type="button" class="xip tot" data-k="" aria-pressed="${!filtre}">Tot</button>` +
+    ks.map(k => xipHtml(k, compta(k), filtre === k)).join('');
+}
+
+function detall(f){
+  const arts = (f.arts || []).filter(a => ARTS[a]);
+  return `<div class="det">
+    ${f.nota ? `<p class="nota">${esc(f.nota)}</p>` : ''}
+    ${arts.length ? `<div class="tabs">${arts.map((a, j) =>
+      `<button type="button" class="tab" data-a="${esc(a)}" aria-pressed="${j === 0}">${esc(a)}</button>`
+      ).join('')}</div><div class="norma" data-norma></div>` : ''}
+    <p class="camps"><b>A la base de dades:</b> ${f.camp.map(esc).join(' · ')}</p>
+  </div>`;
+}
+
+function pintaNorma(cont, art){
+  const a = ARTS[art];
+  if (!a){ cont.innerHTML = ''; return; }
+  const par = CLAUS[art] || [];
+  // Els articles de zona i subzona encabeixen tots els paràmetres en un sol apartat, i llegit
+  // seguit no hi ha qui l'entengui. Quan en tenim la versió partida per lletra, la fem servir i
+  // amaguem el totxo; els apartats curts (què és la subzona, com s'identifica) es queden.
+  const ap = (par.length ? a.ap.filter(x => x[1].length < 700) : a.ap).slice(0, 12);
+  const clau = par.length ? par[0].c : '';
+  cont.innerHTML = `<h4>${esc(art)}. ${esc(a.t)}</h4>
+    <p class="font">${esc(a.f || '')}</p>
+    ${ap.length ? `<ol>${ap.map(x =>
+      `<li value="${esc(x[0])}">${esc(x[1])}</li>`).join('')}</ol>` : ''}
+    ${par.length ? `<dl class="params">${par.map(x => `
+      <dt><span class="ll">${esc(x.l)}</span>${esc(x.p)}${
+        x.n ? `<b>${esc(x.n)}${x.u ? ' ' + esc(x.u) : ''}</b>` : ''}${
+        x.r ? `<i>remet a l'article ${esc(x.r)}</i>` : ''}</dt>
+      <dd>${esc(x.v)}</dd>`).join('')}</dl>` : ''}
+    <p class="mes">${par.length
+      ? `Paràmetres de la clau ${esc(clau)}. Cada subzona té el seu article, del 67 al 80, amb la mateixa graella de lletres.`
+      : (a.ap.length > ap.length
+        ? `…i ${a.ap.length - ap.length} apartats més. El text complet és al BOPA.`
+        : 'Text de la darrera modificació publicada al BOPA.')}</p>`;
+}
+
+function visible(f){
+  if (filtre && !(f.qui || []).includes(filtre)) return false;
+  if (cerca && f.txt.indexOf(cerca) === -1) return false;
+  return true;
+}
+
+function pinta(){
+  const cont = document.getElementById('llista');
+  let html = '', grupObert = null, vistos = 0, pendent = null;
+  FILES.forEach(f => {
+    if (f.g) pendent = f.g;
+    if (!f.q || !visible(f)) return;
+    if (pendent && pendent !== grupObert){
+      grupObert = pendent;
+      html += `<p class="grup">${esc(grupObert)}</p>`;
+    }
+    vistos++;
+    const ob = obert === f.i;
+    html += `<div class="fila" data-i="${f.i}" data-obert="${ob ? 1 : 0}">
+      <button type="button" class="cap" aria-expanded="${ob}">
+        <span class="c-que">${esc(f.q)}${f.s ? `<small>${esc(f.s)}</small>` : ''}</span>
+        <span class="c-qui">${(f.qui||[]).map(k =>
+          `<span class="qui ${EXTRA[k] ? 'q-extra' : 'q-' + k}">${esc(ETI[k])}</span>`).join('')}</span>
+        <span class="c-art">${esc((f.arts||[]).slice(0,2).join(', ').replace(/Article /g,'Art. '))}${
+          (f.arts||[]).length > 2 ? ' +' + ((f.arts||[]).length - 2) : ''}</span>
+        <span class="c-camp">${esc((f.camp||[])[0] || '')}</span>
+        <svg class="fletxa" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"
+          ><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+      ${ob ? detall(f) : ''}</div>`;
+  });
+  cont.innerHTML = html || `<p class="buit">Cap fila no coincideix amb «${esc(cerca)}».
+    Prova amb una altra paraula, o treu els filtres.</p>`;
+  const filtrat = !!(filtre || cerca);
+  document.getElementById('compte').textContent = filtrat
+    ? `${vistos} de ${FILES.filter(f => f.q).length} files`
+    : `${FILES.filter(f => f.q).length} files · clica'n una per veure la norma`;
+  document.getElementById('neteja').hidden = !filtrat;
+  const n = cont.querySelector('[data-norma]');
+  if (n) pintaNorma(n, cont.querySelector('.tab').dataset.a);
+}
+
+document.addEventListener('click', e => {
+  const niv = e.target.closest('.nivell, .xip');
+  if (niv){
+    const k = niv.dataset.k;
+    filtre = (filtre === k || k === '') ? '' : k;
+    obert = null; pintaCascada(); pintaXips(); pinta();
+    return;
+  }
+  const tab = e.target.closest('.tab');
+  if (tab){
+    const det = tab.closest('.det');
+    det.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-pressed', t === tab));
+    pintaNorma(det.querySelector('[data-norma]'), tab.dataset.a);
+    return;
+  }
+  const cap = e.target.closest('.cap');
+  if (cap){
+    const i = Number(cap.closest('.fila').dataset.i);
+    obert = (obert === i) ? null : i;
+    pinta();
+    const f = document.querySelector(`.fila[data-i="${i}"]`);
+    if (f && obert === i) f.querySelector('.cap').focus({preventScroll:true});
+    return;
+  }
+  if (e.target.id === 'neteja'){
+    filtre = ''; cerca = ''; document.getElementById('q').value = '';
+    pintaCascada(); pintaXips(); pinta();
+  }
+});
+
+document.getElementById('q').addEventListener('input', e => {
+  cerca = sensAcc(e.target.value.trim());
+  obert = null;
+  pinta();
+});
+
+pintaCascada(); pintaXips(); pinta();
+})();
+</script>

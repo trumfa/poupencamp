@@ -23,12 +23,13 @@ La pàgina és un sol fitxer estàtic que llegeix aquest JSON. No hi ha servidor
 ni cap dependència de npm.
 
 ```
-scripts/build-data.mjs      llegeix el full -> public/data.json + public/index.html
+scripts/build-data.mjs      llegeix el full -> public/data.json, index.html i esquema.html
 scripts/config.mjs          identificador del full i pestanyes que llegeix
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
 scripts/dwg-a-mapa.py       DWG cadastral -> data/mapa.json (perímetres de les unitats)
 data/mapa.json              geometria del plànol interactiu
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
+src/esquema.html            «Qui regula què»: quin nivell del pla decideix cada paràmetre
 public/                     el que es publica
 ```
 
@@ -251,6 +252,27 @@ posa un grup de botons perquè l'usuari triï; mentre no en triï cap val el pri
 Funciona igual per a qualsevol altra clau: n'hi ha prou amb omplir `clau_mare`. Ara ho aprofiten
 la subzona 11 i les unitats la fitxa de les quals diu «Subzona 5», «7» o «8» sense concretar-ne la
 lletra.
+
+## La pàgina «Qui regula què»
+
+`src/esquema.html` és una segona pàgina, independent de la consulta per unitats: explica **quin
+nivell del pla decideix cada paràmetre**. Hi ha quatre nivells —la fitxa de la unitat, la subzona
+(articles 67–80), la zona (61–66) i les normes genèriques del volum II— i la gràcia és que el
+nivell concret sovint no dona el valor sinó que hi remet: l'article 67.h envia les alçades a la
+fitxa i el 67.i envia la manera de mesurar-les a l'article 30.
+
+La pàgina es filtra per nivell i per text, i cada fila s'obre amb **el text de la norma**. Els
+articles de zona i subzona no s'hi mostren tal com surten —hi encabeixen els divuit paràmetres en
+un sol apartat inacabable—, sinó partits per lletra a partir de `Claus_parametres`, que és com es
+llegeixen de veritat.
+
+El build els incrusta sols: llegeix `src/esquema.html`, en treu els `Article NN` que cita i hi posa
+el text de `Normativa_apartats` i els paràmetres de `Claus_parametres`. Afegir una fila nova a la
+taula és tocar l'array `FILES` del final del fitxer; si cita un article que abans no hi era, el text
+hi apareix tot sol al següent build.
+
+La correspondència entre paràmetre i nivell és lectura de la norma, no un camp del full: si en
+canvia alguna, es corregeix a `FILES`.
 
 ## Què queda per fer
 

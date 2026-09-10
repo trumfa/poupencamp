@@ -374,18 +374,18 @@ const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: U
 await mkdir(ARREL + 'public', { recursive: true });
 await writeFile(ARREL + 'public/data.json', JSON.stringify(data));
 
-// src/index.html és només el cos de la pàgina; aquí l'emboliquem en un document complet.
+// src/*.html són només el cos de la pàgina; aquí els emboliquem en un document complet.
 // Les primeres línies (<title>, <link> de tipografies, <style>) van al <head>.
-const brut = await readFile(ARREL + 'src/index.html', 'utf8');
-const tall = brut.indexOf('</style>');
-const cap = tall < 0 ? '' : brut.slice(0, tall + 8);
-const cos = tall < 0 ? brut : brut.slice(tall + 8).replace(/^\n/, '');
-const doc = `<!doctype html>
+const embolcalla = (brut, desc) => {
+  const tall = brut.indexOf('</style>');
+  const cap = tall < 0 ? '' : brut.slice(0, tall + 8);
+  const cos = tall < 0 ? brut : brut.slice(tall + 8).replace(/^\n/, '');
+  return `<!doctype html>
 <html lang="ca">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Consulta del POUPE d'Encamp per unitat d'actuació, en llenguatge planer i amb la font de cada punt. Web independent.">
+<meta name="description" content="${desc}">
 <meta name="robots" content="index,follow">
 <style>*{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 ${cap}
@@ -395,5 +395,36 @@ ${cos}
 </body>
 </html>
 `;
+};
+
+const doc = embolcalla(await readFile(ARREL + 'src/index.html', 'utf8'),
+  "Consulta del POUPE d'Encamp per unitat d'actuació, en llenguatge planer i amb la font de cada punt. Web independent.");
 await writeFile(ARREL + 'public/index.html', doc);
+/* --------- la pàgina de l'esquema: qui regula què, amb el text dels articles
+   El cos és src/esquema.html; d'allà se'n treuen els articles que cita i s'hi
+   incrusta el text que en guarda la pestanya Normativa_apartats. */
+const brutEsq = await readFile(ARREL + 'src/esquema.html', 'utf8');
+const citats = new Set((brutEsq.match(/Article \d+/g) || []));
+const artsEsq = {};
+for (const r of F.Normativa_apartats) {
+  if (!citats.has(r.article)) continue;
+  (artsEsq[r.article] ||= { t: r.titol_article, f: r.bopa, ap: [] })
+    .ap.push([r.apartat, (r.text || '').trim()]);
+}
+// els articles de zona i subzona porten tots els paràmetres en un sol apartat inacabable;
+// la pestanya Claus_parametres els té partits per lletra, que és com es llegeixen
+const clausArt = {};
+for (const r of F.Claus_parametres) {
+  if (!citats.has(r.article)) continue;
+  (clausArt[r.article] ||= []).push({
+    c: r.clau, l: r.lletra, p: r.parametre, v: r.valor,
+    n: r.valor_numeric, u: r.unitat, r: r.remet_a });
+}
+await writeFile(ARREL + 'public/esquema.html',
+  embolcalla(brutEsq.replace('__CLAUS__', () => JSON.stringify(clausArt).replace(/</g, '\\u003c'))
+    .replace('__ARTICLES__',
+    () => JSON.stringify(artsEsq).replace(/</g, '\\u003c')),
+    "Quin nivell del POUPE d'Encamp decideix cada paràmetre: la fitxa, la subzona, la zona o les normes genèriques."));
+console.log(`Esquema: ${Object.keys(artsEsq).length} articles incrustats a public/esquema.html`);
+
 console.log(`\nFet: ${UA.length} unitats · ${Math.round(JSON.stringify(data).length / 1024)} KB a public/data.json`);
