@@ -188,9 +188,15 @@ const VOLUM = { III: "Vall d'Encamp", IV: 'Els Cortals', V: 'Pas de la Casa',
 // ha prou de quedar-se una fila per unitat, i que sigui la urbana: és la que porta el
 // nom i el tipus de fitxa que encapçalen la unitat.
 const filesUA = new Map();
+const clsVolum = new Map();      // id_ua|volum -> classificació, quan la fila del volum hi és
 for (const u of F.UA) {
   const id = (u.id_ua || '').trim();
   if (!id || !(u.nom_oficial || '').trim()) continue;
+  // només val si la fila és d'un sol volum: si en cobreix uns quants, la seva
+  // classificació és la de la part urbana i no diu res de la de sòl no urbanitzable
+  const vols1 = (u.volums || '').split(/[;\s]+/).filter(Boolean);
+  if (vols1.length === 1 && !clsVolum.has(id + '|' + vols1[0]))
+    clsVolum.set(id + '|' + vols1[0], u.classificacio_vigent);
   const hi = filesUA.get(id);
   if (!hi || (hi.volums === 'VII' && u.volums !== 'VII')) filesUA.set(id, u);
 }
@@ -217,7 +223,10 @@ for (const u of filesUA.values()) {
 
     const part = {
       vol, idf: principal.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
-      cls: p.classificacio || u.classificacio_vigent,
+      // el volum VII és, per definició, sòl no urbanitzable: quan la fitxa no diu la
+      // classificació, val més això que no pas heretar la de la part urbana
+      cls: p.classificacio || clsVolum.get(idu + '|' + vol)
+           || (vol === 'VII' ? 'SNUBLE' : u.classificacio_vigent),
       // el tipus surt de la fitxa de la part, no de la unitat: una unitat pot ser
       // «UA per subzona» a la part urbana i «àrea diferenciada» a la de SNU
       tf: principal.tipus_fitxa || u.tipus_fitxa,

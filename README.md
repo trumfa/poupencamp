@@ -223,6 +223,12 @@ Si una unitat de dues parts no diu la superfície d'una d'elles, aquella part es
 superfície en comptes d'heretar la de la unitat sencera: repetir-la a totes dues enganyava el
 lector i feia que el plànol la comptés dos cops.
 
+La **classificació** de cada part surt de la seva fitxa (`Parametres.classificacio`). Si aquella
+fila no la diu, es mira la fila de la pestanya `UA` d'aquell volum, si n'hi ha; i si tampoc, el
+volum decideix: el VII és, per definició, sòl no urbanitzable. Abans en aquest cas s'heretava la
+classificació de la unitat, i una part de sòl no urbanitzable sortia com a urbanitzable (passava a
+Boixader i a Envalira de Dalt 3).
+
 Cada part porta el seu **tipus de fitxa**, tret de la fitxa i no de la unitat: Salitar és «UA per
 subzona» a la part urbana i «àrea diferenciada» a la de sòl no urbanitzable.
 
