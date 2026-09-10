@@ -182,10 +182,22 @@ for (const r of F.Proteccions) if (r.id_ua) (prot[r.id_ua] ||= []).push(r);
 const VOLUM = { III: "Vall d'Encamp", IV: 'Els Cortals', V: 'Pas de la Casa',
                 VI: 'Sòl urbanitzable', VII: 'Sòl no urbanitzable' };
 
-const UA = [];
+// A la pestanya UA hi ha unitats amb una fila per volum (Salitar i Lloset 2: una de la
+// part urbana i una de la de sòl no urbanitzable). No són duplicats: són la mateixa
+// unitat amb dues qualificacions. Les parts surten de les fitxes, o sigui que aquí n'hi
+// ha prou de quedar-se una fila per unitat, i que sigui la urbana: és la que porta el
+// nom i el tipus de fitxa que encapçalen la unitat.
+const filesUA = new Map();
 for (const u of F.UA) {
+  const id = (u.id_ua || '').trim();
+  if (!id || !(u.nom_oficial || '').trim()) continue;
+  const hi = filesUA.get(id);
+  if (!hi || (hi.volums === 'VII' && u.volums !== 'VII')) filesUA.set(id, u);
+}
+
+const UA = [];
+for (const u of filesUA.values()) {
   const idu = (u.id_ua || '').trim();
-  if (!idu || !(u.nom_oficial || '').trim()) continue;
   const fs = fitxes[idu] || [];
   const vig = fs.filter(f => f.vigent === 'SÍ');
   const perVolum = new Map();
@@ -205,7 +217,10 @@ for (const u of F.UA) {
 
     const part = {
       vol, idf: principal.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
-      cls: p.classificacio || u.classificacio_vigent, tf: u.tipus_fitxa,
+      cls: p.classificacio || u.classificacio_vigent,
+      // el tipus surt de la fitxa de la part, no de la unitat: una unitat pot ser
+      // «UA per subzona» a la part urbana i «àrea diferenciada» a la de SNU
+      tf: principal.tipus_fitxa || u.tipus_fitxa,
       // amb dues parts, cadascuna ha de dur la seva: la superfície de la unitat sencera
       // repetida a totes dues enganyaria, i el plànol la comptaria dos cops.
       sup: p.superficie_m2 || (vols.length > 1 ? '' : u.superficie_vigent) || '',

@@ -910,7 +910,7 @@ function vistaUA(id, mantenirScroll){
         ${P.clau ? `<span class="fact clau"><i>Clau</i><b>${esc(P.clau)}</b></span>` : ''}
         ${P.cls ? `<span class="fact">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
         ${P.sup ? `<span class="fact"><b>${esc(P.sup)}</b> m²</span>` : ''}
-        <span class="fact">${esc(TIP[S(u.tf)] || S(u.tf))}</span>
+        <span class="fact">${esc(TIP[S(P.tf)] || S(P.tf) || TIP[S(u.tf)] || S(u.tf))}</span>
         ${P.cob ? `<span class="fact">${esc(COB[S(P.cob)] || S(P.cob))}</span>` : ''}
       </div>
       ${selector}

@@ -45,11 +45,23 @@ TOL = 1.0          # simplificació, en metres
 # Quant es pot allunyar l'àrea dibuixada de la superfície que diu la fitxa. Per a la
 # majoria la diferència és de dècimes; un 15% deixa passar les poques on la fitxa i el
 # dibuix no es van actualitzar alhora, i encara descarta els recintes que no toquen.
-TOL_AREA = 0.15
+TOL_AREA = 0.20
 # Quan la superfície no quadra però el nom és escrit dins d'un recinte que no vol ningú
 # més, s'accepta mentre el recinte no sigui desproporcionat: fins al doble amunt
 # o avall. Més enllà, l'etiqueta ha caigut damunt d'un veí i no és seva.
 LIMIT_DINS = 2.0
+# Quan el recinte es guanya pel nom i la qualificació, i no pels metres, la superfície de
+# la fitxa encara serveix per a una cosa: descartar disbarats. Un factor de quinze deixa
+# passar les fitxes amb el punt dels milers mal posat (Feda 4 diu «3.04» i el recinte fa
+# 3.032 m²) i atura les etiquetes que han caigut damunt d'un veí molt més gros.
+LIMIT_NOM = 15.0
+# Unitats on la superfície de la fitxa i la del dibuix no s'assemblen i ja s'ha mirat
+# què passa: el dibuix es queda com és i no cal que l'informe hi torni cada vegada.
+ACCEPTATS = {
+    'CRESPER': 'el recinte gros del costat és del veí; cadascú el seu, encara que la fitxa digui més',
+    'PARDINES_3': 'un recinte per a Pardines 3 i un per a Pardines 2, encara que els metres no quadrin',
+    'PAS_DE_LA_CASA_1': 'la fitxa es queda curta; el recinte del DWG és el bo',
+}
 # Noms que al DWG s'escriuen diferent que a les fitxes. La clau i el valor van
 # passats per nrm(): tot en minúscules, sense accents ni punts.
 ALIES = {
@@ -86,7 +98,7 @@ def llegeix(dwg_json):
             if len(pts) < 3:
                 continue
             if c in CAPES_UA:
-                polis.append(pts)
+                polis.append((pts, CAPES_UA[c]))
             elif c.startswith('1400') or c.startswith('1402'):
                 parcelles.append(pts)
         elif e in ('TEXT', 'MTEXT') and c in (CAPA_NOMS, CAPA_SUP):
@@ -155,8 +167,11 @@ def main(dwg_json, data_json, sortida):
             (x1, y1), (x2, y2) = p[i], p[(i + 1) % len(p)]
             a += x1 * y2 - x2 * y1
         return abs(a) / 2
-    polis = [p for p in polis_ll if area(p) > 50]
+    polis = [p for p, _ in polis_ll if area(p) > 50]
+    # la capa del DWG diu la classificació de cada recinte: SUC, SUNC, SUBLE, SUCc
+    cls_poli = [c for p, c in polis_ll if area(p) > 50]
     print(f'polígons: {len(polis)} (n\'hi havia {len(polis_ll)}; la resta són línies o punts)')
+    print('   per classificació:', dict(collections.Counter(cls_poli)))
     web = json.load(open(data_json, encoding='utf-8'))
     per_nom = collections.defaultdict(list)
     for u in web['ua']:
@@ -221,70 +236,153 @@ def main(dwg_json, data_json, sortida):
         except ValueError:
             return None
 
+    pool = web.get('pool') or []
+    txt = lambda x: pool[x] if isinstance(x, int) and 0 <= x < len(pool) else (x or '')
+
     objectius, sup = [], {}
     for u in web['ua']:
         parts = u.get('parts') or [u]
         for k, pt in enumerate(parts):
-            v = num(pt.get('sup', ''))
-            if v:
-                objectius.append({'ua': u['id'], 'k': f"{u['id']}#{k}", 's': v})
+            objectius.append({'ua': u['id'], 'k': f"{u['id']}#{k}",
+                              's': num(pt.get('sup', '')), 'cls': txt(pt.get('cls'))})
         tot = [num(pt.get('sup', '')) for pt in parts]
         tot = [x for x in tot if x]
         if tot:
             sup[u['id']] = sum(tot)
 
+    # La capa del DWG diu la classificació de cada recinte i la fitxa diu la de cada part:
+    # quan totes dues coincideixen, el recinte és candidat; quan no, gairebé mai ho és.
+    # SUC i SUCc són la mateixa classificació amb dos graus de consolidació, així que es
+    # deixen passar l'una per l'altra, però amb penalització.
+    PARENT = {'SUC': 'SUC', 'SUCc': 'SUC', 'SUNC': 'SUNC', 'SUBLE': 'SUBLE'}
+
+    def encaix(c_part, i):
+        c_poli = cls_poli[i]
+        if c_part == c_poli:
+            return 0.0
+        if PARENT.get(c_part) and PARENT.get(c_part) == PARENT.get(c_poli):
+            return 0.3
+        # Les quatre capes del DWG són totes de sòl urbà o urbanitzable. Una part de sòl
+        # no urbanitzable no hi té recinte: no pot prendre'n cap, ni que la superfície
+        # quadri. Abans en prenia, i la unitat sortia dibuixada al tros que no tocava.
+        return None
+
     punts_ua = collections.defaultdict(list)
     for et in etiquetes:
         punts_ua[et['id']].append((et['x'], et['y']))
 
-    # --- 1) parts d'una sola peça: un recinte que fa la superfície de la fitxa
+    # El nom escrit dins d'un recinte és el senyal més fort que hi ha, i la qualificació
+    # de la capa el confirma. Però al DWG hi ha etiquetes amb línia de guia que cauen
+    # damunt del recinte del veí, i hi ha fitxes amb la superfície mal escrita. Per això
+    # no hi ha una regla que mani sobre les altres, sinó una nota per a cada parella
+    # (part, recinte): com més baixa, més convincent. Es reparteix de la millor a la
+    # pitjor i cap recinte no és de dues parts.
+    clas_ua = collections.defaultdict(set)
+    for ob in objectius:
+        clas_ua[ob['ua']].add(ob['cls'])
+
+    punts_ua = collections.defaultdict(list)
+    for et in etiquetes:
+        punts_ua[et['id']].append((et['x'], et['y']))
+
+    # De qui és el nom que hi ha escrit dins de cada recinte. Només compta si la unitat
+    # té una part de la qualificació del recinte: si no, l'etiqueta hi és de pas.
+    propietari = {}
+    for i in range(len(polis)):
+        qui = {idu for idu, pts in punts_ua.items()
+               if any(a_dins(i, pt) for pt in pts)
+               and any(encaix(c, i) is not None and encaix(c, i) <= 0.5
+                       for c in clas_ua.get(idu, ()))}
+        propietari[i] = qui.pop() if len(qui) == 1 else None
+    print(f'   recintes amb un sol nom a dins: {sum(1 for v in propietari.values() if v)}')
+
     parelles = []
     for ob in objectius:
         pts = punts_ua.get(ob['ua'])
         if not pts:
             continue
-        s_ua = ob['s']
         for i in range(len(polis)):
-            err = abs(arees[i] - s_ua) / s_ua
-            if err > TOL_AREA:
+            q = encaix(ob['cls'], i)
+            if q is None:                       # qualificació incompatible: mai
                 continue
             d = min(lluny(i, pt) for pt in pts)
             if d > 400:
                 continue
-            dins_ = any(a_dins(i, pt) for pt in pts)
-            parelles.append((err * 20 + d / 300 + (0 if dins_ else 0.4), ob['k'], i))
+            meu = any(a_dins(i, pt) for pt in pts)
+            altre = propietari[i] not in (None, ob['ua'])
+            # quan la part no diu la superfície, es fa servir la de la unitat sencera
+            # per no acceptar disbarats; si no n'hi ha cap, es passa sense comprovar
+            ref = ob['s'] or sup.get(ob['ua'])
+            if ob['s'] and abs(arees[i] - ob['s']) / ob['s'] <= TOL_AREA:
+                base = abs(arees[i] - ob['s']) / ob['s'] * 20   # 0 – 3: la superfície quadra
+            elif meu and (not ref or 1 / LIMIT_NOM <= arees[i] / ref <= LIMIT_NOM):
+                base = 3.5                      # el nom hi és, però els metres no quadren
+            else:
+                continue
+            parelles.append((base + d / 300 + (0 if meu else 0.4) + q + (2.0 if altre else 0),
+                             ob['k'], i))
 
     parelles.sort()
-    fet, presos = collections.defaultdict(list), set()
-    for _, k, i in parelles:
-        if k in fet or i in presos:
-            continue
-        fet[k].append(i)
-        presos.add(i)
-    print(f'   d\'una peça: {len(fet)} parts')
+    fet, presos, per_nom = collections.defaultdict(list), set(), set()
 
-    # --- 2) parts de diverses peces: se sumen recintes propers fins a fer la superfície
-    for ob in objectius:
-        idu, pts = ob['ua'], punts_ua.get(ob['ua'])
-        s_ua = ob['s']
-        if ob['k'] in fet or not pts:
-            continue
-        prop = sorted((i for i in range(len(polis))
-                       if i not in presos and min(lluny(i, pt) for pt in pts) < 250
-                       and arees[i] <= s_ua * (1 + TOL_AREA)),
-                      key=lambda i: (0 if any(a_dins(i, pt) for pt in pts) else 1,
-                                     min(lluny(i, pt) for pt in pts)))
-        tros, tot = [], 0.0
-        for i in prop:
-            if tot + arees[i] > s_ua * (1 + TOL_AREA):
+    def reparteix(mena):
+        n = 0
+        for nota, k, i in parelles:
+            if (nota < 3.5) != mena or k in fet or i in presos:
                 continue
-            tros.append(i); tot += arees[i]
+            fet[k].append(i)
+            presos.add(i)
+            n += 1
+            if not mena:
+                per_nom.add(k)
+        return n
+
+    # Primer les parelles que quadren de superfície, que són les de fiar. Les que només
+    # tenen el nom a favor esperen: si es repartissin ara, prendrien un tros a una unitat
+    # de diverses peces que encara l'ha de reunir.
+    print(f'   per superfície: {reparteix(True)} parts')
+
+    # --- parts de diverses peces: se sumen recintes propers, de la mateixa qualificació,
+    # fins a fer la superfície de la fitxa. Hi entren tant les parts que encara no tenen
+    # cap recinte com les que només en tenen un de guanyat pel nom i que es queden curtes:
+    # les unitats grans de fora del nucli el DWG les dibuixa a trossos.
+    def peces():
+        n = 0
+        for ob in objectius:
+            pts = punts_ua.get(ob['ua'])
+            if not pts or not ob['s'] or (ob['k'] in fet and ob['k'] not in per_nom):
+                continue
+            s_ua = ob['s']
+            tros = list(fet.get(ob['k'], []))
+            tot = sum(arees[i] for i in tros)
             if tot >= s_ua * (1 - TOL_AREA):
-                break
-        if tros and abs(tot - s_ua) / s_ua <= TOL_AREA:
-            fet[ob['k']] = tros
-            presos.update(tros)
-    print(f'   amb les de diverses peces: {len(fet)} parts')
+                continue
+            prop = sorted((i for i in range(len(polis))
+                           if i not in presos and encaix(ob['cls'], i) is not None
+                           and propietari[i] in (None, ob['ua'])
+                           and min(lluny(i, pt) for pt in pts) < 250
+                           and arees[i] <= s_ua * (1 + TOL_AREA)),
+                          key=lambda i: (0 if any(a_dins(i, pt) for pt in pts) else 1,
+                                         min(lluny(i, pt) for pt in pts)))
+            for i in prop:
+                if tot + arees[i] > s_ua * (1 + TOL_AREA):
+                    continue
+                tros.append(i); tot += arees[i]
+                if tot >= s_ua * (1 - TOL_AREA):
+                    break
+            if tros and abs(tot - s_ua) / s_ua <= TOL_AREA:
+                per_nom.discard(ob['k'])
+                fet[ob['k']] = tros
+                presos.update(tros)
+                n += 1
+        return n
+
+    print(f'   sumant peces: {peces()} parts més')
+
+    # Ara sí, les que només tenen el nom i la qualificació a favor: la superfície de la
+    # fitxa no quadra amb cap recinte, sovint perquè la fitxa la porta mal escrita.
+    print(f'   pel nom i la qualificació: {reparteix(False)} parts més')
+    print(f'   i completant-les amb els trossos del voltant: {peces()} parts més')
 
     # les parts tornen a la seva unitat: la pàgina dibuixa per unitat
     casat = collections.defaultdict(list)
@@ -328,6 +426,31 @@ def main(dwg_json, data_json, sortida):
 
     json.dump({'o': [ox, oy], 'ua': ua, 'p': par}, open(sortida, 'w'), separators=(',', ':'))
     print(f'{len(ua)} unitats amb perímetre, {len(par)} parcel·les -> {sortida}')
+    # Quan una unitat es guanya el recinte pel nom i la qualificació però els metres no
+    # s'assemblen als de la fitxa, gairebé sempre és la fitxa que els porta mal escrits
+    # (un punt de milers de menys). Val la pena dir-ho: es corregeix al full i tot quadra.
+    noms_ua = {u['id']: u['n'] for u in web['ua']}
+    # es compara amb la superfície de les parts que han rebut recinte, no amb la de la
+    # unitat sencera: la part de sòl no urbanitzable no es dibuixa i desquadraria el compte
+    sup_fet = collections.defaultdict(float)
+    for ob in objectius:
+        if ob['k'] in fet and ob['s']:
+            sup_fet[ob['ua']] += ob['s']
+    sospita = []
+    for idu, idxs in casat.items():
+        s_ua = sup_fet.get(idu)
+        if not s_ua:
+            continue
+        a = sum(arees[i] for i in idxs)
+        if not (1 / 1.5 <= a / s_ua <= 1.5) and idu not in ACCEPTATS:
+            sospita.append((a / s_ua, noms_ua.get(idu, idu), s_ua, a))
+    sospita.sort(key=lambda r: -abs(math.log(r[0])))
+    print(f'\nsuperfícies que no s\'assemblen a les del dibuix ({len(sospita)}), '
+          f'per revisar al full:')
+    for r, n, s_ua, a in sospita:
+        print(f'   {n[:34]:<34} fitxa {s_ua:>10,.0f}   dibuix {a:>10,.0f}   x{r:.1f}'
+              .replace(',', '.'))
+
     sense = [u['n'] for u in web['ua'] if u['id'] not in ua]
     print(f'sense geometria ({len(sense)}):', ', '.join(sorted(sense)))
 
