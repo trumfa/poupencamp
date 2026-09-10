@@ -158,6 +158,20 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 
 .picker{margin:0 0 18px;padding:14px 16px 15px;border:1.5px solid var(--accent);border-radius:12px;
   background:var(--surface)}
+.parts{margin:0 0 16px;padding:13px 15px 14px;border:1.5px solid var(--warn);border-radius:12px;
+  background:var(--warn-soft)}
+.parts .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--warn);
+  padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.parts p{margin:0 0 11px;font-size:13.5px;color:var(--ink-2)}
+.parts .tria{display:flex;flex-wrap:wrap;gap:7px}
+.parts button{appearance:none;font:inherit;font-size:13.5px;padding:7px 13px;border-radius:999px;
+  cursor:pointer;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);
+  display:inline-flex;align-items:baseline;gap:7px}
+.parts button b{font-weight:600}
+.parts button small{font-family:var(--f-mono);font-size:10.5px;opacity:.75}
+.parts button[aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:var(--paper)}
+.parts button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
 .picker .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
   letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--accent);
   padding:3px 8px;border-radius:999px;margin-bottom:9px}
@@ -171,6 +185,12 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
   border:1px solid var(--line-2);background:transparent;color:var(--ink-2)}
 .pick[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:500}
 .pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.picker .estat{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;padding-top:11px;
+  border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.picker .estat b{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.picker .neteja{appearance:none;font:inherit;font-size:12.5px;background:none;border:0;padding:0;
+  cursor:pointer;color:var(--ink-3);text-decoration:underline;margin-left:auto}
+.picker .neteja:hover{color:var(--accent)}
 
 section.bloc{margin:32px 0 0}
 .blochead{border-top:2px solid var(--ink);padding-top:10px;margin-bottom:2px}
@@ -293,7 +313,11 @@ const COB = {'coeficient de zona':'Surt del coeficient de la zona',
 const drivePdf = id => 'https://drive.google.com/file/d/' + id + '/view';
 const driveImg = id => 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1400';
 
-let sel = {zona:'', subzona:'', variant:{}};
+let sel = {zona:'', subzona:'', variant:{}, part:0};
+// Una unitat pot tenir dues fitxes vigents alhora, una per volum del pla: la part urbana
+// i la de sòl no urbanitzable. Cada part té la seva superfície, els seus paràmetres i el
+// seu plànol; la pàgina en mostra una i deixa triar.
+const partDe = u => (u.parts || [])[Math.min(sel.part, (u.parts || []).length - 1)] || {};
 
 /* ------------------------------------------------------------------ portada */
 function vistaLlista(){
@@ -366,7 +390,7 @@ function vistaLlista(){
       const l = (u.n[0] || '').toUpperCase();
       if (l !== lletra){ lletra = l; h += `<li class="grup" aria-hidden="true">${esc(l)}</li>`; }
       h += `<li role="option"><a href="#/ua/${esc(u.id)}" data-i="${i}">
-        <span style="flex:1">${esc(u.n)}</span><span class="chip">${esc(u.cls ? S(u.cls) : '—')}</span></a></li>`;
+        <span style="flex:1">${esc(u.n)}</span><span class="chip">${esc(S((u.parts[0]||{}).cls) || '—')}</span></a></li>`;
     });
     ul.innerHTML = h; idx = -1;
   }
@@ -401,12 +425,13 @@ function regimActiu(codi){
 }
 
 function itemsDe(u){
+  const P = partDe(u);
   const out = [], vist = new Set();
   const posa = (it) => {
     const k = it.b + '|' + it.et + '|' + (it.c || '');
     if (vist.has(k)) return; vist.add(k); out.push(it);
   };
-  [[u.z, 'zona'], [u.sz, 'subzona']].forEach(([grup, niv]) => (grup || []).forEach(z => {
+  [[P.z, 'zona'], [P.sz, 'subzona']].forEach(([grup, niv]) => (grup || []).forEach(z => {
     const reg = regimActiu(z.c);
     const font = D.valors[reg] ? reg : (String(z.c).match(/^\d+/) || [''])[0];
     (D.valors[font] || []).forEach(v => {
@@ -415,8 +440,8 @@ function itemsDe(u){
             c: z.c, niv: niv, nomClau: (D.claus[reg] || D.claus[z.c] || {}).n || z.n});
     });
   }));
-  (u.pr || []).forEach(it => posa({b: it.b, o: it.o, et: S(it.et), aj: S(it.aj), pl: S(it.pl),
-    no: it.nk ? S((u.raw || {})[it.nk]) : '', art: it.art || '', c: it.c, niv: it.niv,
+  (P.pr || []).forEach(it => posa({b: it.b, o: it.o, et: S(it.et), aj: S(it.aj), pl: S(it.pl),
+    no: it.nk ? S((P.raw || {})[it.nk]) : '', art: it.art || '', c: it.c, niv: it.niv,
     nomClau: it.c ? ((D.claus[it.c] || {}).n || it.c) : 'Aquesta unitat', fitxa: true}));
   // si la fitxa ja dona l'alçada, no repetim el «ho diu la fitxa» de la subzona
   if (out.some(i => i.fitxa && i.et === 'Alçada màxima'))
@@ -456,7 +481,8 @@ function filtreActiu(u){
   const parts = [];
   if (sel.zona) parts.push('zona ' + ((D.claus[sel.zona] || {}).n || sel.zona));
   if (sel.subzona) parts.push('subzona ' + ((D.claus[sel.subzona] || {}).n || sel.subzona));
-  for (const z of [...(u.z || []), ...(u.sz || [])])
+  const P = partDe(u);
+  for (const z of [...(P.z || []), ...(P.sz || [])])
     if (regims(z.c)) parts.push((D.claus[regimActiu(z.c)] || {}).n || regimActiu(z.c));
   return parts.length ? 'Filtrada per: ' + parts.join(' · ')
                       : "Mostra tot el que afecta la unitat, sense filtrar per zona ni subzona.";
@@ -467,8 +493,9 @@ function barraUA(u){
   if (!u){ nom.hidden = true; nom.textContent = ''; claus.innerHTML = ''; return; }
   nom.textContent = u.n;
   nom.hidden = false;
-  claus.innerHTML = (u.clau ? `<span class="chip">${esc(u.clau)}</span>` : '') +
-                    (u.cls ? `<span class="chip cls">${esc(S(u.cls))}</span>` : '');
+  const P = partDe(u);
+  claus.innerHTML = (P.clau ? `<span class="chip">${esc(P.clau)}</span>` : '') +
+                    (P.cls ? `<span class="chip cls">${esc(S(P.cls))}</span>` : '');
 }
 
 /* ------------------------------------------------------------------ el plànol
@@ -503,7 +530,7 @@ function muntaPla(){
     return [x0, y0, x1, y1];
   };
   const nom = {}, cls = {};
-  for (const u of D.ua){ nom[u.id] = u.n; cls[u.id] = S(u.cls); }
+  for (const u of D.ua){ nom[u.id] = u.n; cls[u.id] = S((u.parts[0] || {}).cls); }
   const ua = [];
   for (const id in D.mapa.ua)
     for (const anell of D.mapa.ua[id]){
@@ -766,16 +793,19 @@ function arrencaPla(){
 function vistaUA(id, mantenirScroll){
   const u = D.ua.find(x => x.id === id);
   if (!u){ location.hash = '#/'; return; }
+  if (!mantenirScroll) sel.part = 0;
   const y = window.scrollY;
   document.title = u.n + ' · POUPE Encamp';
   barraUA(u);
-  const zs = u.z || [], szs = u.sz || [];
+  const P = partDe(u);
+  const zs = P.z || [], szs = P.sz || [];
   const ambRegims = [...zs, ...szs].filter(z => regims(z.c));
   const calFiltre = (zs.length + szs.length) > 1;     // filtrar per zona/subzona només si n'hi ha més d'una
   const calSel = calFiltre || ambRegims.length > 0;
   let n = 0;
 
-  const vigent = (u.fx || []).find(f => f.vig) || (u.fx || [])[0];
+  const vigent = (u.fx || []).find(f => f.idf === P.idf)
+              || (u.fx || []).find(f => f.vig) || (u.fx || [])[0];
   const planol = vigent && (vigent.idf || vigent.img) ? `
     <figure class="planol">
       <a href="${esc(vigent.idf ? 'planols/' + vigent.idf + '.webp' : drivePdf(vigent.img))}" target="_blank" rel="noopener">
@@ -808,6 +838,10 @@ function vistaUA(id, mantenirScroll){
       </span></li>`).join('')}</ul>
     <p class="phelp" style="margin-top:12px">${esc(T.historic_nota)}</p>`;
 
+  const tots = itemsDe(u);
+  const items = tots.filter(visible);
+  const filtrat = !!(sel.zona || sel.subzona);
+
   const selector = !calSel ? '' : `<div class="picker">
       <span class="flag">Tria una opció</span>
       <h2>${(zs.length + szs.length) > 1 ? 'La teva parcel·la, on és?' : 'Quin tipus et toca?'}</h2>
@@ -824,9 +858,17 @@ function vistaUA(id, mantenirScroll){
         esc((D.claus[z.c]||{}).n || 'clau ' + z.c)}</span>
         ${regims(z.c).map(r => `<button class="pick" data-t="regim" data-mare="${esc(z.c)}" data-v="${esc(r)}" aria-pressed="${
           regimActiu(z.c) === r}">${esc((D.claus[r]||{}).n || r)}</button>`).join('')}</div>`).join('')}
+      ${calFiltre ? `<p class="estat">
+        <span>${filtrat
+          ? `Es veuen <b>${items.length}</b> dels <b>${tots.length}</b> punts de la fitxa.`
+          : `Ara es veuen els <b>${tots.length}</b> punts de la fitxa, de totes les zones i subzones.`}${
+          zs.length > 1 && szs.length > 1 && !(sel.zona && sel.subzona)
+            ? ' La zona i la subzona es trien per separat: cal marcar-ne una de cada per acabar d\'afinar.'
+            : ''}</span>
+        ${filtrat ? `<button type="button" class="neteja" id="plan-neteja">Treu els filtres</button>` : ''}
+      </p>` : ''}
     </div>`;
 
-  const items = itemsDe(u).filter(visible);
   const cossos = D.blocs.map(b => {
     let cos;
     if (b.id === 'B1') return '';          // fos amb la capçalera de la fitxa
@@ -853,19 +895,28 @@ function vistaUA(id, mantenirScroll){
             >${esc(T.btn_fitxa_completa || 'Fitxa completa')} ↓</button>
         </div>
       </div>
-      <p class="nomes-imprimir">Fitxa generada el ${esc(ara())} · ${esc(filtreActiu(u))}<br>
+      ${(u.parts || []).length > 1 ? `<div class="parts">
+        <span class="flag">Aquesta unitat té ${u.parts.length} fitxes</span>
+        <p>El pla la reparteix en ${u.parts.length} parts, cadascuna amb la seva classificació,
+          la seva superfície i el seu plànol. Tria on és la teva parcel·la.</p>
+        <div class="tria">${u.parts.map((pt, i) => `<button type="button" class="part" data-i="${i}"
+          aria-pressed="${i === Math.min(sel.part, u.parts.length - 1)}"><b>${
+          esc(CLS[S(pt.cls)] || S(pt.cls) || S(pt.np))}</b><small>${esc(pt.sup || '—')} m²</small></button>`).join('')}</div>
+      </div>` : ''}
+      <p class="nomes-imprimir">Fitxa generada el ${esc(ara())}${(u.parts || []).length > 1
+        ? ' · part de ' + esc(CLS[S(P.cls)] || S(P.cls) || S(P.np)) : ''} · ${esc(filtreActiu(u))}<br>
         ${esc(T.avis_legal || '')} ${esc(T.avis_bopa || '')}</p>
       <div class="facts">
-        ${u.clau ? `<span class="fact clau"><i>Clau</i><b>${esc(u.clau)}</b></span>` : ''}
-        ${u.cls ? `<span class="fact">${esc(CLS[S(u.cls)] || S(u.cls))}</span>` : ''}
-        ${u.sup ? `<span class="fact"><b>${esc(u.sup)}</b> m²</span>` : ''}
+        ${P.clau ? `<span class="fact clau"><i>Clau</i><b>${esc(P.clau)}</b></span>` : ''}
+        ${P.cls ? `<span class="fact">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
+        ${P.sup ? `<span class="fact"><b>${esc(P.sup)}</b> m²</span>` : ''}
         <span class="fact">${esc(TIP[S(u.tf)] || S(u.tf))}</span>
-        ${u.cob ? `<span class="fact">${esc(COB[S(u.cob)] || S(u.cob))}</span>` : ''}
+        ${P.cob ? `<span class="fact">${esc(COB[S(P.cob)] || S(P.cob))}</span>` : ''}
       </div>
       ${selector}
       ${planol}
-      <div class="lede">${(u.res || []).map(S).filter(Boolean).map(r => `<p>${esc(r)}</p>`).join('')}</div>
-      ${(u.av || []).length ? `<div class="notices">${u.av.map(a => `
+      <div class="lede">${(P.res || []).map(S).filter(Boolean).map(r => `<p>${esc(r)}</p>`).join('')}</div>
+      ${(P.av || []).length ? `<div class="notices">${P.av.map(a => `
         <div class="notice ${esc(a.to)}"><i>${a.to === 'atencio' ? 'Atenció' : 'Nota'}</i><span>${esc(S(a.x))}</span></div>`).join('')}</div>` : ''}
     </div>
     ${cossos}
@@ -892,6 +943,18 @@ function vistaUA(id, mantenirScroll){
     else sel[b.dataset.t] = b.dataset.v;
     vistaUA(id, true);
   }));
+  app.querySelectorAll('.parts .part').forEach(b => b.addEventListener('click', () => {
+    sel.part = Number(b.dataset.i);
+    sel.zona = ''; sel.subzona = '';        // les zones són d'una part, no de l'altra
+    vistaUA(id, true);
+  }));
+
+  const net = document.getElementById('plan-neteja');
+  if (net) net.addEventListener('click', () => {
+    sel.zona = ''; sel.subzona = '';
+    vistaUA(id, true);
+  });
+
   const imp = document.getElementById('btn-imprimeix');
   if (imp) imp.addEventListener('click', () => {
     const tancats = [...app.querySelectorAll('.src[hidden]')];
@@ -918,7 +981,7 @@ function vistaUA(id, mantenirScroll){
 function ruta(){
   const m = (location.hash || '#/').match(/^#\/ua\/(.+)$/);
   if (m){ vistaUA(decodeURIComponent(m[1])); window.scrollTo(0, 0); }
-  else { sel = {zona:'', subzona:'', variant:{}}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
+  else { sel = {zona:'', subzona:'', variant:{}, part:0}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
 }
 window.addEventListener('hashchange', ruta);
 ruta();

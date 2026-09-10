@@ -133,24 +133,27 @@ per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els cr
 els navegadors no el saben llegir i pesa 3,5 MB; el que es publica és el JSON, simplificat al
 metre i amb les coordenades desades com a deltes entre vèrtexs.
 
-**Com es decideix quin recinte és de quina unitat.** El primer criteri és que el nom caigui dins
-del polígon, però al DWG moltes etiquetes surten a fora, amb una línia de guia, i llavors la més
-propera sol ser la del veí gros. Per això el guió fa servir tres regles més:
+**Com es decideix quin recinte és de quina unitat.** El DWG està ben grafiat, i la clau és la
+superfície: cada recinte porta escrita la seva a la capa `_Sup UA`, i l'àrea que se'n calcula hi
+coincideix amb un error mitjà de dues centèsimes per cent. Les fitxes urbanístiques també diuen
+la superfície de cada unitat. Així que el guió reparteix per superfície, no per proximitat:
 
-- **Un recinte no pot ser més gros que la unitat.** Si la seva àrea passa del doble de la
-  superfície que diu la fitxa, no és d'aquella unitat. Cap avall no hi ha límit: una unitat pot
-  estar feta de quatre recintes, i cadascun és una fracció del total.
-- **Cap recinte és de dues unitats alhora.** Les parelles nom–recinte es reparteixen de la més
-  convincent a la menys, i un recinte ja repartit no es torna a donar.
-- **Una unitat no acumula més superfície de la que li toca.** El mateix nom surt escrit diverses
-  vegades damunt d'un sol recinte; sense aquesta regla, s'enduia també els del costat.
-- **I si al final no arriba ni a la meitat, fora.** Val més deixar una unitat sense dibuix que
-  ensenyar-ne un retall.
+- **Només mira les quatre capes d'unitats d'actuació** (`01 1 UA SUC`, `01 2 UA SUNC`,
+  `01 3 UA SUBLE`, `01 11 UA SUCc`). Les altres capes «01 …» del DWG —sòl privat en SNU per risc,
+  sòl comunal— no són unitats, i barrejar-les feia que una etiqueta s'enganxés al recinte del veí.
+- **Unitats d'una sola peça:** es busca el recinte lliure la superfície del qual coincideix amb la
+  de la fitxa (±15%) i que sigui a prop d'una etiqueta amb el nom de la unitat. Es reparteixen de
+  la parella més convincent a la menys, i cap recinte és de dues unitats alhora.
+- **Unitats de diverses peces:** se sumen els recintes lliures del voltant fins a fer la
+  superfície de la fitxa. Si la suma no hi arriba, la unitat es queda sense dibuix.
+- **I una última xarxa:** si el nom és escrit dins d'un recinte que no vol ningú més, s'accepta
+  encara que la superfície no quadri, mentre el recinte no passi del triple ni baixi del terç
+  del que diu la fitxa.
 
-Amb això, les 370 unitats dibuixades queden totes dins d'un factor 2 de la superfície de la seva
-fitxa: 341 hi quadren amb un marge del 25% i 28 es queden entre 1,25 i 2 vegades, que és la
-diferència normal entre el perímetre dibuixat i la superfície comptada. Val la pena repetir
-aquesta comprovació cada cop que arribi un DWG nou.
+Al DWG moltes etiquetes cauen fora del seu recinte, amb una línia de guia, i el més proper sol ser
+el del veí gros; per això la superfície ha de manar per damunt de la distància. Amb aquestes
+regles en surten 364 unitats dibuixades, i les que van per superfície tenen totes una àrea que
+quadra amb la seva fitxa: 323 amb un marge del 5% i 27 dins del 15%.
 
 `data/mapa.json` guarda també les 4.432 parcel·les del cadastre, però ara no es publiquen: el
 plànol només ensenya les unitats. Per tornar-les a enviar al navegador, treu el `delete mapa.p`
@@ -169,15 +172,39 @@ ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Goog
 clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
 condicions no permeten agafar-ne els mosaics pel seu compte.
 
-De les 405 unitats, 370 tenen perímetre. Les 35 que falten són, sobretot, àmbits grans de sòl no
-urbanitzable (domini esquiable, concessions, refugis, «Sòl no urbanitzable restant») que al DWG
-no surten com a recinte d'unitat; es troben igualment pel cercador. Per afegir-ne, n'hi ha prou
+De les 405 unitats, 364 tenen perímetre. Les 41 que falten es reparteixen entre les que el DWG
+no dibuixa com a recinte d'unitat —àmbits grans de sòl no urbanitzable, concessions, refugis— i
+unes quantes on la superfície de la fitxa i la del dibuix no s'assemblen prou per fiar-se'n. Es
+troben igualment pel cercador. Per afegir-ne, n'hi ha prou
 amb posar el nom com surt al DWG al diccionari `ALIES` del guió i tornar-lo a executar: així és
 com les quatre estacions de servei, que al DWG són «E.S. Esso» i companyia, van a parar a les
 unitats `ESSO`, `Figueredo`, `Mòbil` i `Arajol`.
 
 La capa d'ortofoto del DWG és una referència externa i la imatge no és dins del fitxer; per això
 el fons ve d'un servei de mosaics i no del DWG.
+
+## Unitats amb més d'una fitxa
+
+Una mateixa unitat pot sortir a dos volums del pla: el de la vall (o el dels Cortals, o el del
+Pas de la Casa, o el de sòl urbanitzable) i el de sòl no urbanitzable. Quan passa, la unitat té
+**dues fitxes amb dues classificacions**, dues superfícies, dos plànols i dos jocs de paràmetres.
+Passa a 91 de les 405: per exemple Arenal (SUBLE de 36.848 m² al volum VI i SNUBLE de 104 m² al
+VII), Nanta Alta 1 o Ajustants de Dalt 2.
+
+Fins ara la web només n'ensenyava una i l'altra quedava amagada. Ara cada unitat guarda una
+llista de **parts**, una per volum, i la fitxa comença amb un grup de botons per triar-ne una:
+canviar de part canvia la classificació, la superfície, la clau, el plànol, el resum, els avisos
+i tots els punts de la norma. Mentre no se'n triï cap val la primera, que és sempre la urbana
+(la de sòl no urbanitzable va l'última). Els filtres de zona i subzona es buiden en canviar de
+part, perquè les zones d'una no són les de l'altra.
+
+Al plànol, cada part es reparteix pel seu compte: es busca el recinte que fa la superfície
+d'aquella fitxa, no la de la unitat sencera. Això n'ha arreglat unes quantes que abans anaven a
+parar al recinte del veí (Ajustants de Dalt 2, per exemple, és exactament el recinte de 4.423 m²).
+
+Si una unitat de dues parts no diu la superfície d'una d'elles, aquella part es queda sense
+superfície en comptes d'heretar la de la unitat sencera: repetir-la a totes dues enganyava el
+lector i feia que el plànol la comptés dos cops.
 
 ## Claus amb més d'un tipus
 

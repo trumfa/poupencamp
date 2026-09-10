@@ -175,105 +175,131 @@ const img = Object.fromEntries(F.Planols.filter(r => r.drive_id_imatge).map(r =>
 const prot = {};
 for (const r of F.Proteccions) if (r.id_ua) (prot[r.id_ua] ||= []).push(r);
 
+// Una unitat pot tenir més d'una fitxa vigent: una per volum del pla. Passa a 91 de les
+// 405, i vol dir que la unitat té dues parts amb classificacions diferents —la urbana i
+// la de sòl no urbanitzable—, cadascuna amb la seva superfície, els seus paràmetres i el
+// seu plànol. Cada part és un registre sencer; la pàgina en mostra una i deixa triar.
+const VOLUM = { III: "Vall d'Encamp", IV: 'Els Cortals', V: 'Pas de la Casa',
+                VI: 'Sòl urbanitzable', VII: 'Sòl no urbanitzable' };
+
 const UA = [];
 for (const u of F.UA) {
   const idu = (u.id_ua || '').trim();
   if (!idu || !(u.nom_oficial || '').trim()) continue;
   const fs = fitxes[idu] || [];
-  const principal = fs.find(f => f.vigent === 'SÍ') || fs[0];
-  const p = principal ? (pf[principal.id_fitxa] || {}) : {};
-  const z = parseClaus(p.zones), sz = parseClaus(p.subzones);
+  const vig = fs.filter(f => f.vigent === 'SÍ');
+  const perVolum = new Map();
+  for (const f of (vig.length ? vig : fs.slice(0, 1)))
+    if (!perVolum.has(f.volum)) perVolum.set(f.volum, f);
   const ov = overrides[idu] || {};
 
-  const rec = {
-    id: idu, n: ov.nom_public || u.nom_oficial,
-    cls: u.classificacio_vigent, tf: u.tipus_fitxa,
-    sup: p.superficie_m2 || u.superficie_vigent || '',
-    cob: p.cobertura || '', edif: p.edificabilitat_max_m2 || '',
-    z, sz, clau: [z.map(x => x.c).join('·'), sz.map(x => x.c).join('·')].filter(Boolean).join(' / '),
-    raw: {}, av: [], pr: [], fx: [],
-  };
-  if (p.ordenacio) rec.raw.o = p.ordenacio;
-  if (p.usos) rec.raw.u = p.usos;
-  if (p.gestio) rec.raw.g = p.gestio;
+  const rec = { id: idu, n: ov.nom_public || u.nom_oficial, tf: u.tipus_fitxa, parts: [], fx: [] };
 
-  // resum
-  if (ov.resum_que_es) {
-    rec.res = [ov.resum_que_es, ov.resum_que_shi_pot_fer, ov.resum_com_es_desenvolupa];
-  } else {
-    const cl = CLASSIF[rec.cls] || rec.cls || 'sòl sense classificar';
-    const f1 = rec.sup ? fmt('resum_1', { superficie: rec.sup, classificacio: cl })
-                       : fmt('resum_1_sense_sup', { classificacio: cl });
-    const nz = llista(z.map(x => (claus[x.c] || {}).n || x.n));
-    const ns = llista(sz.map(x => (claus[x.c] || {}).n || x.n));
-    let f2;
-    if (z.length && sz.length)
-      f2 = fmt(z.length + sz.length > 2 ? 'resum_zones_n' : 'resum_zones_1', { zones: nz, subzones: ns });
-    else if (z.length || sz.length) {
-      const un = nz || ns;
-      f2 = (z.length + sz.length === 1)
-        ? `Tota la unitat és ${un}.`
-        : `Hi conviuen ${un}: el que pots fer depèn d'on és exactament la teva parcel·la.`;
-    } else f2 = T.resum_zones_cap || '';
-    const g = (p.gestio || '').toLowerCase();
-    const f3 = g.includes('pla parcial') ? T.gestio_pla_parcial : (g.includes('directa') ? T.gestio_directa : '');
-    rec.res = [f1, f2, f3];
+  const vols = [...perVolum.keys()].sort((x, y) =>
+    (x === 'VII' ? 1 : 0) - (y === 'VII' ? 1 : 0) || String(x).localeCompare(String(y)));
+
+  for (const vol of vols) {
+    const principal = perVolum.get(vol);
+    const p = pf[principal.id_fitxa] || {};
+    const z = parseClaus(p.zones), sz = parseClaus(p.subzones);
+
+    const part = {
+      vol, idf: principal.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
+      cls: p.classificacio || u.classificacio_vigent, tf: u.tipus_fitxa,
+      // amb dues parts, cadascuna ha de dur la seva: la superfície de la unitat sencera
+      // repetida a totes dues enganyaria, i el plànol la comptaria dos cops.
+      sup: p.superficie_m2 || (vols.length > 1 ? '' : u.superficie_vigent) || '',
+      cob: p.cobertura || '', edif: p.edificabilitat_max_m2 || '',
+      z, sz, clau: [z.map(x => x.c).join('·'), sz.map(x => x.c).join('·')].filter(Boolean).join(' / '),
+      raw: {}, av: [], pr: [],
+    };
+    if (p.ordenacio) part.raw.o = p.ordenacio;
+    if (p.usos) part.raw.u = p.usos;
+    if (p.gestio) part.raw.g = p.gestio;
+
+    // resum
+    if (ov.resum_que_es) {
+      part.res = [ov.resum_que_es, ov.resum_que_shi_pot_fer, ov.resum_com_es_desenvolupa];
+    } else {
+      const cl = CLASSIF[part.cls] || part.cls || 'sòl sense classificar';
+      const f1 = part.sup ? fmt('resum_1', { superficie: part.sup, classificacio: cl })
+                          : fmt('resum_1_sense_sup', { classificacio: cl });
+      const nz = llista(z.map(x => (claus[x.c] || {}).n || x.n));
+      const ns = llista(sz.map(x => (claus[x.c] || {}).n || x.n));
+      let f2;
+      if (z.length && sz.length)
+        f2 = fmt(z.length + sz.length > 2 ? 'resum_zones_n' : 'resum_zones_1', { zones: nz, subzones: ns });
+      else if (z.length || sz.length) {
+        const un = nz || ns;
+        f2 = (z.length + sz.length === 1)
+          ? `Tota la unitat és ${un}.`
+          : `Hi conviuen ${un}: el que pots fer depèn d'on és exactament la teva parcel·la.`;
+      } else f2 = T.resum_zones_cap || '';
+      const g = (p.gestio || '').toLowerCase();
+      const f3 = g.includes('pla parcial') ? T.gestio_pla_parcial : (g.includes('directa') ? T.gestio_directa : '');
+      part.res = [f1, f2, f3];
+    }
+
+    // avisos
+    const ids = [];
+    const mapa2 = { SUBLE: 'AV1', SUNC: 'AV2', SNUBLE: 'AV3', SNU: 'AV3' };
+    if (mapa2[part.cls]) ids.push(mapa2[part.cls]);
+    if (part.tf === 'àrea diferenciada') ids.push('AV4');
+    if (part.tf === 'UA definició volumètrica') ids.push('AV5');
+    if (prot[idu]) ids.push('AV6');
+    if (fs.some(f => f.modificacio !== 'M00')) ids.push('AV7');
+    if ((part.cob || '').includes('sense aprofitament privat')) ids.push('AV8');
+    part.av = ids.filter(i => avisos[i]).map(i => ({ ...avisos[i] }));
+    if (ov.avis_propi) part.av.push({ to: 'atencio', x: ov.avis_propi });
+
+    // punts propis de la fitxa
+    for (const a of alcades(p.ordenacio, z)) {
+      const [arpfm, arm, am] = a.t;
+      let frase = '';
+      if (arpfm && arm) frase = fmt('alcada_zona', { zona: a.z, arpfm, arm });
+      else if (arm) frase = a.z ? `A la ${a.z}: el carener pot arribar a ${arm} m.` : `El carener pot arribar a ${arm} m.`;
+      else if (arpfm) frase = a.z ? `A la ${a.z}: la façana pot arribar a ${arpfm} m.` : `La façana pot arribar a ${arpfm} m.`;
+      if (am) frase += ' ' + fmt('alcada_am', { am });
+      part.pr.push({ b: 'B4', o: 5, et: 'Alçada màxima', aj: T.avis_alcades || '',
+                     pl: frase.trim(), nk: 'o', c: a.c, niv: 'zona', src: 'fitxa' });
+    }
+    if (!z.length && p.alcades) {
+      const m = p.alcades.match(new RegExp('carener:\\s*' + NUM));
+      if (m) part.pr.push({ b: 'B4', o: 5, et: 'Alçada màxima', aj: T.avis_alcades || '',
+                            pl: `L'edifici pot arribar a ${m[1]} m fins al carener.`, nk: 'o',
+                            c: '', niv: 'fitxa', src: 'fitxa' });
+    }
+    if (part.edif) part.pr.push({ b: 'B3', o: 5, et: 'Sostre màxim de la unitat',
+                                  aj: "Aquí el sostre no surt d'un coeficient: la fitxa l'assigna directament.",
+                                  pl: fmt('sostre_fitxa', { edificabilitat: part.edif }), nk: 'o',
+                                  c: '', niv: 'fitxa', src: 'fitxa' });
+    if (p.usos) {
+      const exc = p.usos.match(/excepte\s+([\s\S]*?)\.?\s*$/);
+      part.pr.push({ b: 'B2', o: 5, et: "Excepcions d'aquesta unitat",
+                     aj: 'Usos que la subzona permet però la fitxa exclou.',
+                     pl: exc ? fmt('usos_excepcio', { excepcio: exc[1].trim() }) : p.usos,
+                     nk: 'u', c: '', niv: 'fitxa', src: 'fitxa' });
+    }
+    if (p.gestio) {
+      const g = p.gestio.toLowerCase();
+      const base = g.includes('pla parcial') ? T.gestio_pla_parcial
+                 : (g.includes('directa') ? T.gestio_directa : p.gestio);
+      part.pr.push({ b: 'B7', o: 10, et: 'Com es desenvolupa', aj: 'Què cal fer abans de poder edificar.',
+                     pl: (base + ' ' + (T.gestio_coda || '')).trim(), nk: 'g', c: '', niv: 'fitxa', src: 'fitxa' });
+    }
+    for (const pr2 of (prot[idu] || []))
+      part.pr.push({ b: 'B8', o: 10, et: pr2.nom, aj: `${pr2.categoria} — ${pr2.tipus}`,
+                     pl: pr2.obligacio, c: '', niv: 'fitxa', src: 'prot', art: pr2.article });
+
+    rec.parts.push(part);
   }
 
-  // avisos
-  const ids = [];
-  const mapa = { SUBLE: 'AV1', SUNC: 'AV2', SNUBLE: 'AV3', SNU: 'AV3' };
-  if (mapa[rec.cls]) ids.push(mapa[rec.cls]);
-  if (rec.tf === 'àrea diferenciada') ids.push('AV4');
-  if (rec.tf === 'UA definició volumètrica') ids.push('AV5');
-  if (prot[idu]) ids.push('AV6');
-  if (fs.some(f => f.modificacio !== 'M00')) ids.push('AV7');
-  if ((rec.cob || '').includes('sense aprofitament privat')) ids.push('AV8');
-  rec.av = ids.filter(i => avisos[i]).map(i => ({ ...avisos[i] }));
-  if (ov.avis_propi) rec.av.push({ to: 'atencio', x: ov.avis_propi });
+  if (!rec.parts.length) continue;
 
-  // punts propis de la fitxa
-  for (const a of alcades(p.ordenacio, z)) {
-    const [arpfm, arm, am] = a.t;
-    let frase = '';
-    if (arpfm && arm) frase = fmt('alcada_zona', { zona: a.z, arpfm, arm });
-    else if (arm) frase = a.z ? `A la ${a.z}: el carener pot arribar a ${arm} m.` : `El carener pot arribar a ${arm} m.`;
-    else if (arpfm) frase = a.z ? `A la ${a.z}: la façana pot arribar a ${arpfm} m.` : `La façana pot arribar a ${arpfm} m.`;
-    if (am) frase += ' ' + fmt('alcada_am', { am });
-    rec.pr.push({ b: 'B4', o: 5, et: 'Alçada màxima', aj: T.avis_alcades || '',
-                  pl: frase.trim(), nk: 'o', c: a.c, niv: 'zona', src: 'fitxa' });
-  }
-  if (!z.length && p.alcades) {
-    const m = p.alcades.match(new RegExp('carener:\\s*' + NUM));
-    if (m) rec.pr.push({ b: 'B4', o: 5, et: 'Alçada màxima', aj: T.avis_alcades || '',
-                         pl: `L'edifici pot arribar a ${m[1]} m fins al carener.`, nk: 'o',
-                         c: '', niv: 'fitxa', src: 'fitxa' });
-  }
-  if (rec.edif) rec.pr.push({ b: 'B3', o: 5, et: 'Sostre màxim de la unitat',
-                              aj: "Aquí el sostre no surt d'un coeficient: la fitxa l'assigna directament.",
-                              pl: fmt('sostre_fitxa', { edificabilitat: rec.edif }), nk: 'o',
-                              c: '', niv: 'fitxa', src: 'fitxa' });
-  if (p.usos) {
-    const exc = p.usos.match(/excepte\s+([\s\S]*?)\.?\s*$/);
-    rec.pr.push({ b: 'B2', o: 5, et: "Excepcions d'aquesta unitat",
-                  aj: 'Usos que la subzona permet però la fitxa exclou.',
-                  pl: exc ? fmt('usos_excepcio', { excepcio: exc[1].trim() }) : p.usos,
-                  nk: 'u', c: '', niv: 'fitxa', src: 'fitxa' });
-  }
-  if (p.gestio) {
-    const g = p.gestio.toLowerCase();
-    const base = g.includes('pla parcial') ? T.gestio_pla_parcial
-               : (g.includes('directa') ? T.gestio_directa : p.gestio);
-    rec.pr.push({ b: 'B7', o: 10, et: 'Com es desenvolupa', aj: 'Què cal fer abans de poder edificar.',
-                  pl: (base + ' ' + (T.gestio_coda || '')).trim(), nk: 'g', c: '', niv: 'fitxa', src: 'fitxa' });
-  }
-  for (const pr2 of (prot[idu] || []))
-    rec.pr.push({ b: 'B8', o: 10, et: pr2.nom, aj: `${pr2.categoria} — ${pr2.tipus}`,
-                  pl: pr2.obligacio, c: '', niv: 'fitxa', src: 'prot', art: pr2.article });
-
-  // fitxes
+  // fitxes: totes, amb el volum a què pertanyen
   for (const f of [...fs].sort((a, b) => (a.vigent === 'SÍ' ? 0 : 1) - (b.vigent === 'SÍ' ? 0 : 1)
-                                       || String(a.modificacio).localeCompare(String(b.modificacio))))
+                                      || String(a.volum).localeCompare(String(b.volum))
+                                      || String(a.modificacio).localeCompare(String(b.modificacio))))
     rec.fx.push({ idf: f.id_fitxa, m: f.modificacio, v: f.volum, vig: f.vigent === 'SÍ',
                   fase: f.fase_aprovacio, b: `BOPA núm. ${f.bopa_num}, ${f.bopa_data}`,
                   pg: f.bopa_pagina, pdf: f.drive_id, img: img[f.id_fitxa] || '' });
@@ -293,11 +319,14 @@ const intern = t => {
   return pidx.get(t);
 };
 for (const r of UA) {
-  r.raw = Object.fromEntries(Object.entries(r.raw).map(([k, v]) => [k, intern(v)]));
-  r.res = (r.res || []).map(intern);
-  for (const a of r.av) a.x = intern(a.x);
-  for (const it of r.pr) for (const k of ['et', 'aj', 'pl']) if (k in it) it[k] = intern(it[k]);
-  for (const k of ['cob', 'tf', 'cls']) r[k] = intern(r[k]);
+  r.tf = intern(r.tf);
+  for (const pt of r.parts) {
+    pt.raw = Object.fromEntries(Object.entries(pt.raw).map(([k, v]) => [k, intern(v)]));
+    pt.res = (pt.res || []).map(intern);
+    for (const a of pt.av) a.x = intern(a.x);
+    for (const it of pt.pr) for (const k of ['et', 'aj', 'pl']) if (k in it) it[k] = intern(it[k]);
+    for (const k of ['cob', 'tf', 'cls', 'np']) pt[k] = intern(pt[k]);
+  }
   for (const f of r.fx) { f.fase = intern(f.fase); f.b = intern(f.b); }
 }
 

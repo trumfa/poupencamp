@@ -34,14 +34,22 @@ CADASTRE, WEB = 'EPSG:27563', 'EPSG:3857'
 _tr = Transformer.from_crs(CADASTRE, WEB, always_xy=True)
 projecta = lambda p: [_tr.transform(x, y) for x, y in p]
 
-CAPES_UA = {'01 1 UA SUC': 'SUC', '01 2 UA SUNC': 'SUNC', '01 3 UA SUBLE': 'SUBLE',
-            '01 11 UA SUCc': 'SUCc', '01 4 SÒL PRIVAT EN SNUBLE PER RISC': 'SNUBLE',
-            '01 5 SÒL COMUNAL': 'COMUNAL'}
+# Només les capes d'unitats d'actuació. Les altres capes «01 …» del DWG —sòl privat
+# en SNU per risc, sòl comunal— no són unitats, i barrejar-les feia que una etiqueta
+# s'enganxés al recinte del costat.
+CAPES_UA = {'01 1 UA SUC': 'SUC', '01 2 UA SUNC': 'SUNC',
+            '01 3 UA SUBLE': 'SUBLE', '01 11 UA SUCc': 'SUCc'}
 CAPA_NOMS = 'ÀMBITS NOM'
+CAPA_SUP = '_Sup UA'      # el DWG escriu la superfície de cada recinte a dins seu
 TOL = 1.0          # simplificació, en metres
-# Un recinte no pot ser més gros que la superfície que diu la fitxa: 0.8 ≈ un factor 2,2.
-# Cap avall no hi ha límit, perquè una unitat pot estar feta de diversos recintes.
-LIMIT_AREA = 0.8
+# Quant es pot allunyar l'àrea dibuixada de la superfície que diu la fitxa. Per a la
+# majoria la diferència és de dècimes; un 15% deixa passar les poques on la fitxa i el
+# dibuix no es van actualitzar alhora, i encara descarta els recintes que no toquen.
+TOL_AREA = 0.15
+# Quan la superfície no quadra però el nom és escrit dins d'un recinte que no vol ningú
+# més, s'accepta mentre el recinte no sigui desproporcionat: fins al doble amunt
+# o avall. Més enllà, l'etiqueta ha caigut damunt d'un veí i no és seva.
+LIMIT_DINS = 2.0
 # Noms que al DWG s'escriuen diferent que a les fitxes. La clau i el valor van
 # passats per nrm(): tot en minúscules, sense accents ni punts.
 ALIES = {
@@ -69,8 +77,8 @@ def llegeix(dwg_json):
         return capes.get(lh[2], '') if isinstance(lh, list) and len(lh) > 2 else ''
 
     polis, noms, parcelles = [], [], []
-    # els noms es queden en coordenades del cadastre: només serveixen per casar-los
-    # amb el seu polígon, i el càlcul és més senzill en metres reals.
+    # Tot es queda en coordenades del cadastre: són metres de veritat, i les àrees i
+    # distàncies del repartiment es calculen aquí. La projecció ve al final.
     for o in obs:
         e, c = o.get('entity'), capa(o)
         if e == 'LWPOLYLINE':
@@ -81,11 +89,12 @@ def llegeix(dwg_json):
                 polis.append(pts)
             elif c.startswith('1400') or c.startswith('1402'):
                 parcelles.append(pts)
-        elif e in ('TEXT', 'MTEXT') and c == CAPA_NOMS:
+        elif e in ('TEXT', 'MTEXT') and c in (CAPA_NOMS, CAPA_SUP):
             t = o.get('text_value') if e == 'TEXT' else re.sub(r'\\[A-Za-z][^;]*;|[{}]', '', o.get('text', ''))
-            if (t or '').strip():
-                noms.append({'t': t.strip(), 'x': o['ins_pt'][0], 'y': o['ins_pt'][1]})
-    return polis, noms, parcelles
+            t = (t or '').strip()
+            if t:
+                noms.append({'t': t, 'x': o['ins_pt'][0], 'y': o['ins_pt'][1], 'sup': c == CAPA_SUP})
+    return polis, [n for n in noms if not n['sup']], parcelles
 
 
 def dins(pt, poly):
@@ -190,72 +199,117 @@ def main(dwg_json, data_json, sortida):
                max(q[0] for q in p), max(q[1] for q in p)) for p in polis]
     arees = [area(p) for p in polis]
 
-    def lluny(i, pt):   # distància a la caixa, no al centre: hi ha unitats molt llargues
+    def lluny(i, pt):    # distància a la caixa del recinte, no al seu centre
         b = caixes[i]
         return math.hypot(max(b[0] - pt[0], 0, pt[0] - b[2]), max(b[1] - pt[1], 0, pt[1] - b[3]))
 
-    # La superfície de la fitxa desempata. Sense ella, una etiqueta que cau fora del seu
-    # recinte s'enganxa al primer veí que troba, que sol ser el més gros del costat.
-    sup = {}
-    for u in web['ua']:
-        try:
-            v = float(str(u.get('sup', '')).replace('.', '').replace(',', '.').strip())
-            if v > 0:
-                sup[u['id']] = v
-        except ValueError:
-            pass
+    def a_dins(i, pt):
+        b = caixes[i]
+        return b[0] <= pt[0] <= b[2] and b[1] <= pt[1] <= b[3] and dins(pt, polis[i])
 
-    # Cada etiqueta es queda un polígon, i cap polígon és de dues unitats alhora.
-    # Es reparteixen de la parella més convincent a la menys.
+    # La superfície de la fitxa és la clau del repartiment: el DWG està ben grafiat i
+    # l'àrea de cada recinte hi coincideix. El nom serveix per desempatar entre recintes
+    # de mida semblant, perquè al DWG moltes etiquetes cauen fora del seu recinte.
+    # Una unitat pot tenir més d'una part (una fitxa per volum del pla: la urbana i la
+    # de sòl no urbanitzable), cadascuna amb la seva superfície i el seu recinte. Cada
+    # part és un objectiu de repartiment independent; al final es tornen a ajuntar sota
+    # la unitat, que és com les dibuixa la pàgina.
+    def num(t):
+        try:
+            v = float(str(t).replace('.', '').replace(',', '.').strip())
+            return v if v > 0 else None
+        except ValueError:
+            return None
+
+    objectius, sup = [], {}
+    for u in web['ua']:
+        parts = u.get('parts') or [u]
+        for k, pt in enumerate(parts):
+            v = num(pt.get('sup', ''))
+            if v:
+                objectius.append({'ua': u['id'], 'k': f"{u['id']}#{k}", 's': v})
+        tot = [num(pt.get('sup', '')) for pt in parts]
+        tot = [x for x in tot if x]
+        if tot:
+            sup[u['id']] = sum(tot)
+
+    punts_ua = collections.defaultdict(list)
+    for et in etiquetes:
+        punts_ua[et['id']].append((et['x'], et['y']))
+
+    # --- 1) parts d'una sola peça: un recinte que fa la superfície de la fitxa
     parelles = []
-    for e, et in enumerate(etiquetes):
-        pt = (et['x'], et['y'])
+    for ob in objectius:
+        pts = punts_ua.get(ob['ua'])
+        if not pts:
+            continue
+        s_ua = ob['s']
         for i in range(len(polis)):
-            if not (caixes[i][0] - 150 <= pt[0] <= caixes[i][2] + 150
-                    and caixes[i][1] - 150 <= pt[1] <= caixes[i][3] + 150):
+            err = abs(arees[i] - s_ua) / s_ua
+            if err > TOL_AREA:
                 continue
-            a_dins = (caixes[i][0] <= pt[0] <= caixes[i][2] and caixes[i][1] <= pt[1] <= caixes[i][3]
-                      and dins(pt, polis[i]))
-            d = 0 if a_dins else lluny(i, pt)
-            if d > 150:
+            d = min(lluny(i, pt) for pt in pts)
+            if d > 400:
                 continue
-            s_ua = sup.get(et['id'])
-            if s_ua and arees[i] > 0:
-                r = math.log(arees[i] / s_ua)
-                if r > LIMIT_AREA:      # un recinte més gros que tota la unitat no és seu
-                    continue
-                # Que sigui més petit no vol dir res: una unitat pot tenir-ne uns quants.
-                # Només compta si el nom no hi cau a dins, on cal alguna cosa que desempati.
-                err = max(0.0, r) if a_dins else abs(r)
-            else:
-                err = 0.35
-            punts = (0 if a_dins else 1.2) + err + d / 400
-            parelles.append((punts, e, i))
+            dins_ = any(a_dins(i, pt) for pt in pts)
+            parelles.append((err * 20 + d / 300 + (0 if dins_ else 0.4), ob['k'], i))
 
     parelles.sort()
-    fets, presos = set(), set()
-    casat = collections.defaultdict(list)
-    acumulat = collections.defaultdict(float)
-    for punts, e, i in parelles:
-        idu = etiquetes[e]['id']
-        if e in fets or i in presos:
+    fet, presos = collections.defaultdict(list), set()
+    for _, k, i in parelles:
+        if k in fet or i in presos:
             continue
-        # Una unitat pot tenir més d'un recinte, però no en pot acumular més
-        # superfície de la que diu la fitxa: el mateix nom surt escrit diverses
-        # vegades damunt d'un sol recinte i, si no, s'endú els del costat.
-        s_ua = sup.get(idu)
-        if s_ua and acumulat[idu] + arees[i] > 1.6 * s_ua:
-            continue
-        fets.add(e); presos.add(i)
-        acumulat[idu] += arees[i]
-        casat[idu].append(i)
+        fet[k].append(i)
+        presos.add(i)
+    print(f'   d\'una peça: {len(fet)} parts')
 
-    # Última comprovació: si tot el que hem assignat a una unitat no arriba ni a la
-    # meitat del que diu la fitxa, el més calent és a l'aigüera. Val més deixar-la
-    # sense dibuix que ensenyar-ne un retall.
-    for idu in [k for k in casat if sup.get(k) and acumulat[k] < 0.5 * sup[k]]:
-        print(f'   descartada {idu}: {round(acumulat[idu])} m² per a una fitxa de {round(sup[idu])} m²')
-        del casat[idu]
+    # --- 2) parts de diverses peces: se sumen recintes propers fins a fer la superfície
+    for ob in objectius:
+        idu, pts = ob['ua'], punts_ua.get(ob['ua'])
+        s_ua = ob['s']
+        if ob['k'] in fet or not pts:
+            continue
+        prop = sorted((i for i in range(len(polis))
+                       if i not in presos and min(lluny(i, pt) for pt in pts) < 250
+                       and arees[i] <= s_ua * (1 + TOL_AREA)),
+                      key=lambda i: (0 if any(a_dins(i, pt) for pt in pts) else 1,
+                                     min(lluny(i, pt) for pt in pts)))
+        tros, tot = [], 0.0
+        for i in prop:
+            if tot + arees[i] > s_ua * (1 + TOL_AREA):
+                continue
+            tros.append(i); tot += arees[i]
+            if tot >= s_ua * (1 - TOL_AREA):
+                break
+        if tros and abs(tot - s_ua) / s_ua <= TOL_AREA:
+            fet[ob['k']] = tros
+            presos.update(tros)
+    print(f'   amb les de diverses peces: {len(fet)} parts')
+
+    # les parts tornen a la seva unitat: la pàgina dibuixa per unitat
+    casat = collections.defaultdict(list)
+    for k, idxs in fet.items():
+        casat[k.split('#')[0]].extend(idxs)
+    casat = collections.defaultdict(list, {k: v for k, v in casat.items() if v})
+    print(f'   -> {len(casat)} unitats')
+
+    # --- 3) l'última xarxa: el nom cau dins d'un recinte lliure. La superfície de la
+    # fitxa i la del dibuix no s'assemblen, però el nom escrit a dins d'un recinte que
+    # no vol ningú més és prou senyal. Si el recinte és desproporcionat (l'etiqueta ha
+    # caigut damunt d'un veí molt més gros), es deixa córrer.
+    for idu, pts in punts_ua.items():
+        if idu in casat:
+            continue
+        s_ua = sup.get(idu)
+        dins_lliures = sorted((i for i in range(len(polis))
+                               if i not in presos and any(a_dins(i, pt) for pt in pts)),
+                              key=lambda i: arees[i])
+        for i in dins_lliures:
+            if s_ua and not (s_ua / LIMIT_DINS <= arees[i] <= s_ua * LIMIT_DINS):
+                continue
+            casat[idu] = [i]; presos.add(i)
+            break
+    print(f'   amb les que el nom cau dins d\'un recinte lliure: {len(casat)} unitats')
 
     # ara sí: a Web Mercator
     bons = sorted({i for v in casat.values() for i in v})
