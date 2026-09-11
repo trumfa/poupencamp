@@ -483,4 +483,29 @@ await writeFile(ARREL + 'public/esquema.html',
     "Quin nivell del POUPE d'Encamp decideix cada paràmetre: la fitxa, la subzona, la zona o les normes genèriques."));
 console.log(`Esquema: ${Object.keys(artsEsq).length} articles incrustats a public/esquema.html`);
 
+/* --------- la pàgina per assignar recintes a unitats
+   Va a part de la web pública: és una eina de manteniment. Hi porta la geometria, la
+   taula de recintes i els noms de les unitats, i prou. */
+try {
+  const geo = JSON.parse(await readFile(ARREL + 'data/geometria.json', 'utf8'));
+  const nom = Object.fromEntries(F.unitats.map(u => [u.id_ua, u.nom_public || u.nom_oficial]));
+  const dadesRec = {
+    o: geo.o,
+    r: F.recintes.filter(r => geo.r[r.id_recinte] && r.estat !== 'retirat').map(r => ({
+      i: r.id_recinte, g: geo.r[r.id_recinte], u: r.id_ua,
+      c: (r.capa_dwg || '').replace('01 ', '').replace('UA ', '').trim(),
+      s: r.superficie_dwg, n: r.nom_dwg, a: r.assignat_per })),
+    u: F.unitats.filter(u => u.estat !== 'derogada').map(u => ({ i: u.id_ua, n: nom[u.id_ua] })),
+  };
+  const brutRec = await readFile(ARREL + 'src/recintes.html', 'utf8');
+  await writeFile(ARREL + 'public/recintes.html',
+    embolcalla(brutRec.replace('__RECINTES__',
+      () => JSON.stringify(dadesRec).replace(/</g, '\\u003c')),
+      'Eina interna per assignar els recintes del plànol a les unitats.')
+      .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex">'));
+  const falten = dadesRec.r.filter(r => !r.u).length;
+  console.log(`Recintes: ${dadesRec.r.length} a public/recintes.html`
+    + (falten ? ` · ${falten} encara sense unitat` : ' · tots assignats'));
+} catch (e) { console.log('Sense data/geometria.json: no es genera la pàgina de recintes.'); }
+
 console.log(`\nFet: ${UA.length} unitats · ${Math.round(JSON.stringify(data).length / 1024)} KB a public/data.json`);

@@ -29,6 +29,7 @@ data/geometria.json         el dibuix, una entrada per recinte
 data/recintes.geojson       el mateix en format obert, per a qui el vulgui obrir
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
 src/esquema.html            «Qui regula què»: quin nivell del pla decideix cada paràmetre
+src/recintes.html           eina interna per assignar els recintes del plànol a les unitats
 public/                     el que es publica
 ```
 
@@ -196,6 +197,18 @@ Cada recinte surt marcat a la columna `canvi`:
   proposta feta; si no, l'`id_ua` queda buit.
 - **CANVIAT** — hi era però ara té una altra forma. Val la pena mirar si segueix sent de qui era.
 - **DESAPAREGUT** — ja no és al plànol. Queda `retirat`, no s'esborra.
+
+### Com saber quin recinte és quin
+
+`R0184` no diu res mirant-lo, i per això el build genera **`public/recintes.html`**, que és una
+eina de manteniment i no forma part de la web pública (va amb `noindex` i no hi ha cap enllaç que
+hi porti). Hi surten els 439 recintes sobre l'ortofoto: **en taronja els que encara no tenen
+unitat**, en verd tènue els que ja en tenen, perquè serveixin de referència. Clicant-ne un, es
+tria la unitat en un cercador, i al final de la pàgina hi ha les files `id_recinte,id_ua` a punt
+per copiar i enganxar a la pestanya `recintes`.
+
+El botó *Veure'ls tots* pinta també els assignats amb el nom de la unitat a sobre: és la manera
+ràpida de situar-se quan un recinte no té cap nom escrit a dins.
 
 Enganxa al full **només les files que no diguin IGUAL**, omple l'`id_ua` de les noves i posa-hi
 `assignat_per = revisat`. El guió no toca mai una fila revisada, i els identificadors es mantenen
