@@ -214,6 +214,11 @@ Tot està lligat: cliques una unitat i el plànol hi va i te la pinta sencera; c
 recintes i t'hi acostes; cliques un recinte del plànol i te'n surt la unitat. Al capdavall de la
 columna dreta s'hi van acumulant les files `id_recinte,id_ua` per copiar al full.
 
+**El que assignes es desa al navegador** (`localStorage`), o sigui que tancar la pestanya per
+error no s'emporta la feina. Això no substitueix el full: el que mana és el full, i el desat
+només serveix per no haver de tornar a començar. En tornar a obrir la pàgina després d'un
+desplegament, les assignacions que ja siguin al full desapareixen soles del desat.
+
 **Una unitat pot tenir més d'un recinte**, i no és cap raresa: n'hi ha 24, i Molina en té sis. La
 relació és de molts recintes a una unitat, i al full això són senzillament unes quantes files amb
 el mateix `id_ua`. Per això la pàgina no diu si una unitat «ja té recinte» —que no vol dir res—

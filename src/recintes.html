@@ -107,6 +107,8 @@ canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
   background:var(--accent-soft);color:var(--accent)}
 .suma.falta{background:var(--falta-soft);color:var(--falta)}
 .suma b{font-weight:600}
+.sensesuma{margin:10px 0 0;padding:8px 11px;border-radius:5px;font-size:13px;
+  background:var(--falta-soft);color:var(--falta)}
 .mini{margin-top:9px;display:grid;gap:4px}
 .mini button{display:flex;gap:9px;align-items:baseline;border:1px solid var(--line-2);
   background:var(--paper);border-radius:5px;padding:5px 9px;font-size:12.5px;cursor:pointer;text-align:left}
@@ -228,7 +230,18 @@ const U = D.u.slice().sort((a, b) => a.n.localeCompare(b.n, 'ca'));
 const UNI = Object.fromEntries(U.map(u => [u.i, u]));
 const NOM = u => (UNI[u] || {}).n || u;
 
+// La feina es desa al navegador. No substitueix el full —el que mana és el full— però
+// evita que tancar la pestanya per error s'emporti mitja tarda de feina.
+const CLAU_DESAT = 'poupe-recintes-assignacions';
 const assignat = {}, ordre = [];
+try {
+  const desat = JSON.parse(localStorage.getItem(CLAU_DESAT) || '[]');
+  for (const [i, u] of desat) if (D.r.some(r => r.i === i && r.u !== u)){ assignat[i] = u; ordre.push(i); }
+} catch (e) { /* sense desat, es comença de zero */ }
+function desa(){
+  try { localStorage.setItem(CLAU_DESAT, JSON.stringify(ordre.map(i => [i, assignat[i]]))); }
+  catch (e) { /* si el navegador no deixa desar, tant se val: el full és el que compta */ }
+}
 const uaDe = r => assignat[r.i] || r.u;
 const teUA = r => !!uaDe(r);
 const recDe = idu => R.filter(r => uaDe(r) === idu);
@@ -431,10 +444,12 @@ function detall(){
         ${selR.n ? `<dt>Hi diu</dt><dd>${esc(selR.n)}</dd>` : ''}
         ${selR.a ? `<dt>Assignat</dt><dd>${esc(selR.a)}</dd>` : ''}
       </dl>
-      ${u ? `<div class="fet"><b>${esc(NOM(u))}</b> ·
+      ${u ? `<div class="fet"><b>${esc(NOM(u))}</b>${assignat[selR.i] ? ' <span style="opacity:.7">— assignat ara</span>' : ''}<br>
         <button type="button" id="veure-u">veure la unitat</button> ·
-        <button type="button" id="treu">${assignat[selR.i] ? 'desfer' : 'canviar'}</button></div>` : ''}
-      ${(!u || assignat[selR.i]) ? `<div class="tria">
+        <button type="button" id="canvia">canviar</button>${
+        assignat[selR.i] ? ' · <button type="button" id="treu">desfer</button>' : ''}</div>`
+      : '<p class="sensesuma">Aquest recinte encara no té unitat.</p>'}
+      ${(!u || obrintTria) ? `<div class="tria">
         <input id="qua" type="search" autocomplete="off" placeholder="de quina unitat és?" value="${esc(cercaUA)}">
         <div class="suggeriments">${suggeriments()}</div></div>` : ''}
     </div>`;
@@ -489,7 +504,8 @@ function detall(){
     <textarea id="sortida" readonly placeholder="Encara no has assignat res."></textarea>
     <div class="accions">
       <button type="button" class="ple" id="copia">Copiar</button>
-      <button type="button" id="desfes">Desfer</button>
+      <button type="button" id="desfes">Desfer l'últim</button>
+      ${ordre.length ? '<button type="button" id="buida">Descartar-ho tot</button>' : ''}
       <span id="compte"></span>
     </div></div>`;
 
@@ -499,7 +515,7 @@ function detall(){
   if (q && document.activeElement !== q){ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length, q.value.length); }
 }
 
-let cercaUA = '';
+let cercaUA = '', obrintTria = false;
 function suggeriments(){
   const c = sensAcc(cercaUA.trim());
   let l = U.filter(u => !c || sensAcc(u.n).includes(c));
@@ -519,7 +535,9 @@ function sortida(){
   const t = document.getElementById('sortida');
   if (!t) return;
   t.value = ordre.map(i => `${i},${assignat[i]}`).join('\n');
-  document.getElementById('compte').textContent = ordre.length ? `${ordre.length} assignats` : '';
+  document.getElementById('compte').textContent = ordre.length
+    ? `${ordre.length} ${ordre.length === 1 ? 'assignat' : 'assignats'} · desat en aquest navegador`
+    : '';
   const falten = R.filter(r => !teUA(r)).length;
   const mal = U.filter(u => estat(u).k === 'desquadra').length;
   document.getElementById('estat').innerHTML =
@@ -529,6 +547,7 @@ function sortida(){
 }
 
 function mostraRecinte(r, zoom){
+  if (r !== selR) obrintTria = false;
   selR = r; selU = UNI[uaDe(r)] || null; cercaUA = '';
   if (zoom){
     const m = Math.max((r.bb[2] - r.bb[0]), (r.bb[3] - r.bb[1])) * 0.6 + 40;
@@ -600,20 +619,29 @@ document.addEventListener('click', e => {
   if (ua && selR){
     assignat[selR.i] = ua.dataset.ua;
     if (!ordre.includes(selR.i)) ordre.push(selR.i);
+    obrintTria = false; desa();
     mostraRecinte(selR, false); return;
   }
+  if (t.id === 'canvia'){ obrintTria = true; cercaUA = ''; detall(); return; }
   if (t.id === 'veure-u'){ mostraUnitat(UNI[uaDe(selR)], true); return; }
   if (t.id === 'treu'){
     delete assignat[selR.i];
     const i = ordre.indexOf(selR.i); if (i >= 0) ordre.splice(i, 1);
+    obrintTria = false; desa();
     mostraRecinte(selR, false); return;
+  }
+  if (t.id === 'buida'){
+    if (!confirm('Segur que vols descartar les ' + ordre.length + ' assignacions d\'aquesta sessió?')) return;
+    for (const i of ordre.slice()) delete assignat[i];
+    ordre.length = 0; obrintTria = false; desa();
+    detall(); pintaLlista(); pinta(); return;
   }
   if (t.id === 'b-fons'){ ambFons = !ambFons; t.setAttribute('aria-pressed', ambFons);
     document.getElementById('credit').style.visibility = ambFons ? '' : 'hidden'; pinta(); }
   if (t.id === 'b-noms'){ ambNoms = !ambNoms; t.setAttribute('aria-pressed', ambNoms); pinta(); }
   if (t.id === 'b-encaixa'){ encaixa(caixaDe(R)); }
   if (t.id === 'desfes' && ordre.length){
-    const i = ordre.pop(); delete assignat[i];
+    const i = ordre.pop(); delete assignat[i]; desa();
     detall(); pintaLlista(); pinta();
   }
   if (t.id === 'copia'){
