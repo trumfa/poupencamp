@@ -75,11 +75,15 @@ def main(cami_json, cami_xlsx, cami_recintes, dir_sortida):
     grups = collections.OrderedDict()
     for f in sorted(F['Fitxes'], key=lambda r: (r['bopa_num'] or '', r['bopa_pagina'] or '',
                                                 r['id_fitxa'])):
-        k = (f['bopa_num'], f['bopa_pagina']) if f['bopa_pagina'] else ('', f['id_fitxa'])
+        # sense pàgina de BOPA no hi ha res que agrupi: cada fitxa fa document a part,
+        # i la clau que ho separa no s'ha de veure a la columna bopa_pagina
+        k = ('pag', f['bopa_num'], f['bopa_pagina']) if f['bopa_pagina'] else ('fitxa', f['id_fitxa'])
         grups.setdefault(k, []).append(f)
 
     docs, doc_de = [], {}
-    for i, ((num, pag), fs) in enumerate(grups.items(), 1):
+    for i, (k, fs) in enumerate(grups.items(), 1):
+        num = k[1] if k[0] == 'pag' else fs[0]['bopa_num']
+        pag = k[2] if k[0] == 'pag' else ''
         idd = f'DOC{i:04d}'
         estat = 'no separada' if any(
             par.get(f['id_fitxa'], {}).get('compartit') == 'COMPARTIT NO SEPARAT' for f in fs) \
