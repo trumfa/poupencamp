@@ -201,6 +201,18 @@ for (const f of F.fitxes) if (f.id_ua) (fitxes[f.id_ua] ||= []).push(f);
 const prot = {};
 for (const r of F.proteccions) if (r.id_ua) (prot[r.id_ua] ||= []).push(r);
 
+// La taula de recintes viu al repositori, al costat de la geometria: és una taula que
+// manté un guió i que s'edita amb public/recintes.html, no a mà en un full de càlcul.
+// Cada canvi hi deixa un commit, que és el millor històric que podíem tenir.
+let RECINTES = [];
+try {
+  RECINTES = aObjectes(parseCSV(await readFile(ARREL + 'data/recintes.csv', 'utf8')));
+} catch { console.log('Sense data/recintes.csv: la web sortirà sense plànol.'); }
+
+// Un recinte pot ser de més d'una unitat: al DWG hi ha dibuixos que n'abracen dues.
+// Per això id_ua és una llista, amb els identificadors separats per «;».
+const uesDe = r => String(r.id_ua || '').split(';').map(x => x.trim()).filter(Boolean);
+
 /* --------- comprovacions: val més un desplegament que falla que una web que menteix */
 const ids = new Set(F.unitats.map(u => u.id_ua));
 const docs = new Set(F.documents.map(d => d.id_document));
@@ -221,8 +233,10 @@ for (const f of F.fitxes) if (f.vigent === 'SÍ') {
   if (dobles[k]) problemes.push(`${f.id_ua} té dues fitxes vigents del volum ${f.volum}: ${dobles[k]} i ${f.id_fitxa}`);
   dobles[k] = f.id_fitxa;
 }
-for (const r of F.recintes) {
-  if (r.id_ua && !ids.has(r.id_ua)) problemes.push(`el recinte ${r.id_recinte} està assignat a ${r.id_ua}, que no existeix`);
+for (const r of RECINTES) {
+  for (const u of String(r.id_ua || '').split(';').map(x => x.trim()).filter(Boolean))
+    if (!ids.has(u))
+      problemes.push(`el recinte ${r.id_recinte} està assignat a ${u}, que no existeix`);
 }
 for (const v of F.claus_parametres)
   if (v.visible === 'SÍ' && v.clau && !claus[v.clau])
@@ -408,17 +422,20 @@ try {
   const geo = JSON.parse(await readFile(ARREL + 'data/geometria.json', 'utf8'));
   const publicades = new Set(UA.map(u => u.id));
   const ua = {};
-  let orfes = 0;
-  for (const r of F.recintes) {
+  let orfes = 0, compartits = 0;
+  for (const r of RECINTES) {
     if (r.estat === 'retirat' || r.estat === 'duplicat') continue;
-    if (!r.id_ua) { orfes++; continue; }
+    const ues = uesDe(r);
+    if (!ues.length) { orfes++; continue; }
+    if (ues.length > 1) compartits++;
     const anell = geo.r[r.id_recinte];
-    if (!anell || !publicades.has(r.id_ua)) continue;
-    (ua[r.id_ua] ||= []).push(anell);
+    if (!anell) continue;
+    for (const u of ues) if (publicades.has(u)) (ua[u] ||= []).push(anell);
   }
   mapa = { o: geo.o, ua, n: Object.keys(ua).length };
-  console.log(`Plànol: ${mapa.n} unitats dibuixades amb ${F.recintes.length} recintes`
-    + (orfes ? ` · ${orfes} recintes encara sense unitat assignada` : ''));
+  console.log(`Plànol: ${mapa.n} unitats dibuixades amb ${RECINTES.length} recintes`
+    + (compartits ? ` · ${compartits} recintes compartits per més d'una unitat` : '')
+    + (orfes ? ` · ${orfes} sense unitat` : ''));
 } catch { console.log('\nSense data/geometria.json: la web sortirà sense plànol.'); }
 
 const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA, mapa,
@@ -492,9 +509,9 @@ try {
   const nom = Object.fromEntries(F.unitats.map(u => [u.id_ua, u.nom_public || u.nom_oficial]));
   const dadesRec = {
     o: geo.o,
-    r: F.recintes.filter(r => geo.r[r.id_recinte]
-                          && r.estat !== 'retirat' && r.estat !== 'duplicat').map(r => ({
-      i: r.id_recinte, g: geo.r[r.id_recinte], u: r.id_ua,
+    r: RECINTES.filter(r => geo.r[r.id_recinte]
+                        && r.estat !== 'retirat' && r.estat !== 'duplicat').map(r => ({
+      i: r.id_recinte, g: geo.r[r.id_recinte], u: uesDe(r),
       c: (r.capa_dwg || '').replace('01 ', '').replace('UA ', '').trim(),
       s: r.superficie_dwg, n: r.nom_dwg, a: r.assignat_per })),
     // la superfície que diu la fitxa: és el que permet veure si a una unitat de
@@ -518,13 +535,15 @@ try {
   try {
     dadesRec.e = JSON.parse(await readFile(ARREL + 'data/etiquetes.json', 'utf8'));
   } catch { dadesRec.e = {}; }
+  // la taula sencera i les seves capçaleres: la pàgina ha de poder reescriure el CSV
+  dadesRec.csv = { cols: Object.keys(RECINTES[0] || {}), files: RECINTES };
   const brutRec = await readFile(ARREL + 'src/recintes.html', 'utf8');
   await writeFile(ARREL + 'public/recintes.html',
     embolcalla(brutRec.replace('__RECINTES__',
       () => JSON.stringify(dadesRec).replace(/</g, '\\u003c')),
       'Eina interna per assignar els recintes del plànol a les unitats.')
       .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex">'));
-  const falten = dadesRec.r.filter(r => !r.u).length;
+  const falten = dadesRec.r.filter(r => !r.u.length).length;
   console.log(`Recintes: ${dadesRec.r.length} a public/recintes.html`
     + (falten ? ` · ${falten} encara sense unitat` : ' · tots assignats'));
 } catch (e) { console.log('Sense data/geometria.json: no es genera la pàgina de recintes.'); }

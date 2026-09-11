@@ -42,6 +42,50 @@ img{max-width:100%}
 .pastilla{font-family:var(--f-mono);font-size:11.5px;padding:3px 9px;border-radius:999px;
   background:var(--surface);color:var(--ink-2)}
 .pastilla.falta{background:var(--falta-soft);color:var(--falta)}
+.desar{display:flex;gap:8px;align-items:center}
+.desar .pendent{font-family:var(--f-mono);font-size:11.5px;color:var(--avis);
+  background:var(--avis-soft);padding:3px 9px;border-radius:999px}
+.desar button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
+  padding:5px 13px;font-size:13px;cursor:pointer;white-space:nowrap}
+.desar button.ple{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:600}
+.desar button[disabled]{opacity:.45;cursor:default}
+
+/* assignacions */
+.llistaua{display:grid;gap:5px;margin-top:10px}
+.llistaua .fila{display:flex;gap:8px;align-items:center;border:1px solid var(--line-2);
+  background:var(--paper);border-radius:5px;padding:5px 6px 5px 10px;font-size:13px}
+.llistaua .fila b{font-weight:600}
+.llistaua .fila .m2{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.llistaua .fila .treu{border:0;background:none;cursor:pointer;color:var(--falta);
+  font-size:15px;line-height:1;padding:2px 6px;border-radius:4px}
+.llistaua .fila .treu:hover{background:var(--falta-soft)}
+.llistaua .fila .anar{border:0;background:none;cursor:pointer;color:var(--accent);
+  font-size:11.5px;text-decoration:underline;padding:0 2px}
+.afegir{margin-top:11px;border-top:1px solid var(--line);padding-top:10px}
+.afegir>button{border:1px dashed var(--line-2);background:none;border-radius:6px;width:100%;
+  padding:7px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.afegir>button:hover{border-color:var(--accent);color:var(--accent)}
+.mode{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);
+  border-radius:6px;padding:9px 12px;font-size:13px;margin-top:10px}
+.mode button{border:0;background:none;text-decoration:underline;cursor:pointer;
+  color:inherit;font-size:12.5px;padding:0}
+.confirma .mantenir{display:grid;gap:4px;margin:9px 0}
+.confirma .mantenir label{display:flex;gap:8px;align-items:center;font-size:12.5px;
+  background:var(--paper);border-radius:5px;padding:5px 9px;cursor:pointer}
+.confirma .mantenir .m2{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+dialog.caixa{background:var(--paper);border-radius:10px;padding:22px 24px;max-width:min(520px,92vw);
+  color:var(--ink)}
+dialog.caixa h2{font-size:19px;font-weight:600;margin-bottom:8px}
+dialog.caixa p{margin:0 0 12px;font-size:14px;color:var(--ink-2)}
+dialog.caixa label{display:block;font-size:12.5px;color:var(--ink-3);margin-bottom:4px}
+dialog.caixa input{width:100%;border:1px solid var(--line-2);border-radius:6px;padding:8px 11px;
+  background:var(--paper);font-size:14px;margin-bottom:11px;font-family:var(--f-mono)}
+dialog.caixa .peu{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+dialog.caixa .peu button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
+  padding:7px 16px;font-size:13.5px;cursor:pointer}
+dialog.caixa .peu .ple{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:600}
+dialog.caixa .avis{font-size:12.5px;color:var(--avis);background:var(--avis-soft);
+  border-radius:6px;padding:9px 11px;margin-bottom:12px}
 
 .app{display:grid;grid-template-columns:320px minmax(0,1fr) 370px;gap:12px;padding:12px;
   align-items:start;max-width:1900px;margin:0 auto}
@@ -172,6 +216,7 @@ dialog .tanca{position:absolute;top:8px;right:10px;border:0;background:rgba(0,0,
   <span class="sep"></span>
   <span class="on">Recintes i unitats</span>
   <span class="estat" id="estat"></span>
+  <span class="desar" id="desar"></span>
 </header>
 
 <div class="app">
@@ -207,7 +252,25 @@ dialog .tanca{position:absolute;top:8px;right:10px;border:0;background:rgba(0,0,
   <div class="detall" id="detall"></div>
 </div>
 
+<dialog class="caixa" id="jo">
+  <h2>Desar al repositori</h2>
+  <p>Per escriure <code>data/recintes.csv</code> a GitHub cal un <b>token</b> teu. Fes-ne un de
+    <i>fine-grained</i> limitat a aquest repositori, amb permís <b>Contents: read and write</b>.
+    Queda desat en aquest navegador i no surt d'aquí.</p>
+  <label for="j-repo">Repositori</label>
+  <input id="j-repo" placeholder="usuari/repositori" autocomplete="off">
+  <label for="j-branca">Branca</label>
+  <input id="j-branca" placeholder="main" autocomplete="off">
+  <label for="j-token">Token</label>
+  <input id="j-token" type="password" placeholder="github_pat_…" autocomplete="off">
+  <div class="peu">
+    <button type="button" class="tanca-jo">Cancel·lar</button>
+    <button type="button" class="ple" id="j-desa">Desar-ho</button>
+  </div>
+</dialog>
+
 <dialog id="lupa"><button type="button" class="tanca">Tancar</button><img alt="Plànol de la fitxa"></dialog>
+
 
 <script id="dades-recintes" type="application/json">__RECINTES__</script>
 <script>
@@ -217,7 +280,7 @@ const D = JSON.parse(document.getElementById('dades-recintes').textContent);
 const [OX, OY] = D.o;
 const MERC = 20037508.342789244;
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const sensAcc = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const sensAcc = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const m2 = n => Math.round(n || 0).toLocaleString('ca-ES');
 // Compte: les superfícies de les fitxes van a la catalana —«36.848» són trenta-sis mil—
 // i les dels recintes les calcula el guió del plànol, amb el punt com a decimal: «1010.4».
@@ -225,6 +288,7 @@ const numFitxa = t => Number(String(t == null ? '' : t).replace(/\./g, '').repla
 const numRec = t => parseFloat(t) || 0;
 const CLS = {SUC:'sòl urbà consolidat', SUCc:'sòl urbà consolidat', SUNC:'sòl urbà no consolidat',
              SUBLE:'sòl urbanitzable', SNU:'sòl no urbanitzable', SNUBLE:'sòl no urbanitzable'};
+const FITXER = 'data/recintes.csv';
 
 function punts(g){
   const p = []; let x = 0, y = 0;
@@ -237,6 +301,11 @@ const R = D.r.map(r => {
   for (const [x, y] of p){ if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
   return { ...r, sn: numRec(r.s), p, bb: [x0, y0, x1, y1], cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
 });
+const REC = Object.fromEntries(R.map(r => [r.i, r]));
+// la fila sencera del CSV, per poder ensenyar-ho tot sense haver d'obrir el fitxer
+const FILA = Object.fromEntries((D.csv && D.csv.files || []).map(f => [f.id_recinte, f]));
+const COLS = (D.csv && D.csv.cols) || [];
+
 // Les etiquetes del DWG: el nom d'una unitat amb el lloc on està escrit. Serveixen per
 // veure què deia el delineant, que és el senyal més directe que hi ha.
 const ETI = [];
@@ -247,22 +316,39 @@ const U = D.u.slice().sort((a, b) => a.n.localeCompare(b.n, 'ca'));
 const UNI = Object.fromEntries(U.map(u => [u.i, u]));
 const NOM = u => (UNI[u] || {}).n || u;
 
-// La feina es desa al navegador. No substitueix el full —el que mana és el full— però
-// evita que tancar la pestanya per error s'emporti mitja tarda de feina.
-const CLAU_DESAT = 'poupe-recintes-assignacions';
-const assignat = {}, ordre = [];
+/* ------------------------------------------------------- què hi ha assignat
+
+   Una unitat pot ocupar diversos recintes i un recinte pot ser de diverses
+   unitats: el vincle va als dos sentits i per això es guarda com una llista.
+   BASE és el que diu data/recintes.csv; EST és com ha quedat després de tocar-hi.
+   Tot el que no coincideix és el que es desarà al repositori.                  */
+const BASE = new Map(R.map(r => [r.i, { u: (r.u || []).slice(), rev: r.a === 'revisat' }]));
+const EST  = new Map(R.map(r => [r.i, { u: (r.u || []).slice(), rev: r.a === 'revisat' }]));
+
+const CLAU_DESAT = 'poupe-recintes-v2';
 try {
-  const desat = JSON.parse(localStorage.getItem(CLAU_DESAT) || '[]');
-  for (const [i, u] of desat) if (D.r.some(r => r.i === i && r.u !== u)){ assignat[i] = u; ordre.push(i); }
-} catch (e) { /* sense desat, es comença de zero */ }
-function desa(){
-  try { localStorage.setItem(CLAU_DESAT, JSON.stringify(ordre.map(i => [i, assignat[i]]))); }
-  catch (e) { /* si el navegador no deixa desar, tant se val: el full és el que compta */ }
+  for (const [i, ues, rev] of JSON.parse(localStorage.getItem(CLAU_DESAT) || '[]'))
+    if (EST.has(i)) EST.set(i, { u: (ues || []).filter(x => UNI[x]), rev: !!rev });
+} catch (e) { /* sense desat, es comença pel que diu el CSV */ }
+
+const igual = (a, b) => a.rev === b.rev && a.u.length === b.u.length
+  && a.u.every((x, k) => x === b.u[k]);
+const tocat = i => !igual(EST.get(i), BASE.get(i));
+const canvis = () => R.filter(r => tocat(r.i));
+
+function desaLocal(){
+  try {
+    localStorage.setItem(CLAU_DESAT, JSON.stringify(
+      canvis().map(r => [r.i, EST.get(r.i).u, EST.get(r.i).rev])));
+  } catch (e) { /* si el navegador no deixa desar, la feina encara és a la pantalla */ }
 }
-const uaDe = r => assignat[r.i] || r.u;
-const teUA = r => !!uaDe(r);
-const recDe = idu => R.filter(r => uaDe(r) === idu);
-const sumaDe = idu => recDe(idu).reduce((t, r) => t + r.sn, 0);
+
+const ues = r => EST.get(r.i).u;
+const teUA = r => ues(r).length > 0;
+const revisat = r => EST.get(r.i).rev;
+const recDe = idu => R.filter(r => ues(r).includes(idu));
+const nomsDe = r => ues(r).map(NOM).join(' + ');
+
 // quadra quan el que s'ha dibuixat i el que diu la fitxa s'assemblen
 function estat(u){
   const rs = recDe(u.i), suma = rs.reduce((t, r) => t + r.sn, 0);
@@ -270,6 +356,27 @@ function estat(u){
   if (!u.s) return { k: 'sensesup', n: rs.length, suma, falta: 0 };
   const falta = u.s - suma;
   return { k: Math.abs(falta) / u.s < 0.1 ? 'ok' : 'desquadra', n: rs.length, suma, falta };
+}
+
+/* ---------------------------------------------------------- tocar el vincle */
+function vincula(idr, idu){
+  const e = EST.get(idr);
+  if (!e.u.includes(idu)) e.u = e.u.concat(idu);
+  e.rev = true;                       // si ho has fet tu, és revisat
+  EST.set(idr, e); desaLocal();
+}
+function desvincula(idr, idu){
+  const e = EST.get(idr);
+  e.u = e.u.filter(x => x !== idu);
+  e.rev = true;
+  EST.set(idr, e); desaLocal();
+}
+function marca(idr, rev){
+  const e = EST.get(idr); e.rev = rev; EST.set(idr, e); desaLocal();
+}
+function desfes(idr){
+  EST.set(idr, { u: BASE.get(idr).u.slice(), rev: BASE.get(idr).rev });
+  desaLocal();
 }
 
 /* ------------------------------------------------------------ el plànol */
@@ -344,7 +451,7 @@ function pinta(){
 
   for (const r of R){
     const pendent = !teUA(r);
-    const destacat = r === selR || (delaUA && delaUA.has(r.i));
+    const destacat = r === selR || (proposta && proposta.idr === r.i) || (delaUA && delaUA.has(r.i));
     traç(r);
     const c = pendent ? cFalta : cFet;
     ctx.fillStyle = c + (destacat ? '99' : r === sobre ? '66' : (ambFons ? '2A' : '22'));
@@ -378,7 +485,7 @@ function pinta(){
     for (const r of R){
       const [px, py] = aPx(r.cx, r.cy);
       if (px < -70 || py < -20 || px > w + 70 || py > h + 20) continue;
-      const t = teUA(r) ? NOM(uaDe(r)) : r.i;
+      const t = teUA(r) ? nomsDe(r) : r.i;
       ctx.lineWidth = 3.5;
       ctx.strokeStyle = ambFons ? 'rgba(0,0,0,.7)' : (est.getPropertyValue('--paper').trim() || '#fff');
       ctx.strokeText(t, px, py);
@@ -411,7 +518,7 @@ function quin(px, py){
 /* ------------------------------------------------------------ llistes */
 let pestanya = 'rec', filtre = 'falten', cerca = '';
 const FILTRES = {
-  rec: [['falten', 'Sense unitat'], ['assignats', 'Assignats'], ['tots', 'Tots']],
+  rec: [['falten', 'Sense unitat'], ['revisar', 'Per revisar'], ['revisats', 'Revisats'], ['tots', 'Tots']],
   uni: [['desquadra', 'No quadren'], ['sense', 'Sense recinte'], ['tots', 'Totes']],
 };
 
@@ -425,17 +532,18 @@ function pintaFiltres(){
 function llista(){
   const c = sensAcc(cerca.trim());
   if (pestanya === 'rec'){
-    let l = R.filter(r => filtre === 'tots' || (filtre === 'falten' ? !teUA(r) : teUA(r)));
-    if (c) l = l.filter(r => sensAcc(r.i + ' ' + r.n + ' ' + NOM(uaDe(r))).includes(c));
-    return l.map(r => {
-      const u = uaDe(r);
-      return `<button type="button" data-r="${esc(r.i)}" aria-current="${r === selR}">
-        <span class="t">${esc(u ? NOM(u) : (r.n || '—'))}</span>
-        <span class="id">${esc(r.i)}</span>
-        <span class="s ${u ? '' : 'falta'}">${esc(r.c)} · ${m2(r.sn)} m²${
-          u && r.n && sensAcc(r.n) !== sensAcc(NOM(u)) ? ' · hi diu «' + esc(r.n) + '»' : ''}</span>
-      </button>`;
-    }).join('') || '<p class="buit" style="padding:14px">Res per aquí.</p>';
+    let l = R.filter(r => filtre === 'tots' ? true
+      : filtre === 'falten' ? !teUA(r)
+      : filtre === 'revisats' ? revisat(r)
+      : teUA(r) && !revisat(r));
+    if (c) l = l.filter(r => sensAcc(r.i + ' ' + r.n + ' ' + nomsDe(r)).includes(c));
+    return l.map(r => `<button type="button" data-r="${esc(r.i)}" aria-current="${r === selR}">
+        <span class="t">${esc(teUA(r) ? nomsDe(r) : (r.n || '—'))}</span>
+        <span class="id">${esc(r.i)}${revisat(r) ? ' ✓' : ''}${tocat(r.i) ? ' •' : ''}</span>
+        <span class="s ${teUA(r) ? '' : 'falta'}">${esc(r.c)} · ${m2(r.sn)} m²${
+          teUA(r) && r.n && !ues(r).some(u => sensAcc(NOM(u)) === sensAcc(r.n))
+            ? ' · hi diu «' + esc(r.n) + '»' : ''}</span>
+      </button>`).join('') || '<p class="buit" style="padding:14px">Res per aquí.</p>';
   }
   let l = U.map(u => ({ u, e: estat(u) }));
   if (filtre === 'desquadra') l = l.filter(x => x.e.k === 'desquadra');
@@ -444,7 +552,7 @@ function llista(){
   return l.map(({u, e}) => `<button type="button" data-u="${esc(u.i)}" aria-current="${selU === u}">
       <span class="t">${esc(u.n)}</span>
       <span class="id">${e.n ? e.n + (e.n === 1 ? ' recinte' : ' recintes') : '—'}</span>
-      <span class="s ${e.k === 'ok' ? 'ok' : e.k === 'tots' ? '' : 'falta'}">${
+      <span class="s ${e.k === 'ok' ? 'ok' : 'falta'}">${
         e.k === 'sense' ? (u.s ? 'la fitxa diu ' + m2(u.s) + ' m²' : 'sense superfície')
         : e.k === 'ok' ? m2(e.suma) + ' m² · quadra'
         : e.k === 'sensesup' ? m2(e.suma) + ' m² dibuixats'
@@ -462,46 +570,115 @@ function pintaLlista(){
   if (act) act.scrollIntoView({ block: 'nearest' });
 }
 
-/* ------------------------------------------------------------ detall */
+/* ------------------------------------------------------------ detall
+   La feina real: veure què hi ha assignat, treure'n i afegir-n'hi. El vincle
+   té dos sentits, i per això les dues fitxes —la del recinte i la de la
+   unitat— fan exactament el mateix però mirant des de l'altra banda.        */
 let fitxaActiva = null;
+let triaObert = null;        // 'ua' des del recinte, 'rec' des de la unitat
+let cercaTria = '';
+let esperant = null;         // unitat que espera que cliquis un recinte al plànol
+// proposta: el vincle que s'està a punt de fer. llevaU són unitats que es treuran
+// d'aquest recinte i llevaR recintes que es trauran d'aquesta unitat.
+let proposta = null;         // {idr, idu, llevaU:Set, llevaR:Set}
+
+function fila(r){ return FILA[r.i] || {}; }
+
+function blocUnitats(r){
+  const l = ues(r);
+  if (!l.length) return '<p class="sensesuma">Aquest recinte encara no és de cap unitat.</p>';
+  return `<div class="llistaua">${l.map(u => {
+    const e = estat(UNI[u] || {});
+    return `<div class="fila"><b>${esc(NOM(u))}</b>
+      <button type="button" class="anar" data-u="${esc(u)}">veure</button>
+      <span class="m2">${e.n} rec · ${m2(e.suma)} m²</span>
+      <button type="button" class="treu" data-treu-u="${esc(u)}" title="Desassignar">×</button>
+    </div>`; }).join('')}</div>`;
+}
+
+function blocRecintes(u){
+  const rs = recDe(u.i);
+  if (!rs.length) return '<p class="sensesuma">Aquesta unitat encara no té cap recinte.</p>';
+  return `<div class="llistaua">${rs.map(r => `<div class="fila">
+      <b>${esc(r.i)}</b><span style="font-size:11.5px;color:var(--ink-3)">${esc(r.c)}</span>
+      <button type="button" class="anar" data-r="${esc(r.i)}">veure</button>
+      <span class="m2">${m2(r.sn)} m²</span>
+      <button type="button" class="treu" data-treu-r="${esc(r.i)}" title="Desassignar">×</button>
+    </div>`).join('')}</div>`;
+}
+
+function blocTria(){
+  if (triaObert === 'ua')
+    return `<div class="afegir"><div class="tria">
+      <input id="qtria" type="search" autocomplete="off" placeholder="assignar-hi una unitat…"
+        value="${esc(cercaTria)}">
+      <div class="suggeriments">${suggerimentsUA()}</div></div>
+      <p style="margin-top:7px"><button type="button" class="anar" id="tanca-tria">tancar</button></p></div>`;
+  if (triaObert === 'rec')
+    return `<div class="afegir"><div class="tria">
+      <input id="qtria" type="search" autocomplete="off" placeholder="R0184, o el nom escrit a dins…"
+        value="${esc(cercaTria)}">
+      <div class="suggeriments">${suggerimentsRec()}</div></div>
+      <p style="margin-top:7px"><button type="button" class="anar" id="al-planol">…o clicar-lo al plànol</button>
+       · <button type="button" class="anar" id="tanca-tria">tancar</button></p></div>`;
+  return '';
+}
+
+function blocProposta(){
+  if (!proposta) return '';
+  const r = REC[proposta.idr], u = UNI[proposta.idu] || {};
+  const altresU = ues(r).filter(x => x !== proposta.idu);
+  const altresR = recDe(proposta.idu).filter(x => x.i !== proposta.idr);
+  // com quedaria la unitat si ho confirmes ara mateix
+  const suma = altresR.filter(x => !proposta.llevaR.has(x.i)).reduce((t, x) => t + x.sn, 0) + r.sn;
+  return `<div class="confirma">
+    <p>Assignar <b>${esc(r.i)}</b> (${m2(r.sn)} m²) a <b>${esc(u.n || proposta.idu)}</b>?</p>
+    ${altresU.length ? `<p style="margin:0;font-size:12.5px">Aquest recinte també és de —desmarca el que vulguis treure:</p>
+      <div class="mantenir">${altresU.map(x => `<label><input type="checkbox" data-mant-u="${esc(x)}"
+        ${proposta.llevaU.has(x) ? '' : 'checked'}> ${esc(NOM(x))}</label>`).join('')}</div>` : ''}
+    ${altresR.length ? `<p style="margin:0;font-size:12.5px">Aquesta unitat ja té —desmarca el que vulguis treure:</p>
+      <div class="mantenir">${altresR.map(x => `<label><input type="checkbox" data-mant-r="${esc(x.i)}"
+        ${proposta.llevaR.has(x.i) ? '' : 'checked'}> ${esc(x.i)} <span style="opacity:.6">${esc(x.c)}</span>
+        <span class="m2">${m2(x.sn)} m²</span></label>`).join('')}</div>` : ''}
+    ${u.s ? `<p style="margin:0 0 9px"><small>la unitat quedaria amb ${m2(suma)} dels ${m2(u.s)} m²
+      de la fitxa${Math.abs(u.s - suma) / u.s < 0.1 ? ' ✓' : ''}</small></p>` : ''}
+    <div class="botons">
+      <button type="button" id="assigna" class="ple">Assignar</button>
+      <button type="button" id="cancela">Cancel·lar</button>
+    </div></div>`;
+}
+
 function detall(){
   const el = document.getElementById('detall');
   let html = '';
 
   if (selR){
-    const u = uaDe(selR);
+    const f = fila(selR);
     html += `<div class="card">
       <h2>${esc(selR.i)}</h2>
-      <p class="sub">recinte del plànol</p>
+      <p class="sub">recinte del plànol${revisat(selR) ? ' · revisat' : ''}${tocat(selR.i) ? ' · canviat, sense desar' : ''}</p>
       <dl class="dada">
         <dt>Capa</dt><dd>${esc(selR.c)}</dd>
         <dt>Superfície</dt><dd>${m2(selR.sn)} m²</dd>
         ${selR.n ? `<dt>Hi diu</dt><dd>${esc(selR.n)}</dd>` : ''}
-        ${selR.a ? `<dt>Assignat</dt><dd>${esc(selR.a)}</dd>` : ''}
       </dl>
-      ${u ? `<div class="fet"><b>${esc(NOM(u))}</b>${assignat[selR.i] ? ' <span style="opacity:.7">— assignat ara</span>' : ''}<br>
-        <button type="button" id="veure-u">veure la unitat</button> ·
-        <button type="button" id="canvia">canviar</button>${
-        assignat[selR.i] ? ' · <button type="button" id="treu">desfer</button>' : ''}</div>`
-      : '<p class="sensesuma">Aquest recinte encara no té unitat.</p>'}
-      ${triada ? `<div class="confirma">
-        <p>Assignar <b>${esc(selR.i)}</b> a <b>${esc(NOM(triada))}</b>?
-          ${(() => { const e = estat(UNI[triada] || {}); const f = (UNI[triada] || {}).s;
-            if (!f) return ''; const nou = e.suma + selR.sn;
-            return `<br><small>quedaria amb ${m2(nou)} dels ${m2(f)} m² de la fitxa${
-              Math.abs(f - nou) / f < 0.1 ? ' ✓' : ''}</small>`; })()}</p>
-        <div class="botons">
-          <button type="button" id="assigna" class="ple">Assignar</button>
-          <button type="button" id="cancela">Cancel·lar</button>
-        </div></div>`
-      : (!u || obrintTria) ? `<div class="tria">
-        <input id="qua" type="search" autocomplete="off" placeholder="de quina unitat és?" value="${esc(cercaUA)}">
-        <div class="suggeriments">${suggeriments()}</div></div>` : ''}
+      ${COLS.length ? `<details style="margin-top:9px"><summary style="cursor:pointer;font-size:12.5px;color:var(--ink-3)">totes les dades del full</summary>
+        <dl class="dada" style="margin-top:7px">${COLS.map(c =>
+          `<dt>${esc(c)}</dt><dd>${esc(c === 'id_ua' ? ues(selR).join('; ') : f[c] || '—')}</dd>`).join('')}</dl>
+        </details>` : ''}
+      ${blocUnitats(selR)}
+      ${proposta && proposta.idr === selR.i ? blocProposta() : ''}
+      ${triaObert === 'ua' ? blocTria() : (!proposta ? `<div class="afegir">
+        <button type="button" id="obre-ua">${teUA(selR) ? '+ Assignar-hi una altra unitat' : '+ Assignar-hi una unitat'}</button></div>` : '')}
+      <p style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" class="anar" id="rev">${revisat(selR) ? 'desmarcar «revisat»' : 'marcar com a revisat'}</button>
+        ${tocat(selR.i) ? '<button type="button" class="anar" id="desfes-r">desfer els canvis</button>' : ''}
+      </p>
     </div>`;
   }
 
   if (selU){
-    const e = estat(selU), rs = recDe(selU.i);
+    const e = estat(selU);
     html += `<div class="card">
       <h2>${esc(selU.n)}</h2>
       <p class="sub">${esc(selU.i)}</p>
@@ -517,9 +694,12 @@ function detall(){
         ${selU.s && e.n ? (e.k === 'ok' ? ' · quadra amb la fitxa ✓'
             : `<br>la fitxa en diu ${m2(selU.s)}: ${e.falta > 0 ? 'en falten <b>' + m2(e.falta) + '</b>' : 'en sobren <b>' + m2(-e.falta) + '</b>'}`) : ''}
       </div>
-      ${rs.length ? `<div class="mini">${rs.map(r => `<button type="button" data-r="${esc(r.i)}">
-        <span class="id">${esc(r.i)}</span><span>${esc(r.c)}</span>
-        <span class="m2">${m2(r.sn)} m²</span></button>`).join('')}</div>` : ''}
+      ${blocRecintes(selU)}
+      ${esperant === selU.i ? `<div class="mode">Clica el recinte al plànol.
+        <button type="button" id="deixa-planol">cancel·lar</button></div>` : ''}
+      ${proposta && proposta.idu === selU.i && !selR ? blocProposta() : ''}
+      ${triaObert === 'rec' ? blocTria() : (!proposta && !esperant ? `<div class="afegir">
+        <button type="button" id="obre-rec">${e.n ? '+ Assignar-hi un altre recinte' : '+ Assignar-hi un recinte'}</button></div>` : '')}
     </div>`;
 
     // el plànol de la fitxa: és el que et diu quina forma té la unitat
@@ -541,29 +721,21 @@ function detall(){
   }
 
   if (!selR && !selU) html += `<div class="card"><h2>Tria'n un</h2>
-    <p class="buit">Clica un recinte al plànol, o una fila de la llista. A la pestanya
-    <b>Unitats</b> hi tens totes les unitats amb els seus recintes i el plànol de la fitxa.</p></div>`;
-
-  html += `<div class="card sortida"><h2>Per al full</h2>
-    <p>Enganxa-ho a la columna <code>id_ua</code> de la pestanya recintes.</p>
-    <textarea id="sortida" readonly placeholder="Encara no has assignat res."></textarea>
-    <div class="accions">
-      <button type="button" class="ple" id="copia">Copiar</button>
-      <button type="button" id="desfes">Desfer l'últim</button>
-      ${ordre.length ? '<button type="button" id="buida">Descartar-ho tot</button>' : ''}
-      <span id="compte"></span>
-    </div></div>`;
+    <p class="buit">Clica un recinte al plànol, o una fila de la llista. Un recinte pot ser de
+    diverses unitats i una unitat pot ocupar diversos recintes: pots afegir i treure vincles
+    des de les dues bandes. Quan acabis, <b>Desar</b> escriu <code>data/recintes.csv</code>
+    al repositori.</p></div>`;
 
   el.innerHTML = html;
-  sortida();
-  const q = document.getElementById('qua');
+  barra();
+  const q = document.getElementById('qtria');
   if (q && document.activeElement !== q){ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length, q.value.length); }
 }
 
-let cercaUA = '', obrintTria = false, triada = null;   // triada: escollida però encara no assignada
-function suggeriments(){
-  const c = sensAcc(cercaUA.trim());
-  let l = U.filter(u => !c || sensAcc(u.n).includes(c));
+function suggerimentsUA(){
+  const c = sensAcc(cercaTria.trim());
+  const ja = selR ? new Set(ues(selR)) : new Set();
+  let l = U.filter(u => !ja.has(u.i) && (!c || sensAcc(u.n).includes(c)));
   l.sort((a, b) => sensAcc(a.n).indexOf(c) - sensAcc(b.n).indexOf(c) || a.n.localeCompare(b.n, 'ca'));
   return l.slice(0, 40).map(u => {
     const e = estat(u);
@@ -571,29 +743,162 @@ function suggeriments(){
     if (e.n && u.s) nota += e.k === 'ok' ? ' · ja quadra'
       : (e.falta > 0 ? ` · li falten ${m2(e.falta)} m²` : ` · ja li'n sobren ${m2(-e.falta)}`);
     const quadraria = selR && u.s && e.falta > 0 && Math.abs(e.falta - selR.sn) / u.s < 0.1;
-    return `<button type="button" data-ua="${esc(u.i)}"${quadraria ? ' style="background:var(--accent-soft)"' : ''}
+    return `<button type="button" data-posa-u="${esc(u.i)}"${quadraria ? ' style="background:var(--accent-soft)"' : ''}
       >${esc(u.n)}<small>${esc(nota)}${quadraria ? ' · amb aquest quadraria' : ''}</small></button>`;
   }).join('') || '<p class="buit" style="padding:11px">Cap unitat es diu així.</p>';
 }
 
-function sortida(){
-  const t = document.getElementById('sortida');
-  if (!t) return;
-  t.value = ordre.map(i => `${i},${assignat[i]}`).join('\n');
-  document.getElementById('compte').textContent = ordre.length
-    ? `${ordre.length} ${ordre.length === 1 ? 'assignat' : 'assignats'} · desat en aquest navegador`
-    : '';
-  const falten = R.filter(r => !teUA(r)).length;
-  const mal = U.filter(u => estat(u).k === 'desquadra').length;
-  document.getElementById('estat').innerHTML =
-    `<span class="pastilla ${falten ? 'falta' : ''}">${falten ? falten + ' recintes sense unitat' : 'tots assignats'}</span>`
-    + `<span class="pastilla">${mal} unitats no quadren</span>`
-    + `<span class="pastilla">${R.length} recintes · ${U.length} unitats</span>`;
+function suggerimentsRec(){
+  const c = sensAcc(cercaTria.trim());
+  const ja = selU ? new Set(recDe(selU.i).map(r => r.i)) : new Set();
+  let l = R.filter(r => !ja.has(r.i) && (!c || sensAcc(r.i + ' ' + r.n + ' ' + nomsDe(r)).includes(c)));
+  if (!c) l = l.filter(r => !teUA(r));            // sense cercar, els que encara no tenen unitat
+  l = l.slice(0, 40);
+  return l.map(r => `<button type="button" data-posa-r="${esc(r.i)}">${esc(r.i)}
+    <small>${esc(r.c)} · ${m2(r.sn)} m²${r.n ? ' · hi diu «' + esc(r.n) + '»' : ''}${
+      teUA(r) ? ' · ara és de ' + esc(nomsDe(r)) : ''}</small></button>`).join('')
+    || '<p class="buit" style="padding:11px">Cap recinte.</p>';
 }
 
+function proposa(idr, idu, viaPlanol){
+  proposta = { idr, idu, llevaU: new Set(), llevaR: new Set(), viaPlanol: !!viaPlanol };
+  detall(); pinta();
+}
+
+/* ------------------------------------------------------ desar al repositori
+   El que mana és data/recintes.csv del repositori: aquesta pàgina el llegeix
+   per GitHub, hi escriu les files que has tocat i el torna a pujar. Un sol
+   commit per tanda, i mai es toca cap columna que no sigui id_ua o assignat_per. */
+function parseCSV(text){
+  const files = []; let camp = '', fila = [], dins = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (dins){ if (c === '"'){ if (text[i + 1] === '"'){ camp += '"'; i++; } else dins = false; } else camp += c; }
+    else if (c === '"') dins = true;
+    else if (c === ',') { fila.push(camp); camp = ''; }
+    else if (c === '\n') { fila.push(camp); files.push(fila); fila = []; camp = ''; }
+    else if (c !== '\r') camp += c;
+  }
+  if (camp || fila.length){ fila.push(camp); files.push(fila); }
+  return files;
+}
+function aObjectes(files){
+  if (!files.length) return [];
+  const caps = files[0].map(c => (c || '').trim());   // trim() s'emporta també la marca BOM
+  return files.slice(1)
+    .map(f => Object.fromEntries(caps.map((c, i) => [c, (f[i] ?? '').trim()])))
+    .filter(o => Object.values(o).some(v => v !== ''));
+}
+function aCSV(files, cols){
+  const cel = v => { v = v == null ? '' : String(v);
+    return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  // amb la marca BOM al davant, com l'escriu el guió del plànol: així l'Excel
+  // l'obre amb els accents bons si mai el mires directament
+  return '\ufeff' + [cols.join(','), ...files.map(f => cols.map(c => cel(f[c])).join(','))].join('\n') + '\n';
+}
+function b64(s){
+  const b = new TextEncoder().encode(s);
+  let x = '';
+  for (let i = 0; i < b.length; i += 0x8000) x += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(x);
+}
+function deB64(s){
+  return new TextDecoder().decode(Uint8Array.from(atob(String(s).replace(/\s/g, '')), c => c.charCodeAt(0)));
+}
+function explica(codi){
+  if (codi === 401) return 'el token no val (o ha caducat)';
+  if (codi === 403) return 'al token li falta el permís «Contents: read and write» en aquest repositori';
+  if (codi === 404) return 'no es troba el repositori, la branca o el fitxer';
+  if (codi === 409) return 'algú ha tocat el fitxer mentrestant: torna-ho a provar';
+  if (codi === 422) return 'GitHub ha rebutjat el contingut';
+  return 'GitHub ha contestat ' + codi;
+}
+
+const CLAU_CFG = 'poupe-gh';
+function config(){
+  try { return JSON.parse(localStorage.getItem(CLAU_CFG) || '{}'); } catch (e) { return {}; }
+}
+function guardaConfig(c){ try { localStorage.setItem(CLAU_CFG, JSON.stringify(c)); } catch (e) {} }
+
+function obreConfig(){
+  const c = config();
+  document.getElementById('j-repo').value = c.repo || '';
+  document.getElementById('j-branca').value = c.branca || 'main';
+  document.getElementById('j-token').value = c.token || '';
+  document.getElementById('jo').showModal();
+}
+
+let desant = false, missatge = null;
+function avis(text, mal){
+  missatge = { text, mal };
+  barra();
+  setTimeout(() => { if (missatge && missatge.text === text){ missatge = null; barra(); } }, 8000);
+}
+
+async function desaAlRepo(){
+  const c = config();
+  if (!c.repo || !c.token) return obreConfig();
+  const tocades = canvis();
+  if (!tocades.length || desant) return;
+  desant = true; missatge = null; barra();
+  try {
+    const h = { Authorization: 'Bearer ' + c.token, Accept: 'application/vnd.github+json' };
+    const url = `https://api.github.com/repos/${c.repo}/contents/${FITXER}`;
+    const branca = c.branca || 'main';
+    const g = await fetch(`${url}?ref=${encodeURIComponent(branca)}`, { headers: h, cache: 'no-store' });
+    if (!g.ok) throw new Error(explica(g.status));
+    const j = await g.json();
+    const taula = aObjectes(parseCSV(deB64(j.content)));
+    const cols = Object.keys(taula[0] || {});
+    if (!cols.includes('id_recinte')) throw new Error('el CSV del repositori no té la columna id_recinte');
+    const perId = new Map(taula.map(f => [f.id_recinte, f]));
+    const perduts = [];
+    for (const r of tocades){
+      const f = perId.get(r.i);
+      if (!f){ perduts.push(r.i); continue; }
+      f.id_ua = EST.get(r.i).u.join(';');
+      if (cols.includes('assignat_per')) f.assignat_per = EST.get(r.i).rev ? 'revisat' : 'proposta';
+    }
+    const n = tocades.length - perduts.length;
+    const p = await fetch(url, {
+      method: 'PUT', headers: { ...h, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Recintes: ${n} ${n === 1 ? 'canvi' : 'canvis'} fets a recintes.html`,
+        content: b64(aCSV(taula, cols)), sha: j.sha, branch: branca }),
+    });
+    if (!p.ok) throw new Error(explica(p.status));
+    for (const r of tocades) BASE.set(r.i, { u: EST.get(r.i).u.slice(), rev: EST.get(r.i).rev });
+    desaLocal();
+    avis(`Desat: ${n} ${n === 1 ? 'recinte' : 'recintes'} a ${FITXER}.`
+      + (perduts.length ? ` Atenció: ${perduts.join(', ')} no hi són.` : ''), perduts.length > 0);
+  } catch (e) {
+    avis('No s’ha pogut desar: ' + (e.message || e), true);
+  } finally { desant = false; barra(); detall(); pintaLlista(); }
+}
+
+/* ------------------------------------------------------------ la barra */
+function barra(){
+  const falten = R.filter(r => !teUA(r)).length;
+  const perRevisar = R.filter(r => teUA(r) && !revisat(r)).length;
+  const mal = U.filter(u => estat(u).k === 'desquadra').length;
+  document.getElementById('estat').innerHTML =
+      `<span class="pastilla ${falten ? 'falta' : ''}">${falten ? falten + ' sense unitat' : 'tots assignats'}</span>`
+    + `<span class="pastilla">${perRevisar} per revisar</span>`
+    + `<span class="pastilla">${mal} unitats no quadren</span>`;
+  const n = canvis().length;
+  document.getElementById('desar').innerHTML =
+      (missatge ? `<span class="pendent" style="${missatge.mal ? 'color:var(--falta);background:var(--falta-soft)' : ''}">${esc(missatge.text)}</span>` : '')
+    + (n ? `<span class="pendent">${n} sense desar</span>` : '')
+    + `<button type="button" id="b-desar" class="${n ? 'ple' : ''}"${n && !desant ? '' : ' disabled'}>${
+        desant ? 'Desant…' : n ? 'Desar al repositori' : 'Tot desat'}</button>`
+    + `<button type="button" id="b-config" title="Repositori i token">⚙</button>`;
+}
+
+/* ------------------------------------------------------------ navegació */
+function neteja(){ proposta = null; triaObert = null; cercaTria = ''; esperant = null; }
 function mostraRecinte(r, zoom){
-  if (r !== selR){ obrintTria = false; triada = null; }
-  selR = r; selU = UNI[uaDe(r)] || null; cercaUA = '';
+  if (r !== selR) neteja();
+  selR = r; selU = UNI[ues(r)[0]] || null; fitxaActiva = null;
   if (zoom){
     const m = Math.max((r.bb[2] - r.bb[0]), (r.bb[3] - r.bb[1])) * 0.6 + 40;
     encaixa([r.bb[0] - m, r.bb[1] - m, r.bb[2] + m, r.bb[3] + m], 1);
@@ -601,7 +906,8 @@ function mostraRecinte(r, zoom){
   detall(); pintaLlista(); pinta();
 }
 function mostraUnitat(u, zoom){
-  selU = u; selR = null; fitxaActiva = null; triada = null; obrintTria = false;
+  neteja();
+  selU = u; selR = null; fitxaActiva = null;
   const rs = recDe(u.i);
   if (zoom && rs.length){
     const c = caixaDe(rs);
@@ -610,6 +916,7 @@ function mostraUnitat(u, zoom){
   }
   detall(); pintaLlista(); pinta();
 }
+function refresca(){ detall(); pintaLlista(); pinta(); }
 
 /* ------------------------------------------------------------ events */
 let arros = null, mogut = false;
@@ -630,7 +937,10 @@ lona.addEventListener('pointerup', e => {
   arros = null;
   if (mogut) return;
   const r = quin(e.offsetX, e.offsetY);
-  if (r) mostraRecinte(r, false);
+  if (!r) return;
+  // si una unitat espera recinte, clicar al plànol és la manera ràpida de dir-li quin
+  if (esperant && !recDe(esperant).some(x => x.i === r.i)) return proposa(r.i, esperant, true);
+  mostraRecinte(r, false);
 });
 lona.addEventListener('wheel', e => {
   e.preventDefault();
@@ -651,74 +961,88 @@ document.addEventListener('click', e => {
     pintaFiltres(); pintaLlista(); return;
   }
   const f = t.closest('[data-f]');
-  if (f && f.parentElement.id === 'filtres'){
-    filtre = f.dataset.f; pintaFiltres(); pintaLlista(); return;
-  }
+  if (f && f.parentElement.id === 'filtres'){ filtre = f.dataset.f; pintaFiltres(); pintaLlista(); return; }
   if (f && f.closest('.fitxa')){ fitxaActiva = f.dataset.f; detall(); return; }
 
+  /* treure un vincle, des de qualsevol de les dues bandes */
+  const tu = t.closest('[data-treu-u]');
+  if (tu && selR){ desvincula(selR.i, tu.dataset.treuU); refresca(); return; }
+  const tr = t.closest('[data-treu-r]');
+  if (tr && selU){ desvincula(tr.dataset.treuR, selU.i); refresca(); return; }
+
+  /* proposar-ne un de nou */
+  const pu = t.closest('[data-posa-u]');
+  if (pu && selR){ proposa(selR.i, pu.dataset.posaU); return; }
+  const pr = t.closest('[data-posa-r]');
+  if (pr && selU){ proposa(pr.dataset.posaR, selU.i); return; }
+
   const br = t.closest('[data-r]');
-  if (br){ mostraRecinte(R.find(x => x.i === br.dataset.r), true); return; }
+  if (br){ mostraRecinte(REC[br.dataset.r], true); return; }
   const bu = t.closest('[data-u]');
   if (bu){ mostraUnitat(UNI[bu.dataset.u], true); return; }
-  const ua = t.closest('[data-ua]');
-  if (ua && selR){
-    // només la tria: fins que no pitges «Assignar» no es toca res
-    triada = ua.dataset.ua;
-    selU = UNI[triada] || null;
-    detall(); pinta(); return;
+
+  if (t.id === 'obre-ua'){ triaObert = 'ua'; cercaTria = ''; detall(); return; }
+  if (t.id === 'obre-rec'){ triaObert = 'rec'; cercaTria = ''; detall(); return; }
+  if (t.id === 'tanca-tria'){ triaObert = null; cercaTria = ''; detall(); return; }
+  if (t.id === 'al-planol'){ triaObert = null; esperant = selU && selU.i; detall(); return; }
+  if (t.id === 'deixa-planol'){ esperant = null; detall(); return; }
+
+  if (t.id === 'assigna' && proposta){
+    const { idr, idu, llevaU, llevaR, viaPlanol } = proposta;
+    for (const u of llevaU) desvincula(idr, u);
+    for (const x of llevaR) desvincula(x, idu);
+    vincula(idr, idu);
+    proposta = null; cercaTria = '';
+    // i queda a punt per a la següent, sense arrossegar res de l'anterior
+    if (selR){ selU = UNI[ues(selR)[0]] || null; triaObert = 'ua'; }
+    else if (selU){ if (viaPlanol) esperant = selU.i; else triaObert = 'rec'; }
+    refresca(); return;
   }
-  if (t.id === 'assigna' && selR && triada){
-    assignat[selR.i] = triada;
-    if (!ordre.includes(selR.i)) ordre.push(selR.i);
-    desa();
-    // i es buida tot, a punt per al següent
-    selR = null; selU = null; triada = null; cercaUA = ''; obrintTria = false;
-    detall(); pintaLlista(); pinta(); return;
+  if (t.id === 'cancela'){ proposta = null; detall(); pinta(); return; }
+  if (t.id === 'rev' && selR){ marca(selR.i, !revisat(selR)); refresca(); return; }
+  if (t.id === 'desfes-r' && selR){ desfes(selR.i); refresca(); return; }
+
+  if (t.id === 'b-desar'){ desaAlRepo(); return; }
+  if (t.id === 'b-config'){ obreConfig(); return; }
+  if (t.classList.contains('tanca-jo')){ document.getElementById('jo').close(); return; }
+  if (t.id === 'j-desa'){
+    guardaConfig({
+      repo: document.getElementById('j-repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '').replace(/\/$/, ''),
+      branca: document.getElementById('j-branca').value.trim() || 'main',
+      token: document.getElementById('j-token').value.trim(),
+    });
+    document.getElementById('jo').close();
+    if (canvis().length) desaAlRepo(); else barra();
+    return;
   }
-  if (t.id === 'cancela'){
-    triada = null; cercaUA = ''; selU = UNI[uaDe(selR) || ''] || null;
-    detall(); pinta(); return;
-  }
-  if (t.id === 'canvia'){ obrintTria = true; triada = null; cercaUA = ''; detall(); return; }
-  if (t.id === 'veure-u'){ mostraUnitat(UNI[uaDe(selR)], true); return; }
-  if (t.id === 'treu'){
-    delete assignat[selR.i];
-    const i = ordre.indexOf(selR.i); if (i >= 0) ordre.splice(i, 1);
-    obrintTria = false; desa();
-    mostraRecinte(selR, false); return;
-  }
-  if (t.id === 'buida'){
-    if (!confirm('Segur que vols descartar les ' + ordre.length + ' assignacions d\'aquesta sessió?')) return;
-    for (const i of ordre.slice()) delete assignat[i];
-    ordre.length = 0; obrintTria = false; desa();
-    detall(); pintaLlista(); pinta(); return;
-  }
+
   if (t.id === 'b-fons'){ ambFons = !ambFons; t.setAttribute('aria-pressed', ambFons);
     document.getElementById('credit').style.visibility = ambFons ? '' : 'hidden'; pinta(); }
   if (t.id === 'b-noms'){ ambNoms = !ambNoms; t.setAttribute('aria-pressed', ambNoms); pinta(); }
   if (t.id === 'b-etiq'){ ambEtiq = !ambEtiq; t.setAttribute('aria-pressed', ambEtiq); pinta(); }
   if (t.id === 'b-encaixa'){ encaixa(caixaDe(R)); }
-  if (t.id === 'desfes' && ordre.length){
-    const i = ordre.pop(); delete assignat[i]; desa();
-    detall(); pintaLlista(); pinta();
-  }
-  if (t.id === 'copia'){
-    const s = document.getElementById('sortida');
-    s.select();
-    try { document.execCommand('copy'); } catch (err) {}
-    t.textContent = 'Copiat'; setTimeout(() => { t.textContent = 'Copiar'; }, 1500);
-  }
   if (t.id === 'planol-fitxa'){
     const d = document.getElementById('lupa');
     d.querySelector('img').src = t.src; d.showModal();
   }
   if (t.classList.contains('tanca')) document.getElementById('lupa').close();
 });
+
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (!proposta) return;
+  const mu = t.getAttribute && t.getAttribute('data-mant-u');
+  if (mu != null){ t.checked ? proposta.llevaU.delete(mu) : proposta.llevaU.add(mu); detall(); return; }
+  const mr = t.getAttribute && t.getAttribute('data-mant-r');
+  if (mr != null){ t.checked ? proposta.llevaR.delete(mr) : proposta.llevaR.add(mr); detall(); return; }
+});
+
 document.addEventListener('input', e => {
   if (e.target.id === 'q'){ cerca = e.target.value; pintaLlista(); }
-  if (e.target.id === 'qua'){
-    cercaUA = e.target.value;
-    document.querySelector('.suggeriments').innerHTML = suggeriments();
+  if (e.target.id === 'qtria'){
+    cercaTria = e.target.value;
+    const c = document.querySelector('.suggeriments');
+    if (c) c.innerHTML = triaObert === 'ua' ? suggerimentsUA() : suggerimentsRec();
   }
 });
 document.addEventListener('error', e => {
@@ -728,6 +1052,9 @@ document.addEventListener('error', e => {
       + 'on hi ha la carpeta planols/.</p>';
   }
 }, true);
+window.addEventListener('beforeunload', e => {
+  if (canvis().length){ e.preventDefault(); e.returnValue = ''; }
+});
 window.addEventListener('resize', pinta);
 
 pintaFiltres(); pintaLlista(); detall();

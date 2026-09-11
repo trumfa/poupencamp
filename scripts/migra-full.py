@@ -311,7 +311,7 @@ def main(cami_json, cami_xlsx, cami_recintes, dir_sortida):
     from openpyxl.styles import Font, Alignment, PatternFill
     wb = Workbook()
     wb.remove(wb.active)
-    ORDRE = ['documents', 'fitxes', 'unitats', 'recintes', 'articles', 'apartats',
+    ORDRE = ['documents', 'fitxes', 'unitats', 'articles', 'apartats',
              'claus', 'claus_parametres', 'proteccions', 'regles_calcul', 'cadastre',
              'config', 'textos', 'blocs', 'parametres', 'avisos', 'glossari',
              'capes', 'canvis']

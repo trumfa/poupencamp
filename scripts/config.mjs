@@ -8,7 +8,9 @@ export const FULL = '1wnKBz760A3rK5Afm6JGfZbkPpFtjz5RCU0jziNyyMFo';
 // Les pestanyes que llegeix el build, per famílies.
 export const PESTANYES = {
   // les que surten de l'extracció del BOPA i del plànol: no es toquen a mà
-  bd: ['documents', 'fitxes', 'unitats', 'recintes', 'articles', 'apartats',
+  // «recintes» no hi és: viu a data/recintes.csv, al costat de la geometria, i s'edita
+  // amb public/recintes.html. Cada canvi hi deixa un commit.
+  bd: ['documents', 'fitxes', 'unitats', 'articles', 'apartats',
        'claus', 'claus_parametres', 'proteccions'],
   // les que escrius tu
   contingut: ['config', 'textos', 'blocs', 'parametres', 'avisos', 'glossari', 'capes'],

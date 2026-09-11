@@ -15,18 +15,19 @@ Dues peces, i cadascuna té un sol ofici:
 
 | Peça | Què hi ha | Qui la toca |
 |---|---|---|
-| **El full de càlcul** | 19 pestanyes en tres famílies: la **font** (`documents`, `fitxes`, `unitats`, `recintes`), la **norma** (`articles`, `apartats`, `claus`, `claus_parametres`, `proteccions`…) i el **contingut públic** (`config`, `textos`, `blocs`, `parametres`, `avisos`, `glossari`, `capes`) | Les de contingut, tu. Les altres, l'extracció i el plànol |
-| **Aquest repositori** | La pàgina, el guió que llegeix el full i la geometria del plànol | Només si es canvia el disseny o la lògica |
+| **El full de càlcul** | 15 pestanyes en tres famílies: la **font** (`documents`, `fitxes`, `unitats`), la **norma** (`articles`, `apartats`, `claus`, `claus_parametres`, `proteccions`) i el **contingut públic** (`config`, `textos`, `blocs`, `parametres`, `avisos`, `glossari`, `capes`) | Les de contingut, tu. Les altres, l'extracció |
+| **Aquest repositori** | La pàgina, el guió que llegeix el full, la geometria del plànol i **`data/recintes.csv`** —quin tros del plànol és de quina unitat— | El disseny i la lògica, només si canvien. Els recintes, des de `recintes.html` |
 
 ```
 scripts/build-data.mjs      llegeix el full -> public/data.json, index.html i esquema.html
 scripts/config.mjs          identificador del full i pestanyes que llegeix
 scripts/planol-nou.py       un plànol nou (GeoJSON o DWG) -> recintes.csv + geometria
-scripts/migra-full.py       del full vell de 27 pestanyes al nou de 19
+scripts/migra-full.py       del full vell de 27 pestanyes al nou de 15
 scripts/mira-pestanya.mjs   ensenya com el build veu una pestanya, per quan es queixa
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
 data/geometria.json         el dibuix, una entrada per recinte
 data/recintes.geojson       el mateix en format obert, per a qui el vulgui obrir
+data/recintes.csv           de quina unitat és cada recinte; l'escriu recintes.html
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
 src/esquema.html            «Qui regula què»: quin nivell del pla decideix cada paràmetre
 src/recintes.html           eina interna per assignar els recintes del plànol a les unitats
@@ -40,9 +41,9 @@ public/                     el que es publica
 2. **Res no s'esborra mai.** Una modificació del pla no és una edició: és una fitxa nova, i la
    vella es queda amb `vigent = NO` i la data en què ho va deixar de ser. Igual amb les unitats
    (`estat`) i els recintes.
-3. **El full decideix, el codi no endevina.** Quin recinte del plànol és de quina unitat és una
-   fila de `recintes`, no una heurística del build. Els àlies del DWG —«E.S. Esso» cap a ESSO—
-   són una columna de `unitats`.
+3. **La taula decideix, el codi no endevina.** Quin recinte del plànol és de quina unitat és una
+   fila de `data/recintes.csv`, no una heurística del build. Els àlies del DWG —«E.S. Esso» cap
+   a ESSO— són una columna de `unitats`.
 
 ### El build no publica un full incoherent
 
@@ -168,8 +169,13 @@ surten els noms. Amb ratolí, passar per sobre d'una unitat n'ensenya el nom i c
 fitxa; sense ratolí, el primer toc ensenya el nom i el segon obre la fitxa.
 
 **El dibuix i l'assignació van per separat.** `data/geometria.json` porta els perímetres, un per
-recinte i sense dir de qui són. Qui diu de quina unitat és cada recinte és la pestanya `recintes`
-del full. Així, corregir una assignació és tocar una cel·la i tornar a desplegar.
+recinte i sense dir de qui són. Qui diu de quina unitat és cada recinte és **`data/recintes.csv`**,
+que viu al repositori al costat de la geometria i no al full: són dades del plànol, canvien quan
+canvia el plànol, i així cada assignació queda amb el seu commit i es pot veure qui la va fer i
+quan. Qui l'escriu és `recintes.html`, no s'ha d'editar a mà.
+
+La columna `id_ua` és una **llista separada per `;`**: un recinte pot ser de més d'una unitat, i
+una unitat pot ocupar més d'un recinte. El vincle va als dos sentits.
 
 ### Quan arriba un plànol nou
 
@@ -187,7 +193,7 @@ Actions. També es pot fer a mà:
 
 ```bash
 pip install pyproj
-python scripts/planol-nou.py planol.geojson data/ recintes.csv unitats.csv
+python scripts/planol-nou.py planol.geojson sortida/ data/recintes.csv unitats.csv
 ```
 
 Cada recinte surt marcat a la columna `canvi`:
@@ -198,35 +204,64 @@ Cada recinte surt marcat a la columna `canvi`:
 - **CANVIAT** — hi era però ara té una altra forma. Val la pena mirar si segueix sent de qui era.
 - **DESAPAREGUT** — ja no és al plànol. Queda `retirat`, no s'esborra.
 
+Del que en surt, els tres fitxers —`recintes.csv`, `geometria.json` i `recintes.geojson`— van a
+`data/`. Les assignacions que ja hi havia es conserven totes: el guió mai no toca l'`id_ua` d'una
+fila que ja en té.
+
 ### La taula de treball: `public/recintes.html`
 
 `R0184` no diu res mirant-lo, i per això el build genera **`public/recintes.html`**, que és una
 eina de manteniment i no forma part de la web pública (va amb `noindex` i cap enllaç no hi porta).
 
-Té tres columnes. A l'esquerra, **dues llistes**: la de *recintes* —sense unitat, assignats o
-tots— i la d'*unitats* —les que no quadren, les que no tenen cap recinte, o totes—, amb cercador.
-Al mig, **el plànol** amb l'ortofoto: taronja el que no té unitat, verd el que sí, i destacat el
-que tens triat. A la dreta, **la fitxa**: classificació, superfície, claus, els recintes que té
-amb el compte de si sumen, i **el plànol de la fitxa**, que és el que de debò et diu quina forma
-té la unitat. Si en té dues, hi ha un botó per volum.
+Té tres columnes. A l'esquerra, **dues llistes**: la de *recintes* —sense unitat, per revisar,
+revisats o tots— i la d'*unitats* —les que no quadren, les que no tenen cap recinte, o totes—,
+amb cercador. Al mig, **el plànol** amb l'ortofoto: taronja el que no té unitat, verd el que sí,
+i destacat el que tens triat. A la dreta, **la fitxa**: totes les dades del recinte tal com són
+al CSV, els seus vincles, i quan hi ha unitat oberta la seva classificació, superfície, claus,
+els recintes que té amb el compte de si sumen, i **el plànol de la fitxa**, que és el que de debò
+et diu quina forma té la unitat. Si en té dues, hi ha un botó per volum.
 
 Tot està lligat: cliques una unitat i el plànol hi va i te la pinta sencera; cliques un dels seus
-recintes i t'hi acostes; cliques un recinte del plànol i te'n surt la unitat. Al capdavall de la
-columna dreta s'hi van acumulant les files `id_recinte,id_ua` per copiar al full.
+recintes i t'hi acostes; cliques un recinte del plànol i te'n surt la unitat.
 
-**Res no s'assigna fins que ho confirmes.** Clicar una unitat de la llista només la tria: surt un
-quadre que diu què passaria —«R0029 a Cabeca? quedaria amb 175.111 dels 174.827 m² de la fitxa ✓»—
-i fins que no pitges *Assignar* no es toca res. En pitjar-lo, el plafó es buida del tot i queda a
-punt per al recinte següent.
+**El vincle va als dos sentits.** Des d'un recinte pots afegir-hi unitats i treure-n'hi; des d'una
+unitat pots afegir-hi recintes —buscant-los, o clicant-los directament al plànol— i treure-n'hi.
+Cada vincle de la llista porta la seva creu per desfer-lo.
 
-**El que assignes es desa al navegador** (`localStorage`), o sigui que tancar la pestanya per
-error no s'emporta la feina. Això no substitueix el full: el que mana és el full, i el desat
-només serveix per no haver de tornar a començar. En tornar a obrir la pàgina després d'un
-desplegament, les assignacions que ja siguin al full desapareixen soles del desat.
+**Res no s'assigna fins que ho confirmes.** Triar una unitat només la proposa: surt un quadre que
+diu què passaria —«R0029 a Cabeca? la unitat quedaria amb 175.111 dels 174.827 m² de la fitxa ✓»—
+i fins que no pitges *Assignar* no es toca res. Si el recinte ja és d'alguna unitat, o la unitat
+ja té recintes, el quadre els llista **amb una casella cadascun**: desmarca només els que vulguis
+treure i deixa marcats els que es queden. Així afegir un segon recinte a una unitat i moure'l
+d'una unitat a una altra són la mateixa operació, i la diferència és una casella.
 
-**Una unitat pot tenir més d'un recinte**, i no és cap raresa: n'hi ha 24, i Molina en té sis. La
-relació és de molts recintes a una unitat, i al full això són senzillament unes quantes files amb
-el mateix `id_ua`. Per això la pàgina no diu si una unitat «ja té recinte» —que no vol dir res—
+En pitjar *Assignar* el vincle es fa i la caixa de cerca es queda oberta i buida, dient «assignar-hi
+una altra unitat»: no arrossega res de l'anterior i queda a punt per al següent.
+
+**Revisat.** Les assignacions que va proposar el guió del plànol pel nom escrit a dins surten com
+a `proposta`; les que confirmes tu passen a `revisat`. El filtre *Per revisar* és, literalment, la
+llista del que et queda per mirar. La columna del CSV és `assignat_per`, i el guió del plànol nou
+no torna a tocar mai una fila revisada.
+
+**Desar.** A dalt a la dreta hi ha el compte de canvis pendents i el botó **Desar al repositori**.
+Escriu `data/recintes.csv` a GitHub amb l'API de continguts: llegeix el fitxer que hi ha ara,
+hi canvia només les files que has tocat —i només les columnes `id_ua` i `assignat_per`— i el torna
+a pujar en **un sol commit per tanda**. No cal desar després de cada assignació: fes-ne les que
+vulguis i desa un cop.
+
+El primer cop et demanarà el **repositori**, la **branca** i un **token**. Fes-te'n un de
+*fine-grained* a GitHub (Settings → Developer settings → Personal access tokens → Fine-grained),
+limitat **només a aquest repositori**, amb el permís **Contents: read and write**. Queda desat al
+teu navegador i no surt d'aquí: la pàgina parla directament amb GitHub. Si el token caduca o el
+canvies, la rodeta del costat del botó el torna a demanar.
+
+**El que assignes es desa al navegador** (`localStorage`) mentre no ho hagis desat al repositori,
+o sigui que tancar la pestanya per error no s'emporta la feina. Quan el commit ha anat bé, això
+passa a ser el nou punt de partida i el compte de pendents torna a zero.
+
+**Una unitat pot tenir més d'un recinte**, i no és cap raresa: n'hi ha 24, i Molina en té sis. I
+un recinte pot ser de més d'una unitat, quan el cadastre dibuixa d'una peça el que el pla separa:
+per això `id_ua` és una llista amb `;`. Per això la pàgina no diu si una unitat «ja té recinte» —que no vol dir res—
 sinó **si els que té sumen la superfície que diu la fitxa**: «6 recintes · li falten 7.381 m²».
 Quan el recinte que tens obert és justament el que faria quadrar una unitat, la seva fila surt
 marcada.
@@ -365,9 +400,9 @@ canvia alguna, es corregeix a `FILES`.
 
 | Cas | Què toques |
 |---|---|
-| **Unitat nova** | Fila a `unitats` · fila a `documents` · fila a `fitxes` (vigent = SÍ) · el plànol al Drive i el seu id a la fitxa · el recinte a `recintes` quan arribi el plànol · una línia a `canvis` |
+| **Unitat nova** | Fila a `unitats` · fila a `documents` · fila a `fitxes` (vigent = SÍ) · el plànol al Drive i el seu id a la fitxa · el recinte, a `recintes.html`, quan arribi el plànol · una línia a `canvis` |
 | **Modificació (M05…)** | La fitxa d'ara: `vigent = NO` i `vigent_fins_a` · fila nova a `fitxes` · document i plànol nous |
-| **Unitat derogada** | A `unitats`, `estat = derogada` · totes les seves fitxes a `vigent = NO` · el recinte a `retirat` |
+| **Unitat derogada** | A `unitats`, `estat = derogada` · totes les seves fitxes a `vigent = NO` · treure-li els recintes a `recintes.html` |
 | **Canvi de clau o d'article** | La fila nova a `claus` o `claus_parametres`; els textos planers tornen a `revisat = NO` |
 | **Capa nova al plànol** | El GeoJSON a `data/` i una fila a `capes` |
 
@@ -384,7 +419,7 @@ pip install openpyxl
 python scripts/migra-full.py poupe_full.json contingut.xlsx data/recintes.csv nou/
 ```
 
-En surten els 19 CSV i un `POUPE_full_nou.xlsx` per importar a Google Sheets. El que fa, pestanya
+En surten els CSV i un `POUPE_full_nou.xlsx` per importar a Google Sheets. El que fa, pestanya
 per pestanya, és al capdamunt del guió.
 
 Comprovat: generant el `data.json` amb el full vell i amb el nou, les 403 unitats surten idèntiques
