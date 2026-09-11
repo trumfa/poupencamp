@@ -45,12 +45,37 @@ async function pestanya(id, nom) {
     const { readFile } = await import('node:fs/promises');
     return aObjectes(parseCSV(await readFile(`${LOCAL}/${nom}.csv`, 'utf8')));
   }
-  const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nom)}`;
+  // headers=1 és imprescindible: sense això Google endevina quantes files són
+  // capçalera, i quan una columna és del tot buida s'equivoca i desplaça els noms.
+  const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(nom)}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`No s'ha pogut llegir «${nom}» (${r.status}). El full està compartit amb enllaç?`);
   const t = await r.text();
   if (t.startsWith('<')) throw new Error(`«${nom}» ha tornat HTML: el full no és públic o la pestanya no existeix.`);
   return aObjectes(parseCSV(t));
+}
+
+// Cada pestanya ha de portar la seva columna clau. Si no hi és, el full s'ha llegit
+// malament i val més dir-ho aquí que no pas deixar que surtin cinc-cents errors
+// dient que totes les fitxes apunten a unitats que no existeixen.
+const CLAU = {
+  documents: 'id_document', fitxes: 'id_fitxa', unitats: 'id_ua', recintes: 'id_recinte',
+  articles: 'article', apartats: 'id_apartat', claus: 'clau', claus_parametres: 'id_valor',
+  proteccions: 'nom', config: 'clau', textos: 'id_text', blocs: 'id_bloc',
+  parametres: 'parametre_bd', avisos: 'id_avis', glossari: 'terme', capes: 'id_capa',
+};
+
+function comprovaCapçaleres(F) {
+  for (const [nom, files] of Object.entries(F)) {
+    const clau = CLAU[nom];
+    if (!clau || !files.length) continue;
+    const cols = Object.keys(files[0]);
+    if (!cols.includes(clau))
+      throw new Error(`La pestanya «${nom}» no té la columna «${clau}».\n`
+        + `  Columnes llegides: ${cols.join(', ')}\n`
+        + `  Sol voler dir que la primera fila del full no és la de les capçaleres, `
+        + `o que la pestanya s'ha reanomenat.`);
+  }
 }
 
 async function llegeixFull(id, noms) {
@@ -129,6 +154,8 @@ console.log('Llegint les pestanyes de la base de dades…');
 const F = await llegeixFull(FULL, PESTANYES.bd);
 console.log('Llegint les pestanyes de contingut…');
 const C = await llegeixFull(FULL, PESTANYES.contingut);
+comprovaCapçaleres(F);
+comprovaCapçaleres(C);
 
 const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
 const T = Object.fromEntries(C.textos.map(r => [r.id_text, r.text_ca]));
@@ -200,8 +227,18 @@ for (const v of F.claus_parametres)
     problemes.push(`claus_parametres cita la clau ${v.clau}, que no és a la pestanya claus`);
 if (problemes.length) {
   console.error('\nEl full no és coherent i no es pot publicar:');
-  for (const p of [...new Set(problemes)].slice(0, 30)) console.error('  · ' + p);
-  if (problemes.length > 30) console.error(`  · …i ${problemes.length - 30} més`);
+  // si falla gairebé tot, el problema no és fila per fila: és la pestanya sencera
+  const orfes = problemes.filter(p => p.includes('que no existeix')).length;
+  if (orfes > F.fitxes.length / 2) {
+    console.error(`  · ${orfes} fitxes apunten a unitats que no existeixen: pràcticament totes.`);
+    console.error(`    La pestanya «unitats» s'ha llegit amb ${F.unitats.length} files i les columnes`);
+    console.error(`    ${Object.keys(F.unitats[0] || {}).join(', ') || '(cap)'}.`);
+    console.error('    Comprova que la primera fila del full és la de les capçaleres i que no hi ha');
+    console.error('    cap fila ni columna afegida a sobre o a l\'esquerra.');
+  } else {
+    for (const p of [...new Set(problemes)].slice(0, 30)) console.error('  · ' + p);
+    if (problemes.length > 30) console.error(`  · …i ${problemes.length - 30} més`);
+  }
   process.exit(1);
 }
 console.log('\nEl full és coherent.');

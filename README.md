@@ -23,6 +23,7 @@ scripts/build-data.mjs      llegeix el full -> public/data.json, index.html i es
 scripts/config.mjs          identificador del full i pestanyes que llegeix
 scripts/planol-nou.py       un plànol nou (GeoJSON o DWG) -> recintes.csv + geometria
 scripts/migra-full.py       del full vell de 27 pestanyes al nou de 19
+scripts/mira-pestanya.mjs   ensenya com el build veu una pestanya, per quan es queixa
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
 data/geometria.json         el dibuix, una entrada per recinte
 data/recintes.geojson       el mateix en format obert, per a qui el vulgui obrir
@@ -48,6 +49,24 @@ Abans de generar res, `build-data.mjs` comprova que no hi hagi cap fitxa que apu
 inexistent, cap unitat amb dues fitxes vigents del mateix volum, cap recinte assignat a una unitat
 que no hi és i cap clau citada que no existeixi. Si en troba, escriu què passa i s'atura amb error:
 val més un desplegament que falla que una web que menteix.
+
+## Si el build es queixa
+
+Els errors de coherència diuen què passa i a quina fila. N'hi ha un que val la pena conèixer
+perquè no és el que sembla: si diu que **totes** les fitxes apunten a unitats que no existeixen,
+el problema no és cap fitxa, és que la pestanya `unitats` no s'ha llegit bé.
+
+Google serveix els CSV endevinant quines files són capçalera, i quan una columna és del tot buida
+—a `unitats` n'hi ha tres— s'equivoca i desplaça els noms de columna. Per això el build demana
+`headers=1`, que li treu l'endevinalla. Si tot i així falla, es pot mirar què arriba:
+
+```bash
+node scripts/mira-pestanya.mjs unitats
+```
+
+Ha de sortir `id_ua` com a primera capçalera. Si en surten d'altres, o «A, B, C», vol dir que la
+primera fila del full no és la de les capçaleres: comprova que no hi hagi cap fila o columna
+afegida a sobre o a l'esquerra.
 
 ## Requisit previ: compartir el full
 
