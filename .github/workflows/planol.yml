@@ -1,0 +1,62 @@
+name: Plànol nou
+
+# Es dispara quan deixes un plànol nou a data/. No toca res del que hi ha publicat:
+# només el compara amb els recintes del full i et deixa el resultat per descarregar.
+#
+#   1. A GitHub, obre la carpeta data/ i arrossega-hi el plànol (GeoJSON o el JSON
+#      del DWG). Anomena'l data/planol-nou.geojson o data/planol-nou.json.
+#   2. Espera un minut i entra a la pestanya Actions.
+#   3. Descarrega «recintes» i enganxa al full les files que no diguin IGUAL.
+#   4. Quan el full estigui al dia, mou geometria.json i recintes.geojson a data/
+#      i esborra el plànol nou.
+
+on:
+  push:
+    paths:
+      - 'data/planol-nou.geojson'
+      - 'data/planol-nou.json'
+  workflow_dispatch:
+
+jobs:
+  compara:
+    name: Comparar amb els recintes del full
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install pyproj
+
+      - name: Baixar les pestanyes del full que calen
+        env:
+          FULL: ${{ vars.POUPE_FULL }}
+        run: |
+          id="${FULL:-$(grep -oP "FULL = '\K[^']+" scripts/config.mjs)}"
+          for p in recintes unitats; do
+            curl -sfL "https://docs.google.com/spreadsheets/d/$id/gviz/tq?tqx=out:csv&sheet=$p" -o "full-$p.csv" \
+              || echo "no s'ha pogut llegir $p; es continua sense"
+          done
+
+      - name: Comparar
+        run: |
+          f=$(ls data/planol-nou.geojson data/planol-nou.json 2>/dev/null | head -1)
+          if [ -z "$f" ]; then echo "::error::No hi ha cap data/planol-nou.*"; exit 1; fi
+          python scripts/planol-nou.py "$f" sortida/ full-recintes.csv full-unitats.csv | tee resum.txt
+
+      - name: Avisar si hi ha res per revisar
+        run: |
+          n=$(grep -c -E ',(NOU|CANVIAT|DESAPAREGUT)$' sortida/recintes.csv || true)
+          echo "### Plànol nou" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat resum.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          if [ "$n" -gt 0 ]; then
+            echo "**$n recintes per revisar.** Descarrega «recintes» aquí sota i enganxa al full les files que no diguin IGUAL." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Cap canvi: el plànol dibuixa els mateixos recintes que ja hi ha al full." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recintes
+          path: sortida/
