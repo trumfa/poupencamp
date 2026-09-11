@@ -214,6 +214,11 @@ Tot està lligat: cliques una unitat i el plànol hi va i te la pinta sencera; c
 recintes i t'hi acostes; cliques un recinte del plànol i te'n surt la unitat. Al capdavall de la
 columna dreta s'hi van acumulant les files `id_recinte,id_ua` per copiar al full.
 
+**Res no s'assigna fins que ho confirmes.** Clicar una unitat de la llista només la tria: surt un
+quadre que diu què passaria —«R0029 a Cabeca? quedaria amb 175.111 dels 174.827 m² de la fitxa ✓»—
+i fins que no pitges *Assignar* no es toca res. En pitjar-lo, el plafó es buida del tot i queda a
+punt per al recinte següent.
+
 **El que assignes es desa al navegador** (`localStorage`), o sigui que tancar la pestanya per
 error no s'emporta la feina. Això no substitueix el full: el que mana és el full, i el desat
 només serveix per no haver de tornar a començar. En tornar a obrir la pàgina després d'un
@@ -241,6 +246,30 @@ Mercator (`EPSG:3857`), que és el dels mosaics de fons.
 
 **Una cosa que diu el guió cada vegada:** al DWG d'avui hi ha **nou recintes dibuixats dues
 vegades**, un damunt de l'altre. No fan mal, però val la pena dir-ho a qui manté el dibuix.
+
+### Els noms del plànol
+
+Una unitat té **un nom i prou**. Si dins d'un recinte hi cauen quaranta noms no vol dir que en
+tingui quaranta: vol dir que aquell dibuix se'ls empassa. Per això les etiquetes es reparteixen de
+manera **exclusiva**: cada nom va a un sol recinte i cada recinte porta un sol nom. Guanya qui el
+té a dins i és més petit, i després qui el té més a prop.
+
+Abans d'això cal reconèixer quines etiquetes són noms d'unitat: els noms llargs es dibuixen en
+dues o tres línies i cada línia és un text a part —«Torrents de l'Obac» + «2»—, i a la capa hi ha
+text que no és cap unitat, sobretot noms de riu. De 616 textos en surten 568 etiquetes bones.
+
+El resultat és que **429 dels 439 recintes porten el nom de la seva unitat**, i això fa la feina
+d'assignar gairebé automàtica: amb els noms repartits bé, dels 32 recintes sense unitat en queden
+dos.
+
+A la taula de treball es poden veure **les etiquetes tal com són al DWG**, amb el botó *Etiquetes
+del DWG*: un punt allà on el delineant va escriure el nom. És el senyal més directe que hi ha, i
+ensenya de seguida quan una etiqueta ha caigut damunt del recinte del veí.
+
+**Recintes dibuixats dues vegades.** Al DWG n'hi ha nou, un damunt de l'altre. Si es fessin servir
+tots dos, la unitat comptaria la seva superfície el doble i semblaria que no quadra —passava a
+Moixa, Pastoressos Alts, Prat del Salt i Pardines 2. El guió els marca amb `estat = duplicat`: no
+s'esborren, però ni es dibuixen ni compten.
 
 ### Més capes
 

@@ -410,7 +410,8 @@ try {
   const ua = {};
   let orfes = 0;
   for (const r of F.recintes) {
-    if (r.estat === 'retirat' || !r.id_ua) { if (!r.id_ua) orfes++; continue; }
+    if (r.estat === 'retirat' || r.estat === 'duplicat') continue;
+    if (!r.id_ua) { orfes++; continue; }
     const anell = geo.r[r.id_recinte];
     if (!anell || !publicades.has(r.id_ua)) continue;
     (ua[r.id_ua] ||= []).push(anell);
@@ -491,7 +492,8 @@ try {
   const nom = Object.fromEntries(F.unitats.map(u => [u.id_ua, u.nom_public || u.nom_oficial]));
   const dadesRec = {
     o: geo.o,
-    r: F.recintes.filter(r => geo.r[r.id_recinte] && r.estat !== 'retirat').map(r => ({
+    r: F.recintes.filter(r => geo.r[r.id_recinte]
+                          && r.estat !== 'retirat' && r.estat !== 'duplicat').map(r => ({
       i: r.id_recinte, g: geo.r[r.id_recinte], u: r.id_ua,
       c: (r.capa_dwg || '').replace('01 ', '').replace('UA ', '').trim(),
       s: r.superficie_dwg, n: r.nom_dwg, a: r.assignat_per })),
@@ -512,6 +514,10 @@ try {
       };
     }),
   };
+  // les etiquetes del plànol: el nom, allà on el delineant el va escriure
+  try {
+    dadesRec.e = JSON.parse(await readFile(ARREL + 'data/etiquetes.json', 'utf8'));
+  } catch { dadesRec.e = {}; }
   const brutRec = await readFile(ARREL + 'src/recintes.html', 'utf8');
   await writeFile(ARREL + 'public/recintes.html',
     embolcalla(brutRec.replace('__RECINTES__',

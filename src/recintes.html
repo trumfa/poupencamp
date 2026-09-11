@@ -109,6 +109,15 @@ canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
 .suma b{font-weight:600}
 .sensesuma{margin:10px 0 0;padding:8px 11px;border-radius:5px;font-size:13px;
   background:var(--falta-soft);color:var(--falta)}
+.confirma{margin-top:11px;border:1.5px solid var(--accent);background:var(--accent-soft);
+  border-radius:6px;padding:11px 13px}
+.confirma p{margin:0 0 10px;font-size:14px;color:var(--accent)}
+.confirma p b{font-weight:600}
+.confirma small{font-family:var(--f-mono);font-size:11.5px;opacity:.85}
+.confirma .botons{display:flex;gap:7px}
+.confirma button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
+  padding:6px 15px;font-size:13.5px;cursor:pointer}
+.confirma button.ple{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:600}
 .mini{margin-top:9px;display:grid;gap:4px}
 .mini button{display:flex;gap:9px;align-items:baseline;border:1px solid var(--line-2);
   background:var(--paper);border-radius:5px;padding:5px 9px;font-size:12.5px;cursor:pointer;text-align:left}
@@ -183,12 +192,14 @@ dialog .tanca{position:absolute;top:8px;right:10px;border:0;background:rgba(0,0,
     <div class="eines">
       <button type="button" id="b-fons" aria-pressed="true">Ortofoto</button>
       <button type="button" id="b-noms" aria-pressed="true">Noms</button>
+      <button type="button" id="b-etiq" aria-pressed="true">Etiquetes del DWG</button>
       <button type="button" id="b-encaixa">Tot</button>
     </div>
     <canvas id="lona"></canvas>
     <div class="llegenda">
       <span><i style="background:var(--falta)"></i>sense unitat</span>
       <span><i style="background:var(--fet)"></i>assignat</span>
+      <span style="font-family:var(--f-display);font-style:italic">Nom = etiqueta del DWG</span>
     </div>
     <span class="credit" id="credit">Esri, Maxar, Earthstar Geographics</span>
   </div>
@@ -226,6 +237,12 @@ const R = D.r.map(r => {
   for (const [x, y] of p){ if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
   return { ...r, sn: numRec(r.s), p, bb: [x0, y0, x1, y1], cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
 });
+// Les etiquetes del DWG: el nom d'una unitat amb el lloc on està escrit. Serveixen per
+// veure què deia el delineant, que és el senyal més directe que hi ha.
+const ETI = [];
+for (const [idu, punts] of Object.entries(D.e || {}))
+  for (const [x, y] of punts) ETI.push({ u: idu, x, y });
+
 const U = D.u.slice().sort((a, b) => a.n.localeCompare(b.n, 'ca'));
 const UNI = Object.fromEntries(U.map(u => [u.i, u]));
 const NOM = u => (UNI[u] || {}).n || u;
@@ -259,7 +276,7 @@ function estat(u){
 const lona = document.getElementById('lona');
 const ctx = lona.getContext('2d');
 let vista = { x: 0, y: 0, e: 1 }, selR = null, selU = null, sobre = null;
-let ambFons = true, ambNoms = true;
+let ambFons = true, ambNoms = true, ambEtiq = true;
 
 const aPx = (x, y) => [x * vista.e + vista.x, -y * vista.e + vista.y];
 const aMerc = (px, py) => [(px - vista.x) / vista.e, (vista.y - py) / vista.e];
@@ -335,6 +352,24 @@ function pinta(){
     ctx.strokeStyle = destacat ? c : c + (pendent ? 'CC' : '77');
     ctx.lineWidth = destacat ? 3 : (pendent ? 1.6 : 1);
     ctx.stroke();
+  }
+
+  // les etiquetes del plànol original
+  if (ambEtiq && vista.e > 0.002){
+    ctx.font = 'italic 11px ' + (est.getPropertyValue('--f-display').trim() || 'serif');
+    ctx.textAlign = 'left';
+    for (const e of ETI){
+      const [px, py] = aPx(e.x, e.y);
+      if (px < -80 || py < -20 || px > w + 80 || py > h + 20) continue;
+      const seva = recDe(e.u).length;
+      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, 6.284);
+      ctx.fillStyle = seva ? cFet : cFalta; ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = ambFons ? 'rgba(0,0,0,.7)' : (est.getPropertyValue('--paper').trim() || '#fff');
+      ctx.strokeText(NOM(e.u), px + 5, py + 3.5);
+      ctx.fillStyle = ambFons ? '#fff' : (est.getPropertyValue('--ink-2').trim() || '#444');
+      ctx.fillText(NOM(e.u), px + 5, py + 3.5);
+    }
   }
 
   if (ambNoms && vista.e > 0.004){
@@ -449,7 +484,17 @@ function detall(){
         <button type="button" id="canvia">canviar</button>${
         assignat[selR.i] ? ' · <button type="button" id="treu">desfer</button>' : ''}</div>`
       : '<p class="sensesuma">Aquest recinte encara no té unitat.</p>'}
-      ${(!u || obrintTria) ? `<div class="tria">
+      ${triada ? `<div class="confirma">
+        <p>Assignar <b>${esc(selR.i)}</b> a <b>${esc(NOM(triada))}</b>?
+          ${(() => { const e = estat(UNI[triada] || {}); const f = (UNI[triada] || {}).s;
+            if (!f) return ''; const nou = e.suma + selR.sn;
+            return `<br><small>quedaria amb ${m2(nou)} dels ${m2(f)} m² de la fitxa${
+              Math.abs(f - nou) / f < 0.1 ? ' ✓' : ''}</small>`; })()}</p>
+        <div class="botons">
+          <button type="button" id="assigna" class="ple">Assignar</button>
+          <button type="button" id="cancela">Cancel·lar</button>
+        </div></div>`
+      : (!u || obrintTria) ? `<div class="tria">
         <input id="qua" type="search" autocomplete="off" placeholder="de quina unitat és?" value="${esc(cercaUA)}">
         <div class="suggeriments">${suggeriments()}</div></div>` : ''}
     </div>`;
@@ -515,7 +560,7 @@ function detall(){
   if (q && document.activeElement !== q){ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length, q.value.length); }
 }
 
-let cercaUA = '', obrintTria = false;
+let cercaUA = '', obrintTria = false, triada = null;   // triada: escollida però encara no assignada
 function suggeriments(){
   const c = sensAcc(cercaUA.trim());
   let l = U.filter(u => !c || sensAcc(u.n).includes(c));
@@ -547,7 +592,7 @@ function sortida(){
 }
 
 function mostraRecinte(r, zoom){
-  if (r !== selR) obrintTria = false;
+  if (r !== selR){ obrintTria = false; triada = null; }
   selR = r; selU = UNI[uaDe(r)] || null; cercaUA = '';
   if (zoom){
     const m = Math.max((r.bb[2] - r.bb[0]), (r.bb[3] - r.bb[1])) * 0.6 + 40;
@@ -556,7 +601,7 @@ function mostraRecinte(r, zoom){
   detall(); pintaLlista(); pinta();
 }
 function mostraUnitat(u, zoom){
-  selU = u; selR = null; fitxaActiva = null;
+  selU = u; selR = null; fitxaActiva = null; triada = null; obrintTria = false;
   const rs = recDe(u.i);
   if (zoom && rs.length){
     const c = caixaDe(rs);
@@ -617,12 +662,24 @@ document.addEventListener('click', e => {
   if (bu){ mostraUnitat(UNI[bu.dataset.u], true); return; }
   const ua = t.closest('[data-ua]');
   if (ua && selR){
-    assignat[selR.i] = ua.dataset.ua;
-    if (!ordre.includes(selR.i)) ordre.push(selR.i);
-    obrintTria = false; desa();
-    mostraRecinte(selR, false); return;
+    // només la tria: fins que no pitges «Assignar» no es toca res
+    triada = ua.dataset.ua;
+    selU = UNI[triada] || null;
+    detall(); pinta(); return;
   }
-  if (t.id === 'canvia'){ obrintTria = true; cercaUA = ''; detall(); return; }
+  if (t.id === 'assigna' && selR && triada){
+    assignat[selR.i] = triada;
+    if (!ordre.includes(selR.i)) ordre.push(selR.i);
+    desa();
+    // i es buida tot, a punt per al següent
+    selR = null; selU = null; triada = null; cercaUA = ''; obrintTria = false;
+    detall(); pintaLlista(); pinta(); return;
+  }
+  if (t.id === 'cancela'){
+    triada = null; cercaUA = ''; selU = UNI[uaDe(selR) || ''] || null;
+    detall(); pinta(); return;
+  }
+  if (t.id === 'canvia'){ obrintTria = true; triada = null; cercaUA = ''; detall(); return; }
   if (t.id === 'veure-u'){ mostraUnitat(UNI[uaDe(selR)], true); return; }
   if (t.id === 'treu'){
     delete assignat[selR.i];
@@ -639,6 +696,7 @@ document.addEventListener('click', e => {
   if (t.id === 'b-fons'){ ambFons = !ambFons; t.setAttribute('aria-pressed', ambFons);
     document.getElementById('credit').style.visibility = ambFons ? '' : 'hidden'; pinta(); }
   if (t.id === 'b-noms'){ ambNoms = !ambNoms; t.setAttribute('aria-pressed', ambNoms); pinta(); }
+  if (t.id === 'b-etiq'){ ambEtiq = !ambEtiq; t.setAttribute('aria-pressed', ambEtiq); pinta(); }
   if (t.id === 'b-encaixa'){ encaixa(caixaDe(R)); }
   if (t.id === 'desfes' && ordre.length){
     const i = ordre.pop(); delete assignat[i]; desa();
