@@ -1,4 +1,4 @@
-<title>Assignar recintes</title>
+<title>Recintes i unitats</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,600;0,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
@@ -7,6 +7,7 @@
   --paper:#FFFFFF; --surface:#F6F7F4; --ink:#17211D; --ink-2:#4C5852; --ink-3:#78837D;
   --line:#E3E6DF; --line-2:#CBCFC6; --accent:#1F5C4A; --accent-soft:#E4EDE7;
   --falta:#B45400; --falta-soft:#FBEDE2; --fet:#1F5C4A;
+  --avis:#8C4526; --avis-soft:#F4E7E0;
   --f-display:'Petrona',Georgia,serif;
   --f-body:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
@@ -16,128 +17,184 @@
     --paper:#121714; --surface:#1A211D; --ink:#E9EDE9; --ink-2:#AAB5AF; --ink-3:#7C8781;
     --line:#28312C; --line-2:#3A443E; --accent:#7FC0A6; --accent-soft:#173028;
     --falta:#E09B76; --falta-soft:#33221A; --fet:#7FC0A6;
+    --avis:#E09B76; --avis-soft:#33221A;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121714; --surface:#1A211D; --ink:#E9EDE9; --ink-2:#AAB5AF; --ink-3:#7C8781;
   --line:#28312C; --line-2:#3A443E; --accent:#7FC0A6; --accent-soft:#173028;
   --falta:#E09B76; --falta-soft:#33221A; --fet:#7FC0A6;
+  --avis:#E09B76; --avis-soft:#33221A;
 }
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
-h1,h2{font-family:var(--f-display);margin:0;line-height:1.2}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.2}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+img{max-width:100%}
 
-.top{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line);
-  display:flex;align-items:center;gap:12px;padding:10px 18px;min-height:50px;flex-wrap:wrap}
-.top a.marca{font-family:var(--f-display);font-weight:700;font-size:15px;text-decoration:none;color:var(--ink)}
+.top{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding:9px 16px;min-height:48px;flex-wrap:wrap}
+.top .marca{font-family:var(--f-display);font-weight:700;font-size:15px;text-decoration:none;color:var(--ink)}
 .top .sep{width:1px;height:16px;background:var(--line-2)}
 .top .on{font-size:13px;color:var(--ink-2)}
-.top .pendents{margin-left:auto;font-family:var(--f-mono);font-size:12px;color:var(--falta);
-  background:var(--falta-soft);padding:3px 10px;border-radius:999px}
+.top .estat{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.pastilla{font-family:var(--f-mono);font-size:11.5px;padding:3px 9px;border-radius:999px;
+  background:var(--surface);color:var(--ink-2)}
+.pastilla.falta{background:var(--falta-soft);color:var(--falta)}
 
-.wrap{max-width:1500px;margin:0 auto;padding:18px}
-.intro{max-width:70ch;margin-bottom:16px;color:var(--ink-2);font-size:14.5px}
-.intro b{color:var(--ink)}
+.app{display:grid;grid-template-columns:320px minmax(0,1fr) 370px;gap:12px;padding:12px;
+  align-items:start;max-width:1900px;margin:0 auto}
+@media (max-width:1400px){.app{grid-template-columns:300px minmax(0,1fr)}
+  .detall{grid-column:1/-1}}
+@media (max-width:900px){.app{grid-template-columns:1fr}}
 
-.taula{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
-@media (max-width:980px){.taula{grid-template-columns:1fr}}
+/* ---------- llista ---------- */
+.panel{border:1px solid var(--line);background:var(--surface)}
+.llistes{display:flex;flex-direction:column;max-height:calc(100vh - 76px);position:sticky;top:60px}
+.pestanyes{display:flex;border-bottom:1px solid var(--line-2)}
+.pestanyes button{flex:1;border:0;background:none;padding:10px 6px;font-size:13.5px;cursor:pointer;
+  color:var(--ink-3);border-bottom:2px solid transparent}
+.pestanyes button[aria-selected="true"]{color:var(--accent);font-weight:600;border-bottom-color:var(--accent)}
+.filtres{display:flex;flex-wrap:wrap;gap:5px;padding:9px 10px 0}
+.filtres button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
+  padding:3px 10px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.filtres button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);
+  color:var(--accent);font-weight:600}
+.cercabox{padding:9px 10px}
+.cercabox input{width:100%;border:1px solid var(--line-2);border-radius:999px;padding:7px 13px;
+  background:var(--paper);font-size:13.5px}
+.files{overflow:auto;border-top:1px solid var(--line);flex:1;min-height:180px}
+.files button{display:grid;grid-template-columns:1fr auto;gap:2px 10px;width:100%;text-align:left;
+  border:0;background:none;padding:8px 11px;cursor:pointer;border-bottom:1px solid var(--line)}
+.files button:hover{background:var(--accent-soft)}
+.files button[aria-current="true"]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.files .t{font-size:13.5px;font-weight:500}
+.files .id{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);text-align:right}
+.files .s{grid-column:1/-1;font-size:11.5px;color:var(--ink-3);font-family:var(--f-mono)}
+.files .s.falta{color:var(--falta)}
+.files .s.ok{color:var(--fet)}
+.res{padding:7px 11px;font-size:11.5px;color:var(--ink-3);font-family:var(--f-mono);
+  border-top:1px solid var(--line)}
 
+/* ---------- plànol ---------- */
 .planbox{position:relative;border:1px solid var(--line-2);background:var(--surface);
-  height:min(74vh,660px);overflow:hidden}
-@media (max-width:980px){.planbox{height:56vh}}
+  height:calc(100vh - 76px);min-height:420px;overflow:hidden;position:sticky;top:60px}
+@media (max-width:900px){.planbox{height:60vh;position:static}}
 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
-.eines{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:5}
+.eines{position:absolute;top:9px;left:9px;display:flex;gap:5px;flex-wrap:wrap;z-index:5}
 .eines button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
-  padding:5px 11px;font-size:12.5px;cursor:pointer;color:var(--ink-2)}
+  padding:4px 10px;font-size:12px;cursor:pointer;color:var(--ink-2)}
 .eines button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);
   color:var(--accent);font-weight:600}
-.credit{position:absolute;bottom:6px;right:8px;font-size:10px;color:var(--ink-3);
+.credit{position:absolute;bottom:5px;right:7px;font-size:9.5px;color:var(--ink-3);
   background:var(--paper);padding:2px 6px;border-radius:3px;opacity:.85}
+.llegenda{position:absolute;bottom:5px;left:9px;display:flex;gap:11px;font-size:11px;
+  background:var(--paper);padding:4px 9px;border-radius:4px;opacity:.92}
+.llegenda i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
 
-.plafo{border:1px solid var(--line);background:var(--surface);padding:16px 18px 18px;
-  position:sticky;top:66px;display:grid;gap:12px}
-.plafo h2{font-size:17px;font-weight:600}
+/* ---------- detall ---------- */
+.detall{display:grid;gap:10px;position:sticky;top:60px;max-height:calc(100vh - 76px);overflow:auto}
+@media (max-width:1400px){.detall{position:static;max-height:none}}
+.card{border:1px solid var(--line);background:var(--surface);padding:13px 15px 15px}
+.card h2{font-size:17px;font-weight:600;margin-bottom:3px}
+.card .sub{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);margin-bottom:9px}
 .buit{color:var(--ink-3);font-size:14px}
-.dada{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.dada{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:0}
 .dada dt{color:var(--ink-3)}
-.dada dd{margin:0;font-family:var(--f-mono);font-size:12.5px;word-break:break-word}
-.tria{display:grid;gap:7px}
-.tria label{font-size:12.5px;color:var(--ink-3)}
-.tria input{width:100%;border:1px solid var(--line-2);border-radius:6px;padding:8px 11px;
-  background:var(--paper);font-size:14px}
-.suggeriments{max-height:210px;overflow:auto;border:1px solid var(--line);background:var(--paper)}
+.dada dd{margin:0;font-family:var(--f-mono);font-size:12px;word-break:break-word}
+.suma{margin-top:10px;padding:8px 11px;border-radius:5px;font-size:13px;
+  background:var(--accent-soft);color:var(--accent)}
+.suma.falta{background:var(--falta-soft);color:var(--falta)}
+.suma b{font-weight:600}
+.mini{margin-top:9px;display:grid;gap:4px}
+.mini button{display:flex;gap:9px;align-items:baseline;border:1px solid var(--line-2);
+  background:var(--paper);border-radius:5px;padding:5px 9px;font-size:12.5px;cursor:pointer;text-align:left}
+.mini button:hover{border-color:var(--accent)}
+.mini .id{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.mini .m2{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+
+.tria{display:grid;gap:6px;margin-top:11px}
+.tria input{width:100%;border:1px solid var(--line-2);border-radius:6px;padding:7px 11px;
+  background:var(--paper);font-size:13.5px}
+.suggeriments{max-height:230px;overflow:auto;border:1px solid var(--line);background:var(--paper)}
 .suggeriments button{display:block;width:100%;text-align:left;border:0;background:none;
-  padding:7px 11px;font-size:13.5px;cursor:pointer;border-bottom:1px solid var(--line)}
+  padding:6px 10px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--line)}
 .suggeriments button:hover{background:var(--accent-soft)}
-.suggeriments button:last-child{border-bottom:0}
-.suggeriments button small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
+.suggeriments small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
 .fet{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);
-  padding:9px 12px;font-size:13.5px;border-radius:6px}
+  padding:8px 11px;font-size:13px;border-radius:6px;margin-top:10px}
 .fet b{font-weight:600}
-.fet button{border:0;background:none;text-decoration:underline;cursor:pointer;font-size:12.5px;padding:0}
+.fet button{border:0;background:none;text-decoration:underline;cursor:pointer;font-size:12px;padding:0;
+  color:inherit}
 
-.llista{border:1px solid var(--line);max-height:260px;overflow:auto}
-.llista button{display:flex;width:100%;gap:10px;align-items:baseline;text-align:left;border:0;
-  background:none;padding:7px 11px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--line)}
-.llista button:hover{background:var(--falta-soft)}
-.llista button[aria-current="true"]{background:var(--falta-soft);font-weight:600}
-.llista .id{font-family:var(--f-mono);font-size:11.5px;color:var(--falta)}
-.llista .m2{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.fitxa img{display:block;width:100%;border:1px solid var(--line-2);background:var(--paper)}
+.fitxa .capsa{position:relative}
+.fitxa .nofoto{padding:22px 14px;text-align:center;color:var(--ink-3);font-size:13px;
+  border:1px dashed var(--line-2);background:var(--paper)}
+.fitxa .peu{margin-top:6px;font-size:11.5px;color:var(--ink-3);display:flex;gap:10px;flex-wrap:wrap}
+.fitxa .peu a{color:var(--accent)}
+.fitxa .tabs{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.fitxa .tabs button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
+  padding:3px 10px;font-size:11.5px;cursor:pointer;font-family:var(--f-mono)}
+.fitxa .tabs button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);
+  color:var(--accent);font-weight:600}
 
-.sortida{margin-top:20px;border:1px solid var(--line);padding:16px 18px 18px;background:var(--surface)}
-.sortida h2{font-size:17px;font-weight:600;margin-bottom:6px}
-.sortida p{margin:0 0 10px;font-size:14px;color:var(--ink-2);max-width:70ch}
-.sortida textarea{width:100%;min-height:120px;border:1px solid var(--line-2);border-radius:6px;
-  padding:11px;font-family:var(--f-mono);font-size:12.5px;background:var(--paper);resize:vertical}
-.sortida .accions{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.sortida textarea{width:100%;min-height:90px;border:1px solid var(--line-2);border-radius:6px;
+  padding:9px;font-family:var(--f-mono);font-size:12px;background:var(--paper);resize:vertical}
+.sortida .accions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;align-items:center}
 .sortida .accions button{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;
-  padding:6px 13px;font-size:13px;cursor:pointer}
+  padding:5px 12px;font-size:12.5px;cursor:pointer}
 .sortida .accions .ple{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:600}
-.sortida .accions span{font-size:12.5px;color:var(--ink-3)}
+.sortida .accions span{font-size:12px;color:var(--ink-3)}
+.sortida p{margin:0 0 8px;font-size:12.5px;color:var(--ink-3)}
+
+dialog{border:0;padding:0;background:transparent;max-width:96vw;max-height:96vh}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+dialog img{max-width:96vw;max-height:92vh;width:auto;display:block}
+dialog .tanca{position:absolute;top:8px;right:10px;border:0;background:rgba(0,0,0,.6);color:#fff;
+  border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
 </style>
 
 <header class="top">
   <a class="marca" href="index.html">POUP Encamp</a>
   <span class="sep"></span>
-  <span class="on">Assignar recintes</span>
-  <span class="pendents" id="pendents"></span>
+  <span class="on">Recintes i unitats</span>
+  <span class="estat" id="estat"></span>
 </header>
 
-<div class="wrap">
-  <p class="intro">Cada tros dibuixat al plànol del cadastre és un <b>recinte</b>, i té un
-  identificador propi (<code>R0184</code>). Els que surten <b>en taronja</b> encara no diuen de
-  quina unitat són. Clica'n un, busca la unitat i, quan els hagis fet tots, copia les files de
-  sota a la pestanya <b>recintes</b> del full.</p>
-
-  <div class="taula">
-    <div class="planbox">
-      <div class="eines">
-        <button type="button" id="b-fons" aria-pressed="true">Ortofoto</button>
-        <button type="button" id="b-tot" aria-pressed="false">Veure'ls tots</button>
-        <button type="button" id="b-encaixa">Tota la parròquia</button>
-      </div>
-      <canvas id="lona"></canvas>
-      <span class="credit" id="credit">Ortofoto: Esri, Maxar, Earthstar Geographics</span>
+<div class="app">
+  <div class="panel llistes">
+    <div class="pestanyes" role="tablist">
+      <button type="button" role="tab" id="t-rec" aria-selected="true">Recintes</button>
+      <button type="button" role="tab" id="t-uni" aria-selected="false">Unitats</button>
     </div>
-
-    <div class="plafo" id="plafo"></div>
+    <div class="filtres" id="filtres"></div>
+    <div class="cercabox">
+      <input id="q" type="search" autocomplete="off" placeholder="cerca…" aria-label="Cerca">
+    </div>
+    <div class="files" id="files"></div>
+    <p class="res" id="res"></p>
   </div>
 
-  <div class="sortida">
-    <h2>Les files per al full</h2>
-    <p>Enganxa-les a la pestanya <b>recintes</b>, a la columna <code>id_ua</code> de cada
-    identificador. Si prefereixes fer-ho d'una, ordena el full per <code>id_recinte</code> i
-    enganxa la columna sencera.</p>
-    <textarea id="sortida" readonly placeholder="Encara no has assignat cap recinte."></textarea>
-    <div class="accions">
-      <button type="button" class="ple" id="copia">Copiar</button>
-      <button type="button" id="desfes">Desfer l'últim</button>
-      <span id="compte"></span>
+  <div class="planbox">
+    <div class="eines">
+      <button type="button" id="b-fons" aria-pressed="true">Ortofoto</button>
+      <button type="button" id="b-noms" aria-pressed="true">Noms</button>
+      <button type="button" id="b-encaixa">Tot</button>
     </div>
+    <canvas id="lona"></canvas>
+    <div class="llegenda">
+      <span><i style="background:var(--falta)"></i>sense unitat</span>
+      <span><i style="background:var(--fet)"></i>assignat</span>
+    </div>
+    <span class="credit" id="credit">Esri, Maxar, Earthstar Geographics</span>
   </div>
+
+  <div class="detall" id="detall"></div>
 </div>
+
+<dialog id="lupa"><button type="button" class="tanca">Tancar</button><img alt="Plànol de la fitxa"></dialog>
 
 <script id="dades-recintes" type="application/json">__RECINTES__</script>
 <script>
@@ -147,56 +204,75 @@ const D = JSON.parse(document.getElementById('dades-recintes').textContent);
 const [OX, OY] = D.o;
 const MERC = 20037508.342789244;
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const sensAcc = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const sensAcc = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const m2 = n => Math.round(n || 0).toLocaleString('ca-ES');
+// Compte: les superfícies de les fitxes van a la catalana —«36.848» són trenta-sis mil—
+// i les dels recintes les calcula el guió del plànol, amb el punt com a decimal: «1010.4».
+const numFitxa = t => Number(String(t == null ? '' : t).replace(/\./g, '').replace(',', '.')) || 0;
+const numRec = t => parseFloat(t) || 0;
+const CLS = {SUC:'sòl urbà consolidat', SUCc:'sòl urbà consolidat', SUNC:'sòl urbà no consolidat',
+             SUBLE:'sòl urbanitzable', SNU:'sòl no urbanitzable', SNUBLE:'sòl no urbanitzable'};
 
-// deltes -> punts absoluts
 function punts(g){
   const p = []; let x = 0, y = 0;
   for (let i = 0; i < g.length; i += 2){ x += g[i]; y += g[i + 1]; p.push([x + OX, y + OY]); }
   return p;
 }
-const NOM = Object.fromEntries(D.u.map(u => [u.i, u.n]));
 const R = D.r.map(r => {
   const p = punts(r.g);
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const [x, y] of p){ if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
-  return { ...r, p, bb: [x0, y0, x1, y1], cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+  return { ...r, sn: numRec(r.s), p, bb: [x0, y0, x1, y1], cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
 });
-const assignat = {};            // el que decideixes en aquesta sessió
-const ordre = [];
-const teUA = r => !!(r.u || assignat[r.i]);
-const uaDe = r => assignat[r.i] || r.u;
+const U = D.u.slice().sort((a, b) => a.n.localeCompare(b.n, 'ca'));
+const UNI = Object.fromEntries(U.map(u => [u.i, u]));
+const NOM = u => (UNI[u] || {}).n || u;
 
+const assignat = {}, ordre = [];
+const uaDe = r => assignat[r.i] || r.u;
+const teUA = r => !!uaDe(r);
+const recDe = idu => R.filter(r => uaDe(r) === idu);
+const sumaDe = idu => recDe(idu).reduce((t, r) => t + r.sn, 0);
+// quadra quan el que s'ha dibuixat i el que diu la fitxa s'assemblen
+function estat(u){
+  const rs = recDe(u.i), suma = rs.reduce((t, r) => t + r.sn, 0);
+  if (!rs.length) return { k: 'sense', n: 0, suma: 0, falta: u.s };
+  if (!u.s) return { k: 'sensesup', n: rs.length, suma, falta: 0 };
+  const falta = u.s - suma;
+  return { k: Math.abs(falta) / u.s < 0.1 ? 'ok' : 'desquadra', n: rs.length, suma, falta };
+}
+
+/* ------------------------------------------------------------ el plànol */
 const lona = document.getElementById('lona');
 const ctx = lona.getContext('2d');
-let vista = { x: 0, y: 0, e: 1 }, sel = null, sobre = null, nomesFalten = true, ambFons = true;
+let vista = { x: 0, y: 0, e: 1 }, selR = null, selU = null, sobre = null;
+let ambFons = true, ambNoms = true;
 
-function encaixa(caixa){
-  const w = lona.clientWidth, h = lona.clientHeight;
-  const [x0, y0, x1, y1] = caixa;
-  const e = Math.min(w / Math.max(x1 - x0, 1), h / Math.max(y1 - y0, 1)) * 0.88;
-  vista = { e, x: w / 2 - (x0 + x1) / 2 * e, y: h / 2 + (y0 + y1) / 2 * e };
-  pinta();
-}
+const aPx = (x, y) => [x * vista.e + vista.x, -y * vista.e + vista.y];
+const aMerc = (px, py) => [(px - vista.x) / vista.e, (vista.y - py) / vista.e];
 function caixaDe(rs){
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const r of rs){ x0 = Math.min(x0, r.bb[0]); y0 = Math.min(y0, r.bb[1]);
                        x1 = Math.max(x1, r.bb[2]); y1 = Math.max(y1, r.bb[3]); }
   return [x0, y0, x1, y1];
 }
-const aPx = (x, y) => [x * vista.e + vista.x, -y * vista.e + vista.y];
+function encaixa(c, marge){
+  const w = lona.clientWidth, h = lona.clientHeight;
+  const m = marge == null ? 0.88 : marge;
+  const e = Math.min(w / Math.max(c[2] - c[0], 30), h / Math.max(c[3] - c[1], 30)) * m;
+  vista = { e, x: w / 2 - (c[0] + c[2]) / 2 * e, y: h / 2 + (c[1] + c[3]) / 2 * e };
+  pinta();
+}
 
-/* --- mosaics del fons ------------------------------------------------- */
 const cau = new Map();
 function mosaics(){
   if (!ambFons) return;
   const z = Math.max(0, Math.min(19, Math.round(Math.log2(vista.e * 2 * MERC / 256))));
-  const n = 2 ** z, m = 2 * MERC / n;
-  const w = lona.clientWidth, h = lona.clientHeight;
-  const xm0 = (0 - vista.x) / vista.e, xm1 = (w - vista.x) / vista.e;
-  const ym0 = (vista.y - h) / vista.e, ym1 = (vista.y - 0) / vista.e;
-  const i0 = Math.floor((xm0 + MERC) / m), i1 = Math.floor((xm1 + MERC) / m);
-  const j0 = Math.floor((MERC - ym1) / m), j1 = Math.floor((MERC - ym0) / m);
+  const n = 2 ** z, m = 2 * MERC / n, w = lona.clientWidth, h = lona.clientHeight;
+  const i0 = Math.floor(((0 - vista.x) / vista.e + MERC) / m);
+  const i1 = Math.floor(((w - vista.x) / vista.e + MERC) / m);
+  const j0 = Math.floor((MERC - vista.y / vista.e) / m);
+  const j1 = Math.floor((MERC - (vista.y - h) / vista.e) / m);
   for (let i = Math.max(0, i0); i <= Math.min(n - 1, i1); i++)
     for (let j = Math.max(0, j0); j <= Math.min(n - 1, j1); j++){
       const k = `${z}/${j}/${i}`;
@@ -204,69 +280,59 @@ function mosaics(){
       if (!im){
         im = new Image(); im.crossOrigin = 'anonymous';
         im.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${j}/${i}`;
-        im.onload = () => pinta();
-        im.onerror = () => { im.mal = true; };
+        im.onload = () => pinta(); im.onerror = () => { im.mal = true; };
         cau.set(k, im);
       }
       if (im.complete && !im.mal && im.naturalWidth){
         const [px, py] = aPx(i * m - MERC, MERC - j * m);
-        const s = m * vista.e;
-        ctx.drawImage(im, px, py, s + 1, s + 1);
+        ctx.drawImage(im, px, py, m * vista.e + 1, m * vista.e + 1);
       }
     }
 }
 
+function traç(r){
+  ctx.beginPath();
+  for (let i = 0; i < r.p.length; i++){
+    const [px, py] = aPx(r.p[i][0], r.p[i][1]);
+    i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+  }
+  ctx.closePath();
+}
+
 function pinta(){
-  const dpr = window.devicePixelRatio || 1;
-  const w = lona.clientWidth, h = lona.clientHeight;
-  if (lona.width !== w * dpr){ lona.width = w * dpr; lona.height = h * dpr; }
+  const dpr = window.devicePixelRatio || 1, w = lona.clientWidth, h = lona.clientHeight;
+  if (lona.width !== Math.round(w * dpr)){ lona.width = w * dpr; lona.height = h * dpr; }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   const est = getComputedStyle(document.documentElement);
   ctx.fillStyle = est.getPropertyValue('--surface').trim() || '#f6f7f4';
   ctx.fillRect(0, 0, w, h);
   mosaics();
 
-  const falta = est.getPropertyValue('--falta').trim() || '#B45400';
-  const fet = est.getPropertyValue('--fet').trim() || '#1F5C4A';
+  const cFalta = est.getPropertyValue('--falta').trim() || '#B45400';
+  const cFet = est.getPropertyValue('--fet').trim() || '#1F5C4A';
+  const delaUA = selU ? new Set(recDe(selU.i).map(r => r.i)) : null;
+
   for (const r of R){
     const pendent = !teUA(r);
-    if (!pendent && nomesFalten && r !== sel && r !== sobre) {
-      // els assignats es dibuixen tènues, per tenir referència
-      ctx.beginPath();
-      for (let i = 0; i < r.p.length; i++){
-        const [px, py] = aPx(r.p[i][0], r.p[i][1]);
-        i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
-      }
-      ctx.closePath();
-      ctx.fillStyle = fet + (ambFons ? '22' : '18');
-      ctx.fill();
-      ctx.strokeStyle = fet + '55'; ctx.lineWidth = 1; ctx.stroke();
-      continue;
-    }
-    ctx.beginPath();
-    for (let i = 0; i < r.p.length; i++){
-      const [px, py] = aPx(r.p[i][0], r.p[i][1]);
-      i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
-    }
-    ctx.closePath();
-    const c = pendent ? falta : fet;
-    ctx.fillStyle = c + (r === sel ? '88' : r === sobre ? '66' : '3A');
+    const destacat = r === selR || (delaUA && delaUA.has(r.i));
+    traç(r);
+    const c = pendent ? cFalta : cFet;
+    ctx.fillStyle = c + (destacat ? '99' : r === sobre ? '66' : (ambFons ? '2A' : '22'));
     ctx.fill();
-    ctx.strokeStyle = c; ctx.lineWidth = r === sel ? 2.5 : (pendent ? 1.8 : 1); ctx.stroke();
+    ctx.strokeStyle = destacat ? c : c + (pendent ? 'CC' : '77');
+    ctx.lineWidth = destacat ? 3 : (pendent ? 1.6 : 1);
+    ctx.stroke();
   }
 
-  // etiquetes: de prop, l'identificador dels pendents i el nom dels assignats
-  if (vista.e > 0.006){
+  if (ambNoms && vista.e > 0.004){
     ctx.font = '600 11px ' + (est.getPropertyValue('--f-mono').trim() || 'monospace');
     ctx.textAlign = 'center';
     for (const r of R){
       const [px, py] = aPx(r.cx, r.cy);
-      if (px < -60 || py < -20 || px > w + 60 || py > h + 20) continue;
-      const pendent = !teUA(r);
-      if (!pendent && nomesFalten && r !== sel) continue;
-      const t = pendent ? r.i : (NOM[uaDe(r)] || uaDe(r));
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = ambFons ? 'rgba(0,0,0,.65)' : (est.getPropertyValue('--paper').trim() || '#fff');
+      if (px < -70 || py < -20 || px > w + 70 || py > h + 20) continue;
+      const t = teUA(r) ? NOM(uaDe(r)) : r.i;
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = ambFons ? 'rgba(0,0,0,.7)' : (est.getPropertyValue('--paper').trim() || '#fff');
       ctx.strokeText(t, px, py);
       ctx.fillStyle = ambFons ? '#fff' : (est.getPropertyValue('--ink').trim() || '#000');
       ctx.fillText(t, px, py);
@@ -282,7 +348,6 @@ function dins(pt, poly){
   }
   return a;
 }
-function aMerc(px, py){ return [(px - vista.x) / vista.e, (vista.y - py) / vista.e]; }
 function quin(px, py){
   const m = aMerc(px, py);
   let millor = null;
@@ -290,154 +355,297 @@ function quin(px, py){
     if (m[0] < r.bb[0] || m[0] > r.bb[2] || m[1] < r.bb[1] || m[1] > r.bb[3]) continue;
     if (!dins(m, r.p)) continue;
     const a = (r.bb[2] - r.bb[0]) * (r.bb[3] - r.bb[1]);
-    if (!millor || a < millor.a) millor = { r, a };      // el més petit, si se superposen
+    if (!millor || a < millor.a) millor = { r, a };
   }
   return millor && millor.r;
 }
 
-/* --- el plafó de la dreta --------------------------------------------- */
-let cerca = '';
-function plafo(){
-  const el = document.getElementById('plafo');
-  if (!sel){
-    const falten = R.filter(r => !teUA(r));
-    el.innerHTML = `<h2>Cap recinte triat</h2>
-      <p class="buit">Clica un recinte taronja del plànol, o tria'n un d'aquesta llista.</p>
-      <div class="llista">${falten.map(r => `<button type="button" data-va="${esc(r.i)}">
-        <span class="id">${esc(r.i)}</span><span>${esc(r.n || r.c)}</span>
-        <span class="m2">${esc(r.s)} m²</span></button>`).join('') ||
-        '<p class="buit" style="padding:12px">Ja els has assignat tots.</p>'}</div>`;
-    return;
-  }
-  const ja = uaDe(sel);
-  el.innerHTML = `<h2>${esc(sel.i)}</h2>
-    <dl class="dada">
-      <dt>Capa</dt><dd>${esc(sel.c)}</dd>
-      <dt>Superfície</dt><dd>${esc(sel.s)} m²</dd>
-      ${sel.n ? `<dt>Nom escrit a dins</dt><dd>${esc(sel.n)}</dd>` : ''}
-    </dl>
-    ${ja ? `<div class="fet"><b>${esc(NOM[ja] || ja)}</b><br>
-        <button type="button" id="treu">${assignat[sel.i] ? 'desfer' : 'canviar-ho'}</button></div>` : ''}
-    ${ja && !assignat[sel.i] ? '' : `<div class="tria">
-      <label for="q">Quina unitat és?</label>
-      <input id="q" type="search" autocomplete="off" placeholder="escriu-ne el nom…" value="${esc(cerca)}">
-      <div class="suggeriments">${suggeriments()}</div>
-    </div>`}`;
-  const q = document.getElementById('q');
-  if (q){ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length, q.value.length); }
+/* ------------------------------------------------------------ llistes */
+let pestanya = 'rec', filtre = 'falten', cerca = '';
+const FILTRES = {
+  rec: [['falten', 'Sense unitat'], ['assignats', 'Assignats'], ['tots', 'Tots']],
+  uni: [['desquadra', 'No quadren'], ['sense', 'Sense recinte'], ['tots', 'Totes']],
+};
+
+function pintaFiltres(){
+  document.getElementById('filtres').innerHTML = FILTRES[pestanya]
+    .map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${filtre === k}">${t}</button>`).join('');
+  document.getElementById('q').placeholder = pestanya === 'rec'
+    ? 'R0184, o el nom escrit a dins…' : 'nom de la unitat…';
 }
-function suggeriments(){
+
+function llista(){
   const c = sensAcc(cerca.trim());
-  const usades = new Set(R.filter(teUA).map(uaDe));
-  let l = D.u.filter(u => !c || sensAcc(u.n).includes(c));
-  l.sort((a, b) => (usades.has(a.i) ? 1 : 0) - (usades.has(b.i) ? 1 : 0)
-                || sensAcc(a.n).indexOf(c) - sensAcc(b.n).indexOf(c)
-                || a.n.localeCompare(b.n, 'ca'));
-  return l.slice(0, 40).map(u => `<button type="button" data-ua="${esc(u.i)}">${esc(u.n)}
-      <small>${esc(u.i)}${usades.has(u.i) ? ' · ja té recinte' : ''}</small></button>`).join('')
-    || '<p class="buit" style="padding:11px">Cap unitat es diu així.</p>';
+  if (pestanya === 'rec'){
+    let l = R.filter(r => filtre === 'tots' || (filtre === 'falten' ? !teUA(r) : teUA(r)));
+    if (c) l = l.filter(r => sensAcc(r.i + ' ' + r.n + ' ' + NOM(uaDe(r))).includes(c));
+    return l.map(r => {
+      const u = uaDe(r);
+      return `<button type="button" data-r="${esc(r.i)}" aria-current="${r === selR}">
+        <span class="t">${esc(u ? NOM(u) : (r.n || '—'))}</span>
+        <span class="id">${esc(r.i)}</span>
+        <span class="s ${u ? '' : 'falta'}">${esc(r.c)} · ${m2(r.sn)} m²${
+          u && r.n && sensAcc(r.n) !== sensAcc(NOM(u)) ? ' · hi diu «' + esc(r.n) + '»' : ''}</span>
+      </button>`;
+    }).join('') || '<p class="buit" style="padding:14px">Res per aquí.</p>';
+  }
+  let l = U.map(u => ({ u, e: estat(u) }));
+  if (filtre === 'desquadra') l = l.filter(x => x.e.k === 'desquadra');
+  else if (filtre === 'sense') l = l.filter(x => x.e.k === 'sense');
+  if (c) l = l.filter(x => sensAcc(x.u.n + ' ' + x.u.i).includes(c));
+  return l.map(({u, e}) => `<button type="button" data-u="${esc(u.i)}" aria-current="${selU === u}">
+      <span class="t">${esc(u.n)}</span>
+      <span class="id">${e.n ? e.n + (e.n === 1 ? ' recinte' : ' recintes') : '—'}</span>
+      <span class="s ${e.k === 'ok' ? 'ok' : e.k === 'tots' ? '' : 'falta'}">${
+        e.k === 'sense' ? (u.s ? 'la fitxa diu ' + m2(u.s) + ' m²' : 'sense superfície')
+        : e.k === 'ok' ? m2(e.suma) + ' m² · quadra'
+        : e.k === 'sensesup' ? m2(e.suma) + ' m² dibuixats'
+        : m2(e.suma) + ' de ' + m2(u.s) + ' m² · ' + (e.falta > 0 ? 'en falten ' + m2(e.falta) : 'en sobren ' + m2(-e.falta))
+      }</span></button>`).join('') || '<p class="buit" style="padding:14px">Res per aquí.</p>';
+}
+
+function pintaLlista(){
+  const el = document.getElementById('files');
+  el.innerHTML = llista();
+  const n = el.querySelectorAll('button').length;
+  document.getElementById('res').textContent = pestanya === 'rec'
+    ? `${n} de ${R.length} recintes` : `${n} de ${U.length} unitats`;
+  const act = el.querySelector('[aria-current="true"]');
+  if (act) act.scrollIntoView({ block: 'nearest' });
+}
+
+/* ------------------------------------------------------------ detall */
+let fitxaActiva = null;
+function detall(){
+  const el = document.getElementById('detall');
+  let html = '';
+
+  if (selR){
+    const u = uaDe(selR);
+    html += `<div class="card">
+      <h2>${esc(selR.i)}</h2>
+      <p class="sub">recinte del plànol</p>
+      <dl class="dada">
+        <dt>Capa</dt><dd>${esc(selR.c)}</dd>
+        <dt>Superfície</dt><dd>${m2(selR.sn)} m²</dd>
+        ${selR.n ? `<dt>Hi diu</dt><dd>${esc(selR.n)}</dd>` : ''}
+        ${selR.a ? `<dt>Assignat</dt><dd>${esc(selR.a)}</dd>` : ''}
+      </dl>
+      ${u ? `<div class="fet"><b>${esc(NOM(u))}</b> ·
+        <button type="button" id="veure-u">veure la unitat</button> ·
+        <button type="button" id="treu">${assignat[selR.i] ? 'desfer' : 'canviar'}</button></div>` : ''}
+      ${(!u || assignat[selR.i]) ? `<div class="tria">
+        <input id="qua" type="search" autocomplete="off" placeholder="de quina unitat és?" value="${esc(cercaUA)}">
+        <div class="suggeriments">${suggeriments()}</div></div>` : ''}
+    </div>`;
+  }
+
+  if (selU){
+    const e = estat(selU), rs = recDe(selU.i);
+    html += `<div class="card">
+      <h2>${esc(selU.n)}</h2>
+      <p class="sub">${esc(selU.i)}</p>
+      <dl class="dada">
+        ${selU.c ? `<dt>Classificació</dt><dd>${esc(CLS[selU.c] || selU.c)}</dd>` : ''}
+        ${selU.s ? `<dt>Superfície</dt><dd>${m2(selU.s)} m²</dd>` : ''}
+        ${selU.k ? `<dt>Claus</dt><dd>${esc(selU.k)}</dd>` : ''}
+        ${selU.t ? `<dt>Tipus</dt><dd>${esc(selU.t)}</dd>` : ''}
+      </dl>
+      <div class="suma ${e.k === 'ok' || e.k === 'sensesup' ? '' : 'falta'}">
+        ${e.n ? `<b>${e.n}</b> recinte${e.n === 1 ? '' : 's'} · <b>${m2(e.suma)}</b> m² dibuixats`
+              : 'Cap recinte assignat'}
+        ${selU.s && e.n ? (e.k === 'ok' ? ' · quadra amb la fitxa ✓'
+            : `<br>la fitxa en diu ${m2(selU.s)}: ${e.falta > 0 ? 'en falten <b>' + m2(e.falta) + '</b>' : 'en sobren <b>' + m2(-e.falta) + '</b>'}`) : ''}
+      </div>
+      ${rs.length ? `<div class="mini">${rs.map(r => `<button type="button" data-r="${esc(r.i)}">
+        <span class="id">${esc(r.i)}</span><span>${esc(r.c)}</span>
+        <span class="m2">${m2(r.sn)} m²</span></button>`).join('')}</div>` : ''}
+    </div>`;
+
+    // el plànol de la fitxa: és el que et diu quina forma té la unitat
+    const fs = selU.f || [];
+    if (!fitxaActiva || !fs.some(f => f.id === fitxaActiva)) fitxaActiva = (fs[0] || {}).id;
+    const f = fs.find(x => x.id === fitxaActiva);
+    html += `<div class="card fitxa">
+      <h2>El plànol de la fitxa</h2>
+      <p class="sub">${fs.length ? esc(fitxaActiva) : 'aquesta unitat no té cap fitxa vigent'}</p>
+      ${fs.length > 1 ? `<div class="tabs">${fs.map(x => `<button type="button" data-f="${esc(x.id)}"
+        aria-pressed="${x.id === fitxaActiva}">Volum ${esc(x.v)}</button>`).join('')}</div>` : ''}
+      ${f ? `<div class="capsa"><img id="planol-fitxa" src="planols/${encodeURIComponent(f.id)}.webp"
+          alt="Plànol de la fitxa ${esc(f.id)}" loading="lazy"></div>
+        <p class="peu">
+          <span>${esc(f.c || '')}${f.s ? ' · ' + esc(f.s) + ' m²' : ''}</span>
+          <a href="planols/${encodeURIComponent(f.id)}.webp" target="_blank" rel="noopener">obrir a mida completa ↗</a>
+        </p>` : '<p class="nofoto">Sense plànol.</p>'}
+    </div>`;
+  }
+
+  if (!selR && !selU) html += `<div class="card"><h2>Tria'n un</h2>
+    <p class="buit">Clica un recinte al plànol, o una fila de la llista. A la pestanya
+    <b>Unitats</b> hi tens totes les unitats amb els seus recintes i el plànol de la fitxa.</p></div>`;
+
+  html += `<div class="card sortida"><h2>Per al full</h2>
+    <p>Enganxa-ho a la columna <code>id_ua</code> de la pestanya recintes.</p>
+    <textarea id="sortida" readonly placeholder="Encara no has assignat res."></textarea>
+    <div class="accions">
+      <button type="button" class="ple" id="copia">Copiar</button>
+      <button type="button" id="desfes">Desfer</button>
+      <span id="compte"></span>
+    </div></div>`;
+
+  el.innerHTML = html;
+  sortida();
+  const q = document.getElementById('qua');
+  if (q && document.activeElement !== q){ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length, q.value.length); }
+}
+
+let cercaUA = '';
+function suggeriments(){
+  const c = sensAcc(cercaUA.trim());
+  let l = U.filter(u => !c || sensAcc(u.n).includes(c));
+  l.sort((a, b) => sensAcc(a.n).indexOf(c) - sensAcc(b.n).indexOf(c) || a.n.localeCompare(b.n, 'ca'));
+  return l.slice(0, 40).map(u => {
+    const e = estat(u);
+    let nota = e.n ? `${e.n} recinte${e.n === 1 ? '' : 's'}` : (u.s ? `la fitxa diu ${m2(u.s)} m²` : u.i);
+    if (e.n && u.s) nota += e.k === 'ok' ? ' · ja quadra'
+      : (e.falta > 0 ? ` · li falten ${m2(e.falta)} m²` : ` · ja li'n sobren ${m2(-e.falta)}`);
+    const quadraria = selR && u.s && e.falta > 0 && Math.abs(e.falta - selR.sn) / u.s < 0.1;
+    return `<button type="button" data-ua="${esc(u.i)}"${quadraria ? ' style="background:var(--accent-soft)"' : ''}
+      >${esc(u.n)}<small>${esc(nota)}${quadraria ? ' · amb aquest quadraria' : ''}</small></button>`;
+  }).join('') || '<p class="buit" style="padding:11px">Cap unitat es diu així.</p>';
 }
 
 function sortida(){
-  const t = ordre.map(i => `${i},${assignat[i]}`).join('\n');
-  document.getElementById('sortida').value = t;
-  document.getElementById('compte').textContent = ordre.length
-    ? `${ordre.length} ${ordre.length === 1 ? 'recinte assignat' : 'recintes assignats'}` : '';
+  const t = document.getElementById('sortida');
+  if (!t) return;
+  t.value = ordre.map(i => `${i},${assignat[i]}`).join('\n');
+  document.getElementById('compte').textContent = ordre.length ? `${ordre.length} assignats` : '';
   const falten = R.filter(r => !teUA(r)).length;
-  document.getElementById('pendents').textContent = falten
-    ? `${falten} per assignar` : 'tots assignats';
+  const mal = U.filter(u => estat(u).k === 'desquadra').length;
+  document.getElementById('estat').innerHTML =
+    `<span class="pastilla ${falten ? 'falta' : ''}">${falten ? falten + ' recintes sense unitat' : 'tots assignats'}</span>`
+    + `<span class="pastilla">${mal} unitats no quadren</span>`
+    + `<span class="pastilla">${R.length} recintes · ${U.length} unitats</span>`;
 }
 
-/* --- interacció -------------------------------------------------------- */
-let arrossega = null, s_ha_mogut = false;
+function mostraRecinte(r, zoom){
+  selR = r; selU = UNI[uaDe(r)] || null; cercaUA = '';
+  if (zoom){
+    const m = Math.max((r.bb[2] - r.bb[0]), (r.bb[3] - r.bb[1])) * 0.6 + 40;
+    encaixa([r.bb[0] - m, r.bb[1] - m, r.bb[2] + m, r.bb[3] + m], 1);
+  }
+  detall(); pintaLlista(); pinta();
+}
+function mostraUnitat(u, zoom){
+  selU = u; selR = null; fitxaActiva = null;
+  const rs = recDe(u.i);
+  if (zoom && rs.length){
+    const c = caixaDe(rs);
+    const m = Math.max(c[2] - c[0], c[3] - c[1]) * 0.35 + 40;
+    encaixa([c[0] - m, c[1] - m, c[2] + m, c[3] + m], 1);
+  }
+  detall(); pintaLlista(); pinta();
+}
+
+/* ------------------------------------------------------------ events */
+let arros = null, mogut = false;
 lona.addEventListener('pointerdown', e => {
   lona.setPointerCapture(e.pointerId);
-  arrossega = { x: e.offsetX, y: e.offsetY, vx: vista.x, vy: vista.y };
-  s_ha_mogut = false;
+  arros = { x: e.offsetX, y: e.offsetY, vx: vista.x, vy: vista.y }; mogut = false;
 });
 lona.addEventListener('pointermove', e => {
-  if (arrossega){
-    const dx = e.offsetX - arrossega.x, dy = e.offsetY - arrossega.y;
-    if (Math.abs(dx) + Math.abs(dy) > 3) s_ha_mogut = true;
-    vista.x = arrossega.vx + dx; vista.y = arrossega.vy + dy;
-    pinta();
-    return;
+  if (arros){
+    const dx = e.offsetX - arros.x, dy = e.offsetY - arros.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) mogut = true;
+    vista.x = arros.vx + dx; vista.y = arros.vy + dy; pinta(); return;
   }
   const r = quin(e.offsetX, e.offsetY);
   if (r !== sobre){ sobre = r; lona.style.cursor = r ? 'pointer' : 'crosshair'; pinta(); }
 });
 lona.addEventListener('pointerup', e => {
-  arrossega = null;
-  if (s_ha_mogut) return;
+  arros = null;
+  if (mogut) return;
   const r = quin(e.offsetX, e.offsetY);
-  if (r){ sel = r; cerca = ''; plafo(); pinta(); }
+  if (r) mostraRecinte(r, false);
 });
 lona.addEventListener('wheel', e => {
   e.preventDefault();
-  const f = Math.exp(-e.deltaY * 0.0016);
   const m = aMerc(e.offsetX, e.offsetY);
-  vista.e *= f;
-  vista.x = e.offsetX - m[0] * vista.e;
-  vista.y = e.offsetY + m[1] * vista.e;
+  vista.e *= Math.exp(-e.deltaY * 0.0016);
+  vista.x = e.offsetX - m[0] * vista.e; vista.y = e.offsetY + m[1] * vista.e;
   pinta();
 }, { passive: false });
 
 document.addEventListener('click', e => {
-  const ua = e.target.closest('[data-ua]');
-  if (ua && sel){
-    assignat[sel.i] = ua.dataset.ua;
-    if (!ordre.includes(sel.i)) ordre.push(sel.i);
-    sortida(); plafo(); pinta();
-    return;
+  const t = e.target;
+  if (t.id === 't-rec' || t.id === 't-uni'){
+    pestanya = t.id === 't-rec' ? 'rec' : 'uni';
+    filtre = FILTRES[pestanya][0][0]; cerca = '';
+    document.getElementById('q').value = '';
+    document.getElementById('t-rec').setAttribute('aria-selected', pestanya === 'rec');
+    document.getElementById('t-uni').setAttribute('aria-selected', pestanya === 'uni');
+    pintaFiltres(); pintaLlista(); return;
   }
-  const va = e.target.closest('[data-va]');
-  if (va){
-    sel = R.find(r => r.i === va.dataset.va);
-    cerca = '';
-    const m = 60 / vista.e;
-    encaixa([sel.bb[0] - m, sel.bb[1] - m, sel.bb[2] + m, sel.bb[3] + m]);
-    plafo();
-    return;
+  const f = t.closest('[data-f]');
+  if (f && f.parentElement.id === 'filtres'){
+    filtre = f.dataset.f; pintaFiltres(); pintaLlista(); return;
   }
-  if (e.target.id === 'treu'){
-    delete assignat[sel.i];
-    const i = ordre.indexOf(sel.i); if (i >= 0) ordre.splice(i, 1);
-    sortida(); plafo(); pinta();
+  if (f && f.closest('.fitxa')){ fitxaActiva = f.dataset.f; detall(); return; }
+
+  const br = t.closest('[data-r]');
+  if (br){ mostraRecinte(R.find(x => x.i === br.dataset.r), true); return; }
+  const bu = t.closest('[data-u]');
+  if (bu){ mostraUnitat(UNI[bu.dataset.u], true); return; }
+  const ua = t.closest('[data-ua]');
+  if (ua && selR){
+    assignat[selR.i] = ua.dataset.ua;
+    if (!ordre.includes(selR.i)) ordre.push(selR.i);
+    mostraRecinte(selR, false); return;
   }
-  if (e.target.id === 'b-fons'){
-    ambFons = !ambFons;
-    e.target.setAttribute('aria-pressed', ambFons);
-    document.getElementById('credit').style.visibility = ambFons ? '' : 'hidden';
-    pinta();
+  if (t.id === 'veure-u'){ mostraUnitat(UNI[uaDe(selR)], true); return; }
+  if (t.id === 'treu'){
+    delete assignat[selR.i];
+    const i = ordre.indexOf(selR.i); if (i >= 0) ordre.splice(i, 1);
+    mostraRecinte(selR, false); return;
   }
-  if (e.target.id === 'b-tot'){
-    nomesFalten = !nomesFalten;
-    e.target.setAttribute('aria-pressed', !nomesFalten);
-    pinta();
-  }
-  if (e.target.id === 'b-encaixa'){ sel = null; plafo(); encaixa(caixaDe(R)); }
-  if (e.target.id === 'desfes' && ordre.length){
+  if (t.id === 'b-fons'){ ambFons = !ambFons; t.setAttribute('aria-pressed', ambFons);
+    document.getElementById('credit').style.visibility = ambFons ? '' : 'hidden'; pinta(); }
+  if (t.id === 'b-noms'){ ambNoms = !ambNoms; t.setAttribute('aria-pressed', ambNoms); pinta(); }
+  if (t.id === 'b-encaixa'){ encaixa(caixaDe(R)); }
+  if (t.id === 'desfes' && ordre.length){
     const i = ordre.pop(); delete assignat[i];
-    sortida(); plafo(); pinta();
+    detall(); pintaLlista(); pinta();
   }
-  if (e.target.id === 'copia'){
-    const t = document.getElementById('sortida');
-    t.select();
-    try { document.execCommand('copy'); } catch (err) { /* seleccionat, que el copiï ell */ }
-    e.target.textContent = 'Copiat'; setTimeout(() => { e.target.textContent = 'Copiar'; }, 1600);
+  if (t.id === 'copia'){
+    const s = document.getElementById('sortida');
+    s.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    t.textContent = 'Copiat'; setTimeout(() => { t.textContent = 'Copiar'; }, 1500);
   }
+  if (t.id === 'planol-fitxa'){
+    const d = document.getElementById('lupa');
+    d.querySelector('img').src = t.src; d.showModal();
+  }
+  if (t.classList.contains('tanca')) document.getElementById('lupa').close();
 });
 document.addEventListener('input', e => {
-  if (e.target.id === 'q'){
-    cerca = e.target.value;
+  if (e.target.id === 'q'){ cerca = e.target.value; pintaLlista(); }
+  if (e.target.id === 'qua'){
+    cercaUA = e.target.value;
     document.querySelector('.suggeriments').innerHTML = suggeriments();
   }
 });
+document.addEventListener('error', e => {
+  if (e.target.id === 'planol-fitxa'){
+    e.target.parentElement.innerHTML =
+      '<p class="nofoto">El plànol de la fitxa només es veu a la web desplegada, '
+      + 'on hi ha la carpeta planols/.</p>';
+  }
+}, true);
 window.addEventListener('resize', pinta);
 
-// arrenca mirant el gruix de la parròquia, no els dos nuclis separats 13 km
+pintaFiltres(); pintaLlista(); detall();
 const falten0 = R.filter(r => !teUA(r));
 encaixa(caixaDe(falten0.length ? falten0 : R));
-plafo(); sortida();
 })();
 </script>

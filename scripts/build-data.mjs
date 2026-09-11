@@ -495,7 +495,22 @@ try {
       i: r.id_recinte, g: geo.r[r.id_recinte], u: r.id_ua,
       c: (r.capa_dwg || '').replace('01 ', '').replace('UA ', '').trim(),
       s: r.superficie_dwg, n: r.nom_dwg, a: r.assignat_per })),
-    u: F.unitats.filter(u => u.estat !== 'derogada').map(u => ({ i: u.id_ua, n: nom[u.id_ua] })),
+    // la superfície que diu la fitxa: és el que permet veure si a una unitat de
+    // diverses peces encara li'n falta alguna
+    u: F.unitats.filter(u => u.estat !== 'derogada').map(u => {
+      const fs = (fitxes[u.id_ua] || []).filter(f => f.vigent === 'SÍ');
+      const urb = fs.filter(f => f.volum !== 'VII');
+      const p = urb[0] || fs[0] || {};
+      return {
+        i: u.id_ua, n: nom[u.id_ua],
+        s: urb.reduce((t, f) => t + (Number(String(f.superficie_m2).replace(/\./g, '').replace(',', '.')) || 0), 0),
+        c: p.classificacio || '', k: [p.zones, p.subzones].filter(Boolean).join(' / '),
+        t: p.tipus_fitxa || '', v: p.volum || '',
+        // les fitxes vigents, per ensenyar-ne el plànol
+        f: fs.map(f => ({ id: f.id_fitxa, v: f.volum, s: f.superficie_m2,
+                          c: f.classificacio, g: f.gestio || '' })),
+      };
+    }),
   };
   const brutRec = await readFile(ARREL + 'src/recintes.html', 'utf8');
   await writeFile(ARREL + 'public/recintes.html',

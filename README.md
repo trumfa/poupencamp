@@ -198,17 +198,33 @@ Cada recinte surt marcat a la columna `canvi`:
 - **CANVIAT** — hi era però ara té una altra forma. Val la pena mirar si segueix sent de qui era.
 - **DESAPAREGUT** — ja no és al plànol. Queda `retirat`, no s'esborra.
 
-### Com saber quin recinte és quin
+### La taula de treball: `public/recintes.html`
 
 `R0184` no diu res mirant-lo, i per això el build genera **`public/recintes.html`**, que és una
-eina de manteniment i no forma part de la web pública (va amb `noindex` i no hi ha cap enllaç que
-hi porti). Hi surten els 439 recintes sobre l'ortofoto: **en taronja els que encara no tenen
-unitat**, en verd tènue els que ja en tenen, perquè serveixin de referència. Clicant-ne un, es
-tria la unitat en un cercador, i al final de la pàgina hi ha les files `id_recinte,id_ua` a punt
-per copiar i enganxar a la pestanya `recintes`.
+eina de manteniment i no forma part de la web pública (va amb `noindex` i cap enllaç no hi porta).
 
-El botó *Veure'ls tots* pinta també els assignats amb el nom de la unitat a sobre: és la manera
-ràpida de situar-se quan un recinte no té cap nom escrit a dins.
+Té tres columnes. A l'esquerra, **dues llistes**: la de *recintes* —sense unitat, assignats o
+tots— i la d'*unitats* —les que no quadren, les que no tenen cap recinte, o totes—, amb cercador.
+Al mig, **el plànol** amb l'ortofoto: taronja el que no té unitat, verd el que sí, i destacat el
+que tens triat. A la dreta, **la fitxa**: classificació, superfície, claus, els recintes que té
+amb el compte de si sumen, i **el plànol de la fitxa**, que és el que de debò et diu quina forma
+té la unitat. Si en té dues, hi ha un botó per volum.
+
+Tot està lligat: cliques una unitat i el plànol hi va i te la pinta sencera; cliques un dels seus
+recintes i t'hi acostes; cliques un recinte del plànol i te'n surt la unitat. Al capdavall de la
+columna dreta s'hi van acumulant les files `id_recinte,id_ua` per copiar al full.
+
+**Una unitat pot tenir més d'un recinte**, i no és cap raresa: n'hi ha 24, i Molina en té sis. La
+relació és de molts recintes a una unitat, i al full això són senzillament unes quantes files amb
+el mateix `id_ua`. Per això la pàgina no diu si una unitat «ja té recinte» —que no vol dir res—
+sinó **si els que té sumen la superfície que diu la fitxa**: «6 recintes · li falten 7.381 m²».
+Quan el recinte que tens obert és justament el que faria quadrar una unitat, la seva fila surt
+marcada.
+
+Aquesta comparació és també la manera de trobar els recintes mal repartits. Per exemple R0029,
+que fa 103.440 m² i porta escrits dos noms a dins: amb ell, Cabeca passa de 71.670 a 175.111 m²
+contra els 174.827 que diu la fitxa, o sigui que és seu, i el nom de «Costes 1» que hi ha a dins
+és una etiqueta amb línia de guia que hi ha caigut a sobre.
 
 Enganxa al full **només les files que no diguin IGUAL**, omple l'`id_ua` de les noves i posa-hi
 `assignat_per = revisat`. El guió no toca mai una fila revisada, i els identificadors es mantenen
