@@ -52,12 +52,21 @@ val més un desplegament que falla que una web que menteix.
 
 ## Si el build es queixa
 
-Els errors de coherència diuen què passa i a quina fila. N'hi ha un que val la pena conèixer
-perquè no és el que sembla: si diu que **totes** les fitxes apunten a unitats que no existeixen,
-el problema no és cap fitxa, és que la pestanya `unitats` no s'ha llegit bé.
+Dues coses que val la pena saber abans de perdre-hi estona, totes dues perquè Google no falla
+quan hauria de fallar.
+
+**«La pestanya X no té la columna Y».** Quan demanes una pestanya que no existeix, Google no
+dona error: **et torna la primera del full**. Per això el build comprova, en llegir cada
+pestanya, que hi sigui la seva columna clau. Si les columnes que ensenya l'error són d'una altra
+pestanya, o el `FULL` de `scripts/config.mjs` encara apunta al full vell, o la pestanya es diu
+d'una altra manera —van totes en minúscula i sense accents.
+
+**Si diu que _totes_ les fitxes apunten a unitats que no existeixen**, el problema no és cap
+fitxa: és que la pestanya `unitats` no s'ha llegit bé.
 
 Google serveix els CSV endevinant quines files són capçalera, i quan una columna és del tot buida
-—a `unitats` n'hi ha tres— s'equivoca i desplaça els noms de columna. Per això el build demana
+—a `unitats` n'hi ha tres: `avis_propi`, `notes` i `substituida_per`— s'equivoca i desplaça els
+noms de columna. Per això el build demana
 `headers=1`, que li treu l'endevinalla. Si tot i així falla, es pot mirar què arriba:
 
 ```bash

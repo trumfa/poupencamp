@@ -43,7 +43,7 @@ const LOCAL = process.env.POUPE_CSV || '';
 async function pestanya(id, nom) {
   if (LOCAL) {
     const { readFile } = await import('node:fs/promises');
-    return aObjectes(parseCSV(await readFile(`${LOCAL}/${nom}.csv`, 'utf8')));
+    return comprova(nom, aObjectes(parseCSV(await readFile(`${LOCAL}/${nom}.csv`, 'utf8'))));
   }
   // headers=1 és imprescindible: sense això Google endevina quantes files són
   // capçalera, i quan una columna és del tot buida s'equivoca i desplaça els noms.
@@ -52,12 +52,13 @@ async function pestanya(id, nom) {
   if (!r.ok) throw new Error(`No s'ha pogut llegir «${nom}» (${r.status}). El full està compartit amb enllaç?`);
   const t = await r.text();
   if (t.startsWith('<')) throw new Error(`«${nom}» ha tornat HTML: el full no és públic o la pestanya no existeix.`);
-  return aObjectes(parseCSV(t));
+  return comprova(nom, aObjectes(parseCSV(t)));
 }
 
-// Cada pestanya ha de portar la seva columna clau. Si no hi és, el full s'ha llegit
-// malament i val més dir-ho aquí que no pas deixar que surtin cinc-cents errors
-// dient que totes les fitxes apunten a unitats que no existeixen.
+// Cada pestanya ha de portar la seva columna clau. Comprovar-ho en llegir-la és
+// important per una raó concreta: quan demanes a Google una pestanya que no existeix,
+// no et dona error — et torna la primera del full. Sense aquesta comprovació, el build
+// es passa mitja hora treballant amb les dades equivocades i falla molt més enllà.
 const CLAU = {
   documents: 'id_document', fitxes: 'id_fitxa', unitats: 'id_ua', recintes: 'id_recinte',
   articles: 'article', apartats: 'id_apartat', claus: 'clau', claus_parametres: 'id_valor',
@@ -65,17 +66,20 @@ const CLAU = {
   parametres: 'parametre_bd', avisos: 'id_avis', glossari: 'terme', capes: 'id_capa',
 };
 
-function comprovaCapçaleres(F) {
-  for (const [nom, files] of Object.entries(F)) {
-    const clau = CLAU[nom];
-    if (!clau || !files.length) continue;
-    const cols = Object.keys(files[0]);
-    if (!cols.includes(clau))
-      throw new Error(`La pestanya «${nom}» no té la columna «${clau}».\n`
-        + `  Columnes llegides: ${cols.join(', ')}\n`
-        + `  Sol voler dir que la primera fila del full no és la de les capçaleres, `
-        + `o que la pestanya s'ha reanomenat.`);
-  }
+function comprova(nom, files) {
+  const clau = CLAU[nom];
+  if (!clau || !files.length) return files;
+  const cols = Object.keys(files[0]);
+  if (cols.includes(clau)) return files;
+  throw new Error(
+    `La pestanya «${nom}» no té la columna «${clau}».\n`
+    + `  Columnes llegides: ${cols.join(', ')}\n\n`
+    + `  Quan es demana una pestanya que no existeix, Google no dona error: torna la\n`
+    + `  primera del full. Si les columnes de sobre són d'una altra pestanya, el més\n`
+    + `  probable és que «${nom}» no hi sigui, i això vol dir una d'aquestes dues coses:\n\n`
+    + `    · el FULL de scripts/config.mjs encara apunta al full vell\n`
+    + `    · la pestanya es diu d'una altra manera (van en minúscula i sense accents)\n\n`
+    + `  Per veure què arriba: node scripts/mira-pestanya.mjs ${nom}`);
 }
 
 async function llegeixFull(id, noms) {
@@ -154,8 +158,6 @@ console.log('Llegint les pestanyes de la base de dades…');
 const F = await llegeixFull(FULL, PESTANYES.bd);
 console.log('Llegint les pestanyes de contingut…');
 const C = await llegeixFull(FULL, PESTANYES.contingut);
-comprovaCapçaleres(F);
-comprovaCapçaleres(C);
 
 const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
 const T = Object.fromEntries(C.textos.map(r => [r.id_text, r.text_ca]));
