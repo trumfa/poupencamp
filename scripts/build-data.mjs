@@ -131,7 +131,7 @@ console.log('Llegint les pestanyes de contingut…');
 const C = await llegeixFull(FULL, PESTANYES.contingut);
 
 const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
-const T = Object.fromEntries(C.textos_web.map(r => [r.id_text, r.text_ca]));
+const T = Object.fromEntries(C.textos.map(r => [r.id_text, r.text_ca]));
 const fmt = (id, vars) => Object.entries(vars)
   .reduce((s, [k, v]) => s.split('{' + k + '}').join(String(v)), T[id] || '');
 
@@ -140,13 +140,13 @@ const blocs = C.blocs.filter(b => b.visible === 'SÍ')
   .map(b => ({ id: b.id_bloc, t: b.titol_public, s: b.subtitol, o: Number(b.ordre) }));
 
 const params = {};
-for (const p of C.parametres_public)
+for (const p of C.parametres)
   if (p.visible === 'SÍ' && p.id_bloc)
     params[p.parametre_bd] = { b: p.id_bloc, o: Number(p.ordre), et: p.etiqueta_publica, aj: p.ajuda_curta };
 
 const claus = {};
 const variants = {};          // clau mare -> règims alternatius (la subzona 11: 11A i 11B)
-for (const c of C.claus_public) {
+for (const c of F.claus) {
   if (c.visible !== 'SÍ') continue;
   const codi = String(c.clau);
   claus[codi] = { n: c.nom_public || c.denominacio_oficial, f: c.frase_planera,
@@ -156,83 +156,86 @@ for (const c of C.claus_public) {
 }
 
 const valors = {};
-for (const v of C.valors_public) {
+for (const v of F.claus_parametres) {
   if (v.visible !== 'SÍ' || !params[v.parametre_bd]) continue;
   (valors[String(v.clau)] ||= []).push({ p: v.parametre_bd, pl: v.text_planer, no: v.valor_original, a: v.article });
 }
 
 const arts = {};
-for (const a of F.Normativa) arts[(a.article || '').trim()] = { t: a.titol, d: a.font, u: a.url || '' };
+for (const a of F.articles) arts[(a.article || '').trim()] = { t: a.titol, d: a.document, u: a.url || '' };
 
 const avisos = Object.fromEntries(C.avisos.filter(a => a.visible === 'SÍ')
   .map(a => [a.id_avis, { to: a.to, x: a.text }]));
-const overrides = Object.fromEntries(C.ua_public.map(u => [u.id_ua, u]));
 
-const pf = Object.fromEntries(F.Parametres.map(r => [r.id_fitxa, r]));
 const fitxes = {};
-for (const f of F.Fitxes) (fitxes[f.id_ua] ||= []).push(f);
-const img = Object.fromEntries(F.Planols.filter(r => r.drive_id_imatge).map(r => [r.id_fitxa, r.drive_id_imatge]));
+for (const f of F.fitxes) if (f.id_ua) (fitxes[f.id_ua] ||= []).push(f);
 const prot = {};
-for (const r of F.Proteccions) if (r.id_ua) (prot[r.id_ua] ||= []).push(r);
+for (const r of F.proteccions) if (r.id_ua) (prot[r.id_ua] ||= []).push(r);
 
-// Una unitat pot tenir més d'una fitxa vigent: una per volum del pla. Passa a 91 de les
-// 405, i vol dir que la unitat té dues parts amb classificacions diferents —la urbana i
-// la de sòl no urbanitzable—, cadascuna amb la seva superfície, els seus paràmetres i el
-// seu plànol. Cada part és un registre sencer; la pàgina en mostra una i deixa triar.
+/* --------- comprovacions: val més un desplegament que falla que una web que menteix */
+const ids = new Set(F.unitats.map(u => u.id_ua));
+const docs = new Set(F.documents.map(d => d.id_document));
+const problemes = [];
+for (const f of F.fitxes) {
+  // una fitxa sense unitat només s'admet si és un document normatiu: un volum sencer
+  if (!f.id_ua) {
+    if (f.tipus_fitxa !== 'document normatiu')
+      problemes.push(`la fitxa ${f.id_fitxa} no diu de quina unitat és`);
+  } else if (!ids.has(f.id_ua)) {
+    problemes.push(`la fitxa ${f.id_fitxa} apunta a la unitat ${f.id_ua}, que no existeix`);
+  }
+  if (f.id_document && !docs.has(f.id_document)) problemes.push(`la fitxa ${f.id_fitxa} apunta al document ${f.id_document}, que no existeix`);
+}
+const dobles = {};
+for (const f of F.fitxes) if (f.vigent === 'SÍ') {
+  const k = f.id_ua + '|' + f.volum;
+  if (dobles[k]) problemes.push(`${f.id_ua} té dues fitxes vigents del volum ${f.volum}: ${dobles[k]} i ${f.id_fitxa}`);
+  dobles[k] = f.id_fitxa;
+}
+for (const r of F.recintes) {
+  if (r.id_ua && !ids.has(r.id_ua)) problemes.push(`el recinte ${r.id_recinte} està assignat a ${r.id_ua}, que no existeix`);
+}
+for (const v of F.claus_parametres)
+  if (v.visible === 'SÍ' && v.clau && !claus[v.clau])
+    problemes.push(`claus_parametres cita la clau ${v.clau}, que no és a la pestanya claus`);
+if (problemes.length) {
+  console.error('\nEl full no és coherent i no es pot publicar:');
+  for (const p of [...new Set(problemes)].slice(0, 30)) console.error('  · ' + p);
+  if (problemes.length > 30) console.error(`  · …i ${problemes.length - 30} més`);
+  process.exit(1);
+}
+console.log('\nEl full és coherent.');
+
+// Una unitat pot tenir més d'una fitxa vigent: una per volum del pla. Vol dir que la
+// unitat té dues parts amb classificacions diferents —la urbana i la de sòl no
+// urbanitzable—, cadascuna amb la seva superfície, els seus paràmetres i el seu plànol.
+// Cada part és un registre sencer; la pàgina en mostra una i deixa triar.
 const VOLUM = { III: "Vall d'Encamp", IV: 'Els Cortals', V: 'Pas de la Casa',
                 VI: 'Sòl urbanitzable', VII: 'Sòl no urbanitzable' };
 
-// A la pestanya UA hi ha unitats amb una fila per volum (Salitar i Lloset 2: una de la
-// part urbana i una de la de sòl no urbanitzable). No són duplicats: són la mateixa
-// unitat amb dues qualificacions. Les parts surten de les fitxes, o sigui que aquí n'hi
-// ha prou de quedar-se una fila per unitat, i que sigui la urbana: és la que porta el
-// nom i el tipus de fitxa que encapçalen la unitat.
-const filesUA = new Map();
-const clsVolum = new Map();      // id_ua|volum -> classificació, quan la fila del volum hi és
-for (const u of F.UA) {
-  const id = (u.id_ua || '').trim();
-  if (!id || !(u.nom_oficial || '').trim()) continue;
-  // només val si la fila és d'un sol volum: si en cobreix uns quants, la seva
-  // classificació és la de la part urbana i no diu res de la de sòl no urbanitzable
-  const vols1 = (u.volums || '').split(/[;\s]+/).filter(Boolean);
-  if (vols1.length === 1 && !clsVolum.has(id + '|' + vols1[0]))
-    clsVolum.set(id + '|' + vols1[0], u.classificacio_vigent);
-  const hi = filesUA.get(id);
-  if (!hi || (hi.volums === 'VII' && u.volums !== 'VII')) filesUA.set(id, u);
-}
-
 const UA = [];
-for (const u of filesUA.values()) {
+for (const u of F.unitats) {
   const idu = (u.id_ua || '').trim();
+  if (!idu || !(u.nom_oficial || '').trim()) continue;
+  if (u.visible === 'NO' || u.estat === 'derogada') continue;
   const fs = fitxes[idu] || [];
   const vig = fs.filter(f => f.vigent === 'SÍ');
   const perVolum = new Map();
   for (const f of (vig.length ? vig : fs.slice(0, 1)))
     if (!perVolum.has(f.volum)) perVolum.set(f.volum, f);
-  const ov = overrides[idu] || {};
 
-  const rec = { id: idu, n: ov.nom_public || u.nom_oficial, tf: u.tipus_fitxa, parts: [], fx: [] };
+  const rec = { id: idu, n: u.nom_public || u.nom_oficial, tf: '', parts: [], fx: [] };
 
   const vols = [...perVolum.keys()].sort((x, y) =>
     (x === 'VII' ? 1 : 0) - (y === 'VII' ? 1 : 0) || String(x).localeCompare(String(y)));
 
   for (const vol of vols) {
-    const principal = perVolum.get(vol);
-    const p = pf[principal.id_fitxa] || {};
+    const p = perVolum.get(vol);                 // la fitxa ja porta els paràmetres
     const z = parseClaus(p.zones), sz = parseClaus(p.subzones);
 
     const part = {
-      vol, idf: principal.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
-      // el volum VII és, per definició, sòl no urbanitzable: quan la fitxa no diu la
-      // classificació, val més això que no pas heretar la de la part urbana
-      cls: p.classificacio || clsVolum.get(idu + '|' + vol)
-           || (vol === 'VII' ? 'SNUBLE' : u.classificacio_vigent),
-      // el tipus surt de la fitxa de la part, no de la unitat: una unitat pot ser
-      // «UA per subzona» a la part urbana i «àrea diferenciada» a la de SNU
-      tf: principal.tipus_fitxa || u.tipus_fitxa,
-      // amb dues parts, cadascuna ha de dur la seva: la superfície de la unitat sencera
-      // repetida a totes dues enganyaria, i el plànol la comptaria dos cops.
-      sup: p.superficie_m2 || (vols.length > 1 ? '' : u.superficie_vigent) || '',
+      vol, idf: p.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
+      cls: p.classificacio, tf: p.tipus_fitxa, sup: p.superficie_m2 || '',
       cob: p.cobertura || '', edif: p.edificabilitat_max_m2 || '',
       z, sz, clau: [z.map(x => x.c).join('·'), sz.map(x => x.c).join('·')].filter(Boolean).join(' / '),
       raw: {}, av: [], pr: [],
@@ -242,8 +245,8 @@ for (const u of filesUA.values()) {
     if (p.gestio) part.raw.g = p.gestio;
 
     // resum
-    if (ov.resum_que_es) {
-      part.res = [ov.resum_que_es, ov.resum_que_shi_pot_fer, ov.resum_com_es_desenvolupa];
+    if (u.resum_que_es) {
+      part.res = [u.resum_que_es, u.resum_que_shi_pot_fer, u.resum_com_es_desenvolupa];
     } else {
       const cl = CLASSIF[part.cls] || part.cls || 'sòl sense classificar';
       const f1 = part.sup ? fmt('resum_1', { superficie: part.sup, classificacio: cl })
@@ -265,16 +268,16 @@ for (const u of filesUA.values()) {
     }
 
     // avisos
-    const ids = [];
+    const idsAv = [];
     const mapa2 = { SUBLE: 'AV1', SUNC: 'AV2', SNUBLE: 'AV3', SNU: 'AV3' };
-    if (mapa2[part.cls]) ids.push(mapa2[part.cls]);
-    if (part.tf === 'àrea diferenciada') ids.push('AV4');
-    if (part.tf === 'UA definició volumètrica') ids.push('AV5');
-    if (prot[idu]) ids.push('AV6');
-    if (fs.some(f => f.modificacio !== 'M00')) ids.push('AV7');
-    if ((part.cob || '').includes('sense aprofitament privat')) ids.push('AV8');
-    part.av = ids.filter(i => avisos[i]).map(i => ({ ...avisos[i] }));
-    if (ov.avis_propi) part.av.push({ to: 'atencio', x: ov.avis_propi });
+    if (mapa2[part.cls]) idsAv.push(mapa2[part.cls]);
+    if (part.tf === 'àrea diferenciada') idsAv.push('AV4');
+    if (part.tf === 'UA definició volumètrica') idsAv.push('AV5');
+    if (prot[idu]) idsAv.push('AV6');
+    if (fs.some(f => f.modificacio !== 'M00')) idsAv.push('AV7');
+    if ((part.cob || '').includes('sense aprofitament privat')) idsAv.push('AV8');
+    part.av = idsAv.filter(i => avisos[i]).map(i => ({ ...avisos[i] }));
+    if (u.avis_propi) part.av.push({ to: 'atencio', x: u.avis_propi });
 
     // punts propis de la fitxa
     for (const a of alcades(p.ordenacio, z)) {
@@ -319,14 +322,18 @@ for (const u of filesUA.values()) {
   }
 
   if (!rec.parts.length) continue;
+  rec.tf = rec.parts[0].tf;
 
   // fitxes: totes, amb el volum a què pertanyen
+  const doc = Object.fromEntries(F.documents.map(d => [d.id_document, d]));
   for (const f of [...fs].sort((a, b) => (a.vigent === 'SÍ' ? 0 : 1) - (b.vigent === 'SÍ' ? 0 : 1)
                                       || String(a.volum).localeCompare(String(b.volum))
-                                      || String(a.modificacio).localeCompare(String(b.modificacio))))
+                                      || String(a.modificacio).localeCompare(String(b.modificacio)))) {
+    const d = doc[f.id_document] || {};
     rec.fx.push({ idf: f.id_fitxa, m: f.modificacio, v: f.volum, vig: f.vigent === 'SÍ',
-                  fase: f.fase_aprovacio, b: `BOPA núm. ${f.bopa_num}, ${f.bopa_data}`,
-                  pg: f.bopa_pagina, pdf: f.drive_id, img: img[f.id_fitxa] || '' });
+                  fase: d.fase_aprovacio, b: `BOPA núm. ${d.bopa_num}, ${d.bopa_data}`,
+                  pg: d.bopa_pagina, pdf: f.pdf_drive_id, img: f.planol_drive_id || '' });
+  }
   UA.push(rec);
 }
 
@@ -354,20 +361,28 @@ for (const r of UA) {
   for (const f of r.fx) { f.fase = intern(f.fase); f.b = intern(f.b); }
 }
 
-// Geometria de les unitats, treta del DWG cadastral (mira scripts/dwg-a-mapa.py).
+// Geometria del plànol. El dibuix és data/geometria.json, una entrada per recinte i
+// res més; qui diu de quina unitat és cada recinte és la pestanya «recintes» del full.
+// Així, reassignar-ne un és tocar una cel·la i tornar a desplegar: no cal refer res.
 let mapa = null;
 try {
-  mapa = JSON.parse(await readFile(ARREL + 'data/mapa.json', 'utf8'));
-  // Les parcel·les del cadastre es guarden al fitxer però ara no es publiquen: el
-  // plànol només ensenya les unitats. Treu aquesta línia per tornar-les a enviar.
-  delete mapa.p;
-  mapa.n = Object.keys(mapa.ua).filter(id => UA.some(u => u.id === id)).length;
-  for (const id of Object.keys(mapa.ua)) if (!UA.some(u => u.id === id)) delete mapa.ua[id];
-  console.log(`\nPlànol: ${mapa.n} unitats amb perímetre`);
-} catch { console.log('\nSense data/mapa.json: la web sortirà sense plànol.'); }
+  const geo = JSON.parse(await readFile(ARREL + 'data/geometria.json', 'utf8'));
+  const publicades = new Set(UA.map(u => u.id));
+  const ua = {};
+  let orfes = 0;
+  for (const r of F.recintes) {
+    if (r.estat === 'retirat' || !r.id_ua) { if (!r.id_ua) orfes++; continue; }
+    const anell = geo.r[r.id_recinte];
+    if (!anell || !publicades.has(r.id_ua)) continue;
+    (ua[r.id_ua] ||= []).push(anell);
+  }
+  mapa = { o: geo.o, ua, n: Object.keys(ua).length };
+  console.log(`Plànol: ${mapa.n} unitats dibuixades amb ${F.recintes.length} recintes`
+    + (orfes ? ` · ${orfes} recintes encara sense unitat assignada` : ''));
+} catch { console.log('\nSense data/geometria.json: la web sortirà sense plànol.'); }
 
 const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA, mapa,
-               glossari: C.glossari_public.filter(g => g.visible === 'SÍ')
+               glossari: C.glossari.filter(g => g.visible === 'SÍ')
                  .map(g => ({ t: g.terme, d: g.definicio_planera })),
                generat: new Date().toISOString() };
 
@@ -406,18 +421,20 @@ await writeFile(ARREL + 'public/index.html', doc);
 const brutEsq = await readFile(ARREL + 'src/esquema.html', 'utf8');
 const citats = new Set((brutEsq.match(/Article \d+/g) || []));
 const artsEsq = {};
-for (const r of F.Normativa_apartats) {
+for (const r of F.apartats) {
   if (!citats.has(r.article)) continue;
-  (artsEsq[r.article] ||= { t: r.titol_article, f: r.bopa, ap: [] })
+  (artsEsq[r.article] ||= { t: (arts[r.article] || {}).t || '',
+                           f: (F.articles.find(a => a.article === r.article) || {}).bopa || '',
+                           ap: [] })
     .ap.push([r.apartat, (r.text || '').trim()]);
 }
 // els articles de zona i subzona porten tots els paràmetres en un sol apartat inacabable;
 // la pestanya Claus_parametres els té partits per lletra, que és com es llegeixen
 const clausArt = {};
-for (const r of F.Claus_parametres) {
+for (const r of F.claus_parametres) {
   if (!citats.has(r.article)) continue;
   (clausArt[r.article] ||= []).push({
-    c: r.clau, l: r.lletra, p: r.parametre, v: r.valor,
+    c: r.clau, l: r.lletra, p: r.parametre, v: r.valor_original,
     n: r.valor_numeric, u: r.unitat, r: r.remet_a });
 }
 await writeFile(ARREL + 'public/esquema.html',

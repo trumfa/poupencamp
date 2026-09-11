@@ -15,23 +15,39 @@ Dues peces, i cadascuna té un sol ofici:
 
 | Peça | Què hi ha | Qui la toca |
 |---|---|---|
-| **El full de càlcul** | Tot: les pestanyes de la base de dades (`Fitxes`, `Parametres`, `UA`, `Normativa`, `Claus`…), que surten de l'extracció per OCR, i les de contingut (`config`, `textos_web`, `valors_public`…), que diuen com s'explica cada cosa | Les de contingut, tu. Les de la base de dades, el procés d'extracció |
-| **Aquest repositori** | La pàgina i el guió que llegeix el full | Només si es canvia el disseny o la lògica |
-
-El guió `scripts/build-data.mjs` llegeix les pestanyes del full, les creua i escriu `public/data.json`.
-La pàgina és un sol fitxer estàtic que llegeix aquest JSON. No hi ha servidor, ni base de dades,
-ni cap dependència de npm.
+| **El full de càlcul** | 19 pestanyes en tres famílies: la **font** (`documents`, `fitxes`, `unitats`, `recintes`), la **norma** (`articles`, `apartats`, `claus`, `claus_parametres`, `proteccions`…) i el **contingut públic** (`config`, `textos`, `blocs`, `parametres`, `avisos`, `glossari`, `capes`) | Les de contingut, tu. Les altres, l'extracció i el plànol |
+| **Aquest repositori** | La pàgina, el guió que llegeix el full i la geometria del plànol | Només si es canvia el disseny o la lògica |
 
 ```
 scripts/build-data.mjs      llegeix el full -> public/data.json, index.html i esquema.html
 scripts/config.mjs          identificador del full i pestanyes que llegeix
+scripts/planol-nou.py       un plànol nou (GeoJSON o DWG) -> recintes.csv + geometria
+scripts/migra-full.py       del full vell de 27 pestanyes al nou de 19
 scripts/converteix-planols.py  PNG del Drive -> WebP per a public/planols/
-scripts/dwg-a-mapa.py       DWG cadastral -> data/mapa.json (perímetres de les unitats)
-data/mapa.json              geometria del plànol interactiu
+data/geometria.json         el dibuix, una entrada per recinte
+data/recintes.geojson       el mateix en format obert, per a qui el vulgui obrir
 src/index.html              la pàgina (cos del document; el build hi posa el <head>)
 src/esquema.html            «Qui regula què»: quin nivell del pla decideix cada paràmetre
 public/                     el que es publica
 ```
+
+### Les tres regles de l'estructura
+
+1. **Cada dada, en un sol lloc.** La classificació és de la fitxa, no de la unitat; la
+   superfície també. La unitat només té identitat: identificador, nom i àlies.
+2. **Res no s'esborra mai.** Una modificació del pla no és una edició: és una fitxa nova, i la
+   vella es queda amb `vigent = NO` i la data en què ho va deixar de ser. Igual amb les unitats
+   (`estat`) i els recintes.
+3. **El full decideix, el codi no endevina.** Quin recinte del plànol és de quina unitat és una
+   fila de `recintes`, no una heurística del build. Els àlies del DWG —«E.S. Esso» cap a ESSO—
+   són una columna de `unitats`.
+
+### El build no publica un full incoherent
+
+Abans de generar res, `build-data.mjs` comprova que no hi hagi cap fitxa que apunti a una unitat
+inexistent, cap unitat amb dues fitxes vigents del mateix volum, cap recinte assignat a una unitat
+que no hi és i cap clau citada que no existeixi. Si en troba, escriu què passa i s'atura amb error:
+val més un desplegament que falla que una web que menteix.
 
 ## Requisit previ: compartir el full
 
@@ -119,87 +135,67 @@ instruccions.
 
 A la portada, sota el cercador, hi ha el plànol de la parròquia: s'hi pot arrossegar i fer zoom
 amb la roda o pessigant. Les unitats van pintades segons la classificació del sòl, i de prop en
-surten els noms.
+surten els noms. Amb ratolí, passar per sobre d'una unitat n'ensenya el nom i clicar-la obre la
+fitxa; sense ratolí, el primer toc ensenya el nom i el segon obre la fitxa.
 
-Amb ratolí, passar per sobre d'una unitat n'ensenya el nom i clicar-la obre la fitxa. Sense
-ratolí no hi ha «passar per sobre», així que el primer toc ensenya el nom i el segon obre la
-fitxa; la pàgina ho detecta amb `matchMedia('(hover: hover)')` i ajusta també el text d'ajuda.
+**El dibuix i l'assignació van per separat.** `data/geometria.json` porta els perímetres, un per
+recinte i sense dir de qui són. Qui diu de quina unitat és cada recinte és la pestanya `recintes`
+del full. Així, corregir una assignació és tocar una cel·la i tornar a desplegar.
 
-A partir de 900 px d'amplada el plànol se surt de la columna de text i ocupa fins a 1.280 px:
-triar una unitat damunt del mapa demana espai, mentre que la fitxa es llegeix millor estreta.
+### Quan arriba un plànol nou
 
-La geometria surt del DWG cadastral del Comú, que porta els perímetres de les unitats en capes
-per classificació i els noms en una capa a part. `scripts/dwg-a-mapa.py` els creua i escriu
-`data/mapa.json`, que el build incrusta dins de `data.json`. El DWG no es puja al repositori:
-els navegadors no el saben llegir i pesa 3,5 MB; el que es publica és el JSON, simplificat al
-metre i amb les coordenades desades com a deltes entre vèrtexs.
+Demana'l **en GeoJSON**: és obert, porta el sistema de coordenades a dins i qualsevol SIG l'exporta
+(el QGIS obre el DWG i el treu sense res més). Si només hi ha DWG, també serveix; cal LibreDWG per
+convertir-lo primer:
 
-**Com es decideix quin recinte és de quina unitat.** El DWG porta tres senyals, i cap dels
-tres no és infal·lible tot sol: la **superfície** escrita dins de cada recinte a la capa `_Sup UA`
-(que coincideix amb l'àrea calculada amb un error mitjà de dues centèsimes per cent), el **nom**
-de la unitat a la capa `ÀMBITS NOM` —que sovint cau fora del seu recinte, amb una línia de guia,
-i el més proper sol ser el del veí gros— i la **qualificació**, que és la capa mateixa
-(`01 1 UA SUC`, `01 2 UA SUNC`, `01 3 UA SUBLE`, `01 11 UA SUCc`). Les fitxes urbanístiques diuen
-la superfície i la classificació de cada part.
+```bash
+dwgread -O JSON -o planol.json Parcelles_UAs.dwg
+```
 
-Per això el guió no aplica una regla que mani sobre les altres, sinó que posa **una nota a cada
-parella (part, recinte)**: com més baixa, més convincent. Es reparteix de la millor parella a la
-pitjor i cap recinte no és de dues parts alhora.
+Després, deixa el fitxer a `data/planol-nou.geojson` (o `.json`) del repositori — des del web de
+GitHub, arrossegant-lo. El workflow *Plànol nou* el compara amb el full i deixa el resultat a
+Actions. També es pot fer a mà:
 
-- **La qualificació filtra.** Una part de SUNC no pot anar a parar a un recinte dibuixat a la capa
-  de SUBLE. SUC i SUCc es deixen passar l'una per l'altra, però amb penalització.
-- **La superfície mana quan hi és.** Si l'àrea del recinte coincideix amb la de la fitxa (±20%),
-  la parella surt amb una nota d'entre 0 i 3, i aquestes es reparteixen primer.
-- **El nom entra quan la superfície no pot.** Si el nom de la part és escrit dins del recinte i la
-  qualificació encaixa, la parella val 3,5 encara que els metres no quadrin. Això recupera les
-  unitats la fitxa de les quals porta la superfície mal escrita —Feda 4 diu «3.04» i el recinte fa
-  3.032 m²—, i és el que arregla també les que abans es quedaven sense dibuix.
-  Per no acceptar disbarats, el recinte no pot passar de quinze vegades la superfície de la fitxa.
-- **Un nom a dins reserva.** Si dins d'un recinte hi ha el nom d'una sola unitat, i aquella unitat
-  té una part d'aquella qualificació, les altres unitats el tenen penalitzat: només se'l queden si
-  no els queda res més. Així un veí amb la superfície semblant no pot endur-se un recinte que porta
-  el nom d'algú altre escrit a dins.
-- **Unitats de diverses peces:** se sumen els recintes lliures del voltant, de la mateixa
-  qualificació, fins a fer la superfície de la fitxa.
-- **I una última xarxa:** el nom cau dins d'un recinte que no vol ningú més i no passa del doble ni
-  baixa de la meitat del que diu la fitxa.
+```bash
+pip install pyproj
+python scripts/planol-nou.py planol.geojson data/ recintes.csv unitats.csv
+```
 
-En surten **369 unitats dibuixades**, amb un error de superfície d'una mitjana del 0,5%.
+Cada recinte surt marcat a la columna `canvi`:
 
-Al final de l'execució, el guió llista les unitats on la superfície de la fitxa i la del dibuix no
-s'assemblen. Gairebé sempre és la fitxa que la porta mal escrita —un punt de milers de menys— i es
-corregeix al full. Les que ja s'han mirat una per una i es queden com són van al diccionari
-`ACCEPTATS` del guió, amb el motiu, i deixen de sortir a l'informe: ara mateix hi ha Cresper (el
-recinte gros del costat és del veí), Pardines 3 (un recinte per a cadascuna de les dues Pardines,
-encara que els metres no quadrin) i Pas de la Casa 1 (la fitxa es queda curta).
+- **IGUAL** — hi era i no ha canviat. No el toquis.
+- **NOU** — no hi era. Si porta un nom escrit a dins que coincideix amb una unitat, ve amb la
+  proposta feta; si no, l'`id_ua` queda buit.
+- **CANVIAT** — hi era però ara té una altra forma. Val la pena mirar si segueix sent de qui era.
+- **DESAPAREGUT** — ja no és al plànol. Queda `retirat`, no s'esborra.
 
-`data/mapa.json` guarda també les 4.432 parcel·les del cadastre, però ara no es publiquen: el
-plànol només ensenya les unitats. Per tornar-les a enviar al navegador, treu el `delete mapa.p`
-de `scripts/build-data.mjs` i el dibuix del canvas.
+Enganxa al full **només les files que no diguin IGUAL**, omple l'`id_ua` de les noves i posa-hi
+`assignat_per = revisat`. El guió no toca mai una fila revisada, i els identificadors es mantenen
+perquè aparella per lloc i superfície, no per ordre.
 
-**El sistema de coordenades.** El cadastre va en NTF (Paris) / Lambert Sud, `EPSG:27563`, que és
-el sistema històric d'Andorra. El guió el passa a Web Mercator (`EPSG:3857`), que és el que fan
-servir els mosaics de qualsevol proveïdor de mapes: així el dibuix quadra amb el fons sense cap
-altre ajust.
+El sistema de coordenades: el cadastre va en NTF (Paris) / Lambert Sud, `EPSG:27563`. El GeoJSON
+surt en graus (`EPSG:4326`), que és el que demana el format, i la geometria del navegador en Web
+Mercator (`EPSG:3857`), que és el dels mosaics de fons.
 
-**El mapa de fons.** Es tria amb els botons de dalt a l'esquerra: *Ortofoto* (World Imagery
-d'Esri), *Mapa* (OpenStreetMap) o *Cap*. Tots dos són gratuïts i només demanen que se'n digui la
-procedència, cosa que la pàgina fa a sota dels botons. Els mosaics es demanen directament amb
-`<img>` i es dibuixen al canvas; no hi ha cap biblioteca de mapes. Per canviar de proveïdor n'hi
-ha prou amb tocar l'objecte `FONS` de `src/index.html`; si algun dia es vol Google Maps, cal una
-clau de l'API de Google amb facturació activada i fer servir el seu SDK, perquè les seves
-condicions no permeten agafar-ne els mosaics pel seu compte.
+**Una cosa que diu el guió cada vegada:** al DWG d'avui hi ha **nou recintes dibuixats dues
+vegades**, un damunt de l'altre. No fan mal, però val la pena dir-ho a qui manté el dibuix.
 
-De les 405 unitats, 369 tenen perímetre. Les 36 que falten es reparteixen entre les que el DWG
-no dibuixa com a recinte d'unitat —àmbits grans de sòl no urbanitzable, concessions, refugis— i
-unes quantes on la superfície de la fitxa i la del dibuix no s'assemblen prou per fiar-se'n. Es
-troben igualment pel cercador. Per afegir-ne, n'hi ha prou
-amb posar el nom com surt al DWG al diccionari `ALIES` del guió i tornar-lo a executar: així és
-com les quatre estacions de servei, que al DWG són «E.S. Esso» i companyia, van a parar a les
-unitats `ESSO`, `Figueredo`, `Mòbil` i `Arajol`.
+### Més capes
 
-La capa d'ortofoto del DWG és una referència externa i la imatge no és dins del fitxer; per això
-el fons ve d'un servei de mosaics i no del DWG.
+La pestanya `capes` diu quines capes es dibuixen: nom, fitxer, color i si surt encesa. Afegir-ne
+una és deixar el GeoJSON a `data/` i escriure-hi la fila. El DWG ja en porta tres que no publiquem
+i que gairebé no pesen —sòl privat en SNU per risc (143 recintes), protecció 15 m (27) i sòl
+comunal (3)— i les parcel·les del cadastre (4.432), que són l'única que pesa de debò: 188 KB
+contra els 84 KB de totes les unitats juntes.
+
+### El mapa de fons
+
+Es tria amb els botons de dalt a l'esquerra: *Ortofoto* (World Imagery d'Esri), *Mapa*
+(OpenStreetMap) o *Cap*. Tots dos són gratuïts i només demanen que se'n digui la procedència, cosa
+que la pàgina fa a sota dels botons. Per canviar de proveïdor n'hi ha prou amb tocar l'objecte
+`FONS` de `src/index.html`; si algun dia es vol Google Maps, cal una clau de l'API amb facturació
+activada i fer servir el seu SDK, perquè les seves condicions no permeten agafar-ne els mosaics
+pel seu compte.
 
 ## Unitats amb més d'una fitxa
 
@@ -273,6 +269,36 @@ hi apareix tot sol al següent build.
 
 La correspondència entre paràmetre i nivell és lectura de la norma, no un camp del full: si en
 canvia alguna, es corregeix a `FILES`.
+
+## Com es fa un canvi
+
+| Cas | Què toques |
+|---|---|
+| **Unitat nova** | Fila a `unitats` · fila a `documents` · fila a `fitxes` (vigent = SÍ) · el plànol al Drive i el seu id a la fitxa · el recinte a `recintes` quan arribi el plànol · una línia a `canvis` |
+| **Modificació (M05…)** | La fitxa d'ara: `vigent = NO` i `vigent_fins_a` · fila nova a `fitxes` · document i plànol nous |
+| **Unitat derogada** | A `unitats`, `estat = derogada` · totes les seves fitxes a `vigent = NO` · el recinte a `retirat` |
+| **Canvi de clau o d'article** | La fila nova a `claus` o `claus_parametres`; els textos planers tornen a `revisat = NO` |
+| **Capa nova al plànol** | El GeoJSON a `data/` i una fila a `capes` |
+
+Sense el pas del recinte, una unitat nova ja funciona: surt al cercador i té fitxa; només no es
+pinta al plànol.
+
+## La migració del full vell
+
+`scripts/migra-full.py` munta el full nou a partir del vell. No reescriu cap dada a mà i es pot
+tornar a executar tantes vegades com calgui:
+
+```bash
+pip install openpyxl
+python scripts/migra-full.py poupe_full.json contingut.xlsx data/recintes.csv nou/
+```
+
+En surten els 19 CSV i un `POUPE_full_nou.xlsx` per importar a Google Sheets. El que fa, pestanya
+per pestanya, és al capdamunt del guió.
+
+Comprovat: generant el `data.json` amb el full vell i amb el nou, les 403 unitats surten idèntiques
+tret de dos codis de clau que abans s'escrivien en majúscula («ÉA» contra «éa»), que són soroll de
+l'extracció i no afecten res.
 
 ## Què queda per fer
 

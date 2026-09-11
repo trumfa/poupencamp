@@ -7,8 +7,9 @@ export const FULL = '1yjOw63B5teoSN-b0-z91umtKjY9qYoeXytZuhqp34uo';
 
 // Les pestanyes que llegeix el build, per famílies.
 export const PESTANYES = {
-  bd: ['Fitxes', 'Parametres', 'UA', 'Normativa', 'Normativa_apartats', 'Claus', 'Glossari',
-       'Claus_parametres', 'Claus_subdivisions', 'Proteccions', 'Planols'],
-  contingut: ['config', 'textos_web', 'blocs', 'parametres_public', 'claus_public',
-              'valors_public', 'ua_public', 'glossari_public', 'avisos'],
+  // les que surten de l'extracció del BOPA i del plànol: no es toquen a mà
+  bd: ['documents', 'fitxes', 'unitats', 'recintes', 'articles', 'apartats',
+       'claus', 'claus_parametres', 'proteccions'],
+  // les que escrius tu
+  contingut: ['config', 'textos', 'blocs', 'parametres', 'avisos', 'glossari', 'capes'],
 };

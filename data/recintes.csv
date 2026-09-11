@@ -1,0 +1,440 @@
+﻿id_recinte,id_ua,capa_dwg,superficie_dwg,nom_dwg,assignat_per,estat,vist_a,nota,centre_x,centre_y,canvi
+R0001,NERES_2,01 3 UA SUBLE,1010.4,Neres 2,proposta,vigent,parcelles.json,,535379.06,25924.29,IGUAL
+R0002,NERES_1,01 3 UA SUBLE,7694.4,Neres 1,proposta,vigent,parcelles.json,,535453.55,25929.26,IGUAL
+R0003,FEDA_4,01 1 UA SUC,3032.4,Feda 4,proposta,vigent,parcelles.json,,535538.75,24177.19,IGUAL
+R0004,FEDA_3,01 1 UA SUC,3707.4,Feda 3,proposta,vigent,parcelles.json,,535615.92,24296.48,IGUAL
+R0005,FEDA_2,01 1 UA SUC,8542.2,Feda 2,proposta,vigent,parcelles.json,,535624.74,24227.86,IGUAL
+R0006,EASA,01 1 UA SUC,928.4,,proposta,vigent,parcelles.json,,535652.97,24383.77,IGUAL
+R0007,PLAMANERA,01 3 UA SUBLE,71377.3,Plamanera,proposta,vigent,parcelles.json,,535663.91,25917.12,IGUAL
+R0008,TRESOLES,01 2 UA SUNC,15323.6,Tresoles,proposta,vigent,parcelles.json,,535709.64,24180.58,IGUAL
+R0009,FEDA_1,01 1 UA SUC,19549.4,Feda 1,proposta,vigent,parcelles.json,,535728.81,24392.49,IGUAL
+R0010,PRAT_DEL_SALT,01 1 UA SUC,20075.7,Prat del Salt,proposta,vigent,parcelles.json,,535783.57,24422.59,IGUAL
+R0011,PRAT_DEL_SALT,01 1 UA SUC,20075.7,Prat del Salt,proposta,vigent,parcelles.json,,535783.57,24422.59,IGUAL
+R0012,CABECA,01 3 UA SUBLE,57048.1,Cabeca,proposta,vigent,parcelles.json,,535801.52,24812.83,IGUAL
+R0013,PLAMUSSOLA,01 3 UA SUBLE,51225.6,Plamussola,proposta,vigent,parcelles.json,,535863.42,25968.25,IGUAL
+R0014,RAMONET,01 2 UA SUNC,24327.3,Ramonet,proposta,vigent,parcelles.json,,535863.62,24466.49,IGUAL
+R0015,,01 3 UA SUBLE,867.8,,,vigent,parcelles.json,,535863.67,26331.45,IGUAL
+R0016,PRAT_DEL_TURA,01 1 UA SUC,12856.6,Prat del Tura,proposta,vigent,parcelles.json,,535866.48,24673.54,IGUAL
+R0017,ESPELUGA_2,01 3 UA SUBLE,3355.1,Espeluga 2,proposta,vigent,parcelles.json,,535882.01,25323.82,IGUAL
+R0018,BEIXALIS_DE_DALT,01 3 UA SUBLE,53762.0,Beixalís de Dalt,proposta,vigent,parcelles.json,,535942.27,26036.71,IGUAL
+R0019,SERRAT,01 1 UA SUC,240.5,Serrat,proposta,vigent,parcelles.json,,535992.94,24814.24,IGUAL
+R0020,FEDA_1,01 1 UA SUC,323.6,Feda 1,proposta,vigent,parcelles.json,,536008.41,24310.59,IGUAL
+R0021,CARCAMANYA,01 1 UA SUC,12609.6,Bartra de Baix 2; Carcamanya,proposta,vigent,parcelles.json,,536007.69,24865.33,IGUAL
+R0022,,01 1 UA SUC,1384.2,,,vigent,parcelles.json,,536089.98,24963.36,IGUAL
+R0023,BEIXALIS_DEL_MIG,01 3 UA SUBLE,33882.9,Beixalís del Mig,proposta,vigent,parcelles.json,,536121.07,26045.51,IGUAL
+R0024,COSTES_1,01 3 UA SUBLE,5395.6,Costes 1,proposta,vigent,parcelles.json,,536124.19,25208.12,IGUAL
+R0025,,01 1 UA SUC,1363.7,,,vigent,parcelles.json,,536183.91,25049.95,IGUAL
+R0026,,01 2 UA SUNC,636.3,,,vigent,parcelles.json,,536211.47,24536.78,IGUAL
+R0027,BEIXALIS_DE_BAIX,01 3 UA SUBLE,37626.8,Beixalís de Baix,proposta,vigent,parcelles.json,,536215.46,26115.99,IGUAL
+R0028,BARTRA_DE_BAIX_1,01 1 UA SUC,15702.6,Bartra de Baix 2,proposta,vigent,parcelles.json,,536221.81,25066.42,IGUAL
+R0029,,01 3 UA SUBLE,103440.4,Cabeca; Costes 1,,vigent,parcelles.json,,536250.27,25268.42,IGUAL
+R0030,,01 3 UA SUBLE,546.2,,,vigent,parcelles.json,,536255.02,25996.77,IGUAL
+R0031,COSTES_2,01 3 UA SUBLE,831.8,Costes 2,proposta,vigent,parcelles.json,,536262.38,25327.91,IGUAL
+R0032,ESPELUGA_1,01 3 UA SUBLE,85220.5,Espeluga 1,proposta,vigent,parcelles.json,,536266.92,25743.22,IGUAL
+R0033,COSTES_2,01 3 UA SUBLE,307.8,Costes 2,proposta,vigent,parcelles.json,,536322.0,25386.69,IGUAL
+R0034,LLADRER_DE_DALT,01 3 UA SUBLE,11848.6,Lladrer de Dalt,proposta,vigent,parcelles.json,,536338.51,26129.43,IGUAL
+R0035,RIBERA,01 1 UA SUC,10900.9,Ribera,proposta,vigent,parcelles.json,,536450.98,25311.94,IGUAL
+R0036,RIBERA,01 1 UA SUC,10900.8,Ribera,proposta,vigent,parcelles.json,,536453.38,25312.14,IGUAL
+R0037,PEGUERA,01 3 UA SUBLE,23430.0,Peguera,proposta,vigent,parcelles.json,,536458.33,26155.12,IGUAL
+R0038,CAMPS_DE_VILA,01 3 UA SUBLE,26401.9,Camps de Vila,proposta,vigent,parcelles.json,,536476.38,26286.02,IGUAL
+R0039,ROC_DE_LA_VINYA,01 3 UA SUBLE,26842.6,Roc de la Vinya,proposta,vigent,parcelles.json,,536482.26,25544.16,IGUAL
+R0040,SERRADAL,01 3 UA SUBLE,26867.6,Serradal,proposta,vigent,parcelles.json,,536503.37,25939.95,IGUAL
+R0041,CORB,01 1 UA SUC,1075.8,Corb,proposta,vigent,parcelles.json,,536533.57,25301.55,IGUAL
+R0042,LLADRER_DE_BAIX,01 1 UA SUC,2397.9,Lladrer de Baix,proposta,vigent,parcelles.json,,536537.69,26077.76,IGUAL
+R0043,PRAT_DEL_GASPAR,01 3 UA SUBLE,2888.6,,proposta,vigent,parcelles.json,,536552.43,26576.88,IGUAL
+R0044,CAMP_DE_LA_CIRERA_DEL_MIG,01 2 UA SUNC,7532.7,Camp de la; Cirera de Baix 2; Cirera del Mig,proposta,vigent,parcelles.json,,536556.23,26110.93,IGUAL
+R0045,PUIGUT,01 3 UA SUBLE,31465.4,Puigut,proposta,vigent,parcelles.json,,536561.07,25842.99,IGUAL
+R0046,RIACA,01 1 UA SUC,2496.3,Riaca,proposta,vigent,parcelles.json,,536568.71,26014.51,IGUAL
+R0047,CAMP_DE_LA_CIRERA_DE_DALT,01 2 UA SUNC,3543.6,Camp de la; Cirera de Dalt,proposta,vigent,parcelles.json,,536602.57,26150.19,IGUAL
+R0048,CAMP_DE_LA_CIRERA_DE_BAIX_2,01 1 UA SUC,649.4,,proposta,vigent,parcelles.json,,536614.53,26117.66,IGUAL
+R0049,ENGOLASTERS_2,01 3 UA SUBLE,1313.5,,proposta,vigent,parcelles.json,,536648.65,24582.06,IGUAL
+R0050,ESTREMERA,01 1 UA SUC,10571.0,Estremera,proposta,vigent,parcelles.json,,536649.94,25909.5,IGUAL
+R0051,SERRADELLS,01 3 UA SUBLE,17830.6,Serradells,proposta,vigent,parcelles.json,,536655.09,25767.43,IGUAL
+R0052,CAMP_DE_LA_CIRERA_DE_BAIX_1,01 1 UA SUC,1635.5,,proposta,vigent,parcelles.json,,536669.67,26086.86,IGUAL
+R0053,PASTURER,01 1 UA SUC,1353.2,Pasturer,proposta,vigent,parcelles.json,,536717.27,26032.5,IGUAL
+R0054,ORDIGAL,01 2 UA SUNC,11518.2,Camp de la; Cirera de Baix 1; Ordigal,proposta,vigent,parcelles.json,,536724.31,26022.58,IGUAL
+R0055,ENCADENA,01 3 UA SUBLE,16503.4,Encadena,proposta,vigent,parcelles.json,,536724.22,26831.73,IGUAL
+R0056,CAMPS_DEL_NOGUER,01 3 UA SUBLE,50861.1,Camps del Noguer,proposta,vigent,parcelles.json,,536739.39,26213.44,IGUAL
+R0057,VILA,01 1 UA SUC,4691.7,Vila,proposta,vigent,parcelles.json,,536754.85,26058.6,IGUAL
+R0058,CAP_TORRENT,01 3 UA SUBLE,2745.4,Cap Torrent,proposta,vigent,parcelles.json,,536762.95,25950.69,IGUAL
+R0059,HORTAL_DE_VILA,01 2 UA SUNC,6863.5,Hortal de Vila,proposta,vigent,parcelles.json,,536767.14,26075.79,IGUAL
+R0060,CABECA,01 3 UA SUBLE,14622.2,Cabeca,proposta,vigent,parcelles.json,,536769.16,25618.74,IGUAL
+R0061,VALIRA_NOVA,01 1 UA SUC,8152.8,Valira Nova,proposta,vigent,parcelles.json,,536773.1,25508.56,IGUAL
+R0062,CAL_NOTARI_12,01 1 UA SUC,5106.7,Cal Notari 12,proposta,vigent,parcelles.json,,536794.63,26130.06,IGUAL
+R0063,ORALS,01 3 UA SUBLE,33685.4,Orals,proposta,vigent,parcelles.json,,536798.79,25791.22,IGUAL
+R0064,BARTRA_DE_DALT,01 1 UA SUC,6136.3,Bartra de Dalt,proposta,vigent,parcelles.json,,536854.31,25533.32,IGUAL
+R0065,CAMPS_DE_SANT_ROMA,01 2 UA SUNC,11636.8,Camps de Sant Romà,proposta,vigent,parcelles.json,,536863.3,26105.87,IGUAL
+R0066,CAMP_DE_PONT,01 3 UA SUBLE,48106.4,Camp de Pont; Torrent Estret 2,proposta,vigent,parcelles.json,,536887.17,26380.1,IGUAL
+R0067,CAMP_BERNAT_TOMAS,01 1 UA SUC,15338.9,Camp Bernat Tomàs,proposta,vigent,parcelles.json,,536889.56,25995.86,IGUAL
+R0068,CASA_ARENY_1,01 2 UA SUNC,1460.2,Casa Areny 1,proposta,vigent,parcelles.json,,536892.39,25790.05,IGUAL
+R0069,TORRENT_DEL_PONT,01 3 UA SUBLE,10894.2,Torrent del Pont,proposta,vigent,parcelles.json,,536893.64,26257.11,IGUAL
+R0070,CASA_ARENY_1,01 2 UA SUNC,20085.2,Casa Areny 1,proposta,vigent,parcelles.json,,536923.6,25936.36,IGUAL
+R0071,VILA_DEL_SOL,01 1 UA SUC,7278.8,Jaumet; Vila del Sol,proposta,vigent,parcelles.json,,536930.55,26188.41,IGUAL
+R0072,,01 2 UA SUNC,548.0,,,vigent,parcelles.json,,536939.81,25811.08,IGUAL
+R0073,RIBERAIGUES_ALTES,01 3 UA SUBLE,10986.4,Riberaigües  Altes,proposta,vigent,parcelles.json,,536941.41,25870.75,IGUAL
+R0074,VALIRA_D_ORIENT,01 1 UA SUC,7992.5,Valira d'Orient,proposta,vigent,parcelles.json,,536945.5,25688.24,IGUAL
+R0075,JAUMET,01 11 UA SUCc,2022.0,,proposta,vigent,parcelles.json,,536956.21,26203.45,IGUAL
+R0076,VENTIGA,01 1 UA SUC,3059.3,Ventiga,proposta,vigent,parcelles.json,,536976.01,26084.13,IGUAL
+R0077,OBAGA,01 3 UA SUBLE,2892.3,Obaga,proposta,vigent,parcelles.json,,536988.96,26040.46,IGUAL
+R0078,ENGOLASTERS_1,01 3 UA SUBLE,31008.6,Engolasters 1; Restaurant Font Moles,proposta,vigent,parcelles.json,,536993.76,24922.34,IGUAL
+R0079,CAL_NOTARI_7,01 1 UA SUC,4035.6,Cal Notari 7,proposta,vigent,parcelles.json,,536997.54,26161.79,IGUAL
+R0080,CASA_ARENY_1,01 2 UA SUNC,3481.2,Casa Areny 1,proposta,vigent,parcelles.json,,537011.26,25765.27,IGUAL
+R0081,CAL_NOTARI_9,01 3 UA SUBLE,4881.6,Cal Notari 9,proposta,vigent,parcelles.json,,537021.89,26146.29,IGUAL
+R0082,RIBERAIGUES_BAIXES,01 1 UA SUC,5071.0,Baixes; Riberaigües,proposta,vigent,parcelles.json,,537025.62,25941.01,IGUAL
+R0083,PUI_D_ENCAMP_1,01 3 UA SUBLE,59154.0,Pui d'Encamp 1,proposta,vigent,parcelles.json,,537029.29,25626.93,IGUAL
+R0084,PRADA_DE_MOLES_BAIXA,01 2 UA SUNC,5825.2,Prada de Moles Baixa,proposta,vigent,parcelles.json,,537072.61,25790.01,IGUAL
+R0085,,01 2 UA SUNC,301.9,,,vigent,parcelles.json,,537083.35,25770.19,IGUAL
+R0086,,01 3 UA SUBLE,301.9,,,vigent,parcelles.json,,537083.35,25770.19,IGUAL
+R0087,TORRENT_ESTRET_1,01 1 UA SUC,6870.9,Torrent Estret 1,proposta,vigent,parcelles.json,,537098.09,26397.51,IGUAL
+R0088,TORRENT_ESTRET_2,01 3 UA SUBLE,3028.6,,proposta,vigent,parcelles.json,,537100.5,26360.67,IGUAL
+R0089,SANT_MARC,01 1 UA SUC,9738.7,Sant Marc,proposta,vigent,parcelles.json,,537131.83,26168.61,IGUAL
+R0090,AVIAR_2,01 3 UA SUBLE,25050.1,Aviar 2,proposta,vigent,parcelles.json,,537140.84,26244.62,IGUAL
+R0091,GODI,01 11 UA SUCc,21280.0,Godí,proposta,vigent,parcelles.json,,537142.51,26475.32,IGUAL
+R0092,RESTAURANT_RIBA,01 1 UA SUC,369.2,,proposta,vigent,parcelles.json,,537145.05,25032.65,IGUAL
+R0093,AVIAR_5,01 2 UA SUNC,20889.2,Aviar 5,proposta,vigent,parcelles.json,,537151.18,26099.94,IGUAL
+R0094,AVIAR_3,01 2 UA SUNC,11848.0,Aviar 3,proposta,vigent,parcelles.json,,537175.86,26357.45,IGUAL
+R0095,PRADA_DE_MOLES_ALTA,01 1 UA SUC,22731.1,Costelles Altes 1; Costelles Altes 2; Costelles Altes 3; Prada de Moles Alta,proposta,vigent,parcelles.json,,537177.58,25935.1,IGUAL
+R0096,FENEROLS_1,01 3 UA SUBLE,10179.2,Fenerols 1,proposta,vigent,parcelles.json,,537177.82,27204.16,IGUAL
+R0097,RESTAURANT_FONT_MOLES,01 1 UA SUC,1113.9,,proposta,vigent,parcelles.json,,537184.22,24998.46,IGUAL
+R0098,COSTELLES_ALTES_1,01 1 UA SUC,3623.7,,proposta,vigent,parcelles.json,,537190.19,25844.88,IGUAL
+R0099,HORTA,01 2 UA SUNC,2787.5,Horta,proposta,vigent,parcelles.json,,537199.77,26443.52,IGUAL
+R0100,CRESPER,01 3 UA SUBLE,3324.7,Cresper,revisat,vigent,parcelles.json,el recinte gros del costat és del veí (Escarpiders),537200.68,25283.32,IGUAL
+R0101,COSTELLES_ALTES_2,01 1 UA SUC,2906.1,,proposta,vigent,parcelles.json,,537215.15,25897.1,IGUAL
+R0102,CULTIASSA,01 3 UA SUBLE,29744.2,Cultiassa,proposta,vigent,parcelles.json,,537224.01,26943.37,IGUAL
+R0103,PUI_D_ENCAMP_2,01 3 UA SUBLE,34722.4,Pui d'Encamp 2,proposta,vigent,parcelles.json,,537238.84,25773.38,IGUAL
+R0104,COSTELLES_ALTES_3,01 1 UA SUC,1513.0,,proposta,vigent,parcelles.json,,537246.86,25968.78,IGUAL
+R0105,LLENGUADERA,01 1 UA SUC,7662.3,Llenguadera,proposta,vigent,parcelles.json,,537273.1,26464.72,IGUAL
+R0106,TRAVESSERES,01 3 UA SUBLE,15523.2,Travesseres,proposta,vigent,parcelles.json,,537277.96,26554.06,IGUAL
+R0107,TRIBALA_2,01 1 UA SUC,16724.1,Tribala 2,proposta,vigent,parcelles.json,,537297.62,26082.87,IGUAL
+R0108,AVIAR_1,01 11 UA SUCc,19603.0,Aviar 1,proposta,vigent,parcelles.json,,537304.14,26315.38,IGUAL
+R0109,COSTELLES_BAIXES,01 11 UA SUCc,31437.2,Costelles Baixes,proposta,vigent,parcelles.json,,537326.52,25959.34,IGUAL
+R0110,AVIAR_4,01 2 UA SUNC,19646.6,Aviar 4,proposta,vigent,parcelles.json,,537335.73,26452.42,IGUAL
+R0111,CANADILLA,01 2 UA SUNC,12392.1,Arribes del Mig; Canadilla; Casa Areny 4,proposta,vigent,parcelles.json,,537375.6,26546.63,IGUAL
+R0112,FENEROLS_2,01 3 UA SUBLE,1390.9,Fenerols 2,proposta,vigent,parcelles.json,,537439.42,27170.7,IGUAL
+R0113,AVIAR_6,01 2 UA SUNC,40827.8,Aviar 6; Carretera de Vila,proposta,vigent,parcelles.json,,537446.98,26265.93,IGUAL
+R0114,CARRERA,01 3 UA SUBLE,3585.9,Carrera,proposta,vigent,parcelles.json,,537449.95,26959.08,IGUAL
+R0115,TORRENTS_DE_L_OBAC_4,01 3 UA SUBLE,17245.5,Torrents de l'Obac 4,proposta,vigent,parcelles.json,,537461.83,25774.1,IGUAL
+R0116,ESCARPIDERS,01 3 UA SUBLE,16350.6,Cresper,proposta,vigent,parcelles.json,,537462.53,25543.93,IGUAL
+R0117,CORTADELLES,01 2 UA SUNC,2456.4,,proposta,vigent,parcelles.json,,537469.84,26634.63,IGUAL
+R0118,HORTALS,01 2 UA SUNC,6246.7,Hortals,proposta,vigent,parcelles.json,,537478.55,26502.84,IGUAL
+R0119,PRATS_DE_L_OBAC_1,01 3 UA SUBLE,38258.5,Prats de l'Obac; Prats de l'Obac 1,proposta,vigent,parcelles.json,,537480.59,25931.22,IGUAL
+R0120,ARRIBES_DEL_MIG,01 1 UA SUC,86.2,,proposta,vigent,parcelles.json,,537481.8,26583.82,IGUAL
+R0121,VENA_2,01 1 UA SUC,4336.1,Vena 2,proposta,vigent,parcelles.json,,537488.9,26091.74,IGUAL
+R0122,CASA_ARENY_4,01 3 UA SUBLE,169.7,,proposta,vigent,parcelles.json,,537496.72,26546.07,IGUAL
+R0123,CARRETERA_DE_VILA,01 1 UA SUC,603.6,,proposta,vigent,parcelles.json,,537509.84,26321.81,IGUAL
+R0124,CASA_ARENY_2,01 2 UA SUNC,11395.1,Casa Areny 2; Pedral de Dalt,proposta,vigent,parcelles.json,,537518.64,26396.52,IGUAL
+R0125,CAL_NOTARI_5,01 1 UA SUC,812.1,,proposta,vigent,parcelles.json,,537525.81,26476.13,IGUAL
+R0126,TRIBALA_1,01 1 UA SUC,18076.3,Tribala 1,proposta,vigent,parcelles.json,,537533.77,26160.22,IGUAL
+R0127,ESCARPIDERS,01 3 UA SUBLE,3922.4,Escarpiders,proposta,vigent,parcelles.json,,537538.2,25685.78,IGUAL
+R0128,ENCAMP_2,01 1 UA SUC,1395.2,Encamp 2,proposta,vigent,parcelles.json,,537565.98,26341.94,IGUAL
+R0129,RIU_BLANC_ALT,01 1 UA SUC,3217.7,Riu Blanc Alt; Riu Blanc Baix,proposta,vigent,parcelles.json,,537567.42,26067.19,IGUAL
+R0130,PRATS_DE_L_OBAC_2,01 1 UA SUC,7410.9,Prats de l'Obac 2,proposta,vigent,parcelles.json,,537575.07,26009.53,IGUAL
+R0131,ENCAMP_1,01 1 UA SUC,11237.6,Cal Notari 5; Casa Areny 1; Encamp 1,proposta,vigent,parcelles.json,,537586.5,26413.22,IGUAL
+R0132,ESCARPIDERS,01 3 UA SUBLE,5880.2,Escarpiders,proposta,vigent,parcelles.json,,537595.93,25662.83,IGUAL
+R0133,VENA,01 11 UA SUCc,2595.1,Vena,proposta,vigent,parcelles.json,,537600.49,26137.44,IGUAL
+R0134,RIU_BLANC_BAIX,01 11 UA SUCc,2477.1,,proposta,vigent,parcelles.json,,537605.06,26088.53,IGUAL
+R0135,CARDAGO,01 3 UA SUBLE,5824.9,Cardago,proposta,vigent,parcelles.json,,537626.95,26995.19,IGUAL
+R0136,,01 2 UA SUNC,1443.8,,,vigent,parcelles.json,,537629.41,26454.75,IGUAL
+R0137,,01 2 UA SUNC,1443.8,,,vigent,parcelles.json,,537629.41,26454.75,IGUAL
+R0138,,01 3 UA SUBLE,687.9,,,vigent,parcelles.json,,537644.25,25811.46,IGUAL
+R0139,TORRENTS_DE_L_OBAC_2,01 3 UA SUBLE,41401.9,Torrents de l'Obac 2; Torrents de l'Obac 3,proposta,vigent,parcelles.json,,537659.62,25880.41,IGUAL
+R0140,,01 2 UA SUNC,1082.1,,,vigent,parcelles.json,,537665.74,26395.68,IGUAL
+R0141,ESCARPIDERS,01 3 UA SUBLE,4298.6,Escarpiders,proposta,vigent,parcelles.json,,537670.27,25590.51,IGUAL
+R0142,PRATS_DE_L_OBAC_3,01 3 UA SUBLE,9701.8,Prats de l'Obac 3,proposta,vigent,parcelles.json,,537677.86,26013.43,IGUAL
+R0143,PEDRAL_DE_BAIX_1,01 1 UA SUC,9254.5,Pedral de Baix 1; Pedral de Baix 2,proposta,vigent,parcelles.json,,537685.33,26439.25,IGUAL
+R0144,CASA_ARENY_3,01 1 UA SUC,4770.0,Casa Areny 3,proposta,vigent,parcelles.json,,537687.66,26223.23,IGUAL
+R0145,CASA_ARENY_1,01 2 UA SUNC,19691.6,Casa Areny 1,proposta,vigent,parcelles.json,,537697.75,26300.9,IGUAL
+R0146,PEDRAL_DE_DALT,01 1 UA SUC,6052.3,Pedral de Dalt,proposta,vigent,parcelles.json,,537729.69,26528.67,IGUAL
+R0147,,01 3 UA SUBLE,2828.6,,,vigent,parcelles.json,,537736.96,25666.23,IGUAL
+R0148,COPRINCEP_EPISCOPAL_3,01 2 UA SUNC,974.5,Copríncep Episcopal 2; Copríncep Episcopal 3,proposta,vigent,parcelles.json,,537744.49,26201.95,IGUAL
+R0149,,01 1 UA SUC,974.5,Copríncep Episcopal 2; Copríncep Episcopal 3,,vigent,parcelles.json,,537744.49,26201.95,IGUAL
+R0150,TERRA_DEL_SOLA,01 1 UA SUC,2418.3,Terra del Solà,proposta,vigent,parcelles.json,,537759.23,26571.47,IGUAL
+R0151,TOSA_1,01 3 UA SUBLE,3344.8,Tosa 1,proposta,vigent,parcelles.json,,537762.75,27740.01,IGUAL
+R0152,PEDRAL_DE_BAIX_2,01 1 UA SUC,4091.6,,proposta,vigent,parcelles.json,,537774.01,26451.78,IGUAL
+R0153,CALCINERA_3,01 3 UA SUBLE,33164.6,Calcinera 3,proposta,vigent,parcelles.json,,537776.23,26140.45,IGUAL
+R0154,CALCINERA_2,01 1 UA SUC,1630.1,Calcinera 2,proposta,vigent,parcelles.json,,537788.18,26084.38,IGUAL
+R0155,ARTICS,01 3 UA SUBLE,32126.4,Artics,proposta,vigent,parcelles.json,,537792.66,26728.39,IGUAL
+R0156,COPRINCEP_EPISCOPAL_2,01 1 UA SUC,233.0,,proposta,vigent,parcelles.json,,537796.31,26222.78,IGUAL
+R0157,,01 1 UA SUC,233.0,,,vigent,parcelles.json,,537796.31,26222.78,IGUAL
+R0158,CAL_NOTARI_11,01 1 UA SUC,1769.1,Cal Notari 11,proposta,vigent,parcelles.json,,537802.3,26301.81,IGUAL
+R0159,,01 1 UA SUC,192.9,,,vigent,parcelles.json,,537804.63,26097.7,IGUAL
+R0160,CAL_NOTARI_6,01 1 UA SUC,6845.0,Cal Notari 6,proposta,vigent,parcelles.json,,537804.82,26248.98,IGUAL
+R0161,SOLA,01 1 UA SUC,4127.5,Solà,proposta,vigent,parcelles.json,,537806.56,26521.73,IGUAL
+R0162,TORRENTS_DE_L_OBAC_3,01 3 UA SUBLE,11144.4,Torrents de l'Obac 3,proposta,vigent,parcelles.json,,537813.42,25882.22,IGUAL
+R0163,COLOMINES,01 3 UA SUBLE,17769.2,Colomines,proposta,vigent,parcelles.json,,537822.04,26653.4,IGUAL
+R0164,COPRINCEP_EPISCOPAL_1,01 1 UA SUC,317.6,,proposta,vigent,parcelles.json,,537830.74,26266.08,IGUAL
+R0165,CAL_NOTARI_5,01 1 UA SUC,317.6,,proposta,vigent,parcelles.json,,537830.74,26266.08,IGUAL
+R0166,VALIRETA,01 1 UA SUC,6207.1,Cal Notari 4; Valireta,proposta,vigent,parcelles.json,,537833.46,26409.68,IGUAL
+R0167,TORRENTS_DE_L_OBAC_1,01 1 UA SUC,4300.9,Torrents de l'Obac 1,proposta,vigent,parcelles.json,,537860.13,26018.36,IGUAL
+R0168,PRAT_DEL_BAU,01 1 UA SUC,11109.9,Prat del Bau,proposta,vigent,parcelles.json,,537863.79,26478.25,IGUAL
+R0169,,01 3 UA SUBLE,133.3,,,vigent,parcelles.json,,537876.04,25945.04,IGUAL
+R0170,TOSA_2,01 3 UA SUBLE,8732.2,Tosa 2,proposta,vigent,parcelles.json,,537882.31,27799.54,IGUAL
+R0171,CLOS_1,01 2 UA SUNC,5426.9,Clos 1,proposta,vigent,parcelles.json,,537888.27,26248.59,IGUAL
+R0172,CAL_NOTARI_4,01 1 UA SUC,1496.6,,proposta,vigent,parcelles.json,,537890.75,26461.43,IGUAL
+R0173,CANEMAR_2,01 1 UA SUC,10609.1,Canemar 2,proposta,vigent,parcelles.json,,537894.19,26588.96,IGUAL
+R0174,CLOS_2,01 1 UA SUC,1829.6,Clos 2,proposta,vigent,parcelles.json,,537908.61,26276.9,IGUAL
+R0175,GENIL,01 1 UA SUC,12684.4,Genil,proposta,vigent,parcelles.json,,537921.48,26358.36,IGUAL
+R0176,CAL_NOTARI_3,01 1 UA SUC,2333.5,Cal Notari 2,proposta,vigent,parcelles.json,,537923.94,26445.14,IGUAL
+R0177,CALCINERA_1,01 2 UA SUNC,16595.9,Calcinera 1,proposta,vigent,parcelles.json,,537931.65,26105.18,IGUAL
+R0178,ROSSELL,01 1 UA SUC,1402.8,Rossell,proposta,vigent,parcelles.json,,537945.28,26571.27,IGUAL
+R0179,COLLEGIS,01 1 UA SUC,3093.7,Col.legis,proposta,vigent,parcelles.json,,537959.71,26593.83,IGUAL
+R0180,CAL_NOTARI_1,01 1 UA SUC,1408.4,Cal Notari 1,proposta,vigent,parcelles.json,,537962.61,26407.28,IGUAL
+R0181,CLOS_3,01 1 UA SUC,2336.6,Clos 3,proposta,vigent,parcelles.json,,537969.4,26288.96,IGUAL
+R0182,CAL_NOTARI_2,01 1 UA SUC,1120.9,,proposta,vigent,parcelles.json,,537971.48,26447.79,IGUAL
+R0183,COMA_LLARGA,01 3 UA SUBLE,13718.9,Coma llarga,proposta,vigent,parcelles.json,,537993.1,26188.57,IGUAL
+R0184,MITJORN,01 1 UA SUC,6421.5,Mitjorn,proposta,vigent,parcelles.json,,538000.36,26547.59,IGUAL
+R0185,CANEMAR_1,01 1 UA SUC,2866.9,Canemar 1,proposta,vigent,parcelles.json,,538001.53,26653.51,IGUAL
+R0186,COMA,01 1 UA SUC,2593.9,Coma; Mirador de Baix,proposta,vigent,parcelles.json,,538011.81,26289.69,IGUAL
+R0187,MOSQUERA,01 1 UA SUC,13942.7,Cavallers de Baix; Mosquera,proposta,vigent,parcelles.json,,538028.82,26462.75,IGUAL
+R0188,TAUS,01 3 UA SUBLE,14499.3,Taús,proposta,vigent,parcelles.json,,538049.64,26733.52,IGUAL
+R0189,LLISA_BAIXA,01 11 UA SUCc,15304.4,Llisa Baixa,proposta,vigent,parcelles.json,,538060.66,26080.03,IGUAL
+R0190,MIRADOR_DE_BAIX,01 2 UA SUNC,3164.9,Mirador del Mig 1,proposta,vigent,parcelles.json,,538063.5,26279.61,IGUAL
+R0191,LLISA_BAIXA_2,01 3 UA SUBLE,301.3,Llisa Baixa 2,proposta,vigent,parcelles.json,,538069.16,25961.85,IGUAL
+R0192,SEGALARS,01 3 UA SUBLE,31823.8,Segalars,proposta,vigent,parcelles.json,,538069.09,26848.68,IGUAL
+R0193,CAVALLERS_DE_BAIX,01 1 UA SUC,2796.7,,proposta,vigent,parcelles.json,,538086.15,26468.39,IGUAL
+R0194,CAL_NOTARI_8,01 3 UA SUBLE,4786.3,Cal Notari 8,proposta,vigent,parcelles.json,,538090.01,26732.3,IGUAL
+R0195,ROSALEDA,01 1 UA SUC,2568.6,Rosaleda,proposta,vigent,parcelles.json,,538093.09,26658.75,IGUAL
+R0196,TREMAT,01 1 UA SUC,17957.6,Tremat,proposta,vigent,parcelles.json,,538099.19,26356.76,IGUAL
+R0197,CLOS_1,01 2 UA SUNC,499.6,Clos 1,proposta,vigent,parcelles.json,,538112.21,26703.92,IGUAL
+R0198,MIRADOR_DEL_MIG_1,01 2 UA SUNC,1746.3,,proposta,vigent,parcelles.json,,538120.79,26286.57,IGUAL
+R0199,CASA_COMUNA,01 1 UA SUC,4738.2,Casa Comuna,proposta,vigent,parcelles.json,,538125.51,26540.32,IGUAL
+R0200,MIRADOR_DE_DALT,01 1 UA SUC,18530.6,Mirador de Dalt,proposta,vigent,parcelles.json,,538130.83,26225.74,IGUAL
+R0201,MIRADOR_DEL_MIG_2,01 2 UA SUNC,4496.6,Mirador del Mig 2,proposta,vigent,parcelles.json,,538158.76,26321.0,IGUAL
+R0202,CAVALLERS_DEL_MIG,01 2 UA SUNC,1664.8,Cavallers del Mig,proposta,vigent,parcelles.json,,538179.3,26405.28,IGUAL
+R0203,DOLCERMA_ALTA,01 3 UA SUBLE,30738.3,Dolcerma Alta,proposta,vigent,parcelles.json,,538188.71,26937.21,IGUAL
+R0204,ARINSOLS,01 2 UA SUNC,43869.2,Arínsols,proposta,vigent,parcelles.json,,538193.81,26544.7,IGUAL
+R0205,PLANAMONDOU_1,01 3 UA SUBLE,4168.7,Planamondou 1,proposta,vigent,parcelles.json,,538208.05,26357.4,IGUAL
+R0206,LLISA_ALTA,01 11 UA SUCc,6585.7,Llisa Alta,proposta,vigent,parcelles.json,,538210.73,26273.14,IGUAL
+R0207,DOLCERMA_BAIXA,01 11 UA SUCc,8577.9,Dolcerma Baixa,proposta,vigent,parcelles.json,,538230.13,26824.51,IGUAL
+R0208,TRAVENERES,01 1 UA SUC,8843.5,Traveneres,proposta,vigent,parcelles.json,,538243.92,26159.38,IGUAL
+R0209,TERRA_BANCASA,01 2 UA SUNC,9997.5,Terra Bancasa,proposta,vigent,parcelles.json,,538246.69,26779.83,IGUAL
+R0210,CAVALLERS_DE_DALT,01 1 UA SUC,8110.6,Cavallers de Dalt,proposta,vigent,parcelles.json,,538259.48,26387.45,IGUAL
+R0211,ROUILLAC,01 1 UA SUC,2224.7,Rouillac,proposta,vigent,parcelles.json,,538266.37,26625.55,IGUAL
+R0212,TERRES_DE_L_OBAC,01 3 UA SUBLE,9419.2,Terres de l'Obac,proposta,vigent,parcelles.json,,538268.78,26089.96,IGUAL
+R0213,PIALASSOS_DE_BAIX_1,01 1 UA SUC,6149.1,Pialassos de Baix 1,proposta,vigent,parcelles.json,,538275.05,26302.85,IGUAL
+R0214,14_DE_MARC,01 1 UA SUC,2747.2,14 de març,proposta,vigent,parcelles.json,,538292.52,26747.24,IGUAL
+R0215,PIALASSOS_DEL_MIG,01 1 UA SUC,1822.8,,proposta,vigent,parcelles.json,,538294.48,26241.06,IGUAL
+R0216,PASTORESSOS_BAIXOS,01 11 UA SUCc,3267.0,Baixos; Pastoressos,proposta,vigent,parcelles.json,,538316.36,26438.01,IGUAL
+R0217,PIALASSOS_DE_BAIX_2,01 1 UA SUC,2815.0,Pialassos de Baix 2,proposta,vigent,parcelles.json,,538320.44,26348.36,IGUAL
+R0218,CAL_NOTARI_10,01 2 UA SUNC,5679.7,Cal Notari 10,proposta,vigent,parcelles.json,,538329.32,26226.38,IGUAL
+R0219,BELLAVISTA,01 11 UA SUCc,10731.1,Bellavista,proposta,vigent,parcelles.json,,538339.63,26509.1,IGUAL
+R0220,MONTALARI,01 3 UA SUBLE,94517.0,Montalarí,proposta,vigent,parcelles.json,,538341.54,27362.62,IGUAL
+R0221,ROUILLAC,01 1 UA SUC,12590.5,Rouillac; i Prat de la mola,proposta,vigent,parcelles.json,,538347.95,26708.93,IGUAL
+R0222,CAPSOLAS,01 3 UA SUBLE,32703.2,Capsolàs,proposta,vigent,parcelles.json,,538348.17,27062.21,IGUAL
+R0223,BONS_2,01 1 UA SUC,5024.6,Bons 2,proposta,vigent,parcelles.json,,538358.47,26888.46,IGUAL
+R0224,TERRES_DELS_AJUSTANTS,01 1 UA SUC,3794.6,Ajustants; Terres dels,proposta,vigent,parcelles.json,,538359.35,26113.73,IGUAL
+R0225,PASTORESSOS_MITJOS,01 11 UA SUCc,5063.6,Mitjos; Pastoressos,proposta,vigent,parcelles.json,,538365.18,26419.7,IGUAL
+R0226,BONS_1,01 1 UA SUC,10454.6,Bons 1,proposta,vigent,parcelles.json,,538370.74,26817.34,IGUAL
+R0227,AIXEC,01 2 UA SUNC,4849.9,Aixec,proposta,vigent,parcelles.json,,538392.76,26624.08,IGUAL
+R0228,OBAC_BAIX,01 2 UA SUNC,2225.8,Obac Baix,proposta,vigent,parcelles.json,,538395.25,26305.45,IGUAL
+R0229,PASTORESSOS_ALTS,01 1 UA SUC,4743.3,Pastoressos Alts,proposta,vigent,parcelles.json,,538396.23,26404.55,IGUAL
+R0230,PASTORESSOS_ALTS,01 1 UA SUC,4743.3,Pastoressos Alts,proposta,vigent,parcelles.json,,538396.23,26404.55,IGUAL
+R0231,TIRADER_1,01 1 UA SUC,28914.7,Tirader 1,proposta,vigent,parcelles.json,,538401.06,26173.23,IGUAL
+R0232,COPRINCEP_FRANCES,01 1 UA SUC,7969.2,Copríncep Francès,proposta,vigent,parcelles.json,,538414.87,26368.23,IGUAL
+R0233,FUNICAMP,01 1 UA SUC,6597.3,Funicamp,proposta,vigent,parcelles.json,,538421.2,26483.37,IGUAL
+R0234,OBAC_ALT,01 2 UA SUNC,6509.1,Obac Alt,proposta,vigent,parcelles.json,,538423.46,26288.89,IGUAL
+R0235,RITA_BAIXA,01 2 UA SUNC,9301.4,Rita Baixa,proposta,vigent,parcelles.json,,538431.47,26045.6,IGUAL
+R0236,PRAT_DEL_PONT_I_PRAT_DE_LA_MOLA,01 1 UA SUC,2278.8,Prat del pont,proposta,vigent,parcelles.json,,538436.4,26761.74,IGUAL
+R0237,CIUTAT_PUBILLA,01 1 UA SUC,20259.7,Ciutat Pubilla; Prat del Salitar 2,proposta,vigent,parcelles.json,,538452.74,26612.84,IGUAL
+R0238,PLANA_MITJA_2,01 2 UA SUNC,1319.5,Dragó Baix 1; Plana Mitja 2,proposta,vigent,parcelles.json,,538464.79,25984.22,IGUAL
+R0239,COMES,01 3 UA SUBLE,26467.2,Comes,proposta,vigent,parcelles.json,,538474.0,27149.66,IGUAL
+R0240,,01 3 UA SUBLE,4815.0,Palanca Baixa 2; Planamondou 1,,vigent,parcelles.json,,538482.72,26368.29,IGUAL
+R0241,TIRADER_2,01 1 UA SUC,2283.1,Tirader 2,proposta,vigent,parcelles.json,,538491.0,26223.97,IGUAL
+R0242,,01 1 UA SUC,1450.3,,,vigent,parcelles.json,,538504.15,26959.3,IGUAL
+R0243,PRAT_DEL_SALITAR_1,01 1 UA SUC,2838.8,Prat del Salitar 1,proposta,vigent,parcelles.json,,538504.69,26492.7,IGUAL
+R0244,RITA_MITJA,01 1 UA SUC,2143.4,Rita Mitja,proposta,vigent,parcelles.json,,538506.62,26043.08,IGUAL
+R0245,RITA_MITJA,01 1 UA SUC,2143.4,Rita Mitja,proposta,vigent,parcelles.json,,538506.62,26043.08,IGUAL
+R0246,PLA_DE_BAIX,01 11 UA SUCc,14182.4,Pla de Baix,proposta,vigent,parcelles.json,,538509.39,26880.67,IGUAL
+R0247,AJUSTANTS_DEL_MIG,01 2 UA SUNC,10032.1,Ajustants del Mig,proposta,vigent,parcelles.json,,538516.46,26169.14,IGUAL
+R0248,PALANCA_BAIXA_1,01 1 UA SUC,4341.9,Palanca Baixa 1,proposta,vigent,parcelles.json,,538530.75,26405.89,IGUAL
+R0249,PRAT_DEL_SALITAR_2,01 1 UA SUC,4911.3,,proposta,vigent,parcelles.json,,538536.13,26580.28,IGUAL
+R0250,DRAGO_BAIX_1,01 1 UA SUC,3012.7,Dragó Baix 1,proposta,vigent,parcelles.json,,538539.3,26024.82,IGUAL
+R0251,PLANA_BAIXA,01 2 UA SUNC,9269.1,Plana Baixa,proposta,vigent,parcelles.json,,538550.39,26099.95,IGUAL
+R0252,PLA_DE_DALT,01 3 UA SUBLE,30183.0,Pla de Dalt,proposta,vigent,parcelles.json,,538551.32,26983.97,IGUAL
+R0253,ARENAL,01 3 UA SUBLE,37067.0,Arenal,proposta,vigent,parcelles.json,,538555.17,26797.64,IGUAL
+R0254,PALANCA_BAIXA_2,01 1 UA SUC,1786.1,,proposta,vigent,parcelles.json,,538566.66,26359.19,IGUAL
+R0255,AJUSTANTS_DE_BAIX,01 2 UA SUNC,9629.5,Ajustants de Baix,proposta,vigent,parcelles.json,,538568.54,26288.08,IGUAL
+R0256,RITA_ALTA,01 1 UA SUC,853.8,Rita Alta,proposta,vigent,parcelles.json,,538580.02,26073.74,IGUAL
+R0257,RITA_ALTA,01 1 UA SUC,853.8,Rita Alta,proposta,vigent,parcelles.json,,538580.02,26073.74,IGUAL
+R0258,PLANA_MITJA_1,01 2 UA SUNC,5729.0,Plana Mitja 1,proposta,vigent,parcelles.json,,538594.01,26010.17,IGUAL
+R0259,DRAGO_BAIX_2,01 2 UA SUNC,2576.3,Baix 2; Dragó,proposta,vigent,parcelles.json,,538604.72,26075.48,IGUAL
+R0260,URBANITZACIO_DEL_SALITAR,01 11 UA SUCc,10310.3,Urbanització del Salitar,proposta,vigent,parcelles.json,,538609.19,26549.29,IGUAL
+R0261,NANTA_ALTA,01 2 UA SUNC,12422.4,Baix 2; Dragó; Dragó Baix 1; Dragó Baix 3; Dragó Baix 4; Dragó Baix 5,proposta,vigent,parcelles.json,,538616.88,26054.21,IGUAL
+R0262,PALANCA_ALTA,01 3 UA SUBLE,6476.1,Palanca Alta,proposta,vigent,parcelles.json,,538622.44,26268.22,IGUAL
+R0263,DRAGO_BAIX_3,01 2 UA SUNC,2202.9,Dragó Baix 3,proposta,vigent,parcelles.json,,538630.39,26116.44,IGUAL
+R0264,AJUSTANTS_DE_DALT_1,01 1 UA SUC,3732.7,Ajustants de Dalt 1,proposta,vigent,parcelles.json,,538634.35,26181.06,IGUAL
+R0265,,01 3 UA SUBLE,190.4,,,vigent,parcelles.json,,538634.49,26411.88,IGUAL
+R0266,ROC_DE_LA_FORCA,01 2 UA SUNC,13937.4,Roc de la Forca,proposta,vigent,parcelles.json,,538644.14,27004.11,IGUAL
+R0267,SALITAR,01 2 UA SUNC,7329.8,Salitar,proposta,vigent,parcelles.json,,538648.32,26488.91,IGUAL
+R0268,PLANA_ALTA,01 1 UA SUC,3388.7,Plana Alta,proposta,vigent,parcelles.json,,538651.4,25983.05,IGUAL
+R0269,DRAGO_BAIX_4,01 2 UA SUNC,1354.8,Dragó Baix 4,proposta,vigent,parcelles.json,,538658.16,26068.08,IGUAL
+R0270,ORATORI_DE_BAIX,01 3 UA SUBLE,15856.9,Oratori de Baix,proposta,vigent,parcelles.json,,538660.21,26708.07,IGUAL
+R0271,PRAT_DE_LA_COSTA,01 3 UA SUBLE,15467.6,Prat de la Costa,proposta,vigent,parcelles.json,,538692.55,26297.46,IGUAL
+R0272,GRAU_DE_LA_MOLINA_1,01 2 UA SUNC,6105.8,Grau de la Molina 1,proposta,vigent,parcelles.json,,538695.23,25994.08,IGUAL
+R0273,DRAGO_ALT_1,01 1 UA SUC,2676.1,Dragó Alt 1; de Dalt 2,proposta,vigent,parcelles.json,,538695.16,26133.36,IGUAL
+R0274,DRAGO_ALT_2,01 2 UA SUNC,6821.1,Dragó Alt 2,proposta,vigent,parcelles.json,,538699.69,26090.55,IGUAL
+R0275,DRAGO_BAIX_5,01 2 UA SUNC,3275.4,Dragó Baix 5,proposta,vigent,parcelles.json,,538708.75,26043.11,IGUAL
+R0276,,01 3 UA SUBLE,14772.7,Planamondou 1; Planamondou 2,,vigent,parcelles.json,,538716.19,26460.41,IGUAL
+R0277,,01 3 UA SUBLE,414.8,,,vigent,parcelles.json,,538722.11,26922.59,IGUAL
+R0278,AJUSTANTS_DE_DALT_2,01 1 UA SUC,4423.1,Ajustants; Ajustants de Dalt 2; Nanta Alta 1; de Dalt 3,proposta,vigent,parcelles.json,,538723.26,26143.0,IGUAL
+R0279,,01 3 UA SUBLE,2365.3,,,vigent,parcelles.json,,538746.8,26973.23,IGUAL
+R0280,MOLLAR_ALT_1,01 2 UA SUNC,5803.5,Mollar Alt 1,proposta,vigent,parcelles.json,,538757.22,27673.56,IGUAL
+R0281,,01 3 UA SUBLE,4781.4,,,vigent,parcelles.json,,538757.59,26424.95,IGUAL
+R0282,CALRANES,01 2 UA SUNC,26797.0,Calranes,proposta,vigent,parcelles.json,,538766.79,26738.8,IGUAL
+R0283,TORRENT_PREGO_1,01 3 UA SUBLE,24344.6,Torrent Pregó 1,proposta,vigent,parcelles.json,,538772.24,27503.51,IGUAL
+R0284,PLANAMONDOU_1,01 3 UA SUBLE,15648.0,Planamondou 1,proposta,vigent,parcelles.json,,538774.7,26304.64,IGUAL
+R0285,ORATORI_DE_DALT,01 3 UA SUBLE,32393.5,Oratori de Dalt,proposta,vigent,parcelles.json,,538777.79,27014.76,IGUAL
+R0286,GRAU_DE_LA_MOLINA_3,01 2 UA SUNC,3678.6,Ovella Baixa,proposta,vigent,parcelles.json,,538779.48,25927.59,IGUAL
+R0287,GARGANTA_1,01 11 UA SUCc,11171.5,Garganta 1,proposta,vigent,parcelles.json,,538799.47,27302.18,IGUAL
+R0288,OVELLA_BAIXA,01 2 UA SUNC,7284.3,Ovella Baixa; Ovella Mitja 1; Ovella Mitja 2,proposta,vigent,parcelles.json,,538804.67,25989.6,IGUAL
+R0289,PLANAMONDOU_1,01 3 UA SUBLE,41454.9,Posa,proposta,vigent,parcelles.json,,538808.11,26659.86,IGUAL
+R0290,NANTA_ALTA,01 3 UA SUBLE,12678.5,Nanta Alta,proposta,vigent,parcelles.json,,538812.61,26159.47,IGUAL
+R0291,GRAU_DE_LA_MOLINA_2,01 2 UA SUNC,2511.5,Grau de la Molina 2; Ovella Alta 1,proposta,vigent,parcelles.json,,538849.23,25900.5,IGUAL
+R0292,BOIXADER,01 3 UA SUBLE,18379.6,Boixader,proposta,vigent,parcelles.json,,538848.86,26412.62,IGUAL
+R0293,MOIXA,01 3 UA SUBLE,3633.8,Moixa,proposta,vigent,parcelles.json,,538849.09,27001.03,IGUAL
+R0294,GARGANTA_2,01 11 UA SUCc,2395.3,Garganta 2,proposta,vigent,parcelles.json,,538854.05,27441.59,IGUAL
+R0295,AJUSTANTS_DE_DALT_3,01 1 UA SUC,894.2,,proposta,vigent,parcelles.json,,538856.45,26072.45,IGUAL
+R0296,OVELLA_MITJA_2,01 3 UA SUBLE,1355.1,,proposta,vigent,parcelles.json,,538862.33,25956.5,IGUAL
+R0297,SALVE,01 2 UA SUNC,2786.7,Salve,proposta,vigent,parcelles.json,,538862.84,26363.2,IGUAL
+R0298,BORDES_DEL_LLOSET,01 3 UA SUBLE,23179.8,Bordes del Lloset,proposta,vigent,parcelles.json,,538863.91,27168.58,IGUAL
+R0299,MOIXA,01 3 UA SUBLE,3111.6,Moixa,proposta,vigent,parcelles.json,,538867.54,26995.72,IGUAL
+R0300,NOGUER_BAIX,01 1 UA SUC,4576.7,Noguer Baix,proposta,vigent,parcelles.json,,538870.85,26247.57,IGUAL
+R0301,OVELLA_MITJA_1,01 3 UA SUBLE,12294.9,Ovella Mitja 1,proposta,vigent,parcelles.json,,538889.97,26046.96,IGUAL
+R0302,MOLLAR_BAIX,01 2 UA SUNC,9118.7,Mollar Baix,proposta,vigent,parcelles.json,,538914.27,26160.61,IGUAL
+R0303,LLOSET_1,01 3 UA SUBLE,27568.4,Lloset 1,proposta,vigent,parcelles.json,,538927.44,27492.29,IGUAL
+R0304,MOLLAR_MIG,01 3 UA SUBLE,12503.7,Mollar Mig,proposta,vigent,parcelles.json,,538953.79,26184.08,IGUAL
+R0305,,01 3 UA SUBLE,90.0,,,vigent,parcelles.json,,538967.4,25520.16,IGUAL
+R0306,TOSQUER,01 3 UA SUBLE,31118.6,Tosquer,proposta,vigent,parcelles.json,,538979.88,26704.77,IGUAL
+R0307,NOGUER_MIG,01 1 UA SUC,48834.1,Bosc de les Allaus; Noguer Mig,proposta,vigent,parcelles.json,,538986.47,26374.97,IGUAL
+R0308,LLOSET_2,01 3 UA SUBLE,6293.8,Lloset 2,proposta,vigent,parcelles.json,,538998.54,27102.27,IGUAL
+R0309,MOLINA,01 3 UA SUBLE,23065.2,Molina,proposta,vigent,parcelles.json,,539001.92,25015.85,IGUAL
+R0310,LLOSET_1,01 3 UA SUBLE,3715.1,Lloset 1,proposta,vigent,parcelles.json,,539012.84,27686.69,IGUAL
+R0311,,01 3 UA SUBLE,192.0,,,vigent,parcelles.json,,539015.8,25292.07,IGUAL
+R0312,,01 3 UA SUBLE,240.8,,,vigent,parcelles.json,,539022.82,26452.75,IGUAL
+R0313,MOLINA,01 3 UA SUBLE,2256.8,Molina,proposta,vigent,parcelles.json,,539026.88,24834.69,IGUAL
+R0314,MOLINA,01 3 UA SUBLE,3206.7,Molina,proposta,vigent,parcelles.json,,539032.33,25295.37,IGUAL
+R0315,OVELLA_ALTA_1,01 3 UA SUBLE,16586.2,Ovella Alta 1,proposta,vigent,parcelles.json,,539036.96,25949.88,IGUAL
+R0316,NOGUER_ALT,01 3 UA SUBLE,13940.3,Noguer Alt,proposta,vigent,parcelles.json,,539048.19,26232.28,IGUAL
+R0317,LLOSET_2,01 3 UA SUBLE,63439.1,Lloset 2,proposta,vigent,parcelles.json,,539048.24,27294.28,IGUAL
+R0318,MOLINA,01 3 UA SUBLE,861.6,Molina,proposta,vigent,parcelles.json,,539056.37,24853.02,IGUAL
+R0319,LLOSET_1,01 3 UA SUBLE,1740.2,Lloset 1,proposta,vigent,parcelles.json,,539062.14,27554.78,IGUAL
+R0320,BOSC_DE_LES_ALLAUS,01 3 UA SUBLE,1549.1,Bosc de les Allaus,proposta,vigent,parcelles.json,,539092.23,26539.32,IGUAL
+R0321,QUER_BAIX_1,01 3 UA SUBLE,4690.4,Quer Baix 1,proposta,vigent,parcelles.json,,539098.1,26280.44,IGUAL
+R0322,,01 3 UA SUBLE,6697.5,,,vigent,parcelles.json,,539103.18,25316.04,IGUAL
+R0323,MOLINA,01 3 UA SUBLE,25131.2,Molina,proposta,vigent,parcelles.json,,539103.86,25070.97,IGUAL
+R0324,MOLLAR_ALT_3,01 3 UA SUBLE,11712.4,Mollar Alt 3,proposta,vigent,parcelles.json,,539107.42,26140.56,IGUAL
+R0325,MOLINA,01 3 UA SUBLE,4509.0,Molina,proposta,vigent,parcelles.json,,539116.32,24875.08,IGUAL
+R0326,,01 3 UA SUBLE,328.4,,,vigent,parcelles.json,,539125.39,25586.41,IGUAL
+R0327,QUER_BAIX_2,01 3 UA SUBLE,3475.5,Quer Baix 2,proposta,vigent,parcelles.json,,539136.45,26209.94,IGUAL
+R0328,COSTES_BAIXES,01 3 UA SUBLE,9029.2,Costes Baixes,proposta,vigent,parcelles.json,,539142.58,26346.76,IGUAL
+R0329,LLOSET_2,01 3 UA SUBLE,2186.6,Lloset 2,proposta,vigent,parcelles.json,,539168.93,27142.76,IGUAL
+R0330,OVELLA_ALTA_2,01 3 UA SUBLE,3149.0,Ovella Alta 2,proposta,vigent,parcelles.json,,539196.05,25889.21,IGUAL
+R0331,QUER_ALT,01 3 UA SUBLE,19981.6,Quer Alt,proposta,vigent,parcelles.json,,539219.04,26136.44,IGUAL
+R0332,QUER_ALT,01 3 UA SUBLE,19979.7,Quer Alt,proposta,vigent,parcelles.json,,539220.41,26134.63,IGUAL
+R0333,COSTES_ALTES,01 3 UA SUBLE,14865.5,Costes Altes,proposta,vigent,parcelles.json,,539225.8,26282.4,IGUAL
+R0334,BOSC_DEL_TOSQUER,01 3 UA SUBLE,599.0,,proposta,vigent,parcelles.json,,539472.21,26609.31,IGUAL
+R0335,ROCS_NEGRES,01 3 UA SUBLE,1533.8,Rocs Negres,proposta,vigent,parcelles.json,,539538.27,26570.2,IGUAL
+R0336,CASTELLAR,01 3 UA SUBLE,27846.1,Castellar,proposta,vigent,parcelles.json,,539556.55,26140.63,IGUAL
+R0337,PARDINES_2,01 3 UA SUBLE,70147.6,Pardines 3,proposta,vigent,parcelles.json,,539612.36,25928.05,IGUAL
+R0338,SOLANS,01 3 UA SUBLE,8128.4,Solans,proposta,vigent,parcelles.json,,539612.47,26862.95,IGUAL
+R0339,PARDINES_4,01 3 UA SUBLE,52.2,,proposta,vigent,parcelles.json,,539616.39,25856.96,IGUAL
+R0340,PARDINES_3,01 3 UA SUBLE,106434.6,Pardines 3,revisat,vigent,parcelles.json,"un recinte per a Pardines 3 i un per a Pardines 2, encara que els metres no quadrin",539634.72,26068.48,IGUAL
+R0341,PRAT_DEL_GILET,01 3 UA SUBLE,2724.7,Prat del Gilet,proposta,vigent,parcelles.json,,539723.81,25138.62,IGUAL
+R0342,SOLANS,01 3 UA SUBLE,1575.1,Solans,proposta,vigent,parcelles.json,,539788.77,26847.86,IGUAL
+R0343,,01 3 UA SUBLE,1710.9,,,vigent,parcelles.json,,539829.21,26322.49,IGUAL
+R0344,FERITXET_5,01 3 UA SUBLE,124.0,,proposta,vigent,parcelles.json,,539922.12,26289.44,IGUAL
+R0345,PARDINES_1,01 3 UA SUBLE,58143.8,Pardines 1,proposta,vigent,parcelles.json,,539936.44,26068.7,IGUAL
+R0346,CASA_3,01 3 UA SUBLE,47978.0,Casa 1; Casa 3,proposta,vigent,parcelles.json,,540104.76,26549.17,IGUAL
+R0347,FERITXET_4,01 3 UA SUBLE,7260.7,Feritxet 4,proposta,vigent,parcelles.json,,540119.49,26060.12,IGUAL
+R0348,FERITXET_3,01 3 UA SUBLE,4732.8,Feritxet 3,proposta,vigent,parcelles.json,,540134.94,26101.62,IGUAL
+R0349,FERITXET_1,01 3 UA SUBLE,6133.2,Feritxet 1,proposta,vigent,parcelles.json,,540148.16,26185.41,IGUAL
+R0350,PARDINES_2,01 3 UA SUBLE,18616.0,Pardines 2,proposta,vigent,parcelles.json,,540152.85,25700.71,IGUAL
+R0351,FERITXET_3,01 3 UA SUBLE,502.2,,proposta,vigent,parcelles.json,,540181.66,26109.84,IGUAL
+R0352,PARDINES_2,01 3 UA SUBLE,51075.8,Pardines 2,proposta,vigent,parcelles.json,,540187.88,25867.39,IGUAL
+R0353,CASA_2,01 3 UA SUBLE,89231.2,Casa 2,proposta,vigent,parcelles.json,,540205.03,26413.87,IGUAL
+R0354,FERITXET_1,01 3 UA SUBLE,10245.7,Feritxet 1,proposta,vigent,parcelles.json,,540240.12,25995.67,IGUAL
+R0355,FERITXET_2,01 3 UA SUBLE,18313.3,Feritxet 2,proposta,vigent,parcelles.json,,540333.32,26045.8,IGUAL
+R0356,CORTALS_4,01 3 UA SUBLE,70717.3,Cortals 4,proposta,vigent,parcelles.json,,540367.39,26303.91,IGUAL
+R0357,PLANES,01 3 UA SUBLE,6278.7,Planes,proposta,vigent,parcelles.json,,540370.29,25515.69,IGUAL
+R0358,CASA_1,01 3 UA SUBLE,49504.7,Casa 1; Rigoder 1,proposta,vigent,parcelles.json,,540550.68,26615.01,IGUAL
+R0359,BOIGAL,01 3 UA SUBLE,12482.3,Boïgal,proposta,vigent,parcelles.json,,540678.98,25809.45,IGUAL
+R0360,CORTALS_5,01 3 UA SUBLE,22454.9,Cortals 5,proposta,vigent,parcelles.json,,540792.48,26349.69,IGUAL
+R0361,CORTALS_1,01 3 UA SUBLE,26048.1,Cortals 1,proposta,vigent,parcelles.json,,540795.57,26590.22,IGUAL
+R0362,CORTALS_2,01 3 UA SUBLE,37751.7,Cortals 2,proposta,vigent,parcelles.json,,540800.42,26527.04,IGUAL
+R0363,RIGODER_1,01 3 UA SUBLE,11869.8,Rigoder 1,proposta,vigent,parcelles.json,,540807.05,26822.42,IGUAL
+R0364,CORTALS_3,01 3 UA SUBLE,282.8,,proposta,vigent,parcelles.json,,540829.59,26442.46,IGUAL
+R0365,PRAT_D_ENSAGENTS,01 3 UA SUBLE,4966.5,Prat d'Ensagents,proposta,vigent,parcelles.json,,540855.77,25682.14,IGUAL
+R0366,RIGODER_2,01 3 UA SUBLE,16534.5,Rigoder 2,proposta,vigent,parcelles.json,,540861.46,26712.28,IGUAL
+R0367,RIGODER_4,01 3 UA SUBLE,63971.3,Rigoder 4,proposta,vigent,parcelles.json,,541318.12,26497.17,IGUAL
+R0368,RIGODER_3,01 3 UA SUBLE,103336.3,Rigoder 3,proposta,vigent,parcelles.json,,541374.02,26670.29,IGUAL
+R0369,RIGODER_5,01 3 UA SUBLE,29952.8,Rigoder 5,proposta,vigent,parcelles.json,,541446.33,26379.93,IGUAL
+R0370,RIGODER_7,01 3 UA SUBLE,22583.2,Rigoder 7,proposta,vigent,parcelles.json,,541570.88,26566.97,IGUAL
+R0371,RIGODER_6,01 3 UA SUBLE,4287.4,Rigoder 6,proposta,vigent,parcelles.json,,541658.31,26487.02,IGUAL
+R0372,BARONIA_1,01 3 UA SUBLE,81168.2,Baronia 1,proposta,vigent,parcelles.json,,541738.95,26681.46,IGUAL
+R0373,BARONIA_4,01 3 UA SUBLE,1480.3,Baronia 4,proposta,vigent,parcelles.json,,541855.06,26817.64,IGUAL
+R0374,BARONIA_2,01 3 UA SUBLE,37690.3,Baronia 2,proposta,vigent,parcelles.json,,541933.04,26573.28,IGUAL
+R0375,BARONIA_3,01 3 UA SUBLE,56.4,,proposta,vigent,parcelles.json,,542137.58,26566.84,IGUAL
+R0376,ENVALIRA,01 3 UA SUBLE,89599.3,Envalira,proposta,vigent,parcelles.json,,546392.89,28768.68,IGUAL
+R0377,EDIFICI_GRAU_ROIG,01 1 UA SUC,866.4,,proposta,vigent,parcelles.json,,547690.77,26051.89,IGUAL
+R0378,HOTEL_RESTAURANT_A_GRAU_ROIG,01 1 UA SUC,891.7,,proposta,vigent,parcelles.json,,547786.98,26063.97,IGUAL
+R0379,MOBIL,01 1 UA SUC,1331.4,E.S. Mòbil,proposta,vigent,parcelles.json,,549294.82,26860.04,IGUAL
+R0380,REFUGI_FRA_MIQUEL,01 1 UA SUC,524.4,,proposta,vigent,parcelles.json,,549325.46,26892.68,IGUAL
+R0381,ESSO,01 1 UA SUC,1127.2,E.S. Esso,proposta,vigent,parcelles.json,,549355.87,26861.0,IGUAL
+R0382,HOTEL_PIC_MAIA,01 1 UA SUC,4520.7,Hotel Pic Maia,proposta,vigent,parcelles.json,,549370.6,26905.1,IGUAL
+R0383,FIGUEREDO,01 1 UA SUC,1496.1,E.S. Figueredo,proposta,vigent,parcelles.json,,549387.27,26809.74,IGUAL
+R0384,ARAJOL,01 1 UA SUC,1155.3,,proposta,vigent,parcelles.json,,549397.15,26627.56,IGUAL
+R0385,SANT_PERE_9,01 1 UA SUC,3048.8,Sant Pere 9,proposta,vigent,parcelles.json,,550099.4,26738.44,IGUAL
+R0386,SOLANA,01 1 UA SUC,3703.2,Solana,proposta,vigent,parcelles.json,,550147.79,26855.4,IGUAL
+R0387,ENVALIRA_DE_DALT_3,01 1 UA SUC,2179.4,Envalira; de Dalt 3,proposta,vigent,parcelles.json,,550170.46,26948.7,IGUAL
+R0388,,01 1 UA SUC,482.3,,,vigent,parcelles.json,,550190.88,27131.43,IGUAL
+R0389,GAVATXA,01 1 UA SUC,473.4,,proposta,vigent,parcelles.json,,550194.38,27016.51,IGUAL
+R0390,GAVATXA_DE_DALT,01 1 UA SUC,731.1,de Dalt,proposta,vigent,parcelles.json,,550200.11,27158.56,IGUAL
+R0391,GASOPAS,01 1 UA SUC,8348.6,Gasopas,proposta,vigent,parcelles.json,,550209.46,27614.01,IGUAL
+R0392,ENVALIRA_DE_DALT_1,01 1 UA SUC,783.1,Envalira; de Dalt 1,proposta,vigent,parcelles.json,,550209.56,27052.57,IGUAL
+R0393,ENVALIRA_DE_DALT_2,01 1 UA SUC,971.8,Envalira,proposta,vigent,parcelles.json,,550213.69,27022.64,IGUAL
+R0394,MAIA_DE_DALT,01 1 UA SUC,1486.3,,proposta,vigent,parcelles.json,,550214.43,27099.91,IGUAL
+R0395,ENVALIRA_DEL_MIG,01 1 UA SUC,2135.2,Envalira; del Mig,proposta,vigent,parcelles.json,,550217.21,26966.21,IGUAL
+R0396,SANT_PERE_8,01 1 UA SUC,573.2,,proposta,vigent,parcelles.json,,550236.71,27519.97,IGUAL
+R0397,GAVATXA_DE_BAIX_1,01 1 UA SUC,2832.4,de Baix 1,proposta,vigent,parcelles.json,,550242.44,27073.9,IGUAL
+R0398,PAS_DE_LA_CASA_2,01 1 UA SUC,5911.9,,proposta,vigent,parcelles.json,,550242.18,27413.8,IGUAL
+R0399,GAVATXA_DE_BAIX_2,01 1 UA SUC,325.1,,proposta,vigent,parcelles.json,,550248.59,27159.34,IGUAL
+R0400,SANT_JORDI_DE_DALT,01 1 UA SUC,4686.9,Sant Jordi; de Dalt,proposta,vigent,parcelles.json,,550249.84,27197.04,IGUAL
+R0401,GAVATXA_DEL_MIG,01 1 UA SUC,1443.9,,proposta,vigent,parcelles.json,,550254.14,26961.68,IGUAL
+R0402,ENVALIRA_DE_BAIX,01 1 UA SUC,1928.9,Envalira de Baix,proposta,vigent,parcelles.json,,550260.49,26911.61,IGUAL
+R0403,MAIA_DE_BAIX,01 1 UA SUC,3197.3,Baix,proposta,vigent,parcelles.json,,550262.25,27071.3,IGUAL
+R0404,SANT_PERE_7,01 1 UA SUC,11471.7,Sant Pere 7,proposta,vigent,parcelles.json,,550286.35,27433.22,IGUAL
+R0405,SANT_JORDI_DEL_MIG,01 1 UA SUC,5488.4,,proposta,vigent,parcelles.json,,550291.87,27187.82,IGUAL
+R0406,VAQUERS_DE_DALT,01 1 UA SUC,4330.2,,proposta,vigent,parcelles.json,,550294.45,26984.21,IGUAL
+R0407,BEARN_DE_DALT,01 1 UA SUC,1264.0,,proposta,vigent,parcelles.json,,550296.66,27067.62,IGUAL
+R0408,SANT_JOSEP,01 1 UA SUC,291.4,,proposta,vigent,parcelles.json,,550317.31,27026.26,IGUAL
+R0409,VAQUERS_DE_BAIX,01 1 UA SUC,849.1,,proposta,vigent,parcelles.json,,550323.29,27001.15,IGUAL
+R0410,BEARN_DE_BAIX,01 1 UA SUC,2976.4,,proposta,vigent,parcelles.json,,550337.51,27060.91,IGUAL
+R0411,PAS_DE_LA_CASA_1,01 1 UA SUC,186527.1,Abelletes; Arieja de Baix; Arieja de Dalt; Baix; Baix 1; Baix 2; Bearn de Baix; Bearn de Dalt; Bernat III; Catalunya; Catalunya del Mig; Consell; Consell General; Coprínceps; Dalt; Encamp; Envalira; Envalira de Baix; Foix; Gavatxa; General; Maià de; Pareatges; Pas de la Casa 1; Pas de la Casa 3; Pas de la Casa 4; Pas de la Casa 5; Pas de la Casa 6; Pas de la Casa 7; Pista de Gel; Sant Jordi; Sant Jordi de Baix; Sant Josep; Solana; Vaquers de Baix; Vaquers de Dalt; de Baix; de Baix 1; de Baix 2; de Dalt; de Dalt 1; de Dalt 2; de Dalt 3; del Mig,revisat,vigent,parcelles.json,la fitxa es queda curta; el recinte del DWG és el bo,550348.25,27119.04,IGUAL
+R0412,COPRINCEPS_DE_DALT,01 1 UA SUC,5448.4,Coprínceps,proposta,vigent,parcelles.json,,550348.07,27198.03,IGUAL
+R0413,CATALUNYA_DE_DALT,01 1 UA SUC,2311.8,,proposta,vigent,parcelles.json,,550352.1,27082.98,IGUAL
+R0414,SANT_PERE_5,01 1 UA SUC,6786.0,Sant Pere 5,proposta,vigent,parcelles.json,,550358.09,27479.24,IGUAL
+R0415,CONSELL_GENERAL_BAIX_1,01 1 UA SUC,662.8,,proposta,vigent,parcelles.json,,550381.57,27368.44,IGUAL
+R0416,CATALUNYA_DE_BAIX,01 1 UA SUC,1091.9,Catalunya; de Baix,proposta,vigent,parcelles.json,,550393.62,27077.13,IGUAL
+R0417,PAS_DE_LA_CASA_7,01 1 UA SUC,4785.3,Pas de la Casa 7,proposta,vigent,parcelles.json,,550397.46,27205.33,IGUAL
+R0418,PISTA_DE_GEL,01 1 UA SUC,572.0,,proposta,vigent,parcelles.json,,550409.02,27145.33,IGUAL
+R0419,COPRINCEPS_DE_BAIX,01 1 UA SUC,5473.5,Coprínceps,proposta,vigent,parcelles.json,,550413.38,27229.35,IGUAL
+R0420,SANT_JORDI_DE_BAIX,01 1 UA SUC,3374.1,Sant Jordi de Baix,proposta,vigent,parcelles.json,,550418.72,27098.26,IGUAL
+R0421,CONSELL_GENERAL_BAIX_2,01 1 UA SUC,1779.3,,proposta,vigent,parcelles.json,,550425.49,27326.65,IGUAL
+R0422,CATALUNYA_DEL_MIG,01 1 UA SUC,1943.4,Catalunya del Mig,proposta,vigent,parcelles.json,,550425.65,27046.01,IGUAL
+R0423,PAS_DE_LA_CASA_3,01 1 UA SUC,6392.0,Pas de la Casa 3,proposta,vigent,parcelles.json,,550426.75,27389.61,IGUAL
+R0424,SANT_PERE_10,01 1 UA SUC,979.2,,proposta,vigent,parcelles.json,,550438.89,26729.8,IGUAL
+R0425,ENCAMP,01 1 UA SUC,10741.8,Encamp,proposta,vigent,parcelles.json,,550476.18,26924.52,IGUAL
+R0426,SANT_PERE_4,01 2 UA SUNC,20482.1,Sant Pere 4,proposta,vigent,parcelles.json,,550483.13,27574.83,IGUAL
+R0427,PAS_DE_LA_CASA_6,01 1 UA SUC,3341.3,Pas de la Casa 6,proposta,vigent,parcelles.json,,550498.06,27238.67,IGUAL
+R0428,ABELLETES,01 1 UA SUC,1902.5,Abelletes,proposta,vigent,parcelles.json,,550499.31,27153.52,IGUAL
+R0429,PAS_DE_LA_CASA_4,01 1 UA SUC,4803.6,Pas de la Casa 4,proposta,vigent,parcelles.json,,550506.4,27394.97,IGUAL
+R0430,SANT_PERE_1,01 2 UA SUNC,6943.2,Sant Pere 1,proposta,vigent,parcelles.json,,550506.41,27469.37,IGUAL
+R0431,ARIEJA_DE_DALT,01 1 UA SUC,1428.2,Arieja de Dalt,proposta,vigent,parcelles.json,,550515.43,27115.03,IGUAL
+R0432,PAREATGES,01 1 UA SUC,1115.6,,proposta,vigent,parcelles.json,,550530.38,27207.75,IGUAL
+R0433,PAS_DE_LA_CASA_5,01 1 UA SUC,6583.4,Pas de la Casa 5,proposta,vigent,parcelles.json,,550547.4,27301.16,IGUAL
+R0434,BERNAT_III,01 1 UA SUC,1361.5,Bernat III,proposta,vigent,parcelles.json,,550551.45,27196.26,IGUAL
+R0435,SANT_PERE_3,01 2 UA SUNC,8684.7,Sant Pere 3,proposta,vigent,parcelles.json,,550571.06,27514.81,IGUAL
+R0436,SANT_PERE_2,01 2 UA SUNC,8512.7,Sant Pere 2,proposta,vigent,parcelles.json,,550574.39,27611.4,IGUAL
+R0437,SANT_PERE_6,01 1 UA SUC,4234.7,Sant Pere 6,proposta,vigent,parcelles.json,,550577.15,27405.47,IGUAL
+R0438,ARIEJA_DE_BAIX,01 1 UA SUC,2951.0,Arieja de Baix,proposta,vigent,parcelles.json,,550581.06,27176.56,IGUAL
+R0439,FOIX,01 1 UA SUC,1212.0,Foix,proposta,vigent,parcelles.json,,550586.21,27238.89,IGUAL
