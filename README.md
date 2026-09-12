@@ -183,6 +183,15 @@ Demana'l **en GeoJSON**: és obert, porta el sistema de coordenades a dins i qua
 (el QGIS obre el DWG i el treu sense res més). Si només hi ha DWG, també serveix; cal LibreDWG per
 convertir-lo primer:
 
+**I demana que cada recinte porti el nom de la unitat a dins.** És el que estalvia més feina de
+totes. Al DWG d'avui el nom és un text solt escrit a sobre del dibuix, i endevinar de quin recinte
+és cada text costa el que costa. Si el plànol ve amb el nom **com a atribut del polígon** —un camp
+`nom_ua` amb el nom tal com surt a la fitxa, o millor encara un camp `id_ua` amb l'identificador—
+el guió l'agafa directament: aquests recintes surten ja assignats, marcats a `assignat_per` com a
+**`plànol`** en comptes de `proposta`, i queden fora del repartiment d'etiquetes perquè no li
+prenguin el nom al veí. El guió també accepta `nom_dwg`, `nom`, `NOM` o `unitat`, i avisa dels
+noms que no lliguen amb cap unitat ni cap àlies.
+
 ```bash
 dwgread -O JSON -o planol.json Parcelles_UAs.dwg
 ```
@@ -204,9 +213,44 @@ Cada recinte surt marcat a la columna `canvi`:
 - **CANVIAT** — hi era però ara té una altra forma. Val la pena mirar si segueix sent de qui era.
 - **DESAPAREGUT** — ja no és al plànol. Queda `retirat`, no s'esborra.
 
-Del que en surt, els tres fitxers —`recintes.csv`, `geometria.json` i `recintes.geojson`— van a
-`data/`. Les assignacions que ja hi havia es conserven totes: el guió mai no toca l'`id_ua` d'una
+Del que en surt, els quatre fitxers —`recintes.csv`, `geometria.json`, `recintes.geojson` i
+`etiquetes.json`— van a `data/`. Les assignacions que ja hi havia es conserven totes: el guió mai no toca l'`id_ua` d'una
 fila que ja en té.
+
+### Posar-hi capes
+
+El plànol de la portada pot ensenyar més coses que les unitats: equipaments, zones de risc,
+protecció de ribera, aparcaments, el que tinguis en GeoJSON. Cada capa és una fila de la pestanya
+**`capes`** del full i un fitxer a `data/`. Dos passos:
+
+1. Puja el GeoJSON a `data/` del repositori (arrossegant-lo des del web de GitHub). Ha d'estar en
+   **graus, EPSG:4326** —el que treu qualsevol SIG quan li demanes «GeoJSON»—; si ve en
+   coordenades del cadastre, el build s'atura i t'ho diu.
+2. Afegeix una fila a `capes`:
+
+| Columna | Què hi va |
+|---|---|
+| `id_capa` | Un nom curt sense accents ni espais: `equipaments`, `inundable`. Ha de ser únic |
+| `nom_public` | Com surt al selector: «Equipaments», «Zones inundables» |
+| `fitxer` | El camí dins del repositori: `data/equipaments.geojson` |
+| `ordre` | Més petit que 10, es dibuixa **sota** les unitats; més gran, **a sobre**. Les unitats són el 10 |
+| `color` | En hexadecimal de sis xifres: `#8C4526`. El farciment surt translúcid tot sol |
+| `per_defecte` | `SÍ` si ha de sortir encesa la primera vegada. La tria de cadascú es recorda al seu navegador |
+| `clicable` | `SÍ` perquè, en clicar-hi, surti un quadre amb les dades d'aquella forma. `NO` per a capes de fons |
+| `font` | D'on surt. Es veu al peu del quadre de dades |
+| `visible` | `NO` l'apaga sense haver d'esborrar la fila |
+
+La fila `unitats` ja hi és i no s'ha de tocar: les unitats les dibuixa el build pel seu compte.
+
+Funciona amb polígons (també amb forats), línies i punts, i amb les versions múltiples de cada un.
+De cada forma se'n guarda el nom —el camp `nom`, `name`, `NOM`, `nom_public`, `etiqueta` o
+`descripcio`, el primer que hi trobi— i fins a vuit camps més per ensenyar-los en clicar-hi. La
+geometria se simplifica a 2 m, que al plànol no es nota i estalvia molt de pes; el build et diu
+quant ocupa cada capa.
+
+Si una capa no es pot llegir —el fitxer no hi és, o ve en un altre sistema de coordenades— **el
+build s'atura i no es publica res**. És a posta: val més quedar-se amb la web d'ahir que publicar-ne
+una de mig trencada. El missatge diu quina capa és i què li passa.
 
 ### La taula de treball: `public/recintes.html`
 
@@ -404,7 +448,7 @@ canvia alguna, es corregeix a `FILES`.
 | **Modificació (M05…)** | La fitxa d'ara: `vigent = NO` i `vigent_fins_a` · fila nova a `fitxes` · document i plànol nous |
 | **Unitat derogada** | A `unitats`, `estat = derogada` · totes les seves fitxes a `vigent = NO` · treure-li els recintes a `recintes.html` |
 | **Canvi de clau o d'article** | La fila nova a `claus` o `claus_parametres`; els textos planers tornen a `revisat = NO` |
-| **Capa nova al plànol** | El GeoJSON a `data/` i una fila a `capes` |
+| **Capa nova al plànol** | El GeoJSON a `data/` i una fila a `capes` (mira «Posar-hi capes») |
 
 Sense el pas del recinte, una unitat nova ja funciona: surt al cercador i té fitxa; només no es
 pinta al plànol.

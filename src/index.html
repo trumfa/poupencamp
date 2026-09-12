@@ -122,6 +122,31 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--p
 .fons button:first-child{border-left:0}
 .fons button[aria-pressed="true"]{background:var(--accent);color:var(--paper)}
 .fons button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* el selector de capes */
+.capes{position:absolute;right:10px;top:10px;max-width:min(240px,56%);z-index:3}
+.capes .cap{appearance:none;font:inherit;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;
+  padding:6px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--paper);
+  color:var(--ink-2);cursor:pointer;box-shadow:var(--shadow);display:block;margin-left:auto}
+.capes .cap[aria-expanded="true"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.capes .llista{margin-top:6px;background:var(--paper);border:1px solid var(--line-2);border-radius:8px;
+  box-shadow:var(--pop);padding:7px 9px;display:grid;gap:5px;max-height:46vh;overflow:auto}
+.capes label{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2);cursor:pointer;
+  line-height:1.25}
+.capes label i{width:12px;height:12px;border-radius:3px;border:1px solid;flex:none}
+.capes input{flex:none;accent-color:var(--accent)}
+.capainfo{position:absolute;left:10px;bottom:10px;max-width:min(330px,72%);background:var(--paper);
+  border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--pop);padding:10px 12px;z-index:3}
+.capainfo h3{margin:0 0 2px;font-family:var(--f-display);font-size:15px;font-weight:600}
+.capainfo .de{font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;color:var(--ink-3);
+  text-transform:uppercase;margin:0 0 5px}
+.capainfo dl{display:grid;grid-template-columns:auto 1fr;gap:1px 10px;margin:0;font-size:12px}
+.capainfo dt{color:var(--ink-3)}
+.capainfo dd{margin:0;word-break:break-word}
+.capainfo .font{margin:6px 0 0;font-size:11px;color:var(--ink-3)}
+.capainfo .x{position:absolute;right:6px;top:5px;border:0;background:none;font-size:15px;line-height:1;
+  color:var(--ink-3);cursor:pointer;padding:2px 5px}
+@media (max-width:620px){.capainfo{max-width:calc(100% - 20px)}}
+
 .credit{position:absolute;left:10px;top:44px;margin:0;font-size:10px;line-height:1.3;color:var(--ink-3);
   background:color-mix(in srgb,var(--paper) 80%,transparent);padding:2px 6px;border-radius:4px;
   max-width:60%}
@@ -354,6 +379,14 @@ function vistaLlista(){
             <button type="button" data-fons="mapa">Mapa</button>
             <button type="button" data-fons="cap">Cap</button>
           </div>
+          ${(D.capes || []).length ? `<div class="capes">
+            <button type="button" class="cap" id="capes-obre" aria-expanded="false">Capes</button>
+            <div class="llista" id="capes-llista" hidden>${D.capes.map(c => `<label>
+              <input type="checkbox" data-capa="${esc(c.i)}"${c.p ? ' checked' : ''}>
+              <i style="background:${esc(c.c)}33;border-color:${esc(c.c)}"></i>
+              <span>${esc(c.n)}</span></label>`).join('')}</div>
+          </div>` : ''}
+          <div class="capainfo" id="capa-info" hidden></div>
           <p class="credit" id="plan-credit"></p>
           <div class="zoom">
             <button type="button" id="plan-mes" aria-label="Acostar">+</button>
@@ -563,7 +596,22 @@ function muntaPla(){
     if (u.bb[0] < n0) n0 = u.bb[0]; if (u.bb[1] < m0) m0 = u.bb[1];
     if (u.bb[2] > n1) n1 = u.bb[2]; if (u.bb[3] > m1) m1 = u.bb[3];
   }
-  PLA = {ua, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
+  // Les capes que s'afegeixen al plànol: van al mateix sistema que les unitats, o
+  // sigui que només cal desfer les deltes i calcular-ne la caixa.
+  const capes = (D.capes || []).map(c => ({
+    i: c.i, n: c.n, c: c.c, ordre: c.o, clicable: c.k !== false, font: c.f, defecte: !!c.p,
+    fs: c.g.map(f => {
+      const anells = f.a.map(desfes);
+      let a0 = Infinity, b0 = Infinity, a1 = -Infinity, b1 = -Infinity;
+      for (const p of anells){
+        const b = caixa(p);
+        if (b[0] < a0) a0 = b[0]; if (b[1] < b0) b0 = b[1];
+        if (b[2] > a1) a1 = b[2]; if (b[3] > b1) b1 = b[3];
+      }
+      return {t: f.t, n: f.n, d: f.d, a: anells, bb: [a0, b0, a1, b1]};
+    }),
+  }));
+  PLA = {ua, capes, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
   return PLA;
 }
 
@@ -587,6 +635,18 @@ function arrencaPla(){
   // ratolí no hi ha «passar per sobre»: el primer toc ensenya el nom i el segon obre.
   const ambRatoli = matchMedia('(hover: hover)').matches;
   let capa = localStorage.getItem('poupe-fons') || 'orto';
+
+  /* ---- quines capes es veuen. La tria es recorda; si mai no n'has triat cap,
+         valen les que el full marca com a «per defecte». */
+  const actives = new Set(M.capes.filter(c => c.defecte).map(c => c.i));
+  try {
+    const desat = JSON.parse(localStorage.getItem('poupe-capes') || 'null');
+    if (Array.isArray(desat)){
+      actives.clear();
+      for (const i of desat) if (M.capes.some(c => c.i === i)) actives.add(i);
+    }
+  } catch (err) { /* tant se val: valen les per defecte */ }
+  let triat = null;                       // la forma d'una capa que s'ha clicat
 
   /* ---- mosaics del mapa de fons */
   const rajoles = new Map();
@@ -642,6 +702,37 @@ function arrencaPla(){
   const aPant = (x, y) => [(x - cx) * escala + w / 2, h / 2 - (y - cy) * escala];
   const aMon = (px, py) => [(px - w / 2) / escala + cx, cy - (py - h / 2) / escala];
 
+  function pintaForma(c, f, destacada){
+    if (f.t === 'x'){
+      const [px, py] = aPant(f.a[0][0], f.a[0][1]);
+      ctx.beginPath(); ctx.arc(px, py, destacada ? 7 : 4.5, 0, 6.2832);
+      ctx.fillStyle = c.c; ctx.fill();
+      ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1.6; ctx.stroke();
+      return;
+    }
+    ctx.beginPath();
+    for (const p of f.a){
+      const [sx, sy] = aPant(p[0], p[1]);
+      ctx.moveTo(sx, sy);
+      for (let i = 2; i < p.length; i += 2){ const q = aPant(p[i], p[i+1]); ctx.lineTo(q[0], q[1]); }
+      if (f.t === 'p') ctx.closePath();
+    }
+    if (f.t === 'p'){ ctx.fillStyle = c.c + (destacada ? '66' : '2E'); ctx.fill('evenodd'); }
+    ctx.strokeStyle = c.c;
+    ctx.lineWidth = destacada ? 3 : (f.t === 'l' ? 2 : 1.3);
+    ctx.stroke();
+  }
+  function pintaCapes(sota){
+    for (const c of M.capes){
+      if (!actives.has(c.i)) continue;
+      if (sota ? c.ordre >= 10 : c.ordre < 10) continue;
+      for (const f of c.fs){
+        if (!veu(f.bb)) continue;
+        pintaForma(c, f, triat && triat.f === f);
+      }
+    }
+  }
+
   function traça(p){
     ctx.beginPath();
     const [sx, sy] = aPant(p[0], p[1]);
@@ -664,6 +755,7 @@ function arrencaPla(){
       const ambFons = !!FONS[capa];
       ctx.clearRect(0, 0, w, h);
       pintaFons();
+      pintaCapes(true);
       for (const u of M.ua){
         if (!veu(u.bb)) continue;
         traça(u.p);
@@ -673,6 +765,7 @@ function arrencaPla(){
         ctx.lineWidth = u === sobre ? 2.4 : 1.1;
         ctx.stroke();
       }
+      pintaCapes(false);
       const fons = ambFons ? 'rgba(0,0,0,.65)' : (est.getPropertyValue('--paper').trim() || '#fff');
       const tinta = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink-2').trim() || '#333');
       if (escala > 0.8){                        // noms, quan hi caben
@@ -713,12 +806,74 @@ function arrencaPla(){
       if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
     return null;
   }
+  // A prop d'una línia o d'un punt: les unitats es cliquen per dins, però una
+  // línia no té dins, i per tocar-la amb el dit cal una mica de marge.
+  function aProp(x, y, f, marge){
+    const m2 = marge * marge;
+    for (const p of f.a){
+      if (p.length === 2){
+        const dx = x - p[0], dy = y - p[1];
+        if (dx * dx + dy * dy < m2) return true;
+        continue;
+      }
+      for (let i = 0; i + 3 < p.length; i += 2){
+        const ax = p[i], ay = p[i+1], dx = p[i+2] - ax, dy = p[i+3] - ay;
+        const l2 = dx * dx + dy * dy;
+        let t = l2 ? ((x - ax) * dx + (y - ay) * dy) / l2 : 0;
+        t = Math.max(0, Math.min(1, t));
+        const ex = ax + t * dx - x, ey = ay + t * dy - y;
+        if (ex * ex + ey * ey < m2) return true;
+      }
+    }
+    return false;
+  }
+  function formaA(x, y){
+    const marge = 9 / escala;
+    for (let k = M.capes.length - 1; k >= 0; k--){     // guanya la de més amunt
+      const c = M.capes[k];
+      if (!actives.has(c.i) || !c.clicable) continue;
+      for (const f of c.fs){
+        const b = f.bb;
+        if (x < b[0] - marge || x > b[2] + marge || y < b[1] - marge || y > b[3] + marge) continue;
+        if (f.t === 'p'){
+          let dins = false;                            // parell-senar: els forats compten
+          for (const p of f.a) if (dinsAnell(x, y, p)) dins = !dins;
+          if (dins) return {c, f};
+        } else if (aProp(x, y, f, marge)) return {c, f};
+      }
+    }
+    return null;
+  }
+
+  const boxInfo = document.getElementById('capa-info');
+  function mostraInfo(){
+    if (!boxInfo) return;
+    if (!triat){ boxInfo.hidden = true; boxInfo.innerHTML = ''; return; }
+    const {c, f} = triat;
+    const files = Object.entries(f.d || {})
+      .filter(([k]) => !/^(id|gid|fid|objectid|shape_\w+)$/i.test(k));
+    boxInfo.innerHTML = `<button type="button" class="x" aria-label="Tancar">×</button>
+      <p class="de">${esc(c.n)}</p>
+      ${f.n ? `<h3>${esc(f.n)}</h3>` : ''}
+      ${files.length
+        ? `<dl>${files.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`
+        : (f.n ? '' : '<p style="margin:0;font-size:12.5px;color:var(--ink-3)">Aquesta forma no porta cap dada.</p>')}
+      ${c.font ? `<p class="font">${esc(c.font)}</p>` : ''}`;
+    boxInfo.hidden = false;
+  }
+
   function trien(px, py, toc){
     const [x, y] = aMon(px, py);
     const u = unitatA(x, y);
-    if (!u){ if (sobre){ sobre = null; pinta(); } return; }
-    if (!toc || sobre === u) location.hash = '#/ua/' + encodeURIComponent(u.id);
-    else { sobre = u; pinta(); }
+    if (u){
+      if (triat){ triat = null; mostraInfo(); }
+      if (!toc || sobre === u) location.hash = '#/ua/' + encodeURIComponent(u.id);
+      else { sobre = u; pinta(); }
+      return;
+    }
+    const f = formaA(x, y);
+    if (f){ triat = f; sobre = null; mostraInfo(); pinta(); return; }
+    if (triat || sobre){ triat = null; sobre = null; mostraInfo(); pinta(); }
   }
 
   /* ---- gestos */
@@ -738,7 +893,8 @@ function arrencaPla(){
     if (!punters.has(e.pointerId)){
       const [x, y] = aMon(e.offsetX, e.offsetY);
       const u = unitatA(x, y);
-      if (u !== sobre){ sobre = u; cv.style.cursor = u ? 'pointer' : 'grab'; pinta(); }
+      if (u !== sobre){ sobre = u; pinta(); }
+      cv.style.cursor = (u || (!u && M.capes.length && formaA(x, y))) ? 'pointer' : 'grab';
       return;
     }
     punters.set(e.pointerId, [e.offsetX, e.offsetY]);
@@ -789,6 +945,28 @@ function arrencaPla(){
         o.setAttribute('aria-pressed', String(o.dataset.fons === capa));
       posaCredit(); pinta();
     });
+  const obreCapes = document.getElementById('capes-obre');
+  if (obreCapes){
+    const llista = document.getElementById('capes-llista');
+    obreCapes.addEventListener('click', () => {
+      const obert = obreCapes.getAttribute('aria-expanded') === 'true';
+      obreCapes.setAttribute('aria-expanded', String(!obert));
+      llista.hidden = obert;
+    });
+    for (const inp of llista.querySelectorAll('input[data-capa]')){
+      inp.checked = actives.has(inp.dataset.capa);
+      inp.addEventListener('change', () => {
+        if (inp.checked) actives.add(inp.dataset.capa); else actives.delete(inp.dataset.capa);
+        if (triat && !actives.has(triat.c.i)){ triat = null; mostraInfo(); }
+        try { localStorage.setItem('poupe-capes', JSON.stringify([...actives])); } catch (err) {}
+        pinta();
+      });
+    }
+  }
+  if (boxInfo) boxInfo.addEventListener('click', e => {
+    if (e.target.classList.contains('x')){ triat = null; mostraInfo(); pinta(); }
+  });
+
   addEventListener('resize', () => { mida(); pinta(); }, {passive: true});
 
   for (const b of document.querySelectorAll('.fons button'))

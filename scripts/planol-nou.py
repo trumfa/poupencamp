@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 """Ha arribat un plànol nou.
 
-Llegeix un GeoJSON o un DWG i el compara amb els recintes que ja hi ha al full. No
-reassigna res: cada recinte surt marcat com a IGUAL, NOU, CANVIAT o DESAPAREGUT, i
-les files que ja has revisat no es toquen mai.
+Llegeix un GeoJSON o un DWG i el compara amb els recintes que ja hi ha. No reassigna
+res: cada recinte surt marcat com a IGUAL, NOU, CANVIAT o DESAPAREGUT, i les
+assignacions que ja hi havia es conserven totes.
 
-    python scripts/planol-nou.py planol.geojson data/ [recintes.csv] [unitats.csv]
+    python scripts/planol-nou.py planol.geojson sortida/ [recintes.csv] [unitats.csv]
 
   planol.geojson   el plànol nou. També s'accepta el JSON que surt de LibreDWG:
                        dwgread -O JSON -o planol.json Parcelles_UAs.dwg
-  data/            on s'escriuen els tres fitxers de sortida
-  recintes.csv     la pestanya «recintes» del full, exportada. Si no s'hi posa,
-                   es comença de zero i tots els recintes surten com a NOUS.
-  unitats.csv      la pestanya «unitats», per proposar l'assignació dels nous a
-                   partir del nom escrit dins del recinte.
+  sortida/         on s'escriuen els quatre fitxers de sortida
+  recintes.csv     el data/recintes.csv d'ara. Si no s'hi posa, es comença de zero
+                   i tots els recintes surten com a NOUS.
+  unitats.csv      la pestanya «unitats» del full, per proposar l'assignació dels
+                   nous a partir del nom escrit dins del recinte.
 
-En surten:
+En surten (tots quatre van a data/ quan estiguis conforme):
 
-    data/recintes.geojson   el plànol net, en EPSG:4326, per a qui el vulgui obrir
-    data/geometria.json     el mateix, per al navegador: Web Mercator i deltes
-    data/recintes.csv       la taula per enganxar al full, amb la columna «canvi»
+    recintes.geojson   el plànol net, en EPSG:4326, per a qui el vulgui obrir
+    geometria.json     el mateix, per al navegador: Web Mercator i deltes
+    recintes.csv       la taula, amb la columna «canvi» per saber què mirar
+    etiquetes.json     on és escrit cada nom al plànol original
 
 Cal pyproj. Si l'entrada és un DWG, cal també LibreDWG.
 """
@@ -144,11 +145,14 @@ def llegeix_geojson(cami):
                 if pts[0] == pts[-1]:
                     pts = pts[:-1]
                 if len(pts) >= 3:
+                    # el nom escrit com a atribut del polígon: si hi és, mana ell
+                    propi = (pr.get('nom_ua') or pr.get('NOM_UA') or pr.get('unitat')
+                             or pr.get('nom_dwg') or pr.get('nom') or pr.get('NOM') or '')
                     recs.append({'pts': pts, 'capa': pr.get('capa_dwg') or pr.get('layer', ''),
                                  'cls': pr.get('classificacio', ''),
                                  'id': pr.get('id_recinte', ''),
-                                 'id_ua': pr.get('id_ua', ''),
-                                 'nom': pr.get('nom_dwg') or pr.get('nom', '')})
+                                 'id_ua': pr.get('id_ua') or pr.get('ID_UA', ''),
+                                 'nom': str(propi).strip()})
         elif t == 'Point':
             n = pr.get('nom') or pr.get('text') or pr.get('name') or ''
             if n:
@@ -193,7 +197,7 @@ def etiquetes(noms, per_nom):
     return out
 
 
-def reparteix_noms(recs, etiq):
+def reparteix_noms(recs, etiq, exclou=None):
     """Cada etiqueta a un sol recinte i cada recinte amb un sol nom.
 
     Una unitat té un nom i prou. Si a dins d'un recinte hi cauen quaranta noms —passa
@@ -202,11 +206,12 @@ def reparteix_noms(recs, etiq):
     manera exclusiva: guanya qui la té a dins i és més petit, i després qui la té més a
     prop.
     """
+    exclou = exclou or set()
     parelles = []
     for e, et in enumerate(etiq):
         pt = (et['x'], et['y'])
         for i, r in enumerate(recs):
-            if r.get('duplicat'):
+            if r.get('duplicat') or i in exclou:   # els que ja porten el nom a dins
                 continue
             b = r['bb']
             d = math.hypot(max(b[0] - pt[0], 0, pt[0] - b[2]), max(b[1] - pt[1], 0, pt[1] - b[3]))
@@ -282,10 +287,38 @@ def main(entrada, dir_sortida, cami_recintes=None, cami_unitats=None):
             nom_ua = {u['id_ua']: (u['nom_public'] or u['nom_oficial'])
                       for u in csv.DictReader(f)}
 
+    # Primer, els recintes que ja porten la unitat escrita com a atribut del polígon.
+    # És el cas bo: no cal endevinar res, i aquests queden fora del repartiment
+    # d'etiquetes perquè no li prenguin el nom al veí.
+    propis, sense_lligar = {}, []
+    for i, r in enumerate(recs):
+        if r.get('duplicat'):
+            continue
+        idu = ''
+        if r.get('id_ua') and (not nom_ua or r['id_ua'] in nom_ua):
+            idu = r['id_ua']
+        elif r.get('nom') and per_nom:
+            idu = per_nom.get(nrm(r['nom']), '')
+        if idu:
+            propis[i] = idu
+        elif r.get('nom'):
+            sense_lligar.append(r['nom'])
+    if propis:
+        print(f'   {len(propis)} recintes porten la unitat com a atribut del polígon')
+    if sense_lligar:
+        mostra = ', '.join(sorted(set(sense_lligar))[:6])
+        print(f'   ATENCIÓ: {len(set(sense_lligar))} noms del plànol no lliguen amb cap '
+              f'unitat ni àlies: {mostra}')
+
     etiq = etiquetes(noms, per_nom) if per_nom else []
-    if per_nom:
-        de_recinte, orfes = reparteix_noms(recs, etiq)
+    if per_nom or propis:
+        de_recinte, orfes = reparteix_noms(recs, etiq, set(propis)) if etiq else ({}, [])
         for i, r in enumerate(recs):
+            if i in propis:
+                r['nom'] = nom_ua.get(propis[i], r.get('nom') or propis[i])
+                r['nom_id'] = propis[i]
+                r['del_planol'] = True
+                continue
             e = de_recinte.get(i)
             r['nom'] = nom_ua.get(e['id'], e['t']) if e else ''
             r['nom_id'] = e['id'] if e else ''
@@ -343,7 +376,10 @@ def main(entrada, dir_sortida, cami_recintes=None, cami_unitats=None):
         id_ua = (v or {}).get('id_ua', '') or r.get('id_ua', '')
         assignat = (v or {}).get('assignat_per', '')
         if not id_ua and r.get('nom_id'):
-            id_ua, assignat = r['nom_id'], 'proposta'
+            # «plànol» quan ve escrit al mateix polígon i «proposta» quan s'ha
+            # deduït d'una etiqueta que hi cau a prop: el primer és molt més segur
+            id_ua = r['nom_id']
+            assignat = 'plànol' if r.get('del_planol') else 'proposta'
         if r.get('duplicat'):
             id_ua, assignat = '', ''
         files.append({'id_recinte': k, 'id_ua': id_ua, 'capa_dwg': r['capa'],

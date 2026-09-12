@@ -438,7 +438,135 @@ try {
     + (orfes ? ` · ${orfes} sense unitat` : ''));
 } catch { console.log('\nSense data/geometria.json: la web sortirà sense plànol.'); }
 
-const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA, mapa,
+/* ------------------------------------------------------- capes del plànol
+
+   Cada fila de «capes» és un GeoJSON que viu a data/ i que es dibuixa al plànol
+   de la portada amb la seva casella al selector. La geometria es guarda igual
+   que la de les unitats —Web Mercator, sense l'origen i amb deltes al metre—
+   perquè el navegador no hagi d'aprendre dos formats.
+
+   El GeoJSON ha de venir en graus (EPSG:4326), que és el que diu l'estàndard i
+   el que treu qualsevol SIG quan li demanes «GeoJSON». Si ve en coordenades del
+   cadastre, el build s'atura i t'ho diu.                                        */
+const RADI = 6378137;
+const aMercator = (lon, lat) => [
+  RADI * lon * Math.PI / 180,
+  RADI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)),
+];
+
+// Douglas–Peucker en la forma estable: a 2 m no es nota i estalvia molt de pes
+function simplifica(p, tol) {
+  if (p.length < 3) return p;
+  const d2 = (q, a, b) => {
+    const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
+    let t = l2 ? ((q[0] - a[0]) * dx + (q[1] - a[1]) * dy) / l2 : 0;
+    t = Math.max(0, Math.min(1, t));
+    const ex = a[0] + t * dx - q[0], ey = a[1] + t * dy - q[1];
+    return ex * ex + ey * ey;
+  };
+  const guarda = new Uint8Array(p.length);
+  guarda[0] = guarda[p.length - 1] = 1;
+  const pila = [[0, p.length - 1]], t2 = tol * tol;
+  while (pila.length) {
+    const [i, j] = pila.pop();
+    let pitjor = -1, k = -1;
+    for (let m = i + 1; m < j; m++) {
+      const d = d2(p[m], p[i], p[j]);
+      if (d > pitjor) { pitjor = d; k = m; }
+    }
+    if (pitjor > t2 && k > 0) { guarda[k] = 1; pila.push([i, k], [k, j]); }
+  }
+  return p.filter((_, i) => guarda[i]);
+}
+
+function deltes(p, o) {
+  const d = [];
+  let x = null, y = null;
+  for (const q of p) {
+    const X = Math.round(q[0] - o[0]), Y = Math.round(q[1] - o[1]);
+    if (x === null) d.push(X, Y);
+    else if (X === x && Y === y) continue;        // el mateix punt dues vegades
+    else d.push(X - x, Y - y);
+    x = X; y = Y;
+  }
+  return d;
+}
+
+function formesDeGeoJSON(g, o, nomCapa) {
+  const crs = ((g.crs || {}).properties || {}).name || '';
+  if (crs && !/4326|CRS84/i.test(crs))
+    throw new Error(`ve en ${crs}; exporta-la en graus (EPSG:4326)`);
+  const etiqueta = pr => String(pr.nom || pr.NOM || pr.name || pr.nom_public
+    || pr.etiqueta || pr.descripcio || '').trim();
+  const dades = pr => {
+    const d = {};
+    for (const [k, v] of Object.entries(pr || {})) {
+      if (v == null || v === '' || typeof v === 'object') continue;
+      if (Object.keys(d).length >= 8) break;
+      d[k] = String(v).slice(0, 140);
+    }
+    return d;
+  };
+  const trets = g.features || (g.type === 'Feature' ? [g] : []);
+  const out = [];
+  for (const f of trets) {
+    const geo = f.geometry || {}, pr = f.properties || {}, t = geo.type;
+    let grups = [];
+    if (t === 'Polygon') grups = [['p', geo.coordinates]];
+    else if (t === 'MultiPolygon') grups = geo.coordinates.map(x => ['p', x]);
+    else if (t === 'LineString') grups = [['l', [geo.coordinates]]];
+    else if (t === 'MultiLineString') grups = [['l', geo.coordinates]];
+    else if (t === 'Point') grups = [['x', [[geo.coordinates]]]];
+    else if (t === 'MultiPoint') grups = geo.coordinates.map(c => ['x', [[c]]]);
+    else continue;
+    for (const [tipus, anells] of grups) {
+      const a = [];
+      for (const an of anells) {
+        for (const c of an) if (Math.abs(c[0]) > 180 || Math.abs(c[1]) > 90)
+          throw new Error('les coordenades no són graus; exporta-la en EPSG:4326');
+        let p = an.map(c => aMercator(c[0], c[1]));
+        if (tipus !== 'x') p = simplifica(p, 2);
+        if (p.length >= (tipus === 'x' ? 1 : 2)) a.push(deltes(p, o));
+      }
+      if (a.length) out.push({ t: tipus, n: etiqueta(pr), d: dades(pr), a });
+    }
+  }
+  if (!out.length) throw new Error('no s\u2019hi ha trobat cap forma dibuixable');
+  return out;
+}
+
+let capes = [];
+const capesMal = [];
+if (mapa) {
+  for (const c of (C.capes || [])) {
+    if (c.visible !== 'SÍ' || c.id_capa === 'unitats') continue;
+    if (!c.fitxer) { capesMal.push(`la capa «${c.id_capa}» no diu quin fitxer és`); continue; }
+    try {
+      const g = JSON.parse(await readFile(ARREL + c.fitxer, 'utf8'));
+      const f = formesDeGeoJSON(g, mapa.o, c.id_capa);
+      const color = /^#[0-9a-f]{6}$/i.test((c.color || '').trim()) ? c.color.trim() : '#8C4526';
+      capes.push({ i: c.id_capa, n: c.nom_public || c.id_capa, c: color,
+                   o: Number(c.ordre) || 50, p: c.per_defecte === 'SÍ',
+                   k: c.clicable !== 'NO', f: c.font || '', g: f });
+      console.log(`  capa «${c.nom_public || c.id_capa}»: ${f.length} formes`
+        + ` · ${Math.round(JSON.stringify(f).length / 1024)} KB`);
+    } catch (e) {
+      capesMal.push(`la capa «${c.id_capa}» (${c.fitxer}): ${e.message}`);
+    }
+  }
+  capes.sort((a, b) => a.o - b.o);
+  if (capes.length) console.log(`Capes: ${capes.length} damunt del plànol`);
+}
+if (capesMal.length) {
+  console.error('\nNo es publica: hi ha capes que no es poden dibuixar.\n');
+  for (const m of capesMal) console.error('  · ' + m);
+  console.error('\nMira la pestanya «capes» del full: la columna «fitxer» ha de ser el camí'
+    + '\ndins del repositori (data/el-que-sigui.geojson) i el fitxer hi ha de ser.'
+    + '\nPer treure una capa sense esborrar-la, posa-li «visible» a NO.\n');
+  process.exit(1);
+}
+
+const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: UA, mapa, capes,
                glossari: C.glossari.filter(g => g.visible === 'SÍ')
                  .map(g => ({ t: g.terme, d: g.definicio_planera })),
                generat: new Date().toISOString() };
