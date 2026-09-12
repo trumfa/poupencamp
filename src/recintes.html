@@ -252,6 +252,22 @@ dialog .tanca{position:absolute;top:8px;right:10px;border:0;background:rgba(0,0,
   <div class="detall" id="detall"></div>
 </div>
 
+<dialog class="caixa" id="eixida">
+  <h2>El CSV sencer</h2>
+  <p>Si el desat automàtic no va —o prefereixes fer-ho a mà—, aquí tens
+    <code>data/recintes.csv</code> ja amb els teus canvis. Copia'l i enganxa'l a GitHub
+    editant el fitxer (icona del llapis → selecciona-ho tot → enganxa → Commit changes).</p>
+  <p class="avis" id="e-compte"></p>
+  <textarea id="e-text" readonly rows="8" style="width:100%;font-family:var(--f-mono);font-size:11px;
+    border:1px solid var(--line-2);border-radius:6px;padding:8px;background:var(--paper);
+    color:var(--ink);margin-bottom:11px"></textarea>
+  <div class="peu">
+    <button type="button" class="tanca-eixida">Tancar</button>
+    <button type="button" id="e-baixa">Descarregar</button>
+    <button type="button" class="ple" id="e-copia">Copiar-ho tot</button>
+  </div>
+</dialog>
+
 <dialog class="caixa" id="jo">
   <h2>Desar al repositori</h2>
   <p>Per escriure <code>data/recintes.csv</code> a GitHub cal un <b>token</b> teu. Fes-ne un de
@@ -814,6 +830,25 @@ function explica(codi){
   return 'GitHub ha contestat ' + codi;
 }
 
+// La xarxa de seguretat: el CSV sencer, fet aquí mateix amb la taula que porta
+// la pàgina. Serveix tant si GitHub falla com si prefereixes enganxar-ho a mà.
+function csvComplet(){
+  const taula = (D.csv && D.csv.files || []).map(f => {
+    const e = EST.get(f.id_recinte);
+    if (!e) return f;
+    return { ...f, id_ua: e.u.join(';'), assignat_per: e.rev ? 'revisat' : 'proposta' };
+  });
+  return aCSV(taula, COLS);
+}
+function obreEixida(){
+  const n = canvis().length;
+  document.getElementById('e-text').value = csvComplet();
+  document.getElementById('e-compte').textContent = n
+    ? `${n} ${n === 1 ? 'recinte' : 'recintes'} amb canvis respecte del que hi ha al repositori.`
+    : 'Ara mateix no hi ha cap canvi pendent.';
+  document.getElementById('eixida').showModal();
+}
+
 const CLAU_CFG = 'poupe-gh';
 function config(){
   try { return JSON.parse(localStorage.getItem(CLAU_CFG) || '{}'); } catch (e) { return {}; }
@@ -872,7 +907,7 @@ async function desaAlRepo(){
     avis(`Desat: ${n} ${n === 1 ? 'recinte' : 'recintes'} a ${FITXER}.`
       + (perduts.length ? ` Atenció: ${perduts.join(', ')} no hi són.` : ''), perduts.length > 0);
   } catch (e) {
-    avis('No s’ha pogut desar: ' + (e.message || e), true);
+    avis('No s’ha pogut desar: ' + (e.message || e) + '. Amb el botó CSV ho pots copiar i enganxar a mà.', true);
   } finally { desant = false; barra(); detall(); pintaLlista(); }
 }
 
@@ -891,6 +926,7 @@ function barra(){
     + (n ? `<span class="pendent">${n} sense desar</span>` : '')
     + `<button type="button" id="b-desar" class="${n ? 'ple' : ''}"${n && !desant ? '' : ' disabled'}>${
         desant ? 'Desant…' : n ? 'Desar al repositori' : 'Tot desat'}</button>`
+    + `<button type="button" id="b-csv" title="Copiar o descarregar el CSV sencer">CSV</button>`
     + `<button type="button" id="b-config" title="Repositori i token">⚙</button>`;
 }
 
@@ -1004,6 +1040,25 @@ document.addEventListener('click', e => {
 
   if (t.id === 'b-desar'){ desaAlRepo(); return; }
   if (t.id === 'b-config'){ obreConfig(); return; }
+  if (t.id === 'b-csv'){ obreEixida(); return; }
+  if (t.classList.contains('tanca-eixida')){ document.getElementById('eixida').close(); return; }
+  if (t.id === 'e-copia'){
+    const c = document.getElementById('e-text');
+    c.focus(); c.select();
+    let fet = false;
+    try { fet = document.execCommand('copy'); } catch (err) {}
+    if (!fet && navigator.clipboard) navigator.clipboard.writeText(c.value).then(() => {}, () => {});
+    t.textContent = fet ? 'Copiat' : 'Selecciona-ho i copia-ho';
+    setTimeout(() => { t.textContent = 'Copiar-ho tot'; }, 2500);
+    return;
+  }
+  if (t.id === 'e-baixa'){
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csvComplet()], { type: 'text/csv' }));
+    a.download = 'recintes.csv'; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    return;
+  }
   if (t.classList.contains('tanca-jo')){ document.getElementById('jo').close(); return; }
   if (t.id === 'j-desa'){
     guardaConfig({
