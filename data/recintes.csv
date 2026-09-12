@@ -1,440 +1,619 @@
 ﻿id_recinte,id_ua,capa_dwg,superficie_dwg,nom_dwg,assignat_per,estat,vist_a,nota,centre_x,centre_y,canvi
-R0001,NERES_2,01 3 UA SUBLE,1010.4,Neres 2,proposta,vigent,parcelles.json,,535379.06,25924.29,IGUAL
-R0002,NERES_1,01 3 UA SUBLE,7694.4,Neres 1,proposta,vigent,parcelles.json,,535453.55,25929.26,IGUAL
-R0003,FEDA_4,01 1 UA SUC,3032.4,Feda 4,proposta,vigent,parcelles.json,,535538.75,24177.19,IGUAL
-R0004,FEDA_3,01 1 UA SUC,3707.4,Feda 3,proposta,vigent,parcelles.json,,535615.92,24296.48,IGUAL
-R0005,FEDA_2,01 1 UA SUC,8542.2,Feda 2,proposta,vigent,parcelles.json,,535624.74,24227.86,IGUAL
-R0006,EASA,01 1 UA SUC,928.4,Easa,proposta,vigent,parcelles.json,,535652.97,24383.77,IGUAL
-R0007,PLAMANERA,01 3 UA SUBLE,71377.3,Plamanera,proposta,vigent,parcelles.json,,535663.91,25917.12,IGUAL
-R0008,TRESOLES,01 2 UA SUNC,15323.6,Tresoles,proposta,vigent,parcelles.json,,535709.64,24180.58,IGUAL
-R0009,FEDA_1,01 1 UA SUC,19549.4,Feda 1,proposta,vigent,parcelles.json,,535728.81,24392.49,IGUAL
-R0010,PRAT_DEL_SALT,01 1 UA SUC,20075.7,Prat del Salt,proposta,vigent,parcelles.json,,535783.57,24422.59,IGUAL
-R0011,,01 1 UA SUC,20075.7,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,535783.57,24422.59,IGUAL
-R0012,CABECA,01 3 UA SUBLE,57048.1,Cabeca,proposta,vigent,parcelles.json,,535801.52,24812.83,IGUAL
-R0013,PLAMUSSOLA,01 3 UA SUBLE,51225.6,Plamussola,proposta,vigent,parcelles.json,,535863.42,25968.25,IGUAL
-R0014,RAMONET,01 2 UA SUNC,24327.3,Ramonet,proposta,vigent,parcelles.json,,535863.62,24466.49,IGUAL
-R0015,PLAMANERA,01 3 UA SUBLE,867.8,Plamanera,proposta,vigent,parcelles.json,,535863.67,26331.45,IGUAL
-R0016,PRAT_DEL_TURA,01 1 UA SUC,12856.6,Prat del Tura,proposta,vigent,parcelles.json,,535866.48,24673.54,IGUAL
-R0017,ESPELUGA_2,01 3 UA SUBLE,3355.1,Espeluga 2,proposta,vigent,parcelles.json,,535882.01,25323.82,IGUAL
-R0018,BEIXALIS_DE_DALT,01 3 UA SUBLE,53762.0,Beixalís de Dalt,proposta,vigent,parcelles.json,,535942.27,26036.71,IGUAL
-R0019,SERRAT,01 1 UA SUC,240.5,Serrat,proposta,vigent,parcelles.json,,535992.94,24814.24,IGUAL
-R0020,FEDA_1,01 1 UA SUC,323.6,Feda 1,proposta,vigent,parcelles.json,,536008.41,24310.59,IGUAL
-R0021,CARCAMANYA,01 1 UA SUC,12609.6,Carcamanya,proposta,vigent,parcelles.json,,536007.69,24865.33,IGUAL
-R0022,BARTRA_DE_BAIX_2,01 1 UA SUC,1384.2,Bartra de Baix 2,proposta,vigent,parcelles.json,,536089.98,24963.36,IGUAL
-R0023,BEIXALIS_DEL_MIG,01 3 UA SUBLE,33882.9,Beixalís del Mig,proposta,vigent,parcelles.json,,536121.07,26045.51,IGUAL
-R0024,COSTES_1,01 3 UA SUBLE,5395.6,Costes 1,proposta,vigent,parcelles.json,,536124.19,25208.12,IGUAL
-R0025,BARTRA_DE_BAIX_1,01 1 UA SUC,1363.7,Bartra de Baix 1,proposta,vigent,parcelles.json,,536183.91,25049.95,IGUAL
-R0026,RAMONET,01 2 UA SUNC,636.3,Ramonet,proposta,vigent,parcelles.json,,536211.47,24536.78,IGUAL
-R0027,BEIXALIS_DE_BAIX,01 3 UA SUBLE,37626.8,Beixalís de Baix,proposta,vigent,parcelles.json,,536215.46,26115.99,IGUAL
-R0028,BARTRA_DE_BAIX_1,01 1 UA SUC,15702.6,Bartra de Baix 2,proposta,vigent,parcelles.json,,536221.81,25066.42,IGUAL
-R0029,CABECA,01 3 UA SUBLE,103440.4,Cabeca,proposta,vigent,parcelles.json,,536250.27,25268.42,IGUAL
-R0030,BEIXALIS_DEL_MIG,01 3 UA SUBLE,546.2,Beixalís del Mig,proposta,vigent,parcelles.json,,536255.02,25996.77,IGUAL
-R0031,COSTES_2,01 3 UA SUBLE,831.8,Costes 2,proposta,vigent,parcelles.json,,536262.38,25327.91,IGUAL
-R0032,ESPELUGA_1,01 3 UA SUBLE,85220.5,Espeluga 1,proposta,vigent,parcelles.json,,536266.92,25743.22,IGUAL
-R0033,COSTES_2,01 3 UA SUBLE,307.8,Costes 2,proposta,vigent,parcelles.json,,536322.0,25386.69,IGUAL
-R0034,LLADRER_DE_DALT,01 3 UA SUBLE,11848.6,Lladrer de Dalt,proposta,vigent,parcelles.json,,536338.51,26129.43,IGUAL
-R0035,RIBERA,01 1 UA SUC,10900.9,Roc de la Vinya,proposta,vigent,parcelles.json,,536450.98,25311.94,IGUAL
-R0036,RIBERA,01 1 UA SUC,10900.8,Ribera,proposta,vigent,parcelles.json,,536453.38,25312.14,IGUAL
-R0037,PEGUERA,01 3 UA SUBLE,23430.0,Peguera,proposta,vigent,parcelles.json,,536458.33,26155.12,IGUAL
-R0038,CAMPS_DE_VILA,01 3 UA SUBLE,26401.9,Camps de Vila,proposta,vigent,parcelles.json,,536476.38,26286.02,IGUAL
-R0039,ROC_DE_LA_VINYA,01 3 UA SUBLE,26842.6,Roc de la Vinya,proposta,vigent,parcelles.json,,536482.26,25544.16,IGUAL
-R0040,SERRADAL,01 3 UA SUBLE,26867.6,Serradal,proposta,vigent,parcelles.json,,536503.37,25939.95,IGUAL
-R0041,CORB,01 1 UA SUC,1075.8,Corb,proposta,vigent,parcelles.json,,536533.57,25301.55,IGUAL
-R0042,LLADRER_DE_BAIX,01 1 UA SUC,2397.9,Lladrer de Baix,proposta,vigent,parcelles.json,,536537.69,26077.76,IGUAL
-R0043,PRAT_DEL_GASPAR,01 3 UA SUBLE,2888.6,Prat del Gaspar,proposta,vigent,parcelles.json,,536552.43,26576.88,IGUAL
-R0044,CAMP_DE_LA_CIRERA_DEL_MIG,01 2 UA SUNC,7532.7,Camp de la Cirera del Mig,proposta,vigent,parcelles.json,,536556.23,26110.93,IGUAL
-R0045,PUIGUT,01 3 UA SUBLE,31465.4,Puigut,proposta,vigent,parcelles.json,,536561.07,25842.99,IGUAL
-R0046,RIACA,01 1 UA SUC,2496.3,Riaca,proposta,vigent,parcelles.json,,536568.71,26014.51,IGUAL
-R0047,CAMP_DE_LA_CIRERA_DE_DALT,01 2 UA SUNC,3543.6,Camp de la Cirera de Dalt,proposta,vigent,parcelles.json,,536602.57,26150.19,IGUAL
-R0048,CAMP_DE_LA_CIRERA_DE_BAIX_2,01 1 UA SUC,649.4,Camp de la Cirera de Baix 2,proposta,vigent,parcelles.json,,536614.53,26117.66,IGUAL
-R0049,ENGOLASTERS_2,01 3 UA SUBLE,1313.5,Engolasters 2,proposta,vigent,parcelles.json,,536648.65,24582.06,IGUAL
-R0050,ESTREMERA,01 1 UA SUC,10571.0,Estremera,proposta,vigent,parcelles.json,,536649.94,25909.5,IGUAL
-R0051,SERRADELLS,01 3 UA SUBLE,17830.6,Serradells,proposta,vigent,parcelles.json,,536655.09,25767.43,IGUAL
-R0052,CAMP_DE_LA_CIRERA_DE_BAIX_1,01 1 UA SUC,1635.5,Ordigal,proposta,vigent,parcelles.json,,536669.67,26086.86,IGUAL
-R0053,PASTURER,01 1 UA SUC,1353.2,Pasturer,proposta,vigent,parcelles.json,,536717.27,26032.5,IGUAL
-R0054,ORDIGAL,01 2 UA SUNC,11518.2,Camp de la Cirera de Baix 1,proposta,vigent,parcelles.json,,536724.31,26022.58,IGUAL
-R0055,ENCADENA,01 3 UA SUBLE,16503.4,Encadena,proposta,vigent,parcelles.json,,536724.22,26831.73,IGUAL
-R0056,CAMPS_DEL_NOGUER,01 3 UA SUBLE,50861.1,Camps del Noguer,proposta,vigent,parcelles.json,,536739.39,26213.44,IGUAL
-R0057,VILA,01 1 UA SUC,4691.7,Vila,proposta,vigent,parcelles.json,,536754.85,26058.6,IGUAL
-R0058,CAP_TORRENT,01 3 UA SUBLE,2745.4,Cap Torrent,proposta,vigent,parcelles.json,,536762.95,25950.69,IGUAL
-R0059,HORTAL_DE_VILA,01 2 UA SUNC,6863.5,Hortal de Vila,proposta,vigent,parcelles.json,,536767.14,26075.79,IGUAL
-R0060,CABECA,01 3 UA SUBLE,14622.2,Cabeca,proposta,vigent,parcelles.json,,536769.16,25618.74,IGUAL
-R0061,VALIRA_NOVA,01 1 UA SUC,8152.8,Valira Nova,proposta,vigent,parcelles.json,,536773.1,25508.56,IGUAL
-R0062,CAL_NOTARI_12,01 1 UA SUC,5106.7,Cal Notari 12,proposta,vigent,parcelles.json,,536794.63,26130.06,IGUAL
-R0063,ORALS,01 3 UA SUBLE,33685.4,Orals,proposta,vigent,parcelles.json,,536798.79,25791.22,IGUAL
-R0064,BARTRA_DE_DALT,01 1 UA SUC,6136.3,Bartra de Dalt,proposta,vigent,parcelles.json,,536854.31,25533.32,IGUAL
-R0065,CAMPS_DE_SANT_ROMA,01 2 UA SUNC,11636.8,Camps de Sant Romà,proposta,vigent,parcelles.json,,536863.3,26105.87,IGUAL
-R0066,CAMP_DE_PONT,01 3 UA SUBLE,48106.4,Torrent Estret 2,proposta,vigent,parcelles.json,,536887.17,26380.1,IGUAL
-R0067,CAMP_BERNAT_TOMAS,01 1 UA SUC,15338.9,Camp Bernat Tomàs,proposta,vigent,parcelles.json,,536889.56,25995.86,IGUAL
-R0068,CASA_ARENY_1,01 2 UA SUNC,1460.2,Casa Areny 1,proposta,vigent,parcelles.json,,536892.39,25790.05,IGUAL
-R0069,TORRENT_DEL_PONT,01 3 UA SUBLE,10894.2,Torrent del Pont,proposta,vigent,parcelles.json,,536893.64,26257.11,IGUAL
-R0070,CASA_ARENY_1,01 2 UA SUNC,20085.2,Casa Areny 1,proposta,vigent,parcelles.json,,536923.6,25936.36,IGUAL
-R0071,VILA_DEL_SOL,01 1 UA SUC,7278.8,Jaumet,proposta,vigent,parcelles.json,,536930.55,26188.41,IGUAL
-R0072,CASA_ARENY_1,01 2 UA SUNC,548.0,Casa Areny 1,proposta,vigent,parcelles.json,,536939.81,25811.08,IGUAL
-R0073,RIBERAIGUES_ALTES,01 3 UA SUBLE,10986.4,Riberaigües Altes,proposta,vigent,parcelles.json,,536941.41,25870.75,IGUAL
-R0074,VALIRA_D_ORIENT,01 1 UA SUC,7992.5,Valira d'Orient,proposta,vigent,parcelles.json,,536945.5,25688.24,IGUAL
-R0075,JAUMET,01 11 UA SUCc,2022.0,Vila del Sol,proposta,vigent,parcelles.json,,536956.21,26203.45,IGUAL
-R0076,VENTIGA,01 1 UA SUC,3059.3,Ventiga,proposta,vigent,parcelles.json,,536976.01,26084.13,IGUAL
-R0077,OBAGA,01 3 UA SUBLE,2892.3,Obaga,proposta,vigent,parcelles.json,,536988.96,26040.46,IGUAL
-R0078,ENGOLASTERS_1,01 3 UA SUBLE,31008.6,Engolasters 1,proposta,vigent,parcelles.json,,536993.76,24922.34,IGUAL
-R0079,CAL_NOTARI_7,01 1 UA SUC,4035.6,Cal Notari 7,proposta,vigent,parcelles.json,,536997.54,26161.79,IGUAL
-R0080,CASA_ARENY_1,01 2 UA SUNC,3481.2,Casa Areny 1,proposta,vigent,parcelles.json,,537011.26,25765.27,IGUAL
-R0081,CAL_NOTARI_9,01 3 UA SUBLE,4881.6,Cal Notari 9,proposta,vigent,parcelles.json,,537021.89,26146.29,IGUAL
-R0082,RIBERAIGUES_BAIXES,01 1 UA SUC,5071.0,Riberaigües Baixes,proposta,vigent,parcelles.json,,537025.62,25941.01,IGUAL
-R0083,PUI_D_ENCAMP_1,01 3 UA SUBLE,59154.0,Pui d'Encamp 1,proposta,vigent,parcelles.json,,537029.29,25626.93,IGUAL
-R0084,PRADA_DE_MOLES_BAIXA,01 2 UA SUNC,5825.2,Prada de Moles Baixa,proposta,vigent,parcelles.json,,537072.61,25790.01,IGUAL
-R0085,,01 2 UA SUNC,301.9,,,vigent,parcelles.json,,537083.35,25770.19,IGUAL
-R0086,,01 3 UA SUBLE,301.9,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,537083.35,25770.19,IGUAL
-R0087,TORRENT_ESTRET_1,01 1 UA SUC,6870.9,Torrent Estret 1,proposta,vigent,parcelles.json,,537098.09,26397.51,IGUAL
-R0088,TORRENT_ESTRET_2,01 3 UA SUBLE,3028.6,Camp de Pont,proposta,vigent,parcelles.json,,537100.5,26360.67,IGUAL
-R0089,SANT_MARC,01 1 UA SUC,9738.7,Sant Marc,proposta,vigent,parcelles.json,,537131.83,26168.61,IGUAL
-R0090,AVIAR_2,01 3 UA SUBLE,25050.1,Aviar 2,proposta,vigent,parcelles.json,,537140.84,26244.62,IGUAL
-R0091,GODI,01 11 UA SUCc,21280.0,Godí,proposta,vigent,parcelles.json,,537142.51,26475.32,IGUAL
-R0092,RESTAURANT_RIBA,01 1 UA SUC,369.2,Restaurant Riba,proposta,vigent,parcelles.json,,537145.05,25032.65,IGUAL
-R0093,AVIAR_5,01 2 UA SUNC,20889.2,Aviar 5,proposta,vigent,parcelles.json,,537151.18,26099.94,IGUAL
-R0094,AVIAR_3,01 2 UA SUNC,11848.0,Aviar 3,proposta,vigent,parcelles.json,,537175.86,26357.45,IGUAL
-R0095,PRADA_DE_MOLES_ALTA,01 1 UA SUC,22731.1,Prada de Moles Alta,proposta,vigent,parcelles.json,,537177.58,25935.1,IGUAL
-R0096,FENEROLS_1,01 3 UA SUBLE,10179.2,Fenerols 1,proposta,vigent,parcelles.json,,537177.82,27204.16,IGUAL
-R0097,RESTAURANT_FONT_MOLES,01 1 UA SUC,1113.9,Restaurant Font Moles,proposta,vigent,parcelles.json,,537184.22,24998.46,IGUAL
-R0098,COSTELLES_ALTES_1,01 1 UA SUC,3623.7,Costelles Altes 1,proposta,vigent,parcelles.json,,537190.19,25844.88,IGUAL
-R0099,HORTA,01 2 UA SUNC,2787.5,Horta,proposta,vigent,parcelles.json,,537199.77,26443.52,IGUAL
-R0100,CRESPER,01 3 UA SUBLE,3324.7,Cresper,revisat,vigent,parcelles.json,el recinte gros del costat és del veí (Escarpiders),537200.68,25283.32,IGUAL
-R0101,COSTELLES_ALTES_2,01 1 UA SUC,2906.1,Costelles Altes 2,proposta,vigent,parcelles.json,,537215.15,25897.1,IGUAL
-R0102,CULTIASSA,01 3 UA SUBLE,29744.2,Cultiassa,proposta,vigent,parcelles.json,,537224.01,26943.37,IGUAL
-R0103,PUI_D_ENCAMP_2,01 3 UA SUBLE,34722.4,Pui d'Encamp 2,proposta,vigent,parcelles.json,,537238.84,25773.38,IGUAL
-R0104,COSTELLES_ALTES_3,01 1 UA SUC,1513.0,Costelles Altes 3,proposta,vigent,parcelles.json,,537246.86,25968.78,IGUAL
-R0105,LLENGUADERA,01 1 UA SUC,7662.3,Llenguadera,proposta,vigent,parcelles.json,,537273.1,26464.72,IGUAL
-R0106,TRAVESSERES,01 3 UA SUBLE,15523.2,Travesseres,proposta,vigent,parcelles.json,,537277.96,26554.06,IGUAL
-R0107,TRIBALA_2,01 1 UA SUC,16724.1,Tribala 2,proposta,vigent,parcelles.json,,537297.62,26082.87,IGUAL
-R0108,AVIAR_1,01 11 UA SUCc,19603.0,Aviar 1,proposta,vigent,parcelles.json,,537304.14,26315.38,IGUAL
-R0109,COSTELLES_BAIXES,01 11 UA SUCc,31437.2,Costelles Baixes,proposta,vigent,parcelles.json,,537326.52,25959.34,IGUAL
-R0110,AVIAR_4,01 2 UA SUNC,19646.6,Aviar 4,proposta,vigent,parcelles.json,,537335.73,26452.42,IGUAL
-R0111,CANADILLA,01 2 UA SUNC,12392.1,Canadilla,proposta,vigent,parcelles.json,,537375.6,26546.63,IGUAL
-R0112,FENEROLS_2,01 3 UA SUBLE,1390.9,Fenerols 2,proposta,vigent,parcelles.json,,537439.42,27170.7,IGUAL
-R0113,AVIAR_6,01 2 UA SUNC,40827.8,Carretera de Vila,proposta,vigent,parcelles.json,,537446.98,26265.93,IGUAL
-R0114,CARRERA,01 3 UA SUBLE,3585.9,Carrera,proposta,vigent,parcelles.json,,537449.95,26959.08,IGUAL
-R0115,TORRENTS_DE_L_OBAC_4,01 3 UA SUBLE,17245.5,Torrents de l'Obac 4,proposta,vigent,parcelles.json,,537461.83,25774.1,IGUAL
-R0116,ESCARPIDERS,01 3 UA SUBLE,16350.6,Cresper,proposta,vigent,parcelles.json,,537462.53,25543.93,IGUAL
-R0117,CORTADELLES,01 2 UA SUNC,2456.4,Cortadelles,proposta,vigent,parcelles.json,,537469.84,26634.63,IGUAL
-R0118,HORTALS,01 2 UA SUNC,6246.7,Hortals,proposta,vigent,parcelles.json,,537478.55,26502.84,IGUAL
-R0119,PRATS_DE_L_OBAC_1,01 3 UA SUBLE,38258.5,Prats de l’Obac 1,proposta,vigent,parcelles.json,,537480.59,25931.22,IGUAL
-R0120,ARRIBES_DEL_MIG,01 1 UA SUC,86.2,Casa Areny 4,proposta,vigent,parcelles.json,,537481.8,26583.82,IGUAL
-R0121,VENA_2,01 1 UA SUC,4336.1,Vena 2,proposta,vigent,parcelles.json,,537488.9,26091.74,IGUAL
-R0122,CASA_ARENY_4,01 3 UA SUBLE,169.7,Arribes del Mig,proposta,vigent,parcelles.json,,537496.72,26546.07,IGUAL
-R0123,CARRETERA_DE_VILA,01 1 UA SUC,603.6,Encamp 1,proposta,vigent,parcelles.json,,537509.84,26321.81,IGUAL
-R0124,CASA_ARENY_2,01 2 UA SUNC,11395.1,Casa Areny 2,proposta,vigent,parcelles.json,,537518.64,26396.52,IGUAL
-R0125,CAL_NOTARI_5,01 1 UA SUC,812.1,Pedral de Dalt,proposta,vigent,parcelles.json,,537525.81,26476.13,IGUAL
-R0126,TRIBALA_1,01 1 UA SUC,18076.3,Tribala 1,proposta,vigent,parcelles.json,,537533.77,26160.22,IGUAL
-R0127,ESCARPIDERS,01 3 UA SUBLE,3922.4,Escarpiders,proposta,vigent,parcelles.json,,537538.2,25685.78,IGUAL
-R0128,ENCAMP_2,01 1 UA SUC,1395.2,Encamp 2,proposta,vigent,parcelles.json,,537565.98,26341.94,IGUAL
-R0129,RIU_BLANC_ALT,01 1 UA SUC,3217.7,Riu Blanc Alt,proposta,vigent,parcelles.json,,537567.42,26067.19,IGUAL
-R0130,PRATS_DE_L_OBAC_2,01 1 UA SUC,7410.9,Prats de l’Obac 2,proposta,vigent,parcelles.json,,537575.07,26009.53,IGUAL
-R0131,ENCAMP_1,01 1 UA SUC,11237.6,Casa Areny 1,proposta,vigent,parcelles.json,,537586.5,26413.22,IGUAL
-R0132,ESCARPIDERS,01 3 UA SUBLE,5880.2,Escarpiders,proposta,vigent,parcelles.json,,537595.93,25662.83,IGUAL
-R0133,VENA,01 11 UA SUCc,2595.1,Vena,proposta,vigent,parcelles.json,,537600.49,26137.44,IGUAL
-R0134,RIU_BLANC_BAIX,01 11 UA SUCc,2477.1,Riu Blanc Baix,proposta,vigent,parcelles.json,,537605.06,26088.53,IGUAL
-R0135,CARDAGO,01 3 UA SUBLE,5824.9,Cardago,proposta,vigent,parcelles.json,,537626.95,26995.19,IGUAL
-R0136,PEDRAL_DE_DALT,01 2 UA SUNC,1443.8,Pedral de Dalt,proposta,vigent,parcelles.json,,537629.41,26454.75,IGUAL
-R0137,,01 2 UA SUNC,1443.8,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,537629.41,26454.75,IGUAL
-R0138,TORRENTS_DE_L_OBAC_2,01 3 UA SUBLE,687.9,Torrents de l'Obac 2,proposta,vigent,parcelles.json,,537644.25,25811.46,IGUAL
-R0139,TORRENTS_DE_L_OBAC_2,01 3 UA SUBLE,41401.9,Torrents de l'Obac 2,proposta,vigent,parcelles.json,,537659.62,25880.41,IGUAL
-R0140,CAL_NOTARI_5,01 2 UA SUNC,1082.1,Cal Notari 5,proposta,vigent,parcelles.json,,537665.74,26395.68,IGUAL
-R0141,ESCARPIDERS,01 3 UA SUBLE,4298.6,Escarpiders,proposta,vigent,parcelles.json,,537670.27,25590.51,IGUAL
-R0142,PRATS_DE_L_OBAC_3,01 3 UA SUBLE,9701.8,Prats de l’Obac 3,proposta,vigent,parcelles.json,,537677.86,26013.43,IGUAL
-R0143,PEDRAL_DE_BAIX_1,01 1 UA SUC,9254.5,Pedral de Baix 1,proposta,vigent,parcelles.json,,537685.33,26439.25,IGUAL
-R0144,CASA_ARENY_3,01 1 UA SUC,4770.0,Casa Areny 3,proposta,vigent,parcelles.json,,537687.66,26223.23,IGUAL
-R0145,CASA_ARENY_1,01 2 UA SUNC,19691.6,Casa Areny 1,proposta,vigent,parcelles.json,,537697.75,26300.9,IGUAL
-R0146,PEDRAL_DE_DALT,01 1 UA SUC,6052.3,Pedral de Dalt,proposta,vigent,parcelles.json,,537729.69,26528.67,IGUAL
-R0147,ESCARPIDERS,01 3 UA SUBLE,2828.6,Escarpiders,proposta,vigent,parcelles.json,,537736.96,25666.23,IGUAL
-R0148,COPRINCEP_EPISCOPAL_3,01 2 UA SUNC,974.5,Copríncep Episcopal 3,proposta,vigent,parcelles.json,,537744.49,26201.95,IGUAL
-R0149,,01 1 UA SUC,974.5,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,537744.49,26201.95,IGUAL
-R0150,TERRA_DEL_SOLA,01 1 UA SUC,2418.3,Terra del Solà,proposta,vigent,parcelles.json,,537759.23,26571.47,IGUAL
-R0151,TOSA_1,01 3 UA SUBLE,3344.8,Tosa 1,proposta,vigent,parcelles.json,,537762.75,27740.01,IGUAL
-R0152,PEDRAL_DE_BAIX_2,01 1 UA SUC,4091.6,Pedral de Baix 2,proposta,vigent,parcelles.json,,537774.01,26451.78,IGUAL
-R0153,CALCINERA_3,01 3 UA SUBLE,33164.6,Calcinera 3,proposta,vigent,parcelles.json,,537776.23,26140.45,IGUAL
-R0154,CALCINERA_2,01 1 UA SUC,1630.1,Calcinera 2,proposta,vigent,parcelles.json,,537788.18,26084.38,IGUAL
-R0155,ARTICS,01 3 UA SUBLE,32126.4,Artics,proposta,vigent,parcelles.json,,537792.66,26728.39,IGUAL
-R0156,,01 1 UA SUC,233.0,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,537796.31,26222.78,IGUAL
-R0157,COPRINCEP_EPISCOPAL_2,01 1 UA SUC,233.0,Copríncep Episcopal 2,proposta,vigent,parcelles.json,,537796.31,26222.78,IGUAL
-R0158,CAL_NOTARI_11,01 1 UA SUC,1769.1,Cal Notari 11,proposta,vigent,parcelles.json,,537802.3,26301.81,IGUAL
-R0159,TORRENTS_DE_L_OBAC_3,01 1 UA SUC,192.9,Torrents de l'Obac 3,proposta,vigent,parcelles.json,,537804.63,26097.7,IGUAL
-R0160,CAL_NOTARI_6,01 1 UA SUC,6845.0,Cal Notari 6,proposta,vigent,parcelles.json,,537804.82,26248.98,IGUAL
-R0161,SOLA,01 1 UA SUC,4127.5,Solà,proposta,vigent,parcelles.json,,537806.56,26521.73,IGUAL
-R0162,TORRENTS_DE_L_OBAC_3,01 3 UA SUBLE,11144.4,Torrents de l'Obac 3,proposta,vigent,parcelles.json,,537813.42,25882.22,IGUAL
-R0163,COLOMINES,01 3 UA SUBLE,17769.2,Colomines,proposta,vigent,parcelles.json,,537822.04,26653.4,IGUAL
-R0164,COPRINCEP_EPISCOPAL_1,01 1 UA SUC,317.6,Copríncep Episcopal 1,proposta,vigent,parcelles.json,,537830.74,26266.08,IGUAL
-R0165,,01 1 UA SUC,317.6,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,537830.74,26266.08,IGUAL
-R0166,VALIRETA,01 1 UA SUC,6207.1,Valireta,proposta,vigent,parcelles.json,,537833.46,26409.68,IGUAL
-R0167,TORRENTS_DE_L_OBAC_1,01 1 UA SUC,4300.9,Torrents de l'Obac 1,proposta,vigent,parcelles.json,,537860.13,26018.36,IGUAL
-R0168,PRAT_DEL_BAU,01 1 UA SUC,11109.9,Prat del Bau,proposta,vigent,parcelles.json,,537863.79,26478.25,IGUAL
-R0169,TORRENTS_DE_L_OBAC_3,01 3 UA SUBLE,133.3,Torrents de l'Obac 3,proposta,vigent,parcelles.json,,537876.04,25945.04,IGUAL
-R0170,TOSA_2,01 3 UA SUBLE,8732.2,Tosa 2,proposta,vigent,parcelles.json,,537882.31,27799.54,IGUAL
-R0171,CLOS_1,01 2 UA SUNC,5426.9,Clos 1,proposta,vigent,parcelles.json,,537888.27,26248.59,IGUAL
-R0172,CAL_NOTARI_4,01 1 UA SUC,1496.6,Cal Notari 3,proposta,vigent,parcelles.json,,537890.75,26461.43,IGUAL
-R0173,CANEMAR_2,01 1 UA SUC,10609.1,Canemar 2,proposta,vigent,parcelles.json,,537894.19,26588.96,IGUAL
-R0174,CLOS_2,01 1 UA SUC,1829.6,Clos 2,proposta,vigent,parcelles.json,,537908.61,26276.9,IGUAL
-R0175,GENIL,01 1 UA SUC,12684.4,Genil,proposta,vigent,parcelles.json,,537921.48,26358.36,IGUAL
-R0176,CAL_NOTARI_3,01 1 UA SUC,2333.5,Cal Notari 2,proposta,vigent,parcelles.json,,537923.94,26445.14,IGUAL
-R0177,CALCINERA_1,01 2 UA SUNC,16595.9,Calcinera 1,proposta,vigent,parcelles.json,,537931.65,26105.18,IGUAL
-R0178,ROSSELL,01 1 UA SUC,1402.8,Rossell,proposta,vigent,parcelles.json,,537945.28,26571.27,IGUAL
-R0179,COLLEGIS,01 1 UA SUC,3093.7,Col·legis,proposta,vigent,parcelles.json,,537959.71,26593.83,IGUAL
-R0180,CAL_NOTARI_1,01 1 UA SUC,1408.4,Cal Notari 1,proposta,vigent,parcelles.json,,537962.61,26407.28,IGUAL
-R0181,CLOS_3,01 1 UA SUC,2336.6,Clos 3,proposta,vigent,parcelles.json,,537969.4,26288.96,IGUAL
-R0182,CAL_NOTARI_2,01 1 UA SUC,1120.9,Cal Notari 4,proposta,vigent,parcelles.json,,537971.48,26447.79,IGUAL
-R0183,COMA_LLARGA,01 3 UA SUBLE,13718.9,Coma Llarga,proposta,vigent,parcelles.json,,537993.1,26188.57,IGUAL
-R0184,MITJORN,01 1 UA SUC,6421.5,Mitjorn,proposta,vigent,parcelles.json,,538000.36,26547.59,IGUAL
-R0185,CANEMAR_1,01 1 UA SUC,2866.9,Canemar 1,proposta,vigent,parcelles.json,,538001.53,26653.51,IGUAL
-R0186,COMA,01 1 UA SUC,2593.9,Coma,proposta,vigent,parcelles.json,,538011.81,26289.69,IGUAL
-R0187,MOSQUERA,01 1 UA SUC,13942.7,Mosquera,proposta,vigent,parcelles.json,,538028.82,26462.75,IGUAL
-R0188,TAUS,01 3 UA SUBLE,14499.3,Taús,proposta,vigent,parcelles.json,,538049.64,26733.52,IGUAL
-R0189,LLISA_BAIXA,01 11 UA SUCc,15304.4,Llisa Baixa,proposta,vigent,parcelles.json,,538060.66,26080.03,IGUAL
-R0190,MIRADOR_DE_BAIX,01 2 UA SUNC,3164.9,Mirador del Mig 1,proposta,vigent,parcelles.json,,538063.5,26279.61,IGUAL
-R0191,LLISA_BAIXA_2,01 3 UA SUBLE,301.3,Llisa Baixa 2,proposta,vigent,parcelles.json,,538069.16,25961.85,IGUAL
-R0192,SEGALARS,01 3 UA SUBLE,31823.8,Segalars,proposta,vigent,parcelles.json,,538069.09,26848.68,IGUAL
-R0193,CAVALLERS_DE_BAIX,01 1 UA SUC,2796.7,Cavallers de Baix,proposta,vigent,parcelles.json,,538086.15,26468.39,IGUAL
-R0194,CAL_NOTARI_8,01 3 UA SUBLE,4786.3,Cal Notari 8,proposta,vigent,parcelles.json,,538090.01,26732.3,IGUAL
-R0195,ROSALEDA,01 1 UA SUC,2568.6,Rosaleda,proposta,vigent,parcelles.json,,538093.09,26658.75,IGUAL
-R0196,TREMAT,01 1 UA SUC,17957.6,Tremat,proposta,vigent,parcelles.json,,538099.19,26356.76,IGUAL
-R0197,CLOS_1,01 2 UA SUNC,499.6,Clos 1,proposta,vigent,parcelles.json,,538112.21,26703.92,IGUAL
-R0198,MIRADOR_DEL_MIG_1,01 2 UA SUNC,1746.3,Mirador de Baix,proposta,vigent,parcelles.json,,538120.79,26286.57,IGUAL
-R0199,CASA_COMUNA,01 1 UA SUC,4738.2,Casa Comuna,proposta,vigent,parcelles.json,,538125.51,26540.32,IGUAL
-R0200,MIRADOR_DE_DALT,01 1 UA SUC,18530.6,Mirador de Dalt,proposta,vigent,parcelles.json,,538130.83,26225.74,IGUAL
-R0201,MIRADOR_DEL_MIG_2,01 2 UA SUNC,4496.6,Mirador del Mig 2,proposta,vigent,parcelles.json,,538158.76,26321.0,IGUAL
-R0202,CAVALLERS_DEL_MIG,01 2 UA SUNC,1664.8,Cavallers del Mig,proposta,vigent,parcelles.json,,538179.3,26405.28,IGUAL
-R0203,DOLCERMA_ALTA,01 3 UA SUBLE,30738.3,Dolcerma Alta,proposta,vigent,parcelles.json,,538188.71,26937.21,IGUAL
-R0204,ARINSOLS,01 2 UA SUNC,43869.2,Arínsols,proposta,vigent,parcelles.json,,538193.81,26544.7,IGUAL
-R0205,PLANAMONDOU_1,01 3 UA SUBLE,4168.7,Planamondou 1,proposta,vigent,parcelles.json,,538208.05,26357.4,IGUAL
-R0206,LLISA_ALTA,01 11 UA SUCc,6585.7,Llisa Alta,proposta,vigent,parcelles.json,,538210.73,26273.14,IGUAL
-R0207,DOLCERMA_BAIXA,01 11 UA SUCc,8577.9,Dolcerma Baixa,proposta,vigent,parcelles.json,,538230.13,26824.51,IGUAL
-R0208,TRAVENERES,01 1 UA SUC,8843.5,Traveneres,proposta,vigent,parcelles.json,,538243.92,26159.38,IGUAL
-R0209,TERRA_BANCASA,01 2 UA SUNC,9997.5,Terra Bancasa,proposta,vigent,parcelles.json,,538246.69,26779.83,IGUAL
-R0210,CAVALLERS_DE_DALT,01 1 UA SUC,8110.6,Cavallers de Dalt,proposta,vigent,parcelles.json,,538259.48,26387.45,IGUAL
-R0211,ROUILLAC,01 1 UA SUC,2224.7,Rouillac,proposta,vigent,parcelles.json,,538266.37,26625.55,IGUAL
-R0212,TERRES_DE_L_OBAC,01 3 UA SUBLE,9419.2,Terres de l'Obac,proposta,vigent,parcelles.json,,538268.78,26089.96,IGUAL
-R0213,PIALASSOS_DE_BAIX_1,01 1 UA SUC,6149.1,Pialassos de Baix 1,proposta,vigent,parcelles.json,,538275.05,26302.85,IGUAL
-R0214,14_DE_MARC,01 1 UA SUC,2747.2,14 de març,proposta,vigent,parcelles.json,,538292.52,26747.24,IGUAL
-R0215,PIALASSOS_DEL_MIG,01 1 UA SUC,1822.8,Pialassos del Mig,proposta,vigent,parcelles.json,,538294.48,26241.06,IGUAL
-R0216,PASTORESSOS_BAIXOS,01 11 UA SUCc,3267.0,Pastoressos Baixos,proposta,vigent,parcelles.json,,538316.36,26438.01,IGUAL
-R0217,PIALASSOS_DE_BAIX_2,01 1 UA SUC,2815.0,Pialassos de baix 2,proposta,vigent,parcelles.json,,538320.44,26348.36,IGUAL
-R0218,CAL_NOTARI_10,01 2 UA SUNC,5679.7,Cal Notari 10,proposta,vigent,parcelles.json,,538329.32,26226.38,IGUAL
-R0219,BELLAVISTA,01 11 UA SUCc,10731.1,Bellavista,proposta,vigent,parcelles.json,,538339.63,26509.1,IGUAL
-R0220,MONTALARI,01 3 UA SUBLE,94517.0,Montalarí,proposta,vigent,parcelles.json,,538341.54,27362.62,IGUAL
-R0221,ROUILLAC,01 1 UA SUC,12590.5,Prat del pont i Prat de la mola,proposta,vigent,parcelles.json,,538347.95,26708.93,IGUAL
-R0222,CAPSOLAS,01 3 UA SUBLE,32703.2,Capsolàs,proposta,vigent,parcelles.json,,538348.17,27062.21,IGUAL
-R0223,BONS_2,01 1 UA SUC,5024.6,Bons 2,proposta,vigent,parcelles.json,,538358.47,26888.46,IGUAL
-R0224,TERRES_DELS_AJUSTANTS,01 1 UA SUC,3794.6,Terres dels Ajustants,proposta,vigent,parcelles.json,,538359.35,26113.73,IGUAL
-R0225,PASTORESSOS_MITJOS,01 11 UA SUCc,5063.6,Pastoressos Mitjos,proposta,vigent,parcelles.json,,538365.18,26419.7,IGUAL
-R0226,BONS_1,01 1 UA SUC,10454.6,Bons 1,proposta,vigent,parcelles.json,,538370.74,26817.34,IGUAL
-R0227,AIXEC,01 2 UA SUNC,4849.9,Aixec,proposta,vigent,parcelles.json,,538392.76,26624.08,IGUAL
-R0228,OBAC_BAIX,01 2 UA SUNC,2225.8,Obac Baix,proposta,vigent,parcelles.json,,538395.25,26305.45,IGUAL
-R0229,,01 1 UA SUC,4743.3,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,538396.23,26404.55,IGUAL
-R0230,PASTORESSOS_ALTS,01 1 UA SUC,4743.3,Pastoressos Alts,proposta,vigent,parcelles.json,,538396.23,26404.55,IGUAL
-R0231,TIRADER_1,01 1 UA SUC,28914.7,Tirader 1,proposta,vigent,parcelles.json,,538401.06,26173.23,IGUAL
-R0232,COPRINCEP_FRANCES,01 1 UA SUC,7969.2,Copríncep Francès,proposta,vigent,parcelles.json,,538414.87,26368.23,IGUAL
-R0233,FUNICAMP,01 1 UA SUC,6597.3,Funicamp,proposta,vigent,parcelles.json,,538421.2,26483.37,IGUAL
-R0234,OBAC_ALT,01 2 UA SUNC,6509.1,Obac Alt,proposta,vigent,parcelles.json,,538423.46,26288.89,IGUAL
-R0235,RITA_BAIXA,01 2 UA SUNC,9301.4,Rita Baixa,proposta,vigent,parcelles.json,,538431.47,26045.6,IGUAL
-R0236,PRAT_DEL_PONT_I_PRAT_DE_LA_MOLA,01 1 UA SUC,2278.8,Rouillac,proposta,vigent,parcelles.json,,538436.4,26761.74,IGUAL
-R0237,CIUTAT_PUBILLA,01 1 UA SUC,20259.7,Ciutat Pubilla,proposta,vigent,parcelles.json,,538452.74,26612.84,IGUAL
-R0238,PLANA_MITJA_2,01 2 UA SUNC,1319.5,Dragó Baix 1,proposta,vigent,parcelles.json,,538464.79,25984.22,IGUAL
-R0239,COMES,01 3 UA SUBLE,26467.2,Comes,proposta,vigent,parcelles.json,,538474.0,27149.66,IGUAL
-R0240,PLANAMONDOU_1,01 3 UA SUBLE,4815.0,Planamondou 1,proposta,vigent,parcelles.json,,538482.72,26368.29,IGUAL
-R0241,TIRADER_2,01 1 UA SUC,2283.1,Tirader 2,proposta,vigent,parcelles.json,,538491.0,26223.97,IGUAL
-R0242,ROC_DE_LA_FORCA,01 1 UA SUC,1450.3,Roc de la Forca,proposta,vigent,parcelles.json,,538504.15,26959.3,IGUAL
-R0243,PRAT_DEL_SALITAR_1,01 1 UA SUC,2838.8,Prat del Salitar 1,proposta,vigent,parcelles.json,,538504.69,26492.7,IGUAL
-R0244,RITA_MITJA,01 1 UA SUC,2143.4,Rita Mitja,proposta,vigent,parcelles.json,,538506.62,26043.08,IGUAL
-R0245,,01 1 UA SUC,2143.4,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,538506.62,26043.08,IGUAL
-R0246,PLA_DE_BAIX,01 11 UA SUCc,14182.4,Pla de Baix,proposta,vigent,parcelles.json,,538509.39,26880.67,IGUAL
-R0247,AJUSTANTS_DEL_MIG,01 2 UA SUNC,10032.1,Ajustants del Mig,proposta,vigent,parcelles.json,,538516.46,26169.14,IGUAL
-R0248,PALANCA_BAIXA_1,01 1 UA SUC,4341.9,Palanca baixa 1,proposta,vigent,parcelles.json,,538530.75,26405.89,IGUAL
-R0249,PRAT_DEL_SALITAR_2,01 1 UA SUC,4911.3,Prat del Salitar 2,proposta,vigent,parcelles.json,,538536.13,26580.28,IGUAL
-R0250,DRAGO_BAIX_1,01 1 UA SUC,3012.7,Dragó Baix 1,proposta,vigent,parcelles.json,,538539.3,26024.82,IGUAL
-R0251,PLANA_BAIXA,01 2 UA SUNC,9269.1,Plana Baixa,proposta,vigent,parcelles.json,,538550.39,26099.95,IGUAL
-R0252,PLA_DE_DALT,01 3 UA SUBLE,30183.0,Pla de Dalt,proposta,vigent,parcelles.json,,538551.32,26983.97,IGUAL
-R0253,ARENAL,01 3 UA SUBLE,37067.0,Arenal,proposta,vigent,parcelles.json,,538555.17,26797.64,IGUAL
-R0254,PALANCA_BAIXA_2,01 1 UA SUC,1786.1,Palanca Baixa 2,proposta,vigent,parcelles.json,,538566.66,26359.19,IGUAL
-R0255,AJUSTANTS_DE_BAIX,01 2 UA SUNC,9629.5,Ajustants de Baix,proposta,vigent,parcelles.json,,538568.54,26288.08,IGUAL
-R0256,RITA_ALTA,01 1 UA SUC,853.8,Rita Alta,proposta,vigent,parcelles.json,,538580.02,26073.74,IGUAL
-R0257,,01 1 UA SUC,853.8,,,duplicat,parcelles.json,el DWG el dibuixa dues vegades,538580.02,26073.74,IGUAL
-R0258,PLANA_MITJA_1,01 2 UA SUNC,5729.0,Plana Mitja 1,proposta,vigent,parcelles.json,,538594.01,26010.17,IGUAL
-R0259,DRAGO_BAIX_2,01 2 UA SUNC,2576.3,Dragó Baix 2,proposta,vigent,parcelles.json,,538604.72,26075.48,IGUAL
-R0260,URBANITZACIO_DEL_SALITAR,01 11 UA SUCc,10310.3,Urbanització del Salitar,proposta,vigent,parcelles.json,,538609.19,26549.29,IGUAL
-R0261,NANTA_ALTA,01 2 UA SUNC,12422.4,Nanta Alta 1,proposta,vigent,parcelles.json,,538616.88,26054.21,IGUAL
-R0262,PALANCA_ALTA,01 3 UA SUBLE,6476.1,Palanca Alta,proposta,vigent,parcelles.json,,538622.44,26268.22,IGUAL
-R0263,DRAGO_BAIX_3,01 2 UA SUNC,2202.9,Dragó Baix 3,proposta,vigent,parcelles.json,,538630.39,26116.44,IGUAL
-R0264,AJUSTANTS_DE_DALT_1,01 1 UA SUC,3732.7,Ajustants de Dalt 1,proposta,vigent,parcelles.json,,538634.35,26181.06,IGUAL
-R0265,SALITAR,01 3 UA SUBLE,190.4,Salitar,proposta,vigent,parcelles.json,,538634.49,26411.88,IGUAL
-R0266,ROC_DE_LA_FORCA,01 2 UA SUNC,13937.4,Roc de la Forca,proposta,vigent,parcelles.json,,538644.14,27004.11,IGUAL
-R0267,SALITAR,01 2 UA SUNC,7329.8,Salitar,proposta,vigent,parcelles.json,,538648.32,26488.91,IGUAL
-R0268,PLANA_ALTA,01 1 UA SUC,3388.7,Plana Alta,proposta,vigent,parcelles.json,,538651.4,25983.05,IGUAL
-R0269,DRAGO_BAIX_4,01 2 UA SUNC,1354.8,Dragó Baix 4,proposta,vigent,parcelles.json,,538658.16,26068.08,IGUAL
-R0270,ORATORI_DE_BAIX,01 3 UA SUBLE,15856.9,Oratori de Baix,proposta,vigent,parcelles.json,,538660.21,26708.07,IGUAL
-R0271,PRAT_DE_LA_COSTA,01 3 UA SUBLE,15467.6,Prat de la Costa,proposta,vigent,parcelles.json,,538692.55,26297.46,IGUAL
-R0272,GRAU_DE_LA_MOLINA_1,01 2 UA SUNC,6105.8,Grau de la Molina 1,proposta,vigent,parcelles.json,,538695.23,25994.08,IGUAL
-R0273,DRAGO_ALT_1,01 1 UA SUC,2676.1,Ajustants de Dalt 2,proposta,vigent,parcelles.json,,538695.16,26133.36,IGUAL
-R0274,DRAGO_ALT_2,01 2 UA SUNC,6821.1,Dragó Alt 2,proposta,vigent,parcelles.json,,538699.69,26090.55,IGUAL
-R0275,DRAGO_BAIX_5,01 2 UA SUNC,3275.4,Dragó Baix 5,proposta,vigent,parcelles.json,,538708.75,26043.11,IGUAL
-R0276,PLANAMONDOU_1,01 3 UA SUBLE,14772.7,Planamondou 1,proposta,vigent,parcelles.json,,538716.19,26460.41,IGUAL
-R0277,ORATORI_DE_DALT,01 3 UA SUBLE,414.8,Oratori de Dalt,proposta,vigent,parcelles.json,,538722.11,26922.59,IGUAL
-R0278,AJUSTANTS_DE_DALT_2,01 1 UA SUC,4423.1,Ajustants de Dalt 3,proposta,vigent,parcelles.json,,538723.26,26143.0,IGUAL
-R0279,ARENAL,01 3 UA SUBLE,2365.3,Arenal,proposta,vigent,parcelles.json,,538746.8,26973.23,IGUAL
-R0280,MOLLAR_ALT_1,01 2 UA SUNC,5803.5,Mollar Alt 1,proposta,vigent,parcelles.json,,538757.22,27673.56,IGUAL
-R0281,PLANAMONDOU_1,01 3 UA SUBLE,4781.4,Planamondou 1,proposta,vigent,parcelles.json,,538757.59,26424.95,IGUAL
-R0282,CALRANES,01 2 UA SUNC,26797.0,Calranes,proposta,vigent,parcelles.json,,538766.79,26738.8,IGUAL
-R0283,TORRENT_PREGO_1,01 3 UA SUBLE,24344.6,Torrent Pregó 1,proposta,vigent,parcelles.json,,538772.24,27503.51,IGUAL
-R0284,PLANAMONDOU_1,01 3 UA SUBLE,15648.0,Planamondou 1,proposta,vigent,parcelles.json,,538774.7,26304.64,IGUAL
-R0285,ORATORI_DE_DALT,01 3 UA SUBLE,32393.5,Oratori de Dalt,proposta,vigent,parcelles.json,,538777.79,27014.76,IGUAL
-R0286,GRAU_DE_LA_MOLINA_3,01 2 UA SUNC,3678.6,Ovella Baixa,proposta,vigent,parcelles.json,,538779.48,25927.59,IGUAL
-R0287,GARGANTA_1,01 11 UA SUCc,11171.5,Garganta 1,proposta,vigent,parcelles.json,,538799.47,27302.18,IGUAL
-R0288,OVELLA_BAIXA,01 2 UA SUNC,7284.3,Ovella Baixa,proposta,vigent,parcelles.json,,538804.67,25989.6,IGUAL
-R0289,PLANAMONDOU_1,01 3 UA SUBLE,41454.9,Posa,proposta,vigent,parcelles.json,,538808.11,26659.86,IGUAL
-R0290,NANTA_ALTA,01 3 UA SUBLE,12678.5,Nanta alta,proposta,vigent,parcelles.json,,538812.61,26159.47,IGUAL
-R0291,GRAU_DE_LA_MOLINA_2,01 2 UA SUNC,2511.5,Ovella Alta 1,proposta,vigent,parcelles.json,,538849.23,25900.5,IGUAL
-R0292,BOIXADER,01 3 UA SUBLE,18379.6,Boixader,proposta,vigent,parcelles.json,,538848.86,26412.62,IGUAL
-R0293,MOIXA,01 3 UA SUBLE,3633.8,Moixa,proposta,vigent,parcelles.json,,538849.09,27001.03,IGUAL
-R0294,GARGANTA_2,01 11 UA SUCc,2395.3,Garganta 2,proposta,vigent,parcelles.json,,538854.05,27441.59,IGUAL
-R0295,AJUSTANTS_DE_DALT_3,01 1 UA SUC,894.2,Ajustants de Dalt 3,proposta,vigent,parcelles.json,,538856.45,26072.45,IGUAL
-R0296,OVELLA_MITJA_2,01 3 UA SUBLE,1355.1,Ovella Mitja 2,proposta,vigent,parcelles.json,,538862.33,25956.5,IGUAL
-R0297,SALVE,01 2 UA SUNC,2786.7,Salve,proposta,vigent,parcelles.json,,538862.84,26363.2,IGUAL
-R0298,BORDES_DEL_LLOSET,01 3 UA SUBLE,23179.8,Bordes del Lloset,proposta,vigent,parcelles.json,,538863.91,27168.58,IGUAL
-R0299,MOIXA,01 3 UA SUBLE,3111.6,Moixa,proposta,vigent,parcelles.json,,538867.54,26995.72,IGUAL
-R0300,NOGUER_BAIX,01 1 UA SUC,4576.7,Noguer Baix,proposta,vigent,parcelles.json,,538870.85,26247.57,IGUAL
-R0301,OVELLA_MITJA_1,01 3 UA SUBLE,12294.9,Ovella Mitja 1,proposta,vigent,parcelles.json,,538889.97,26046.96,IGUAL
-R0302,MOLLAR_BAIX,01 2 UA SUNC,9118.7,Mollar Baix,proposta,vigent,parcelles.json,,538914.27,26160.61,IGUAL
-R0303,LLOSET_1,01 3 UA SUBLE,27568.4,Lloset 1,proposta,vigent,parcelles.json,,538927.44,27492.29,IGUAL
-R0304,MOLLAR_MIG,01 3 UA SUBLE,12503.7,Mollar Mig,proposta,vigent,parcelles.json,,538953.79,26184.08,IGUAL
-R0305,MOLINA,01 3 UA SUBLE,90.0,Molina,proposta,vigent,parcelles.json,,538967.4,25520.16,IGUAL
-R0306,TOSQUER,01 3 UA SUBLE,31118.6,Tosquer,proposta,vigent,parcelles.json,,538979.88,26704.77,IGUAL
-R0307,NOGUER_MIG,01 1 UA SUC,48834.1,Noguer Mig,proposta,vigent,parcelles.json,,538986.47,26374.97,IGUAL
-R0308,LLOSET_2,01 3 UA SUBLE,6293.8,Lloset 2,proposta,vigent,parcelles.json,,538998.54,27102.27,IGUAL
-R0309,MOLINA,01 3 UA SUBLE,23065.2,Molina,proposta,vigent,parcelles.json,,539001.92,25015.85,IGUAL
-R0310,LLOSET_1,01 3 UA SUBLE,3715.1,Lloset 1,proposta,vigent,parcelles.json,,539012.84,27686.69,IGUAL
-R0311,MOLINA,01 3 UA SUBLE,192.0,Molina,proposta,vigent,parcelles.json,,539015.8,25292.07,IGUAL
-R0312,NOGUER_MIG,01 3 UA SUBLE,240.8,Noguer Mig,proposta,vigent,parcelles.json,,539022.82,26452.75,IGUAL
-R0313,MOLINA,01 3 UA SUBLE,2256.8,Molina,proposta,vigent,parcelles.json,,539026.88,24834.69,IGUAL
-R0314,MOLINA,01 3 UA SUBLE,3206.7,Molina,proposta,vigent,parcelles.json,,539032.33,25295.37,IGUAL
-R0315,OVELLA_ALTA_1,01 3 UA SUBLE,16586.2,Ovella Alta 1,proposta,vigent,parcelles.json,,539036.96,25949.88,IGUAL
-R0316,NOGUER_ALT,01 3 UA SUBLE,13940.3,Noguer Alt,proposta,vigent,parcelles.json,,539048.19,26232.28,IGUAL
-R0317,LLOSET_2,01 3 UA SUBLE,63439.1,Lloset 2,proposta,vigent,parcelles.json,,539048.24,27294.28,IGUAL
-R0318,MOLINA,01 3 UA SUBLE,861.6,Molina,proposta,vigent,parcelles.json,,539056.37,24853.02,IGUAL
-R0319,LLOSET_1,01 3 UA SUBLE,1740.2,Lloset 1,proposta,vigent,parcelles.json,,539062.14,27554.78,IGUAL
-R0320,BOSC_DE_LES_ALLAUS,01 3 UA SUBLE,1549.1,Bosc de les Allaus,proposta,vigent,parcelles.json,,539092.23,26539.32,IGUAL
-R0321,QUER_BAIX_1,01 3 UA SUBLE,4690.4,Quer Baix 1,proposta,vigent,parcelles.json,,539098.1,26280.44,IGUAL
-R0322,MOLINA,01 3 UA SUBLE,6697.5,Molina,proposta,vigent,parcelles.json,,539103.18,25316.04,IGUAL
-R0323,MOLINA,01 3 UA SUBLE,25131.2,Molina,proposta,vigent,parcelles.json,,539103.86,25070.97,IGUAL
-R0324,MOLLAR_ALT_3,01 3 UA SUBLE,11712.4,Mollar Alt 3,proposta,vigent,parcelles.json,,539107.42,26140.56,IGUAL
-R0325,MOLINA,01 3 UA SUBLE,4509.0,Molina,proposta,vigent,parcelles.json,,539116.32,24875.08,IGUAL
-R0326,MOLINA,01 3 UA SUBLE,328.4,Molina,proposta,vigent,parcelles.json,,539125.39,25586.41,IGUAL
-R0327,QUER_BAIX_2,01 3 UA SUBLE,3475.5,Quer Baix 2,proposta,vigent,parcelles.json,,539136.45,26209.94,IGUAL
-R0328,COSTES_BAIXES,01 3 UA SUBLE,9029.2,Costes Baixes,proposta,vigent,parcelles.json,,539142.58,26346.76,IGUAL
-R0329,LLOSET_2,01 3 UA SUBLE,2186.6,Lloset 2,proposta,vigent,parcelles.json,,539168.93,27142.76,IGUAL
-R0330,OVELLA_ALTA_2,01 3 UA SUBLE,3149.0,Ovella Alta 2,proposta,vigent,parcelles.json,,539196.05,25889.21,IGUAL
-R0331,QUER_ALT,01 3 UA SUBLE,19981.6,Pardines 3,proposta,vigent,parcelles.json,,539219.04,26136.44,IGUAL
-R0332,QUER_ALT,01 3 UA SUBLE,19979.7,Quer Alt,proposta,vigent,parcelles.json,,539220.41,26134.63,IGUAL
-R0333,COSTES_ALTES,01 3 UA SUBLE,14865.5,Costes Altes,proposta,vigent,parcelles.json,,539225.8,26282.4,IGUAL
-R0334,BOSC_DEL_TOSQUER,01 3 UA SUBLE,599.0,Bosc del Tosquer,proposta,vigent,parcelles.json,,539472.21,26609.31,IGUAL
-R0335,ROCS_NEGRES,01 3 UA SUBLE,1533.8,Rocs Negres,proposta,vigent,parcelles.json,,539538.27,26570.2,IGUAL
-R0336,CASTELLAR,01 3 UA SUBLE,27846.1,Castellar,proposta,vigent,parcelles.json,,539556.55,26140.63,IGUAL
-R0337,PARDINES_2,01 3 UA SUBLE,70147.6,Pardines 3,proposta,vigent,parcelles.json,,539612.36,25928.05,IGUAL
-R0338,SOLANS,01 3 UA SUBLE,8128.4,Solans,proposta,vigent,parcelles.json,,539612.47,26862.95,IGUAL
-R0339,PARDINES_4,01 3 UA SUBLE,52.2,Pardines 4,proposta,vigent,parcelles.json,,539616.39,25856.96,IGUAL
-R0340,PARDINES_3,01 3 UA SUBLE,106434.6,Pardines 3,revisat,vigent,parcelles.json,"un recinte per a Pardines 3 i un per a Pardines 2, encara que els metres no quadrin",539634.72,26068.48,IGUAL
-R0341,PRAT_DEL_GILET,01 3 UA SUBLE,2724.7,Prat del Gilet,proposta,vigent,parcelles.json,,539723.81,25138.62,IGUAL
-R0342,SOLANS,01 3 UA SUBLE,1575.1,Solans,proposta,vigent,parcelles.json,,539788.77,26847.86,IGUAL
-R0343,CASA_2,01 3 UA SUBLE,1710.9,Casa 2,proposta,vigent,parcelles.json,,539829.21,26322.49,IGUAL
-R0344,FERITXET_5,01 3 UA SUBLE,124.0,Feritxet 5,proposta,vigent,parcelles.json,,539922.12,26289.44,IGUAL
-R0345,PARDINES_1,01 3 UA SUBLE,58143.8,Pardines 1,proposta,vigent,parcelles.json,,539936.44,26068.7,IGUAL
-R0346,CASA_3,01 3 UA SUBLE,47978.0,Casa 1,proposta,vigent,parcelles.json,,540104.76,26549.17,IGUAL
-R0347,FERITXET_4,01 3 UA SUBLE,7260.7,Feritxet 4,proposta,vigent,parcelles.json,,540119.49,26060.12,IGUAL
-R0348,FERITXET_3,01 3 UA SUBLE,4732.8,Feritxet 3,proposta,vigent,parcelles.json,,540134.94,26101.62,IGUAL
-R0349,FERITXET_1,01 3 UA SUBLE,6133.2,Feritxet 1,proposta,vigent,parcelles.json,,540148.16,26185.41,IGUAL
-R0350,PARDINES_2,01 3 UA SUBLE,18616.0,Pardines 2,proposta,vigent,parcelles.json,,540152.85,25700.71,IGUAL
-R0351,FERITXET_3,01 3 UA SUBLE,502.2,Feritxet 1,proposta,vigent,parcelles.json,,540181.66,26109.84,IGUAL
-R0352,PARDINES_2,01 3 UA SUBLE,51075.8,Pardines 2,proposta,vigent,parcelles.json,,540187.88,25867.39,IGUAL
-R0353,CASA_2,01 3 UA SUBLE,89231.2,Casa 2,proposta,vigent,parcelles.json,,540205.03,26413.87,IGUAL
-R0354,FERITXET_1,01 3 UA SUBLE,10245.7,Feritxet 1,proposta,vigent,parcelles.json,,540240.12,25995.67,IGUAL
-R0355,FERITXET_2,01 3 UA SUBLE,18313.3,Feritxet 2,proposta,vigent,parcelles.json,,540333.32,26045.8,IGUAL
-R0356,CORTALS_4,01 3 UA SUBLE,70717.3,Cortals 4,proposta,vigent,parcelles.json,,540367.39,26303.91,IGUAL
-R0357,PLANES,01 3 UA SUBLE,6278.7,Planes,proposta,vigent,parcelles.json,,540370.29,25515.69,IGUAL
-R0358,CASA_1,01 3 UA SUBLE,49504.7,Casa 1,proposta,vigent,parcelles.json,,540550.68,26615.01,IGUAL
-R0359,BOIGAL,01 3 UA SUBLE,12482.3,Boïgal,proposta,vigent,parcelles.json,,540678.98,25809.45,IGUAL
-R0360,CORTALS_5,01 3 UA SUBLE,22454.9,Cortals 5,proposta,vigent,parcelles.json,,540792.48,26349.69,IGUAL
-R0361,CORTALS_1,01 3 UA SUBLE,26048.1,Cortals 1,proposta,vigent,parcelles.json,,540795.57,26590.22,IGUAL
-R0362,CORTALS_2,01 3 UA SUBLE,37751.7,Cortals 2,proposta,vigent,parcelles.json,,540800.42,26527.04,IGUAL
-R0363,RIGODER_1,01 3 UA SUBLE,11869.8,Rigoder 1,proposta,vigent,parcelles.json,,540807.05,26822.42,IGUAL
-R0364,CORTALS_3,01 3 UA SUBLE,282.8,Cortals 3,proposta,vigent,parcelles.json,,540829.59,26442.46,IGUAL
-R0365,PRAT_D_ENSAGENTS,01 3 UA SUBLE,4966.5,Prat d'Ensagents,proposta,vigent,parcelles.json,,540855.77,25682.14,IGUAL
-R0366,RIGODER_2,01 3 UA SUBLE,16534.5,Rigoder 2,proposta,vigent,parcelles.json,,540861.46,26712.28,IGUAL
-R0367,RIGODER_4,01 3 UA SUBLE,63971.3,Rigoder 4,proposta,vigent,parcelles.json,,541318.12,26497.17,IGUAL
-R0368,RIGODER_3,01 3 UA SUBLE,103336.3,Rigoder 3,proposta,vigent,parcelles.json,,541374.02,26670.29,IGUAL
-R0369,RIGODER_5,01 3 UA SUBLE,29952.8,Rigoder 5,proposta,vigent,parcelles.json,,541446.33,26379.93,IGUAL
-R0370,RIGODER_7,01 3 UA SUBLE,22583.2,Rigoder 7,proposta,vigent,parcelles.json,,541570.88,26566.97,IGUAL
-R0371,RIGODER_6,01 3 UA SUBLE,4287.4,Rigoder 6,proposta,vigent,parcelles.json,,541658.31,26487.02,IGUAL
-R0372,BARONIA_1,01 3 UA SUBLE,81168.2,Baronia 1,proposta,vigent,parcelles.json,,541738.95,26681.46,IGUAL
-R0373,BARONIA_4,01 3 UA SUBLE,1480.3,Baronia 4,proposta,vigent,parcelles.json,,541855.06,26817.64,IGUAL
-R0374,BARONIA_2,01 3 UA SUBLE,37690.3,Baronia 2,proposta,vigent,parcelles.json,,541933.04,26573.28,IGUAL
-R0375,BARONIA_3,01 3 UA SUBLE,56.4,Baronia 3,proposta,vigent,parcelles.json,,542137.58,26566.84,IGUAL
-R0376,ENVALIRA,01 3 UA SUBLE,89599.3,Envalira,proposta,vigent,parcelles.json,,546392.89,28768.68,IGUAL
-R0377,EDIFICI_GRAU_ROIG,01 1 UA SUC,866.4,Edifici Grau Roig,proposta,vigent,parcelles.json,,547690.77,26051.89,IGUAL
-R0378,HOTEL_RESTAURANT_A_GRAU_ROIG,01 1 UA SUC,891.7,Hotel Restaurant a Grau Roig,proposta,vigent,parcelles.json,,547786.98,26063.97,IGUAL
-R0379,MOBIL,01 1 UA SUC,1331.4,Mòbil,proposta,vigent,parcelles.json,,549294.82,26860.04,IGUAL
-R0380,REFUGI_FRA_MIQUEL,01 1 UA SUC,524.4,Refugi Fra Miquel,proposta,vigent,parcelles.json,,549325.46,26892.68,IGUAL
-R0381,ESSO,01 1 UA SUC,1127.2,ESSO,proposta,vigent,parcelles.json,,549355.87,26861.0,IGUAL
-R0382,HOTEL_PIC_MAIA,01 1 UA SUC,4520.7,Hotel Pic Maià,proposta,vigent,parcelles.json,,549370.6,26905.1,IGUAL
-R0383,FIGUEREDO,01 1 UA SUC,1496.1,Figueredo,proposta,vigent,parcelles.json,,549387.27,26809.74,IGUAL
-R0384,ARAJOL,01 1 UA SUC,1155.3,Arajol,proposta,vigent,parcelles.json,,549397.15,26627.56,IGUAL
-R0385,SANT_PERE_9,01 1 UA SUC,3048.8,Sant Pere 9,proposta,vigent,parcelles.json,,550099.4,26738.44,IGUAL
-R0386,SOLANA,01 1 UA SUC,3703.2,Solana,proposta,vigent,parcelles.json,,550147.79,26855.4,IGUAL
-R0387,ENVALIRA_DE_DALT_3,01 1 UA SUC,2179.4,Envalira de Dalt 3,proposta,vigent,parcelles.json,,550170.46,26948.7,IGUAL
-R0388,GAVATXA_DEL_MIG,01 1 UA SUC,482.3,Gavatxa del Mig,proposta,vigent,parcelles.json,,550190.88,27131.43,IGUAL
-R0389,GAVATXA,01 1 UA SUC,473.4,Envalira de Dalt 3,proposta,vigent,parcelles.json,,550194.38,27016.51,IGUAL
-R0390,GAVATXA_DE_DALT,01 1 UA SUC,731.1,Gavatxa de Dalt,proposta,vigent,parcelles.json,,550200.11,27158.56,IGUAL
-R0391,GASOPAS,01 1 UA SUC,8348.6,Gasopas,proposta,vigent,parcelles.json,,550209.46,27614.01,IGUAL
-R0392,ENVALIRA_DE_DALT_1,01 1 UA SUC,783.1,Envalira de Dalt 1,proposta,vigent,parcelles.json,,550209.56,27052.57,IGUAL
-R0393,ENVALIRA_DE_DALT_2,01 1 UA SUC,971.8,Envalira de Dalt 2,proposta,vigent,parcelles.json,,550213.69,27022.64,IGUAL
-R0394,MAIA_DE_DALT,01 1 UA SUC,1486.3,Gavatxa,proposta,vigent,parcelles.json,,550214.43,27099.91,IGUAL
-R0395,ENVALIRA_DEL_MIG,01 1 UA SUC,2135.2,Envalira del Mig,proposta,vigent,parcelles.json,,550217.21,26966.21,IGUAL
-R0396,SANT_PERE_8,01 1 UA SUC,573.2,Sant Pere 8,proposta,vigent,parcelles.json,,550236.71,27519.97,IGUAL
-R0397,GAVATXA_DE_BAIX_1,01 1 UA SUC,2832.4,Gavatxa de Baix 1,proposta,vigent,parcelles.json,,550242.44,27073.9,IGUAL
-R0398,PAS_DE_LA_CASA_2,01 1 UA SUC,5911.9,Pas de la Casa 2,proposta,vigent,parcelles.json,,550242.18,27413.8,IGUAL
-R0399,GAVATXA_DE_BAIX_2,01 1 UA SUC,325.1,Gavatxa de Baix 2,proposta,vigent,parcelles.json,,550248.59,27159.34,IGUAL
-R0400,SANT_JORDI_DE_DALT,01 1 UA SUC,4686.9,Sant Jordi de Dalt,proposta,vigent,parcelles.json,,550249.84,27197.04,IGUAL
-R0401,GAVATXA_DEL_MIG,01 1 UA SUC,1443.9,Maià de Dalt,proposta,vigent,parcelles.json,,550254.14,26961.68,IGUAL
-R0402,ENVALIRA_DE_BAIX,01 1 UA SUC,1928.9,Envalira de Baix,proposta,vigent,parcelles.json,,550260.49,26911.61,IGUAL
-R0403,MAIA_DE_BAIX,01 1 UA SUC,3197.3,Maià de Baix,proposta,vigent,parcelles.json,,550262.25,27071.3,IGUAL
-R0404,SANT_PERE_7,01 1 UA SUC,11471.7,Sant Pere 7,proposta,vigent,parcelles.json,,550286.35,27433.22,IGUAL
-R0405,SANT_JORDI_DEL_MIG,01 1 UA SUC,5488.4,Sant Jordi del Mig,proposta,vigent,parcelles.json,,550291.87,27187.82,IGUAL
-R0406,VAQUERS_DE_DALT,01 1 UA SUC,4330.2,Vaquers de Baix,proposta,vigent,parcelles.json,,550294.45,26984.21,IGUAL
-R0407,BEARN_DE_DALT,01 1 UA SUC,1264.0,Bearn de Dalt,proposta,vigent,parcelles.json,,550296.66,27067.62,IGUAL
-R0408,SANT_JOSEP,01 1 UA SUC,291.4,Vaquers de Dalt,proposta,vigent,parcelles.json,,550317.31,27026.26,IGUAL
-R0409,VAQUERS_DE_BAIX,01 1 UA SUC,849.1,Bearn de Baix,proposta,vigent,parcelles.json,,550323.29,27001.15,IGUAL
-R0410,BEARN_DE_BAIX,01 1 UA SUC,2976.4,Sant Josep,proposta,vigent,parcelles.json,,550337.51,27060.91,IGUAL
-R0411,,01 1 UA SUC,186527.1,Consell General Baix 1,revisat,vigent,parcelles.json,no és de cap unitat: és el contorn de tot el nucli del Pas de la Casa (hi cauen a dins els noms de 44 unitats),550348.25,27119.04,IGUAL
-R0412,COPRINCEPS_DE_DALT,01 1 UA SUC,5448.4,Coprínceps de Dalt,proposta,vigent,parcelles.json,,550348.07,27198.03,IGUAL
-R0413,CATALUNYA_DE_DALT,01 1 UA SUC,2311.8,Catalunya de Dalt,proposta,vigent,parcelles.json,,550352.1,27082.98,IGUAL
-R0414,SANT_PERE_5,01 1 UA SUC,6786.0,Sant Pere 5,proposta,vigent,parcelles.json,,550358.09,27479.24,IGUAL
-R0415,CONSELL_GENERAL_BAIX_1,01 1 UA SUC,662.8,Pas de la Casa 1,proposta,vigent,parcelles.json,,550381.57,27368.44,IGUAL
-R0416,CATALUNYA_DE_BAIX,01 1 UA SUC,1091.9,Catalunya de Baix,proposta,vigent,parcelles.json,,550393.62,27077.13,IGUAL
-R0417,PAS_DE_LA_CASA_7,01 1 UA SUC,4785.3,Pas de la Casa 7,proposta,vigent,parcelles.json,,550397.46,27205.33,IGUAL
-R0418,PISTA_DE_GEL,01 1 UA SUC,572.0,Pista de Gel,proposta,vigent,parcelles.json,,550409.02,27145.33,IGUAL
-R0419,COPRINCEPS_DE_BAIX,01 1 UA SUC,5473.5,Coprínceps de Baix,proposta,vigent,parcelles.json,,550413.38,27229.35,IGUAL
-R0420,SANT_JORDI_DE_BAIX,01 1 UA SUC,3374.1,Sant Jordi de Baix,proposta,vigent,parcelles.json,,550418.72,27098.26,IGUAL
-R0421,CONSELL_GENERAL_BAIX_2,01 1 UA SUC,1779.3,Consell General Baix 2,proposta,vigent,parcelles.json,,550425.49,27326.65,IGUAL
-R0422,CATALUNYA_DEL_MIG,01 1 UA SUC,1943.4,Catalunya del Mig,proposta,vigent,parcelles.json,,550425.65,27046.01,IGUAL
-R0423,PAS_DE_LA_CASA_3,01 1 UA SUC,6392.0,Pas de la Casa 3,proposta,vigent,parcelles.json,,550426.75,27389.61,IGUAL
-R0424,SANT_PERE_10,01 1 UA SUC,979.2,Sant Pere 10,proposta,vigent,parcelles.json,,550438.89,26729.8,IGUAL
-R0425,ENCAMP,01 1 UA SUC,10741.8,Encamp,proposta,vigent,parcelles.json,,550476.18,26924.52,IGUAL
-R0426,SANT_PERE_4,01 2 UA SUNC,20482.1,Sant Pere 4,proposta,vigent,parcelles.json,,550483.13,27574.83,IGUAL
-R0427,PAS_DE_LA_CASA_6,01 1 UA SUC,3341.3,Pas de la Casa 6,proposta,vigent,parcelles.json,,550498.06,27238.67,IGUAL
-R0428,ABELLETES,01 1 UA SUC,1902.5,Abelletes,proposta,vigent,parcelles.json,,550499.31,27153.52,IGUAL
-R0429,PAS_DE_LA_CASA_4,01 1 UA SUC,4803.6,Pas de la Casa 4,proposta,vigent,parcelles.json,,550506.4,27394.97,IGUAL
-R0430,SANT_PERE_1,01 2 UA SUNC,6943.2,Sant Pere 1,proposta,vigent,parcelles.json,,550506.41,27469.37,IGUAL
-R0431,ARIEJA_DE_DALT,01 1 UA SUC,1428.2,Arieja de Dalt,proposta,vigent,parcelles.json,,550515.43,27115.03,IGUAL
-R0432,PAREATGES,01 1 UA SUC,1115.6,Pareatges,proposta,vigent,parcelles.json,,550530.38,27207.75,IGUAL
-R0433,PAS_DE_LA_CASA_5,01 1 UA SUC,6583.4,Pas de la Casa 5,proposta,vigent,parcelles.json,,550547.4,27301.16,IGUAL
-R0434,BERNAT_III,01 1 UA SUC,1361.5,Bernat III,proposta,vigent,parcelles.json,,550551.45,27196.26,IGUAL
-R0435,SANT_PERE_3,01 2 UA SUNC,8684.7,Sant Pere 3,proposta,vigent,parcelles.json,,550571.06,27514.81,IGUAL
-R0436,SANT_PERE_2,01 2 UA SUNC,8512.7,Sant Pere 2,proposta,vigent,parcelles.json,,550574.39,27611.4,IGUAL
-R0437,SANT_PERE_6,01 1 UA SUC,4234.7,Sant Pere 6,proposta,vigent,parcelles.json,,550577.15,27405.47,IGUAL
-R0438,ARIEJA_DE_BAIX,01 1 UA SUC,2951.0,Arieja de Baix,proposta,vigent,parcelles.json,,550581.06,27176.56,IGUAL
-R0439,FOIX,01 1 UA SUC,1212.0,Foix,proposta,vigent,parcelles.json,,550586.21,27238.89,IGUAL
+R0001,NERES_2,,1286.0,,proposta,vigent,planol-nou.geojson,,535386.45,25936.88,CANVIAT
+R0002,NERES_1,,7421.0,,proposta,vigent,planol-nou.geojson,,535450.98,25926.63,CANVIAT
+R0003,FEDA_4,,3015.3,,proposta,vigent,planol-nou.geojson,,535544.03,24173.89,CANVIAT
+R0004,FEDA_3,,3686.3,,proposta,vigent,planol-nou.geojson,,535612.38,24290.61,CANVIAT
+R0005,FEDA_2,,8625.8,,proposta,vigent,planol-nou.geojson,,535631.98,24234.09,CANVIAT
+R0006,EASA,,948.2,,proposta,vigent,planol-nou.geojson,,535654.39,24392.54,CANVIAT
+R0007,PLAMANERA,,71373.6,,proposta,vigent,planol-nou.geojson,,535660.29,25916.09,IGUAL
+R0008,TRESOLES,,15323.6,,proposta,vigent,planol-nou.geojson,,535709.9,24181.01,IGUAL
+R0010,PRAT_DEL_SALT,,20062.7,,proposta,vigent,planol-nou.geojson,,535783.51,24420.9,IGUAL
+R0011,,,20062.7,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,535783.51,24420.9,IGUAL
+R0012,CABECA,,57027.0,,proposta,vigent,planol-nou.geojson,,535799.23,24804.12,IGUAL
+R0013,PLAMUSSOLA,,51249.3,,proposta,vigent,planol-nou.geojson,,535865.86,25965.93,IGUAL
+R0015,PLAMANERA,,874.6,,proposta,vigent,planol-nou.geojson,,535861.64,26326.33,CANVIAT
+R0016,PRAT_DEL_TURA,,12051.9,,proposta,vigent,planol-nou.geojson,,535871.28,24681.52,CANVIAT
+R0017,ESPELUGA_2,,3355.1,,proposta,vigent,planol-nou.geojson,,535882.01,25323.82,IGUAL
+R0018,BEIXALIS_DE_DALT,,53988.8,,proposta,vigent,planol-nou.geojson,,535945.57,26027.08,CANVIAT
+R0019,SERRAT,,240.5,,proposta,vigent,planol-nou.geojson,,535992.94,24814.24,IGUAL
+R0020,FEDA_1,,323.6,,proposta,vigent,planol-nou.geojson,,536008.41,24310.59,IGUAL
+R0022,BARTRA_DE_BAIX_2,,1377.0,,proposta,vigent,planol-nou.geojson,,536093.03,24970.37,CANVIAT
+R0024,COSTES_1,,5395.6,,proposta,vigent,planol-nou.geojson,,536124.19,25208.12,IGUAL
+R0025,BARTRA_DE_BAIX_1,,1389.4,,proposta,vigent,planol-nou.geojson,,536183.37,25056.95,CANVIAT
+R0026,RAMONET,,636.3,,proposta,vigent,planol-nou.geojson,,536211.47,24536.78,IGUAL
+R0030,BEIXALIS_DEL_MIG,,546.2,,proposta,vigent,planol-nou.geojson,,536255.02,25996.77,IGUAL
+R0031,COSTES_2,,831.8,,proposta,vigent,planol-nou.geojson,,536262.38,25327.91,IGUAL
+R0032,ESPELUGA_1,,85178.0,,proposta,vigent,planol-nou.geojson,,536266.95,25743.11,IGUAL
+R0033,COSTES_2,,307.8,,proposta,vigent,planol-nou.geojson,,536322.0,25386.69,IGUAL
+R0034,LLADRER_DE_DALT,,11848.5,,proposta,vigent,planol-nou.geojson,,536333.24,26124.75,IGUAL
+R0037,PEGUERA,,23433.8,,proposta,vigent,planol-nou.geojson,,536456.38,26150.22,IGUAL
+R0038,CAMPS_DE_VILA,,26384.4,,proposta,vigent,planol-nou.geojson,,536476.52,26281.55,IGUAL
+R0039,ROC_DE_LA_VINYA,,26841.8,,proposta,vigent,planol-nou.geojson,,536490.74,25555.11,IGUAL
+R0040,SERRADAL,,26882.0,,proposta,vigent,planol-nou.geojson,,536495.88,25945.75,IGUAL
+R0041,CORB,,1007.7,,proposta,vigent,planol-nou.geojson,,536534.74,25307.75,CANVIAT
+R0042,LLADRER_DE_BAIX,,2397.9,,proposta,vigent,planol-nou.geojson,,536537.69,26077.76,IGUAL
+R0043,PRAT_DEL_GASPAR,,2888.6,,proposta,vigent,planol-nou.geojson,,536552.43,26576.88,IGUAL
+R0044,CAMP_DE_LA_CIRERA_DEL_MIG,,7532.7,,proposta,vigent,planol-nou.geojson,,536556.23,26110.93,IGUAL
+R0046,RIACA,,2495.6,,proposta,vigent,planol-nou.geojson,,536565.05,26012.22,IGUAL
+R0047,CAMP_DE_LA_CIRERA_DE_DALT,,3543.6,,proposta,vigent,planol-nou.geojson,,536602.57,26150.19,IGUAL
+R0048,CAMP_DE_LA_CIRERA_DE_BAIX_2,,649.4,,proposta,vigent,planol-nou.geojson,,536614.53,26117.66,IGUAL
+R0049,ENGOLASTERS_2,,1313.5,,proposta,vigent,planol-nou.geojson,,536648.65,24582.06,IGUAL
+R0050,ESTREMERA,,10574.4,,proposta,vigent,planol-nou.geojson,,536648.18,25907.61,IGUAL
+R0051,SERRADELLS,,17831.0,,proposta,vigent,planol-nou.geojson,,536652.81,25764.26,IGUAL
+R0052,CAMP_DE_LA_CIRERA_DE_BAIX_1,,1635.5,,proposta,vigent,planol-nou.geojson,,536671.05,26084.68,IGUAL
+R0053,PASTURER,,1319.6,,proposta,vigent,planol-nou.geojson,,536715.52,26035.36,CANVIAT
+R0054,ORDIGAL,,11518.2,,proposta,vigent,planol-nou.geojson,,536724.31,26022.58,IGUAL
+R0055,ENCADENA,,16506.7,,proposta,vigent,planol-nou.geojson,,536728.17,26831.22,IGUAL
+R0056,CAMPS_DEL_NOGUER,,50861.1,,proposta,vigent,planol-nou.geojson,,536739.39,26213.44,IGUAL
+R0057,VILA,,4728.1,,proposta,vigent,planol-nou.geojson,,536755.95,26056.16,CANVIAT
+R0058,CAP_TORRENT,,2745.4,,proposta,vigent,planol-nou.geojson,,536762.95,25950.69,IGUAL
+R0059,HORTAL_DE_VILA,,7008.9,,proposta,vigent,planol-nou.geojson,,536773.18,26075.06,CANVIAT
+R0060,CABECA,,14311.7,,proposta,vigent,planol-nou.geojson,,536763.01,25617.2,CANVIAT
+R0061,VALIRA_NOVA,,8179.4,,proposta,vigent,planol-nou.geojson,,536770.81,25518.95,CANVIAT
+R0062,CAL_NOTARI_12,,5106.7,,proposta,vigent,planol-nou.geojson,,536794.63,26130.06,IGUAL
+R0063,ORALS,,33685.4,,proposta,vigent,planol-nou.geojson,,536798.79,25791.22,IGUAL
+R0064,BARTRA_DE_DALT,,6136.3,,proposta,vigent,planol-nou.geojson,,536854.31,25533.32,IGUAL
+R0065,CAMPS_DE_SANT_ROMA,,11489.5,,proposta,vigent,planol-nou.geojson,,536856.32,26096.38,CANVIAT
+R0066,CAMP_DE_PONT,,48121.5,,proposta,vigent,planol-nou.geojson,,536897.68,26374.78,IGUAL
+R0067,CAMP_BERNAT_TOMAS,,15304.6,,proposta,vigent,planol-nou.geojson,,536894.68,26003.26,CANVIAT
+R0068,CASA_ARENY_1,,1444.4,,proposta,vigent,planol-nou.geojson,,536893.39,25788.54,CANVIAT
+R0069,TORRENT_DEL_PONT,,10883.9,,proposta,vigent,planol-nou.geojson,,536901.13,26253.88,IGUAL
+R0070,CASA_ARENY_1,,20085.2,,proposta,vigent,planol-nou.geojson,,536923.6,25936.36,IGUAL
+R0072,CASA_ARENY_1,,548.6,,proposta,vigent,planol-nou.geojson,,536939.76,25810.13,CANVIAT
+R0073,RIBERAIGUES_ALTES,,10997.0,,proposta,vigent,planol-nou.geojson,,536945.12,25868.74,IGUAL
+R0075,JAUMET,,2032.4,,proposta,vigent,planol-nou.geojson,,536958.83,26208.79,CANVIAT
+R0076,VENTIGA,,3041.5,,proposta,vigent,planol-nou.geojson,,536973.5,26087.83,CANVIAT
+R0077,OBAGA,,2891.9,,proposta,vigent,planol-nou.geojson,,536987.37,26040.34,IGUAL
+R0078,ENGOLASTERS_1,,31008.6,,proposta,vigent,planol-nou.geojson,,536991.38,24921.14,IGUAL
+R0079,CAL_NOTARI_7,,4087.0,,proposta,vigent,planol-nou.geojson,,536998.0,26157.85,CANVIAT
+R0080,CASA_ARENY_1,,3479.3,,proposta,vigent,planol-nou.geojson,,537010.5,25766.12,IGUAL
+R0081,CAL_NOTARI_9,,4830.2,,proposta,vigent,planol-nou.geojson,,537020.48,26144.36,CANVIAT
+R0082,RIBERAIGUES_BAIXES,,5091.0,,proposta,vigent,planol-nou.geojson,,537027.61,25928.9,CANVIAT
+R0083,PUI_D_ENCAMP_1,,59154.0,,proposta,vigent,planol-nou.geojson,,537029.35,25627.37,IGUAL
+R0085,,,307.0,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,537090.0,25774.09,CANVIAT
+R0086,,,307.0,,,vigent,planol-nou.geojson,el DWG el dibuixa dues vegades,537090.0,25774.09,CANVIAT
+R0088,TORRENT_ESTRET_2,,3028.6,,proposta,vigent,planol-nou.geojson,,537100.5,26360.67,IGUAL
+R0089,SANT_MARC,,9738.7,,proposta,vigent,planol-nou.geojson,,537131.83,26168.61,IGUAL
+R0092,RESTAURANT_RIBA,,369.2,,proposta,vigent,planol-nou.geojson,,537145.06,25032.65,IGUAL
+R0093,AVIAR_5,,20889.2,,proposta,vigent,planol-nou.geojson,,537151.18,26099.94,IGUAL
+R0096,FENEROLS_1,,10179.2,,proposta,vigent,planol-nou.geojson,,537177.82,27204.16,IGUAL
+R0097,RESTAURANT_FONT_MOLES,,1113.9,,proposta,vigent,planol-nou.geojson,,537184.22,24998.46,IGUAL
+R0098,COSTELLES_ALTES_1,,3623.7,,proposta,vigent,planol-nou.geojson,,537190.19,25844.88,IGUAL
+R0099,HORTA,,2767.3,,proposta,vigent,planol-nou.geojson,,537204.89,26436.98,CANVIAT
+R0100,CRESPER,,3324.7,,revisat,vigent,planol-nou.geojson,el recinte gros del costat és del veí (Escarpiders),537200.68,25283.32,IGUAL
+R0101,COSTELLES_ALTES_2,,2906.1,,proposta,vigent,planol-nou.geojson,,537215.15,25897.1,IGUAL
+R0102,CULTIASSA,,29744.2,,proposta,vigent,planol-nou.geojson,,537224.02,26943.37,IGUAL
+R0103,PUI_D_ENCAMP_2,,34717.0,,proposta,vigent,planol-nou.geojson,,537236.8,25773.62,IGUAL
+R0104,COSTELLES_ALTES_3,,1513.0,,proposta,vigent,planol-nou.geojson,,537246.86,25968.78,IGUAL
+R0105,LLENGUADERA,,7662.3,,proposta,vigent,planol-nou.geojson,,537273.1,26464.72,IGUAL
+R0106,TRAVESSERES,,15522.1,,proposta,vigent,planol-nou.geojson,,537264.34,26547.82,IGUAL
+R0107,TRIBALA_2,,16729.7,,proposta,vigent,planol-nou.geojson,,537300.31,26081.04,IGUAL
+R0109,COSTELLES_BAIXES,,31440.7,,proposta,vigent,planol-nou.geojson,,537331.75,25967.16,IGUAL
+R0110,AVIAR_4,,19633.2,,proposta,vigent,planol-nou.geojson,,537349.0,26455.67,IGUAL
+R0111,CANADILLA,,12396.7,,proposta,vigent,planol-nou.geojson,,537378.91,26543.66,IGUAL
+R0112,FENEROLS_2,,1390.9,,proposta,vigent,planol-nou.geojson,,537439.42,27170.7,IGUAL
+R0113,AVIAR_6,,40840.3,,proposta,vigent,planol-nou.geojson,,537437.89,26269.13,IGUAL
+R0114,CARRERA,,3585.9,,proposta,vigent,planol-nou.geojson,,537449.95,26959.08,IGUAL
+R0115,TORRENTS_DE_L_OBAC_4,,17245.5,,proposta,vigent,planol-nou.geojson,,537461.83,25774.1,IGUAL
+R0116,ESCARPIDERS,,16350.6,,proposta,vigent,planol-nou.geojson,,537462.53,25543.93,IGUAL
+R0117,CORTADELLES,,2456.4,,proposta,vigent,planol-nou.geojson,,537469.84,26634.63,IGUAL
+R0118,HORTALS,,6255.6,,proposta,vigent,planol-nou.geojson,,537475.43,26501.75,CANVIAT
+R0119,PRATS_DE_L_OBAC_1,,38264.0,,proposta,vigent,planol-nou.geojson,,537484.02,25932.43,IGUAL
+R0120,ARRIBES_DEL_MIG,,86.2,,proposta,vigent,planol-nou.geojson,,537481.8,26583.82,IGUAL
+R0121,VENA_2,,4336.6,,proposta,vigent,planol-nou.geojson,,537486.92,26091.87,IGUAL
+R0122,CASA_ARENY_4,,169.7,,proposta,vigent,planol-nou.geojson,,537496.72,26546.07,IGUAL
+R0123,CARRETERA_DE_VILA,,603.6,,proposta,vigent,planol-nou.geojson,,537509.84,26321.81,IGUAL
+R0124,CASA_ARENY_2,,11376.5,,proposta,vigent,planol-nou.geojson,,537512.06,26399.27,CANVIAT
+R0125,CAL_NOTARI_5,,829.2,,proposta,vigent,planol-nou.geojson,,537520.53,26478.11,CANVIAT
+R0126,TRIBALA_1,,18113.2,,proposta,vigent,planol-nou.geojson,,537540.63,26160.18,CANVIAT
+R0127,ESCARPIDERS,,3922.4,,proposta,vigent,planol-nou.geojson,,537538.2,25685.78,IGUAL
+R0128,ENCAMP_2,,1375.6,,proposta,vigent,planol-nou.geojson,,537577.01,26346.01,CANVIAT
+R0129,RIU_BLANC_ALT,,3217.7,,proposta,vigent,planol-nou.geojson,,537567.42,26067.19,IGUAL
+R0130,PRATS_DE_L_OBAC_2,,7408.6,,proposta,vigent,planol-nou.geojson,,537575.48,26008.16,IGUAL
+R0131,ENCAMP_1,,11225.2,,proposta,vigent,planol-nou.geojson,,537590.0,26407.66,CANVIAT
+R0132,ESCARPIDERS,,5880.2,,proposta,vigent,planol-nou.geojson,,537595.93,25662.83,IGUAL
+R0133,VENA,,2595.1,,proposta,vigent,planol-nou.geojson,,537600.49,26137.44,IGUAL
+R0134,RIU_BLANC_BAIX,,2477.1,,proposta,vigent,planol-nou.geojson,,537604.44,26089.52,IGUAL
+R0135,CARDAGO,,5824.9,,proposta,vigent,planol-nou.geojson,,537626.95,26995.19,IGUAL
+R0136,PEDRAL_DE_DALT,,1443.8,,proposta,vigent,planol-nou.geojson,,537629.41,26454.75,IGUAL
+R0137,,,1443.8,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,537629.41,26454.75,IGUAL
+R0138,TORRENTS_DE_L_OBAC_2,,689.3,,proposta,vigent,planol-nou.geojson,,537644.45,25810.71,CANVIAT
+R0139,TORRENTS_DE_L_OBAC_2,,41401.9,,proposta,vigent,planol-nou.geojson,,537659.91,25880.75,IGUAL
+R0140,CAL_NOTARI_5,,1078.5,,proposta,vigent,planol-nou.geojson,,537666.62,26398.56,CANVIAT
+R0141,ESCARPIDERS,,4298.6,,proposta,vigent,planol-nou.geojson,,537670.27,25590.51,IGUAL
+R0142,PRATS_DE_L_OBAC_3,,9701.8,,proposta,vigent,planol-nou.geojson,,537677.86,26013.43,IGUAL
+R0143,PEDRAL_DE_BAIX_1,,9252.1,,proposta,vigent,planol-nou.geojson,,537680.32,26441.71,IGUAL
+R0144,CASA_ARENY_3,,4770.1,,proposta,vigent,planol-nou.geojson,,537686.69,26228.42,IGUAL
+R0146,PEDRAL_DE_DALT,,6056.7,,proposta,vigent,planol-nou.geojson,,537728.58,26523.16,IGUAL
+R0147,ESCARPIDERS,,2828.6,,proposta,vigent,planol-nou.geojson,,537736.96,25666.23,IGUAL
+R0148,COPRINCEP_EPISCOPAL_3,,974.5,,proposta,vigent,planol-nou.geojson,,537744.49,26201.95,IGUAL
+R0149,,,974.5,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,537744.49,26201.95,IGUAL
+R0150,TERRA_DEL_SOLA,,2409.3,,proposta,vigent,planol-nou.geojson,,537756.45,26566.99,CANVIAT
+R0151,TOSA_1,,3344.8,,proposta,vigent,planol-nou.geojson,,537762.75,27740.01,IGUAL
+R0152,PEDRAL_DE_BAIX_2,,4058.5,,proposta,vigent,planol-nou.geojson,,537776.31,26455.83,CANVIAT
+R0153,CALCINERA_3,,33115.7,,proposta,vigent,planol-nou.geojson,,537765.21,26147.62,CANVIAT
+R0154,CALCINERA_2,,1630.1,,proposta,vigent,planol-nou.geojson,,537788.18,26084.38,IGUAL
+R0155,ARTICS,,32126.0,,proposta,vigent,planol-nou.geojson,,537800.77,26728.89,IGUAL
+R0156,,,233.0,,,vigent,planol-nou.geojson,el DWG el dibuixa dues vegades,537796.31,26222.78,IGUAL
+R0157,,,233.0,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,537796.31,26222.78,IGUAL
+R0158,CAL_NOTARI_11,,1765.6,,proposta,vigent,planol-nou.geojson,,537803.99,26304.78,CANVIAT
+R0159,TORRENTS_DE_L_OBAC_3,,192.9,,proposta,vigent,planol-nou.geojson,,537804.63,26097.7,IGUAL
+R0160,CAL_NOTARI_6,,6845.0,,proposta,vigent,planol-nou.geojson,,537806.93,26252.25,IGUAL
+R0161,SOLA,,4127.9,,proposta,vigent,planol-nou.geojson,,537808.27,26517.35,IGUAL
+R0162,TORRENTS_DE_L_OBAC_3,,11144.4,,proposta,vigent,planol-nou.geojson,,537813.42,25882.22,IGUAL
+R0163,COLOMINES,,17769.2,,proposta,vigent,planol-nou.geojson,,537822.04,26653.4,IGUAL
+R0164,COPRINCEP_EPISCOPAL_1,,317.6,,proposta,vigent,planol-nou.geojson,,537830.74,26266.08,IGUAL
+R0165,,,317.6,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,537830.74,26266.08,IGUAL
+R0166,VALIRETA,,6219.5,,proposta,vigent,planol-nou.geojson,,537828.91,26402.19,CANVIAT
+R0167,TORRENTS_DE_L_OBAC_1,,4300.9,,proposta,vigent,planol-nou.geojson,,537860.13,26018.36,IGUAL
+R0168,PRAT_DEL_BAU,,11151.0,,proposta,vigent,planol-nou.geojson,,537854.11,26471.94,CANVIAT
+R0169,TORRENTS_DE_L_OBAC_3,,133.3,,proposta,vigent,planol-nou.geojson,,537876.04,25945.04,IGUAL
+R0170,TOSA_2,,8732.2,,proposta,vigent,planol-nou.geojson,,537882.31,27799.54,IGUAL
+R0171,CLOS_1,,5426.1,,proposta,vigent,planol-nou.geojson,,537884.11,26243.72,IGUAL
+R0172,CAL_NOTARI_4,,1496.6,,proposta,vigent,planol-nou.geojson,,537890.75,26461.43,IGUAL
+R0173,CANEMAR_2,,10609.1,,proposta,vigent,planol-nou.geojson,,537894.19,26588.96,IGUAL
+R0174,CLOS_2,,1829.6,,proposta,vigent,planol-nou.geojson,,537908.61,26276.9,IGUAL
+R0176,CAL_NOTARI_3,,2333.7,,proposta,vigent,planol-nou.geojson,,537925.34,26449.7,IGUAL
+R0177,CALCINERA_1,,16602.8,,proposta,vigent,planol-nou.geojson,,537937.13,26105.06,IGUAL
+R0178,ROSSELL,,1407.1,,proposta,vigent,planol-nou.geojson,,537945.88,26569.11,CANVIAT
+R0179,COLLEGIS,,3099.7,,proposta,vigent,planol-nou.geojson,,537966.03,26592.91,CANVIAT
+R0180,CAL_NOTARI_1,,1407.2,,proposta,vigent,planol-nou.geojson,,537962.15,26409.48,IGUAL
+R0181,CLOS_3,,2398.1,,proposta,vigent,planol-nou.geojson,,537966.55,26296.31,CANVIAT
+R0182,CAL_NOTARI_2,,1122.1,,proposta,vigent,planol-nou.geojson,,537969.01,26444.43,CANVIAT
+R0184,MITJORN,,6421.5,,proposta,vigent,planol-nou.geojson,,538000.36,26547.59,IGUAL
+R0185,CANEMAR_1,,2875.3,,proposta,vigent,planol-nou.geojson,,538002.53,26651.65,CANVIAT
+R0186,COMA,,2568.9,,proposta,vigent,planol-nou.geojson,,538014.21,26283.75,CANVIAT
+R0187,MOSQUERA,,13909.5,,proposta,vigent,planol-nou.geojson,,538031.36,26467.71,CANVIAT
+R0188,TAUS,,14499.3,,proposta,vigent,planol-nou.geojson,,538049.64,26733.52,IGUAL
+R0189,LLISA_BAIXA,,15295.5,,proposta,vigent,planol-nou.geojson,,538064.45,26087.57,IGUAL
+R0190,MIRADOR_DE_BAIX,,3151.6,,proposta,vigent,planol-nou.geojson,,538058.22,26273.29,CANVIAT
+R0191,LLISA_BAIXA_2,,301.3,,proposta,vigent,planol-nou.geojson,,538069.16,25961.85,IGUAL
+R0192,SEGALARS,,31823.7,,proposta,vigent,planol-nou.geojson,,538071.11,26839.51,IGUAL
+R0193,CAVALLERS_DE_BAIX,,2796.7,,proposta,vigent,planol-nou.geojson,,538086.15,26468.39,IGUAL
+R0194,CAL_NOTARI_8,,4786.3,,proposta,vigent,planol-nou.geojson,,538088.69,26729.97,IGUAL
+R0195,ROSALEDA,,2568.6,,proposta,vigent,planol-nou.geojson,,538093.09,26658.75,IGUAL
+R0196,TREMAT,,17978.8,,proposta,vigent,planol-nou.geojson,,538087.4,26361.54,CANVIAT
+R0197,CLOS_1,,499.7,,proposta,vigent,planol-nou.geojson,,538113.49,26706.0,IGUAL
+R0198,MIRADOR_DEL_MIG_1,,1746.3,,proposta,vigent,planol-nou.geojson,,538120.79,26286.57,IGUAL
+R0199,CASA_COMUNA,,4768.5,,proposta,vigent,planol-nou.geojson,,538115.23,26544.02,CANVIAT
+R0200,MIRADOR_DE_DALT,,18535.0,,proposta,vigent,planol-nou.geojson,,538127.7,26223.19,IGUAL
+R0201,MIRADOR_DEL_MIG_2,,4495.6,,proposta,vigent,planol-nou.geojson,,538156.99,26323.5,IGUAL
+R0202,CAVALLERS_DEL_MIG,,1661.7,,proposta,vigent,planol-nou.geojson,,538184.98,26412.39,CANVIAT
+R0203,DOLCERMA_ALTA,,30738.3,,proposta,vigent,planol-nou.geojson,,538188.71,26937.21,IGUAL
+R0205,PLANAMONDOU_1,,4166.5,,proposta,vigent,planol-nou.geojson,,538206.31,26351.2,IGUAL
+R0206,LLISA_ALTA,,6506.0,,proposta,vigent,planol-nou.geojson,,538215.21,26268.94,CANVIAT
+R0207,DOLCERMA_BAIXA,,8613.9,,proposta,vigent,planol-nou.geojson,,538225.48,26821.37,CANVIAT
+R0208,TRAVENERES,,8883.0,,proposta,vigent,planol-nou.geojson,,538244.71,26167.54,CANVIAT
+R0209,TERRA_BANCASA,,9966.3,,proposta,vigent,planol-nou.geojson,,538240.46,26777.54,CANVIAT
+R0210,CAVALLERS_DE_DALT,,8111.8,,proposta,vigent,planol-nou.geojson,,538254.08,26400.65,IGUAL
+R0211,ROUILLAC,,2224.3,,proposta,vigent,planol-nou.geojson,,538274.07,26626.87,IGUAL
+R0212,TERRES_DE_L_OBAC,,9419.2,,proposta,vigent,planol-nou.geojson,,538268.78,26089.96,IGUAL
+R0214,14_DE_MARC,,2748.3,,proposta,vigent,planol-nou.geojson,,538297.11,26744.49,IGUAL
+R0215,PIALASSOS_DEL_MIG,,1816.0,,proposta,vigent,planol-nou.geojson,,538291.14,26241.54,CANVIAT
+R0216,PASTORESSOS_BAIXOS,,3271.6,,proposta,vigent,planol-nou.geojson,,538323.21,26429.51,CANVIAT
+R0217,PIALASSOS_DE_BAIX_2,,2815.0,,proposta,vigent,planol-nou.geojson,,538320.44,26348.36,IGUAL
+R0218,CAL_NOTARI_10,,5679.7,,proposta,vigent,planol-nou.geojson,,538329.32,26226.38,IGUAL
+R0219,BELLAVISTA,,10696.6,,proposta,vigent,planol-nou.geojson,,538343.41,26515.86,CANVIAT
+R0220,MONTALARI,,94517.0,,proposta,vigent,planol-nou.geojson,,538341.54,27362.62,IGUAL
+R0221,ROUILLAC,,12554.3,,proposta,vigent,planol-nou.geojson,,538340.57,26699.69,CANVIAT
+R0222,CAPSOLAS,,32703.2,,proposta,vigent,planol-nou.geojson,,538347.92,27062.22,IGUAL
+R0223,BONS_2,,5024.6,,proposta,vigent,planol-nou.geojson,,538358.47,26888.46,IGUAL
+R0224,TERRES_DELS_AJUSTANTS,,3794.6,,proposta,vigent,planol-nou.geojson,,538359.35,26113.73,IGUAL
+R0225,PASTORESSOS_MITJOS,,5059.1,,proposta,vigent,planol-nou.geojson,,538362.36,26419.73,IGUAL
+R0226,BONS_1,,10464.1,,proposta,vigent,planol-nou.geojson,,538367.06,26816.77,IGUAL
+R0227,AIXEC,,4844.4,,proposta,vigent,planol-nou.geojson,,538388.3,26627.62,CANVIAT
+R0228,OBAC_BAIX,,2225.8,,proposta,vigent,planol-nou.geojson,,538391.19,26305.05,IGUAL
+R0229,,,4740.3,,,vigent,planol-nou.geojson,el DWG el dibuixa dues vegades,538397.23,26404.86,IGUAL
+R0230,,,4740.3,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,538397.23,26404.86,IGUAL
+R0231,TIRADER_1,,28914.6,,proposta,vigent,planol-nou.geojson,,538403.06,26170.71,IGUAL
+R0232,COPRINCEP_FRANCES,,7973.8,,proposta,vigent,planol-nou.geojson,,538419.71,26369.18,IGUAL
+R0233,FUNICAMP,,6597.3,,proposta,vigent,planol-nou.geojson,,538422.27,26487.93,IGUAL
+R0234,OBAC_ALT,,6509.1,,proposta,vigent,planol-nou.geojson,,538425.56,26292.67,IGUAL
+R0235,RITA_BAIXA,,9301.4,,proposta,vigent,planol-nou.geojson,,538427.62,26046.08,IGUAL
+R0236,PRAT_DEL_PONT_I_PRAT_DE_LA_MOLA,,2268.4,,proposta,vigent,planol-nou.geojson,,538441.42,26762.86,CANVIAT
+R0237,CIUTAT_PUBILLA,,20314.5,,proposta,vigent,planol-nou.geojson,,538448.8,26618.93,CANVIAT
+R0238,PLANA_MITJA_2,,1319.5,,proposta,vigent,planol-nou.geojson,,538464.79,25984.22,IGUAL
+R0239,COMES,,25966.2,,proposta,vigent,planol-nou.geojson,,538486.67,27143.3,CANVIAT
+R0240,PLANAMONDOU_1,,4846.8,,proposta,vigent,planol-nou.geojson,,538488.27,26361.88,CANVIAT
+R0241,TIRADER_2,,2283.1,,proposta,vigent,planol-nou.geojson,,538491.0,26223.97,IGUAL
+R0242,ROC_DE_LA_FORCA,,1450.3,,proposta,vigent,planol-nou.geojson,,538504.15,26959.3,IGUAL
+R0243,PRAT_DEL_SALITAR_1,,2836.8,,proposta,vigent,planol-nou.geojson,,538503.29,26497.55,IGUAL
+R0244,RITA_MITJA,,2143.4,,proposta,vigent,planol-nou.geojson,,538506.91,26043.27,IGUAL
+R0245,,,2143.4,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,538506.91,26043.27,IGUAL
+R0246,PLA_DE_BAIX,,14181.1,,proposta,vigent,planol-nou.geojson,,538511.01,26870.74,IGUAL
+R0247,AJUSTANTS_DEL_MIG,,10031.7,,proposta,vigent,planol-nou.geojson,,538510.77,26168.85,IGUAL
+R0248,PALANCA_BAIXA_1,,4339.0,,proposta,vigent,planol-nou.geojson,,538528.45,26405.93,IGUAL
+R0249,PRAT_DEL_SALITAR_2,,4901.5,,proposta,vigent,planol-nou.geojson,,538531.75,26572.17,CANVIAT
+R0250,DRAGO_BAIX_1,,3012.7,,proposta,vigent,planol-nou.geojson,,538539.3,26024.82,IGUAL
+R0251,PLANA_BAIXA,,9269.1,,proposta,vigent,planol-nou.geojson,,538551.16,26100.29,IGUAL
+R0254,PALANCA_BAIXA_2,,1792.6,,proposta,vigent,planol-nou.geojson,,538562.27,26357.42,CANVIAT
+R0255,AJUSTANTS_DE_BAIX,,9611.8,,proposta,vigent,planol-nou.geojson,,538563.54,26296.61,CANVIAT
+R0256,RITA_ALTA,,853.8,,proposta,vigent,planol-nou.geojson,,538580.02,26073.74,IGUAL
+R0257,,,853.8,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,538580.02,26073.74,IGUAL
+R0258,PLANA_MITJA_1,,5720.8,,proposta,vigent,planol-nou.geojson,,538598.33,26009.0,CANVIAT
+R0259,DRAGO_BAIX_2,,2576.3,,proposta,vigent,planol-nou.geojson,,538604.72,26075.48,IGUAL
+R0260,URBANITZACIO_DEL_SALITAR,,10313.1,,proposta,vigent,planol-nou.geojson,,538611.61,26558.75,IGUAL
+R0261,NANTA_ALTA,,12422.4,,proposta,vigent,planol-nou.geojson,,538616.88,26054.21,IGUAL
+R0262,PALANCA_ALTA,,6476.1,,proposta,vigent,planol-nou.geojson,,538622.92,26267.45,IGUAL
+R0263,DRAGO_BAIX_3,,2202.9,,proposta,vigent,planol-nou.geojson,,538630.39,26116.44,IGUAL
+R0264,AJUSTANTS_DE_DALT_1,,3732.7,,proposta,vigent,planol-nou.geojson,,538634.35,26181.06,IGUAL
+R0267,SALITAR,,7330.0,,proposta,vigent,planol-nou.geojson,,538641.79,26485.93,IGUAL
+R0268,PLANA_ALTA,,3396.9,,proposta,vigent,planol-nou.geojson,,538647.79,25985.74,CANVIAT
+R0269,DRAGO_BAIX_4,,1354.8,,proposta,vigent,planol-nou.geojson,,538658.16,26068.08,IGUAL
+R0271,PRAT_DE_LA_COSTA,,15391.5,,proposta,vigent,planol-nou.geojson,,538684.15,26306.14,CANVIAT
+R0272,GRAU_DE_LA_MOLINA_1,,6099.1,,proposta,vigent,planol-nou.geojson,,538700.21,25984.44,CANVIAT
+R0273,DRAGO_ALT_1,,2676.1,,proposta,vigent,planol-nou.geojson,,538695.16,26133.36,IGUAL
+R0274,DRAGO_ALT_2,,6821.1,,proposta,vigent,planol-nou.geojson,,538699.69,26090.55,IGUAL
+R0275,DRAGO_BAIX_5,,3275.4,,proposta,vigent,planol-nou.geojson,,538708.75,26043.11,IGUAL
+R0277,ORATORI_DE_DALT,,431.9,,proposta,vigent,planol-nou.geojson,,538719.11,26923.44,CANVIAT
+R0278,AJUSTANTS_DE_DALT_2,,4423.1,,proposta,vigent,planol-nou.geojson,,538723.26,26143.0,IGUAL
+R0279,ARENAL,,2365.3,,proposta,vigent,planol-nou.geojson,,538745.21,26972.96,IGUAL
+R0280,MOLLAR_ALT_1,,5803.5,,proposta,vigent,planol-nou.geojson,,538757.22,27673.56,IGUAL
+R0281,PLANAMONDOU_1,,5762.9,,proposta,vigent,planol-nou.geojson,,538753.24,26439.04,CANVIAT
+R0283,TORRENT_PREGO_1,,24344.6,,proposta,vigent,planol-nou.geojson,,538772.24,27503.51,IGUAL
+R0285,ORATORI_DE_DALT,,32488.7,,proposta,vigent,planol-nou.geojson,,538769.68,27003.77,CANVIAT
+R0286,GRAU_DE_LA_MOLINA_3,,3678.6,,proposta,vigent,planol-nou.geojson,,538779.48,25927.59,IGUAL
+R0287,GARGANTA_1,,11171.5,,proposta,vigent,planol-nou.geojson,,538798.91,27302.11,IGUAL
+R0289,PLANAMONDOU_1,,41294.1,,proposta,vigent,planol-nou.geojson,,538798.45,26649.29,CANVIAT
+R0290,NANTA_ALTA,,12691.0,,proposta,vigent,planol-nou.geojson,,538817.07,26167.93,IGUAL
+R0291,GRAU_DE_LA_MOLINA_2,,2400.7,,proposta,vigent,planol-nou.geojson,,538851.01,25908.35,CANVIAT
+R0292,BOIXADER,,18365.1,,proposta,vigent,planol-nou.geojson,,538844.29,26401.44,IGUAL
+R0293,MOIXA,,3633.8,,proposta,vigent,planol-nou.geojson,,538849.1,27000.86,IGUAL
+R0294,GARGANTA_2,,2395.3,,proposta,vigent,planol-nou.geojson,,538854.05,27441.59,IGUAL
+R0295,AJUSTANTS_DE_DALT_3,,894.2,,proposta,vigent,planol-nou.geojson,,538856.45,26072.45,IGUAL
+R0296,OVELLA_MITJA_2,,1355.1,,proposta,vigent,planol-nou.geojson,,538862.33,25956.5,IGUAL
+R0297,SALVE,,2801.9,,proposta,vigent,planol-nou.geojson,,538853.83,26354.1,CANVIAT
+R0298,BORDES_DEL_LLOSET,,23207.4,,proposta,vigent,planol-nou.geojson,,538860.44,27167.4,CANVIAT
+R0299,MOIXA,,3111.6,,proposta,vigent,planol-nou.geojson,,538867.54,26995.72,IGUAL
+R0300,NOGUER_BAIX,,4573.0,,proposta,vigent,planol-nou.geojson,,538866.21,26248.49,IGUAL
+R0302,MOLLAR_BAIX,,9118.7,,proposta,vigent,planol-nou.geojson,,538914.22,26160.21,IGUAL
+R0303,LLOSET_1,,27568.4,,proposta,vigent,planol-nou.geojson,,538927.44,27492.29,IGUAL
+R0304,MOLLAR_MIG,,12503.7,,proposta,vigent,planol-nou.geojson,,538953.79,26184.08,IGUAL
+R0305,MOLINA,,90.0,,proposta,vigent,planol-nou.geojson,,538967.4,25520.16,IGUAL
+R0307,NOGUER_MIG,,48830.3,,proposta,vigent,planol-nou.geojson,,538986.75,26374.2,IGUAL
+R0308,LLOSET_2,,6293.7,,proposta,vigent,planol-nou.geojson,,538996.21,27101.92,IGUAL
+R0309,MOLINA,,23065.2,,proposta,vigent,planol-nou.geojson,,539001.92,25015.85,IGUAL
+R0310,LLOSET_1,,3715.1,,proposta,vigent,planol-nou.geojson,,539012.84,27686.69,IGUAL
+R0311,MOLINA,,192.0,,proposta,vigent,planol-nou.geojson,,539015.8,25292.07,IGUAL
+R0312,NOGUER_MIG,,240.8,,proposta,vigent,planol-nou.geojson,,539022.82,26452.75,IGUAL
+R0313,MOLINA,,2256.8,,proposta,vigent,planol-nou.geojson,,539026.88,24834.69,IGUAL
+R0314,MOLINA,,3206.7,,proposta,vigent,planol-nou.geojson,,539032.72,25294.53,IGUAL
+R0316,NOGUER_ALT,,13948.6,,proposta,vigent,planol-nou.geojson,,539050.27,26222.56,IGUAL
+R0317,LLOSET_2,,63439.1,,proposta,vigent,planol-nou.geojson,,539047.84,27294.58,IGUAL
+R0318,MOLINA,,861.6,,proposta,vigent,planol-nou.geojson,,539056.37,24853.02,IGUAL
+R0319,LLOSET_1,,1740.2,,proposta,vigent,planol-nou.geojson,,539062.14,27554.78,IGUAL
+R0320,BOSC_DE_LES_ALLAUS,,1549.1,,proposta,vigent,planol-nou.geojson,,539092.23,26539.32,IGUAL
+R0321,QUER_BAIX_1,,4689.9,,proposta,vigent,planol-nou.geojson,,539100.66,26281.14,IGUAL
+R0322,MOLINA,,6697.5,,proposta,vigent,planol-nou.geojson,,539103.18,25316.04,IGUAL
+R0323,MOLINA,,25131.2,,proposta,vigent,planol-nou.geojson,,539104.31,25069.52,IGUAL
+R0324,MOLLAR_ALT_3,,11708.0,,proposta,vigent,planol-nou.geojson,,539099.71,26144.51,IGUAL
+R0325,MOLINA,,4509.0,,proposta,vigent,planol-nou.geojson,,539116.32,24875.08,IGUAL
+R0326,MOLINA,,328.4,,proposta,vigent,planol-nou.geojson,,539125.39,25586.41,IGUAL
+R0327,QUER_BAIX_2,,3475.5,,proposta,vigent,planol-nou.geojson,,539136.45,26209.94,IGUAL
+R0328,COSTES_BAIXES,,9029.2,,proposta,vigent,planol-nou.geojson,,539142.58,26346.76,IGUAL
+R0329,LLOSET_2,,2186.6,,proposta,vigent,planol-nou.geojson,,539168.93,27142.76,IGUAL
+R0330,OVELLA_ALTA_2,,3149.0,,proposta,vigent,planol-nou.geojson,,539196.05,25889.21,IGUAL
+R0331,QUER_ALT,,19982.2,,proposta,vigent,planol-nou.geojson,,539215.77,26142.31,IGUAL
+R0332,QUER_ALT,,19980.3,,proposta,vigent,planol-nou.geojson,,539217.1,26140.53,IGUAL
+R0333,COSTES_ALTES,,14865.5,,proposta,vigent,planol-nou.geojson,,539225.8,26282.4,IGUAL
+R0334,BOSC_DEL_TOSQUER,,599.0,,proposta,vigent,planol-nou.geojson,,539472.21,26609.31,IGUAL
+R0335,ROCS_NEGRES,,1533.8,,proposta,vigent,planol-nou.geojson,,539538.27,26570.2,IGUAL
+R0336,CASTELLAR,,27846.1,,proposta,vigent,planol-nou.geojson,,539556.55,26140.63,IGUAL
+R0337,PARDINES_2,,70146.4,,proposta,vigent,planol-nou.geojson,,539607.02,25926.93,IGUAL
+R0338,SOLANS,,8128.4,,proposta,vigent,planol-nou.geojson,,539612.47,26862.95,IGUAL
+R0339,PARDINES_4,,52.2,,proposta,vigent,planol-nou.geojson,,539616.61,25857.28,IGUAL
+R0340,PARDINES_3,,106441.7,,revisat,vigent,planol-nou.geojson,"un recinte per a Pardines 3 i un per a Pardines 2, encara que els metres no quadrin",539621.79,26070.74,IGUAL
+R0341,PRAT_DEL_GILET,,2724.7,,proposta,vigent,planol-nou.geojson,,539723.81,25138.62,IGUAL
+R0342,SOLANS,,1575.1,,proposta,vigent,planol-nou.geojson,,539788.77,26847.86,IGUAL
+R0343,CASA_2,,1710.9,,proposta,vigent,planol-nou.geojson,,539829.21,26322.49,IGUAL
+R0344,FERITXET_5,,124.0,,proposta,vigent,planol-nou.geojson,,539921.96,26289.68,IGUAL
+R0345,PARDINES_1,,58143.8,,proposta,vigent,planol-nou.geojson,,539936.91,26068.01,IGUAL
+R0346,CASA_3,,47978.0,,proposta,vigent,planol-nou.geojson,,540104.76,26549.17,IGUAL
+R0347,FERITXET_4,,7260.7,,proposta,vigent,planol-nou.geojson,,540119.49,26060.12,IGUAL
+R0348,FERITXET_3,,4732.5,,proposta,vigent,planol-nou.geojson,,540139.09,26101.93,IGUAL
+R0349,FERITXET_1,,6133.2,,proposta,vigent,planol-nou.geojson,,540146.96,26186.1,IGUAL
+R0350,PARDINES_2,,18616.0,,proposta,vigent,planol-nou.geojson,,540152.85,25700.71,IGUAL
+R0351,FERITXET_3,,502.2,,proposta,vigent,planol-nou.geojson,,540181.66,26109.84,IGUAL
+R0352,PARDINES_2,,51069.1,,proposta,vigent,planol-nou.geojson,,540190.58,25867.55,IGUAL
+R0353,CASA_2,,89238.0,,proposta,vigent,planol-nou.geojson,,540197.83,26414.16,IGUAL
+R0354,FERITXET_1,,10245.7,,proposta,vigent,planol-nou.geojson,,540238.04,25997.42,IGUAL
+R0355,FERITXET_2,,18313.3,,proposta,vigent,planol-nou.geojson,,540333.32,26045.8,IGUAL
+R0358,CASA_1,,49504.7,,proposta,vigent,planol-nou.geojson,,540550.68,26615.01,IGUAL
+R0359,BOIGAL,,12482.3,,proposta,vigent,planol-nou.geojson,,540678.98,25809.45,IGUAL
+R0361,CORTALS_1,,26048.1,,proposta,vigent,planol-nou.geojson,,540795.57,26590.22,IGUAL
+R0363,RIGODER_1,,11869.8,,proposta,vigent,planol-nou.geojson,,540807.05,26822.42,IGUAL
+R0364,CORTALS_3,,282.8,,proposta,vigent,planol-nou.geojson,,540829.59,26442.46,IGUAL
+R0365,PRAT_D_ENSAGENTS,,4966.5,,proposta,vigent,planol-nou.geojson,,540855.77,25682.14,IGUAL
+R0366,RIGODER_2,,16534.5,,proposta,vigent,planol-nou.geojson,,540861.74,26712.1,IGUAL
+R0368,RIGODER_3,,103336.3,,proposta,vigent,planol-nou.geojson,,541374.02,26670.29,IGUAL
+R0371,RIGODER_6,,4281.7,,proposta,vigent,planol-nou.geojson,,541651.49,26498.62,CANVIAT
+R0372,BARONIA_1,,81168.2,,proposta,vigent,planol-nou.geojson,,541738.95,26681.46,IGUAL
+R0373,BARONIA_4,,1489.0,,proposta,vigent,planol-nou.geojson,,541865.75,26814.05,CANVIAT
+R0374,BARONIA_2,,37690.2,,proposta,vigent,planol-nou.geojson,,541927.88,26572.51,IGUAL
+R0375,BARONIA_3,,56.4,,proposta,vigent,planol-nou.geojson,,542137.58,26566.84,IGUAL
+R0376,ENVALIRA,,88855.8,,proposta,vigent,planol-nou.geojson,,546403.95,28777.56,CANVIAT
+R0377,EDIFICI_GRAU_ROIG,,866.4,,proposta,vigent,planol-nou.geojson,,547690.77,26051.89,IGUAL
+R0378,HOTEL_RESTAURANT_A_GRAU_ROIG,,891.7,,proposta,vigent,planol-nou.geojson,,547786.99,26063.97,IGUAL
+R0379,MOBIL,,1318.5,,proposta,vigent,planol-nou.geojson,,549299.09,26864.48,CANVIAT
+R0380,REFUGI_FRA_MIQUEL,,524.4,,proposta,vigent,planol-nou.geojson,,549325.46,26892.68,IGUAL
+R0381,ESSO,,1153.3,,proposta,vigent,planol-nou.geojson,,549350.23,26857.48,CANVIAT
+R0382,HOTEL_PIC_MAIA,,4520.4,,proposta,vigent,planol-nou.geojson,,549373.26,26904.78,IGUAL
+R0383,FIGUEREDO,,1561.6,,proposta,vigent,planol-nou.geojson,,549390.71,26816.64,CANVIAT
+R0384,ARAJOL,,1155.3,,proposta,vigent,planol-nou.geojson,,549397.15,26627.56,IGUAL
+R0385,SANT_PERE_9,,2956.6,,proposta,vigent,planol-nou.geojson,,550095.9,26736.74,CANVIAT
+R0386,SOLANA,,3703.6,,proposta,vigent,planol-nou.geojson,,550146.13,26860.58,IGUAL
+R0387,ENVALIRA_DE_DALT_3,,2179.4,,proposta,vigent,planol-nou.geojson,,550170.46,26948.7,IGUAL
+R0388,GAVATXA_DEL_MIG,,482.3,,proposta,vigent,planol-nou.geojson,,550190.88,27131.43,IGUAL
+R0389,GAVATXA,,473.4,,proposta,vigent,planol-nou.geojson,,550194.38,27016.51,IGUAL
+R0390,GAVATXA_DE_DALT,,719.3,,proposta,vigent,planol-nou.geojson,,550202.07,27158.55,CANVIAT
+R0391,GASOPAS,,8348.6,,proposta,vigent,planol-nou.geojson,,550208.03,27612.54,IGUAL
+R0392,ENVALIRA_DE_DALT_1,,781.7,,proposta,vigent,planol-nou.geojson,,550210.94,27054.19,CANVIAT
+R0393,ENVALIRA_DE_DALT_2,,971.8,,proposta,vigent,planol-nou.geojson,,550213.69,27022.64,IGUAL
+R0395,ENVALIRA_DEL_MIG,,2135.2,,proposta,vigent,planol-nou.geojson,,550220.25,26961.93,IGUAL
+R0396,SANT_PERE_8,,570.1,,proposta,vigent,planol-nou.geojson,,550238.33,27517.39,CANVIAT
+R0397,GAVATXA_DE_BAIX_1,,2827.9,,proposta,vigent,planol-nou.geojson,,550242.04,27079.69,CANVIAT
+R0399,GAVATXA_DE_BAIX_2,,317.0,,proposta,vigent,planol-nou.geojson,,550242.26,27159.01,CANVIAT
+R0400,SANT_JORDI_DE_DALT,,4619.1,,proposta,vigent,planol-nou.geojson,,550246.93,27196.78,CANVIAT
+R0402,ENVALIRA_DE_BAIX,,1923.6,,proposta,vigent,planol-nou.geojson,,550259.75,26915.35,CANVIAT
+R0403,MAIA_DE_BAIX,,3197.3,,proposta,vigent,planol-nou.geojson,,550262.25,27071.3,IGUAL
+R0404,SANT_PERE_7,,11588.8,,proposta,vigent,planol-nou.geojson,,550288.48,27418.5,CANVIAT
+R0406,VAQUERS_DE_DALT,,4331.6,,proposta,vigent,planol-nou.geojson,,550288.65,26982.58,IGUAL
+R0407,BEARN_DE_DALT,,1276.5,,proposta,vigent,planol-nou.geojson,,550296.04,27075.57,CANVIAT
+R0408,SANT_JOSEP,,294.9,,proposta,vigent,planol-nou.geojson,,550316.68,27026.31,CANVIAT
+R0409,VAQUERS_DE_BAIX,,851.5,,proposta,vigent,planol-nou.geojson,,550328.93,27006.55,CANVIAT
+R0412,COPRINCEPS_DE_DALT,,5461.9,,proposta,vigent,planol-nou.geojson,,550353.66,27186.75,CANVIAT
+R0413,CATALUNYA_DE_DALT,,2317.3,,proposta,vigent,planol-nou.geojson,,550349.97,27088.32,CANVIAT
+R0415,CONSELL_GENERAL_BAIX_1,,695.7,,proposta,vigent,planol-nou.geojson,,550382.19,27366.79,CANVIAT
+R0416,CATALUNYA_DE_BAIX,,1093.7,,proposta,vigent,planol-nou.geojson,,550400.79,27078.69,CANVIAT
+R0417,PAS_DE_LA_CASA_7,,5110.5,,proposta,vigent,planol-nou.geojson,,550396.31,27204.77,CANVIAT
+R0418,PISTA_DE_GEL,,685.0,,proposta,vigent,planol-nou.geojson,,550407.43,27143.37,CANVIAT
+R0419,COPRINCEPS_DE_BAIX,,5571.7,,proposta,vigent,planol-nou.geojson,,550403.83,27237.29,CANVIAT
+R0420,SANT_JORDI_DE_BAIX,,3377.2,,proposta,vigent,planol-nou.geojson,,550417.36,27098.19,IGUAL
+R0421,CONSELL_GENERAL_BAIX_2,,1874.3,,proposta,vigent,planol-nou.geojson,,550430.54,27324.27,CANVIAT
+R0422,CATALUNYA_DEL_MIG,,1945.2,,proposta,vigent,planol-nou.geojson,,550423.58,27044.3,IGUAL
+R0423,PAS_DE_LA_CASA_3,,6625.3,,proposta,vigent,planol-nou.geojson,,550432.01,27392.84,CANVIAT
+R0424,SANT_PERE_10,,979.2,,proposta,vigent,planol-nou.geojson,,550438.89,26729.8,IGUAL
+R0425,ENCAMP,,10741.8,,proposta,vigent,planol-nou.geojson,,550476.18,26924.52,IGUAL
+R0427,PAS_DE_LA_CASA_6,,3397.0,,proposta,vigent,planol-nou.geojson,,550502.95,27238.25,CANVIAT
+R0428,ABELLETES,,1927.7,,proposta,vigent,planol-nou.geojson,,550494.27,27152.06,CANVIAT
+R0431,ARIEJA_DE_DALT,,1467.0,,proposta,vigent,planol-nou.geojson,,550503.94,27117.31,CANVIAT
+R0432,PAREATGES,,1117.3,,proposta,vigent,planol-nou.geojson,,550531.05,27208.8,CANVIAT
+R0434,BERNAT_III,,1363.1,,proposta,vigent,planol-nou.geojson,,550552.86,27197.17,CANVIAT
+R0438,ARIEJA_DE_BAIX,,2951.1,,proposta,vigent,planol-nou.geojson,,550574.25,27172.03,IGUAL
+R0439,FOIX,,1218.4,,proposta,vigent,planol-nou.geojson,,550579.11,27241.46,CANVIAT
+R0440,,,13495.7,,,vigent,planol-nou.geojson,,535460.02,25643.14,NOU
+R0441,,,2273.0,,,vigent,planol-nou.geojson,,535473.55,25711.42,NOU
+R0442,,,1315.8,,,vigent,planol-nou.geojson,,535550.14,24217.46,NOU
+R0443,,,4408.2,,,vigent,planol-nou.geojson,,535626.5,25798.97,NOU
+R0444,,,19465.0,,,vigent,planol-nou.geojson,,535703.9,24380.3,NOU
+R0445,,,290.4,,,vigent,planol-nou.geojson,,535839.24,25029.47,NOU
+R0446,,,24340.4,,,vigent,planol-nou.geojson,,535865.3,24488.43,NOU
+R0447,,,875.2,,,vigent,planol-nou.geojson,,535875.89,24355.94,NOU
+R0448,,,338.9,,,vigent,planol-nou.geojson,,535879.42,25060.47,NOU
+R0449,,,1039.5,,,vigent,planol-nou.geojson,,535880.95,24460.84,NOU
+R0450,,,706.5,,,vigent,planol-nou.geojson,,535910.7,25085.75,NOU
+R0451,,,113.4,,,vigent,planol-nou.geojson,,535913.73,25326.47,NOU
+R0452,,,150.8,,,vigent,planol-nou.geojson,,535947.88,24299.14,NOU
+R0453,,,1187.8,,,vigent,planol-nou.geojson,,535971.47,24776.8,NOU
+R0454,,,13324.2,,,vigent,planol-nou.geojson,,535985.03,24866.65,NOU
+R0455,,,93.9,,,vigent,planol-nou.geojson,,535993.12,24808.72,NOU
+R0456,,,401.2,,,vigent,planol-nou.geojson,,536024.07,25178.5,NOU
+R0457,,,1139.6,,,vigent,planol-nou.geojson,,536061.02,24633.75,NOU
+R0458,,,818.3,,,vigent,planol-nou.geojson,,536096.21,24326.92,NOU
+R0459,,,33893.0,,,vigent,planol-nou.geojson,,536132.01,26064.82,NOU
+R0460,,,593.4,,,vigent,planol-nou.geojson,,536150.79,25259.85,NOU
+R0461,,,37669.9,,,vigent,planol-nou.geojson,,536193.01,26110.19,NOU
+R0462,,,461.5,,,vigent,planol-nou.geojson,,536219.25,25521.37,NOU
+R0463,,,7870.8,,,vigent,planol-nou.geojson,,536222.49,26005.0,NOU
+R0464,,,15122.1,,,vigent,planol-nou.geojson,,536226.54,25086.4,NOU
+R0465,,,103493.1,,,vigent,planol-nou.geojson,,536274.3,25278.75,NOU
+R0466,,,1761.8,,,vigent,planol-nou.geojson,,536281.69,25368.13,NOU
+R0467,,,74.3,,,vigent,planol-nou.geojson,,536286.57,25362.33,NOU
+R0468,,,72.1,,,vigent,planol-nou.geojson,,536369.79,25430.76,NOU
+R0469,,,1803.1,,,vigent,planol-nou.geojson,,536372.77,25475.18,NOU
+R0470,,,11798.7,,,vigent,planol-nou.geojson,,536490.94,25345.42,NOU
+R0471,,,11798.8,,,duplicat,planol-nou.geojson,el DWG el dibuixa dues vegades,536491.75,25346.57,NOU
+R0472,,,1593.0,,,vigent,planol-nou.geojson,,536498.64,25611.76,NOU
+R0473,,,31518.4,,,vigent,planol-nou.geojson,,536551.97,25819.01,NOU
+R0474,,,4230.2,,,vigent,planol-nou.geojson,,536753.76,25623.65,NOU
+R0475,,,22692.6,,,vigent,planol-nou.geojson,,536759.38,25699.28,NOU
+R0476,,,426.8,,,vigent,planol-nou.geojson,,536874.43,25509.77,NOU
+R0477,,,7330.5,,,vigent,planol-nou.geojson,,536933.57,26167.32,NOU
+R0478,,,7993.1,,,vigent,planol-nou.geojson,,536942.44,25707.49,NOU
+R0479,,,5805.3,,,vigent,planol-nou.geojson,,537066.96,25804.33,NOU
+R0480,,,6993.3,,,vigent,planol-nou.geojson,,537090.46,26412.28,NOU
+R0481,,,21287.1,,,vigent,planol-nou.geojson,,537136.37,26455.72,NOU
+R0482,,,22750.5,,,vigent,planol-nou.geojson,,537154.51,25925.17,NOU
+R0483,,,24996.8,,,vigent,planol-nou.geojson,,537162.68,26254.18,NOU
+R0484,,,70.9,,,vigent,planol-nou.geojson,,537178.66,25543.39,NOU
+R0485,,,11764.4,,,vigent,planol-nou.geojson,,537187.42,26367.11,NOU
+R0486,,,19599.0,,,vigent,planol-nou.geojson,,537283.58,26301.89,NOU
+R0487,,,69.3,,,vigent,planol-nou.geojson,,537490.3,25869.16,NOU
+R0488,,,3205.6,,,vigent,planol-nou.geojson,,537516.08,25807.26,NOU
+R0489,,,1626.0,,,vigent,planol-nou.geojson,,537529.55,26575.97,NOU
+R0490,,,168.0,,,vigent,planol-nou.geojson,,537587.92,26474.43,NOU
+R0491,,,33894.7,,,vigent,planol-nou.geojson,,537591.7,26693.23,NOU
+R0492,,,11683.1,,,vigent,planol-nou.geojson,,537592.94,26554.85,NOU
+R0493,,,7628.8,,,vigent,planol-nou.geojson,,537609.15,26510.89,NOU
+R0494,,,3945.3,,,vigent,planol-nou.geojson,,537612.05,25632.23,NOU
+R0495,,,2559.5,,,vigent,planol-nou.geojson,,537630.85,25857.95,NOU
+R0496,,,19749.9,,,vigent,planol-nou.geojson,,537686.94,26323.96,NOU
+R0497,,,655.4,,,vigent,planol-nou.geojson,,537728.58,25651.46,NOU
+R0498,,,4750.7,,,vigent,planol-nou.geojson,,537789.77,26815.2,NOU
+R0499,,,6619.1,,,vigent,planol-nou.geojson,,537802.33,25928.23,NOU
+R0500,,,1024.8,,,vigent,planol-nou.geojson,,537910.08,26847.56,NOU
+R0501,,,12601.4,,,vigent,planol-nou.geojson,,537941.79,26357.17,NOU
+R0502,,,13771.8,,,vigent,planol-nou.geojson,,538011.04,26199.73,NOU
+R0503,,,138.1,,,vigent,planol-nou.geojson,,538040.78,26922.05,NOU
+R0504,,,166.3,,,vigent,planol-nou.geojson,,538076.72,25969.26,NOU
+R0505,,,43873.2,,,vigent,planol-nou.geojson,,538195.38,26520.69,NOU
+R0506,,,6232.5,,,vigent,planol-nou.geojson,,538263.87,26279.64,NOU
+R0507,,,980.8,,,vigent,planol-nou.geojson,,538300.26,26052.49,NOU
+R0508,,,261.8,,,vigent,planol-nou.geojson,,538356.04,26050.28,NOU
+R0509,,,352.8,,,vigent,planol-nou.geojson,,538369.87,26043.4,NOU
+R0510,,,1962.6,,,vigent,planol-nou.geojson,,538385.16,27586.45,NOU
+R0511,,,13590.2,,,vigent,planol-nou.geojson,,538410.21,26943.63,NOU
+R0512,,,3985.7,,,vigent,planol-nou.geojson,,538413.94,27312.23,NOU
+R0513,,,272.5,,,vigent,planol-nou.geojson,,538453.72,26837.04,NOU
+R0514,,,3068.6,,,vigent,planol-nou.geojson,,538473.36,27216.83,NOU
+R0515,,,413.8,,,vigent,planol-nou.geojson,,538492.7,26010.46,NOU
+R0516,,,403.2,,,vigent,planol-nou.geojson,,538505.18,27356.06,NOU
+R0517,,,30684.4,,,vigent,planol-nou.geojson,,538552.66,27001.57,NOU
+R0518,,,36846.4,,,vigent,planol-nou.geojson,,538572.47,26792.06,NOU
+R0519,,,569.8,,,vigent,planol-nou.geojson,,538583.87,27205.21,NOU
+R0520,,,15946.2,,,vigent,planol-nou.geojson,,538629.21,26706.95,NOU
+R0521,,,246.0,,,vigent,planol-nou.geojson,,538642.06,27140.15,NOU
+R0522,,,1709.1,,,vigent,planol-nou.geojson,,538650.18,26941.73,NOU
+R0523,,,14105.2,,,vigent,planol-nou.geojson,,538651.98,26990.2,NOU
+R0524,,,330.1,,,vigent,planol-nou.geojson,,538659.34,26437.74,NOU
+R0525,,,1830.0,,,vigent,planol-nou.geojson,,538661.05,27112.65,NOU
+R0526,,,74.8,,,vigent,planol-nou.geojson,,538668.6,25963.84,NOU
+R0527,,,1968.0,,,vigent,planol-nou.geojson,,538681.69,27146.13,NOU
+R0528,,,13899.3,,,vigent,planol-nou.geojson,,538690.49,26448.49,NOU
+R0529,,,428.5,,,vigent,planol-nou.geojson,,538698.84,27364.31,NOU
+R0530,,,104.5,,,vigent,planol-nou.geojson,,538706.11,27589.81,NOU
+R0531,,,85.3,,,vigent,planol-nou.geojson,,538712.53,26480.08,NOU
+R0532,,,1215.6,,,vigent,planol-nou.geojson,,538718.45,27113.74,NOU
+R0533,,,103.5,,,vigent,planol-nou.geojson,,538719.7,27040.17,NOU
+R0534,,,137.8,,,vigent,planol-nou.geojson,,538722.8,27497.81,NOU
+R0535,,,228.5,,,vigent,planol-nou.geojson,,538736.78,26479.46,NOU
+R0536,,,445.8,,,vigent,planol-nou.geojson,,538741.12,27046.95,NOU
+R0537,,,26796.0,,,vigent,planol-nou.geojson,,538746.73,26712.71,NOU
+R0538,,,1678.7,,,vigent,planol-nou.geojson,,538746.8,27399.69,NOU
+R0539,,,457.1,,,vigent,planol-nou.geojson,,538754.12,27154.77,NOU
+R0540,,,66.9,,,vigent,planol-nou.geojson,,538754.28,27261.41,NOU
+R0541,,,105.3,,,vigent,planol-nou.geojson,,538774.09,26134.73,NOU
+R0542,,,107.6,,,vigent,planol-nou.geojson,,538781.36,27072.5,NOU
+R0543,,,1807.9,,,vigent,planol-nou.geojson,,538780.6,27713.8,NOU
+R0544,,,454.0,,,vigent,planol-nou.geojson,,538788.15,26102.17,NOU
+R0545,,,15660.5,,,vigent,planol-nou.geojson,,538789.81,26286.6,NOU
+R0546,,,489.7,,,vigent,planol-nou.geojson,,538805.52,27703.49,NOU
+R0547,,,82.5,,,vigent,planol-nou.geojson,,538807.84,26110.11,NOU
+R0548,,,54.8,,,vigent,planol-nou.geojson,,538810.36,26509.53,NOU
+R0549,,,7395.4,,,vigent,planol-nou.geojson,,538814.1,25976.29,NOU
+R0550,,,561.0,,,vigent,planol-nou.geojson,,538815.91,25905.22,NOU
+R0551,,,62.7,,,vigent,planol-nou.geojson,,538815.71,26050.91,NOU
+R0552,,,133.6,,,vigent,planol-nou.geojson,,538829.9,26042.12,NOU
+R0553,,,233.4,,,vigent,planol-nou.geojson,,538830.01,26072.43,NOU
+R0554,,,579.4,,,vigent,planol-nou.geojson,,538841.96,27424.42,NOU
+R0555,,,1131.3,,,vigent,planol-nou.geojson,,538857.19,25946.28,NOU
+R0556,,,5284.6,,,vigent,planol-nou.geojson,,538860.0,27340.5,NOU
+R0557,,,113.2,,,vigent,planol-nou.geojson,,538866.4,26897.39,NOU
+R0558,,,522.2,,,vigent,planol-nou.geojson,,538871.4,26994.94,NOU
+R0559,,,2086.4,,,vigent,planol-nou.geojson,,538874.18,26941.71,NOU
+R0560,,,50.4,,,vigent,planol-nou.geojson,,538894.91,26606.66,NOU
+R0561,,,59.8,,,vigent,planol-nou.geojson,,538901.81,25906.82,NOU
+R0562,,,12342.1,,,vigent,planol-nou.geojson,,538903.99,26023.19,NOU
+R0563,,,593.5,,,vigent,planol-nou.geojson,,538948.4,26521.77,NOU
+R0564,,,1239.3,,,vigent,planol-nou.geojson,,538948.73,26803.26,NOU
+R0565,,,31279.5,,,vigent,planol-nou.geojson,,538955.78,26689.26,NOU
+R0566,,,2237.2,,,vigent,planol-nou.geojson,,538982.7,25918.73,NOU
+R0567,,,261.1,,,vigent,planol-nou.geojson,,538986.15,26491.75,NOU
+R0568,,,13909.7,,,vigent,planol-nou.geojson,,539009.24,26571.7,NOU
+R0569,,,373.5,,,vigent,planol-nou.geojson,,539020.32,26720.48,NOU
+R0570,,,16539.0,,,vigent,planol-nou.geojson,,539021.41,25953.01,NOU
+R0571,,,8978.2,,,vigent,planol-nou.geojson,,539041.86,27175.41,NOU
+R0572,,,7730.0,,,vigent,planol-nou.geojson,,539043.04,26498.63,NOU
+R0573,,,328.3,,,vigent,planol-nou.geojson,,539053.59,26450.82,NOU
+R0574,,,170.8,,,vigent,planol-nou.geojson,,539115.01,25584.5,NOU
+R0575,,,73.0,,,vigent,planol-nou.geojson,,539119.74,26073.77,NOU
+R0576,,,4064.2,,,vigent,planol-nou.geojson,,539132.14,27338.19,NOU
+R0577,,,2539.1,,,vigent,planol-nou.geojson,,539134.38,25979.63,NOU
+R0578,,,72.2,,,vigent,planol-nou.geojson,,539177.62,25534.94,NOU
+R0579,,,926.5,,,vigent,planol-nou.geojson,,539455.97,26612.5,NOU
+R0580,,,1616.5,,,vigent,planol-nou.geojson,,539561.05,26556.12,NOU
+R0581,,,1354.2,,,vigent,planol-nou.geojson,,539576.76,25931.02,NOU
+R0582,,,954.8,,,vigent,planol-nou.geojson,,539798.69,26406.96,NOU
+R0583,,,2093.8,,,vigent,planol-nou.geojson,,539950.27,26587.98,NOU
+R0584,,,126.1,,,vigent,planol-nou.geojson,,540068.89,26626.74,NOU
+R0585,,,597.5,,,vigent,planol-nou.geojson,,540090.4,26583.57,NOU
+R0586,,,153.8,,,vigent,planol-nou.geojson,,540204.84,26544.17,NOU
+R0587,,,2322.5,,,vigent,planol-nou.geojson,,540211.85,25968.92,NOU
+R0588,,,341.9,,,vigent,planol-nou.geojson,,540249.04,25979.26,NOU
+R0589,,,813.1,,,vigent,planol-nou.geojson,,540334.73,26560.14,NOU
+R0590,,,6275.8,,,vigent,planol-nou.geojson,,540363.47,25531.6,NOU
+R0591,,,70727.2,,,vigent,planol-nou.geojson,,540365.75,26282.89,NOU
+R0592,,,499.1,,,vigent,planol-nou.geojson,,540704.34,26735.64,NOU
+R0593,,,22443.6,,,vigent,planol-nou.geojson,,540787.75,26373.71,NOU
+R0594,,,37749.7,,,vigent,planol-nou.geojson,,540787.53,26518.79,NOU
+R0595,,,63982.8,,,vigent,planol-nou.geojson,,541374.62,26472.17,NOU
+R0596,,,29948.1,,,vigent,planol-nou.geojson,,541448.13,26401.36,NOU
+R0597,,,412.6,,,vigent,planol-nou.geojson,,541539.79,26360.99,NOU
+R0598,,,22586.0,,,vigent,planol-nou.geojson,,541560.56,26537.44,NOU
+R0599,,,1715.1,,,vigent,planol-nou.geojson,,546470.01,28795.2,NOU
+R0600,,,1332.3,,,vigent,planol-nou.geojson,,550180.83,27086.73,NOU
+R0601,,,928.7,,,vigent,planol-nou.geojson,,550185.1,27061.59,NOU
+R0602,,,767.4,,,vigent,planol-nou.geojson,,550186.42,27005.22,NOU
+R0603,,,525.3,,,vigent,planol-nou.geojson,,550194.05,27053.83,NOU
+R0604,,,459.8,,,vigent,planol-nou.geojson,,550208.41,27089.45,NOU
+R0605,,,1675.6,,,vigent,planol-nou.geojson,,550218.04,27122.19,NOU
+R0606,,,5808.9,,,vigent,planol-nou.geojson,,550245.77,27395.17,NOU
+R0607,,,1479.3,,,vigent,planol-nou.geojson,,550256.44,26942.36,NOU
+R0608,,,5636.1,,,vigent,planol-nou.geojson,,550284.34,27204.0,NOU
+R0609,,,186528.3,,,vigent,planol-nou.geojson,,550328.92,27140.5,NOU
+R0610,,,3030.0,,,vigent,planol-nou.geojson,,550351.16,27039.73,NOU
+R0611,,,6851.3,,,vigent,planol-nou.geojson,,550364.93,27433.14,NOU
+R0612,,,4882.8,,,vigent,planol-nou.geojson,,550485.62,27401.58,NOU
+R0613,,,19429.0,,,vigent,planol-nou.geojson,,550493.94,27544.69,NOU
+R0614,,,7985.3,,,vigent,planol-nou.geojson,,550498.99,27498.63,NOU
+R0615,,,6640.0,,,vigent,planol-nou.geojson,,550525.58,27305.05,NOU
+R0616,,,8596.8,,,vigent,planol-nou.geojson,,550532.0,27527.88,NOU
+R0617,,,8446.3,,,vigent,planol-nou.geojson,,550538.95,27611.44,NOU
+R0618,,,4317.1,,,vigent,planol-nou.geojson,,550591.73,27409.61,NOU
+R0009,FEDA_1,01 1 UA SUC,19549.4,Feda 1,proposta,retirat,parcelles.json,,535728.81,24392.49,DESAPAREGUT
+R0014,RAMONET,01 2 UA SUNC,24327.3,Ramonet,proposta,retirat,parcelles.json,,535863.62,24466.49,DESAPAREGUT
+R0021,CARCAMANYA,01 1 UA SUC,12609.6,Carcamanya,proposta,retirat,parcelles.json,,536007.69,24865.33,DESAPAREGUT
+R0023,BEIXALIS_DEL_MIG,01 3 UA SUBLE,33882.9,Beixalís del Mig,proposta,retirat,parcelles.json,,536121.07,26045.51,DESAPAREGUT
+R0027,BEIXALIS_DE_BAIX,01 3 UA SUBLE,37626.8,Beixalís de Baix,proposta,retirat,parcelles.json,,536215.46,26115.99,DESAPAREGUT
+R0028,BARTRA_DE_BAIX_1,01 1 UA SUC,15702.6,Bartra de Baix 2,proposta,retirat,parcelles.json,,536221.81,25066.42,DESAPAREGUT
+R0029,CABECA,01 3 UA SUBLE,103440.4,Cabeca,proposta,retirat,parcelles.json,,536250.27,25268.42,DESAPAREGUT
+R0035,RIBERA,01 1 UA SUC,10900.9,Roc de la Vinya,proposta,retirat,parcelles.json,,536450.98,25311.94,DESAPAREGUT
+R0036,RIBERA,01 1 UA SUC,10900.8,Ribera,proposta,retirat,parcelles.json,,536453.38,25312.14,DESAPAREGUT
+R0045,PUIGUT,01 3 UA SUBLE,31465.4,Puigut,proposta,retirat,parcelles.json,,536561.07,25842.99,DESAPAREGUT
+R0071,VILA_DEL_SOL,01 1 UA SUC,7278.8,Jaumet,proposta,retirat,parcelles.json,,536930.55,26188.41,DESAPAREGUT
+R0074,VALIRA_D_ORIENT,01 1 UA SUC,7992.5,Valira d'Orient,proposta,retirat,parcelles.json,,536945.5,25688.24,DESAPAREGUT
+R0084,PRADA_DE_MOLES_BAIXA,01 2 UA SUNC,5825.2,Prada de Moles Baixa,proposta,retirat,parcelles.json,,537072.61,25790.01,DESAPAREGUT
+R0087,TORRENT_ESTRET_1,01 1 UA SUC,6870.9,Torrent Estret 1,proposta,retirat,parcelles.json,,537098.09,26397.51,DESAPAREGUT
+R0090,AVIAR_2,01 3 UA SUBLE,25050.1,Aviar 2,proposta,retirat,parcelles.json,,537140.84,26244.62,DESAPAREGUT
+R0091,GODI,01 11 UA SUCc,21280.0,Godí,proposta,retirat,parcelles.json,,537142.51,26475.32,DESAPAREGUT
+R0094,AVIAR_3,01 2 UA SUNC,11848.0,Aviar 3,proposta,retirat,parcelles.json,,537175.86,26357.45,DESAPAREGUT
+R0095,PRADA_DE_MOLES_ALTA,01 1 UA SUC,22731.1,Prada de Moles Alta,proposta,retirat,parcelles.json,,537177.58,25935.1,DESAPAREGUT
+R0108,AVIAR_1,01 11 UA SUCc,19603.0,Aviar 1,proposta,retirat,parcelles.json,,537304.14,26315.38,DESAPAREGUT
+R0145,CASA_ARENY_1,01 2 UA SUNC,19691.6,Casa Areny 1,proposta,retirat,parcelles.json,,537697.75,26300.9,DESAPAREGUT
+R0175,GENIL,01 1 UA SUC,12684.4,Genil,proposta,retirat,parcelles.json,,537921.48,26358.36,DESAPAREGUT
+R0183,COMA_LLARGA,01 3 UA SUBLE,13718.9,Coma Llarga,proposta,retirat,parcelles.json,,537993.1,26188.57,DESAPAREGUT
+R0204,ARINSOLS,01 2 UA SUNC,43869.2,Arínsols,proposta,retirat,parcelles.json,,538193.81,26544.7,DESAPAREGUT
+R0213,PIALASSOS_DE_BAIX_1,01 1 UA SUC,6149.1,Pialassos de Baix 1,proposta,retirat,parcelles.json,,538275.05,26302.85,DESAPAREGUT
+R0252,PLA_DE_DALT,01 3 UA SUBLE,30183.0,Pla de Dalt,proposta,retirat,parcelles.json,,538551.32,26983.97,DESAPAREGUT
+R0253,ARENAL,01 3 UA SUBLE,37067.0,Arenal,proposta,retirat,parcelles.json,,538555.17,26797.64,DESAPAREGUT
+R0265,SALITAR,01 3 UA SUBLE,190.4,Salitar,proposta,retirat,parcelles.json,,538634.49,26411.88,DESAPAREGUT
+R0266,ROC_DE_LA_FORCA,01 2 UA SUNC,13937.4,Roc de la Forca,proposta,retirat,parcelles.json,,538644.14,27004.11,DESAPAREGUT
+R0270,ORATORI_DE_BAIX,01 3 UA SUBLE,15856.9,Oratori de Baix,proposta,retirat,parcelles.json,,538660.21,26708.07,DESAPAREGUT
+R0276,PLANAMONDOU_1,01 3 UA SUBLE,14772.7,Planamondou 1,proposta,retirat,parcelles.json,,538716.19,26460.41,DESAPAREGUT
+R0282,CALRANES,01 2 UA SUNC,26797.0,Calranes,proposta,retirat,parcelles.json,,538766.79,26738.8,DESAPAREGUT
+R0284,PLANAMONDOU_1,01 3 UA SUBLE,15648.0,Planamondou 1,proposta,retirat,parcelles.json,,538774.7,26304.64,DESAPAREGUT
+R0288,OVELLA_BAIXA,01 2 UA SUNC,7284.3,Ovella Baixa,proposta,retirat,parcelles.json,,538804.67,25989.6,DESAPAREGUT
+R0301,OVELLA_MITJA_1,01 3 UA SUBLE,12294.9,Ovella Mitja 1,proposta,retirat,parcelles.json,,538889.97,26046.96,DESAPAREGUT
+R0306,TOSQUER,01 3 UA SUBLE,31118.6,Tosquer,proposta,retirat,parcelles.json,,538979.88,26704.77,DESAPAREGUT
+R0315,OVELLA_ALTA_1,01 3 UA SUBLE,16586.2,Ovella Alta 1,proposta,retirat,parcelles.json,,539036.96,25949.88,DESAPAREGUT
+R0356,CORTALS_4,01 3 UA SUBLE,70717.3,Cortals 4,proposta,retirat,parcelles.json,,540367.39,26303.91,DESAPAREGUT
+R0357,PLANES,01 3 UA SUBLE,6278.7,Planes,proposta,retirat,parcelles.json,,540370.29,25515.69,DESAPAREGUT
+R0360,CORTALS_5,01 3 UA SUBLE,22454.9,Cortals 5,proposta,retirat,parcelles.json,,540792.48,26349.69,DESAPAREGUT
+R0362,CORTALS_2,01 3 UA SUBLE,37751.7,Cortals 2,proposta,retirat,parcelles.json,,540800.42,26527.04,DESAPAREGUT
+R0367,RIGODER_4,01 3 UA SUBLE,63971.3,Rigoder 4,proposta,retirat,parcelles.json,,541318.12,26497.17,DESAPAREGUT
+R0369,RIGODER_5,01 3 UA SUBLE,29952.8,Rigoder 5,proposta,retirat,parcelles.json,,541446.33,26379.93,DESAPAREGUT
+R0370,RIGODER_7,01 3 UA SUBLE,22583.2,Rigoder 7,proposta,retirat,parcelles.json,,541570.88,26566.97,DESAPAREGUT
+R0394,MAIA_DE_DALT,01 1 UA SUC,1486.3,Gavatxa,proposta,retirat,parcelles.json,,550214.43,27099.91,DESAPAREGUT
+R0398,PAS_DE_LA_CASA_2,01 1 UA SUC,5911.9,Pas de la Casa 2,proposta,retirat,parcelles.json,,550242.18,27413.8,DESAPAREGUT
+R0401,GAVATXA_DEL_MIG,01 1 UA SUC,1443.9,Maià de Dalt,proposta,retirat,parcelles.json,,550254.14,26961.68,DESAPAREGUT
+R0405,SANT_JORDI_DEL_MIG,01 1 UA SUC,5488.4,Sant Jordi del Mig,proposta,retirat,parcelles.json,,550291.87,27187.82,DESAPAREGUT
+R0410,BEARN_DE_BAIX,01 1 UA SUC,2976.4,Sant Josep,proposta,retirat,parcelles.json,,550337.51,27060.91,DESAPAREGUT
+R0411,,01 1 UA SUC,186527.1,Consell General Baix 1,revisat,retirat,parcelles.json,no és de cap unitat: és el contorn de tot el nucli del Pas de la Casa (hi cauen a dins els noms de 44 unitats),550348.25,27119.04,DESAPAREGUT
+R0414,SANT_PERE_5,01 1 UA SUC,6786.0,Sant Pere 5,proposta,retirat,parcelles.json,,550358.09,27479.24,DESAPAREGUT
+R0426,SANT_PERE_4,01 2 UA SUNC,20482.1,Sant Pere 4,proposta,retirat,parcelles.json,,550483.13,27574.83,DESAPAREGUT
+R0429,PAS_DE_LA_CASA_4,01 1 UA SUC,4803.6,Pas de la Casa 4,proposta,retirat,parcelles.json,,550506.4,27394.97,DESAPAREGUT
+R0430,SANT_PERE_1,01 2 UA SUNC,6943.2,Sant Pere 1,proposta,retirat,parcelles.json,,550506.41,27469.37,DESAPAREGUT
+R0433,PAS_DE_LA_CASA_5,01 1 UA SUC,6583.4,Pas de la Casa 5,proposta,retirat,parcelles.json,,550547.4,27301.16,DESAPAREGUT
+R0435,SANT_PERE_3,01 2 UA SUNC,8684.7,Sant Pere 3,proposta,retirat,parcelles.json,,550571.06,27514.81,DESAPAREGUT
+R0436,SANT_PERE_2,01 2 UA SUNC,8512.7,Sant Pere 2,proposta,retirat,parcelles.json,,550574.39,27611.4,DESAPAREGUT
+R0437,SANT_PERE_6,01 1 UA SUC,4234.7,Sant Pere 6,proposta,retirat,parcelles.json,,550577.15,27405.47,DESAPAREGUT
