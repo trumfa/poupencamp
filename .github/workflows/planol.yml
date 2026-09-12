@@ -6,9 +6,9 @@ name: Plànol nou
 #   1. A GitHub, obre la carpeta data/ i arrossega-hi el plànol (GeoJSON o el JSON
 #      del DWG). Anomena'l data/planol-nou.geojson o data/planol-nou.json.
 #   2. Espera un minut i entra a la pestanya Actions.
-#   3. Descarrega «recintes»: hi trobaràs recintes.csv, geometria.json i
-#      recintes.geojson. Les files que ja tenies revisades no s'han tocat.
-#   4. Puja els tres fitxers a data/ (substituint els que hi ha) i esborra el
+#   3. Descarrega «recintes»: hi trobaràs recintes.csv, geometria.json,
+#      recintes.geojson i etiquetes.json. Les assignacions es conserven.
+#   4. Puja els quatre fitxers a data/ (substituint els que hi ha) i esborra el
 #      plànol nou. Els recintes que diguin NOU o CANVIAT els pots repassar a
 #      recintes.html, que és qui torna a escriure data/recintes.csv.
 
@@ -51,7 +51,7 @@ jobs:
           cat resum.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           if [ "$n" -gt 0 ]; then
-            echo "**$n recintes per revisar.** Descarrega «recintes» aquí sota, puja els tres fitxers a data/ i repassa a recintes.html els que diguin NOU o CANVIAT." >> $GITHUB_STEP_SUMMARY
+            echo "**$n recintes per revisar.** Descarrega «recintes» aquí sota, puja els quatre fitxers a data/ i repassa a recintes.html els que diguin NOU o CANVIAT." >> $GITHUB_STEP_SUMMARY
           else
             echo "Cap canvi: el plànol dibuixa els mateixos recintes que ja hi ha a data/recintes.csv." >> $GITHUB_STEP_SUMMARY
           fi
