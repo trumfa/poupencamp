@@ -6,7 +6,7 @@
 /* Els neutres van tirats cap al verd de la vall, que és l'únic color fort de la
    casa. La serif només parla quan parla la norma: el text literal dels articles. */
 :root{
-  --ground:#F1F4F1; --paper:#FFFFFF; --surface:#F5F8F4;
+  --ground:#FFFFFF; --paper:#FFFFFF; --surface:#F4F7F5;
   --ink:#0F1714; --ink-2:#4B5853; --ink-3:#79857F;
   --line:#E2E7E1; --line-2:#C7CFC7;
   --accent:#0C6B4F; --accent-soft:#E2F0E9;
@@ -15,6 +15,15 @@
   --lift:0 1px 2px rgba(15,23,20,.04),0 14px 30px -16px rgba(15,23,20,.22);
   --pop:0 10px 34px -8px rgba(15,23,20,.22);
   --r:14px; --r-s:10px;
+  /* Els colors de les bombolles i les caixes. Cadascun vol dir una cosa: el verd
+     és la clau, el blau la mida, el lila com s'ordena, el rosa d'on surt el
+     sostre, i el taronja avisa. */
+  --damunt:#FFFFFF;                        /* el text que va damunt d'un color ple */
+  --verd:#0B6B4F;    --verd-s:#DCF2E8;
+  --blau:#15609E;    --blau-s:#E0EEFA;
+  --taronja:#B4541A; --taronja-s:#FCEADB;
+  --lila:#6A3EA1;    --lila-s:#EDE6FA;
+  --rosa:#A82A63;    --rosa-s:#FBE4EF;
   --f-display:'Archivo','Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --f-body:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --f-cita:'Petrona',Georgia,'Times New Roman',serif;
@@ -23,6 +32,12 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --ground:#0D1211; --paper:#151D19; --surface:#1B2420;
+    --damunt:#0D1211;
+    --verd:#6FD2A8;    --verd-s:#123026;
+    --blau:#7FBDEE;    --blau-s:#11293D;
+    --taronja:#E7A277; --taronja-s:#33231A;
+    --lila:#BFA3EE;    --lila-s:#241B39;
+    --rosa:#EE9BBF;    --rosa-s:#331A26;
     --ink:#E9EEEA; --ink-2:#A8B3AD; --ink-3:#7C8882;
     --line:#242E29; --line-2:#38433C;
     --accent:#6FD2A8; --accent-soft:#142D24;
@@ -34,6 +49,12 @@
 }
 :root[data-theme="dark"]{
   --ground:#0D1211; --paper:#151D19; --surface:#1B2420;
+  --damunt:#0D1211;
+  --verd:#6FD2A8;  --verd-s:#123026;
+  --blau:#7FBDEE;  --blau-s:#11293D;
+  --taronja:#E7A277; --taronja-s:#33231A;
+  --lila:#BFA3EE;  --lila-s:#241B39;
+  --rosa:#EE9BBF;  --rosa-s:#331A26;
   --ink:#E9EEEA; --ink-2:#A8B3AD; --ink-3:#7C8882;
   --line:#242E29; --line-2:#38433C;
   --accent:#6FD2A8; --accent-soft:#142D24;
@@ -57,14 +78,51 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
 .brand small{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-3);font-weight:400}
 .spacer{flex:1}
-.esquema-enllac{margin-left:auto;flex:none;font-size:12.5px;color:var(--ink-2);text-decoration:none;
-  border:1px solid var(--line-2);background:var(--paper);border-radius:999px;padding:5px 12px;
-  white-space:nowrap;transition:border-color .15s,color .15s}
-.esquema-enllac:hover{border-color:var(--accent);color:var(--accent)}
-@media (max-width:520px){.esquema-enllac{display:none}}
+/* El menú: la manera de tornar a l'inici, de saltar a una altra unitat sense
+   passar per la portada, i d'arribar a «Qui regula què». */
+.hamb{margin-left:auto;flex:none;appearance:none;width:38px;height:38px;border-radius:11px;cursor:pointer;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);display:grid;
+  place-items:center;gap:0;padding:0;box-shadow:var(--shadow)}
+.hamb:hover{border-color:var(--accent);color:var(--accent)}
+.hamb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hamb i{display:block;width:17px;height:1.6px;background:currentColor;border-radius:2px;
+  transition:transform .18s ease,opacity .15s ease}
+.hamb i+i{margin-top:4px}
+
+.menuwrap{position:fixed;inset:0;z-index:40;background:rgba(15,23,20,.28);
+  backdrop-filter:blur(2px);display:flex;justify-content:center;align-items:flex-start;
+  padding:66px 20px 20px}
+.menu{width:min(440px,100%);max-height:100%;overflow:auto;background:var(--paper);
+  border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--pop);padding:16px}
+.menu h2{font-family:var(--f-display);font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.menu h2+h2{margin-top:18px}
+.menu .gran{display:block;text-decoration:none;color:var(--ink);
+  border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px;font-size:15px;font-weight:600;
+  background:var(--verd-s)}
+.menu .gran:hover{border-color:var(--verd)}
+.menu .gran span{font-size:12.5px;font-weight:400;color:var(--ink-2);display:block;margin-top:1px}
+.menu .gran+.gran{margin-top:8px;background:var(--lila-s)}
+.menu .gran+.gran:hover{border-color:var(--lila)}
+.menu input{width:100%;font:inherit;font-size:15.5px;padding:11px 14px;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink)}
+.menu input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.menu ul{list-style:none;margin:8px 0 0;padding:0;max-height:min(44vh,320px);overflow:auto;
+  border:1px solid var(--line);border-radius:var(--r-s)}
+.menu ul:empty{display:none}
+.menu li a{display:flex;align-items:center;gap:9px;padding:9px 13px;text-decoration:none;
+  color:var(--ink);font-size:14.5px;border-bottom:1px solid var(--line)}
+.menu li:last-child a{border-bottom:0}
+.menu li a:hover,.menu li a.on{background:var(--verd-s);color:var(--verd)}
+.menu li a .chip{margin-left:auto}
+.menu .cap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.menu .cap b{font-family:var(--f-display);font-size:16px;letter-spacing:-.02em}
+.menu .tanca{margin-left:auto;appearance:none;border:0;background:none;font-size:19px;line-height:1;
+  color:var(--ink-3);cursor:pointer;padding:4px 6px;border-radius:8px}
+.menu .tanca:hover{color:var(--ink)}
 .topline{min-height:50px;gap:10px}
 .brand{flex:none}
-.ubar-nom{font-family:var(--f-display);font-size:15px;font-weight:600;letter-spacing:-.015em;
+.ubar-nom{font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.025em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:2ch;flex:1 1 auto;
   padding-left:10px;border-left:1px solid var(--line-2)}
 .chips{display:flex;gap:5px;flex:none;margin-left:auto}
@@ -76,9 +134,9 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
   .chips .chip.cls{display:none}
 }
 
-.uatop{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.uatop h1{margin:0;flex:1 1 12ch;min-width:0}
-.uaacts{display:flex;flex-wrap:wrap;gap:7px;flex:none;padding-top:4px}
+.uatop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.uatop .back{padding:0;flex:1 1 auto}
+.uaacts{display:flex;flex-wrap:wrap;gap:7px;flex:none;margin-left:auto}
 .nomes-imprimir{display:none}
 .btn2{appearance:none;font:inherit;font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;
   display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border-radius:999px;cursor:pointer;
@@ -86,7 +144,7 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
   box-shadow:var(--shadow);transition:border-color .15s,color .15s,transform .15s}
 .btn2:hover{border-color:var(--accent);color:var(--accent)}
 .btn2:active{transform:translateY(1px)}
-.btn2.ple{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn2.ple{background:var(--verd);border-color:var(--verd);color:var(--damunt)}
 .btn2:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .hero{padding:54px 0 22px}
@@ -184,34 +242,49 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
 
 .back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-2);
   text-decoration:none;padding:20px 0 0}
+.uahead{padding-top:20px}
 .back:hover{color:var(--accent)}
 .uahead{padding:14px 0 4px}
-.uahead h1{font-family:var(--f-display);font-size:clamp(30px,7vw,46px);line-height:1.03;font-weight:700;
-  font-stretch:112%;letter-spacing:-.035em;margin:0 0 16px}
-.facts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
-.fact{font-size:12.5px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);
-  border-radius:999px;padding:5px 12px;box-shadow:var(--shadow)}
-.fact b{font-family:var(--f-mono);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
-.fact.clau{background:var(--accent);border-color:var(--accent);color:var(--paper);box-shadow:none}
-.fact.clau b{color:var(--paper);letter-spacing:.06em}
-.fact.clau i{font-style:normal;opacity:.75;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-right:6px}
+/* Les bombolles: text centrat, cada color vol dir una cosa, i el plànol n'és una
+   més —petita— que en clicar-la s'obre gran. El nom de la unitat no hi és: ja el
+   porta la barra de dalt, que va enganxada a la pantalla. */
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;align-items:stretch}
+.fact{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center;
+  min-height:38px;font-size:13px;line-height:1.25;color:var(--ink-2);background:var(--surface);
+  border:1px solid transparent;border-radius:999px;padding:6px 15px}
+.fact b{font-family:var(--f-mono);font-weight:500;color:inherit;font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em}
+.fact i{font-style:normal;font-size:10px;letter-spacing:.11em;text-transform:uppercase;opacity:.7}
+.fact.clau{background:var(--verd);border-color:var(--verd);color:var(--damunt);padding:6px 16px}
+.fact.mida{background:var(--blau-s);color:var(--blau)}
+.fact.sol{background:var(--verd-s);color:var(--verd)}
+.fact.ordre{background:var(--lila-s);color:var(--lila)}
+.fact.sostre{background:var(--rosa-s);color:var(--rosa)}
+.fact.mini{padding:4px 15px 4px 5px;gap:10px;background:var(--paper);border-color:var(--line-2);
+  cursor:pointer;font:inherit;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow);
+  border-radius:999px}
+.fact.mini:hover{border-color:var(--verd);color:var(--verd)}
+.fact.mini:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fact.mini img{width:54px;height:36px;object-fit:cover;object-position:center;border-radius:999px;
+  display:block;background:var(--surface);border:1px solid var(--line)}
 .lede{font-size:18px;line-height:1.5;margin:0;color:var(--ink-2)}
 .lede p{margin:0 0 10px;max-width:60ch}
 .lede p:first-child{color:var(--ink);font-size:19px}
 .notices{display:flex;flex-direction:column;gap:8px;margin:18px 0 4px}
 .notice{display:flex;gap:10px;font-size:14px;line-height:1.5;padding:12px 15px;border-radius:var(--r-s);
   background:var(--paper);border:1px solid var(--line);color:var(--ink-2);box-shadow:var(--shadow)}
-.notice.atencio{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 25%,transparent);color:var(--ink)}
-.notice i{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--warn);letter-spacing:.08em;
+.notice.atencio{background:var(--taronja-s);border-color:var(--taronja);color:var(--ink)}
+.notice.info{background:var(--blau-s);border-color:transparent}
+.notice i{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--taronja);letter-spacing:.08em;
   text-transform:uppercase;flex:none;padding-top:2px}
-.notice.info i{color:var(--ink-3)}
+.notice.info i{color:var(--blau)}
 
-.picker{margin:0 0 18px;padding:16px 18px 17px;border:1px solid var(--accent);border-radius:var(--r);
-  background:var(--accent-soft)}
-.parts{margin:0 0 16px;padding:15px 17px 16px;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);
-  border-radius:var(--r);background:var(--warn-soft)}
+.picker{margin:0 0 18px;padding:16px 18px 17px;border:1px solid var(--verd);border-radius:var(--r);
+  background:var(--verd-s)}
+.parts{margin:0 0 16px;padding:15px 17px 16px;border:1px solid var(--taronja);
+  border-radius:var(--r);background:var(--taronja-s)}
 .parts .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--warn);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--damunt);background:var(--taronja);
   padding:3px 8px;border-radius:999px;margin-bottom:8px}
 .parts p{margin:0 0 11px;font-size:13.5px;color:var(--ink-2)}
 .parts .tria{display:flex;flex-wrap:wrap;gap:7px}
@@ -220,10 +293,10 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
   display:inline-flex;align-items:baseline;gap:7px}
 .parts button b{font-weight:600}
 .parts button small{font-family:var(--f-mono);font-size:10.5px;opacity:.75}
-.parts button[aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:var(--paper)}
+.parts button[aria-pressed="true"]{background:var(--taronja);border-color:var(--taronja);color:var(--damunt)}
 .parts button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
 .picker .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--accent);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--damunt);background:var(--verd);
   padding:3px 8px;border-radius:999px;margin-bottom:9px}
 .picker h2{font-family:var(--f-display);font-size:19px;margin:0 0 3px;font-weight:600;letter-spacing:-.02em}
 .picker p{margin:0 0 12px;font-size:13.5px;color:var(--ink-2)}
@@ -233,7 +306,7 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
   color:var(--ink-3);width:100%;margin-bottom:1px}
 .pick{appearance:none;font:inherit;font-size:13.5px;padding:7px 14px;border-radius:999px;cursor:pointer;
   border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);transition:all .15s}
-.pick[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:500}
+.pick[aria-pressed="true"]{background:var(--verd);border-color:var(--verd);color:var(--damunt);font-weight:500}
 .pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .picker .estat{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;padding-top:11px;
   border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
@@ -260,7 +333,7 @@ details.bloc[open]{box-shadow:var(--lift);border-color:var(--line-2)}
 summary.blochead{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
   list-style:none;border-radius:var(--r)}
 summary.blochead::-webkit-details-marker{display:none}
-summary.blochead:hover{background:var(--accent-soft)}
+summary.blochead:hover{background:var(--hs,var(--accent-soft))}
 summary.blochead:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 details.bloc[open] summary.blochead{border-radius:var(--r) var(--r) 0 0;
   border-bottom:1px solid var(--line)}
@@ -268,12 +341,15 @@ details.bloc[open] summary.blochead{border-radius:var(--r) var(--r) 0 0;
 .blochead h2{font-family:var(--f-display);font-size:19.5px;font-weight:600;margin:0;letter-spacing:-.025em}
 .blochead .sub{display:block;font-size:13px;color:var(--ink-3);margin-top:1px}
 .blochead .nb{margin-left:auto;flex:none;font-family:var(--f-mono);font-size:11px;
-  font-variant-numeric:tabular-nums;color:var(--ink-3);background:var(--surface);
+  font-variant-numeric:tabular-nums;color:var(--h,var(--ink-3));background:var(--hs,var(--surface));
   border-radius:999px;padding:3px 9px}
-.blochead .fl{flex:none;color:var(--ink-3);font-size:19px;line-height:1;transition:transform .18s ease}
-details.bloc[open] .blochead .fl{transform:rotate(90deg);color:var(--accent)}
-details.bloc[open] .blochead h2{color:var(--accent)}
+.blochead .fl{flex:none;color:var(--h,var(--ink-3));font-size:19px;line-height:1;
+  transition:transform .18s ease}
+details.bloc[open] .blochead .fl{transform:rotate(90deg)}
+details.bloc[open] .blochead h2{color:var(--h,var(--accent))}
+details.bloc[open]{border-color:var(--h,var(--line-2))}
 summary.blochead:hover .nb{background:var(--paper)}
+details.bloc[open] summary.blochead{background:var(--hs,var(--accent-soft))}
 .bloccos{padding:2px 18px 8px}
 @media (max-width:520px){
   summary.blochead{padding:14px;gap:10px;align-items:flex-start}
@@ -311,7 +387,7 @@ summary.blochead:hover .nb{background:var(--paper)}
 .clau p{margin:0;font-size:15px;color:var(--ink-2);max-width:62ch}
 .clau .art{margin-top:7px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
 
-figure.planol{margin:0 0 18px;padding:0}
+figure.planol{margin:0 0 18px;padding:0;display:none}       /* a pantalla, la miniatura */
 figure.planol a{display:block;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
   background:var(--paper);box-shadow:var(--shadow)}
 figure.planol img{display:block;width:100%;height:auto}
@@ -342,6 +418,20 @@ details.glos summary::before{content:'+ ';font-family:var(--f-mono);color:var(--
 details.glos[open] summary::before{content:'− '}
 footer{margin:40px 0 56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3)}
 footer p{margin:0 0 6px;max-width:64ch}
+/* el plànol gran, flotant */
+dialog.lupa{border:0;padding:0;background:transparent;max-width:min(1100px,94vw);width:auto;
+  max-height:94vh;overflow:visible}
+dialog.lupa::backdrop{background:rgba(15,23,20,.72);backdrop-filter:blur(3px)}
+dialog.lupa .cos{background:var(--paper);border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--pop);position:relative}
+dialog.lupa img{display:block;width:100%;height:auto;max-height:80vh;object-fit:contain;
+  background:var(--surface)}
+dialog.lupa .peu{display:flex;align-items:center;gap:12px;padding:10px 15px;font-size:12.5px;
+  color:var(--ink-3);border-top:1px solid var(--line)}
+dialog.lupa .peu a{margin-left:auto;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
+dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;cursor:pointer;
+  width:32px;height:32px;border-radius:999px;background:rgba(15,23,20,.62);color:#fff;font-size:17px;
+  line-height:1}
 [hidden]{display:none!important}
 @media (max-width:520px){
   .dl{grid-template-columns:1fr}
@@ -367,7 +457,8 @@ footer p{margin:0 0 6px;max-width:64ch}
   .bloccos{padding:0}
   .blochead h2{font-size:15pt}
   .src{background:#f6f6f4;border-left:2px solid #666}
-  figure.planol{max-width:16cm}
+  figure.planol{display:block!important;max-width:16cm;margin:0 0 14px}
+  .fact.mini,.hamb{display:none!important}
   details.glos{border-top:1px solid #999}
   details.glos[open]{display:block}
   footer{border-top:1px solid #999;font-size:9pt}
@@ -380,11 +471,35 @@ footer p{margin:0 0 6px;max-width:64ch}
     <a class="brand" href="#/">POUP <small>Encamp</small></a>
     <b class="ubar-nom" id="ubar-nom" hidden></b>
     <span class="chips" id="ubar-claus"></span>
-    <a class="esquema-enllac" href="esquema.html">Qui regula què</a>
+    <button type="button" class="hamb" id="hamb" aria-expanded="false" aria-controls="menu"
+      aria-label="Menú"><i></i><i></i><i></i></button>
   </div>
 </header>
 
+<div class="menuwrap" id="menuwrap" hidden>
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="cap"><b>POUP Encamp</b>
+      <button type="button" class="tanca" id="menu-tanca" aria-label="Tancar">×</button></div>
+    <h2>Anar a</h2>
+    <a class="gran" href="#/">Pàgina inicial<span>Buscar entre totes les unitats, o triar-la al plànol</span></a>
+    <a class="gran" href="esquema.html">Qui regula què<span>Quin nivell del pla decideix cada paràmetre, amb el text de l'article</span></a>
+    <h2>Canviar d'unitat</h2>
+    <input id="menu-q" type="text" autocomplete="off" placeholder="escriu el nom d'una unitat…"
+      role="combobox" aria-expanded="false" aria-controls="menu-llista" aria-autocomplete="list">
+    <ul id="menu-llista" role="listbox"></ul>
+  </div>
+</div>
+
 <main id="app" class="wrap"></main>
+
+<dialog class="lupa" id="lupa">
+  <div class="cos">
+    <button type="button" class="x" id="lupa-x" aria-label="Tancar">×</button>
+    <img id="lupa-img" alt="">
+    <p class="peu"><span id="lupa-peu"></span>
+      <a id="lupa-obre" href="#" target="_blank" rel="noopener">obrir a mida completa ↗</a></p>
+  </div>
+</dialog>
 
 <script id="dades" type="application/json">__DADES__</script>
 <script>
@@ -431,7 +546,7 @@ function vistaLlista(){
         </div>
         <ul class="cblist" id="llista" role="listbox" hidden></ul>
       </div>
-      <p class="cbcount">${D.ua.length} unitats d'actuació. Tria-la a la llista o escriu-ne el nom.</p>
+      <p class="cbcount">Tria-la a la llista o escriu-ne el nom.</p>
       <p class="cbcount">${esc(T.cerca_ajuda)}</p>
       ${D.mapa ? `<div class="plan">
         <div class="cap"><h2>O tria-la al plànol</h2>
@@ -1053,6 +1168,7 @@ function vistaUA(id, mantenirScroll){
   const ambRegims = [...zs, ...szs].filter(z => regims(z.c));
   const calFiltre = (zs.length + szs.length) > 1;     // filtrar per zona/subzona només si n'hi ha més d'una
   const calSel = calFiltre || ambRegims.length > 0;
+  const ambParts = (u.parts || []).length > 1;
   let n = 0;
 
   const vigent = (u.fx || []).find(f => f.idf === P.idf)
@@ -1064,6 +1180,11 @@ function vistaUA(id, mantenirScroll){
       </a>
       <figcaption>${esc(T.planol_nota)}</figcaption>
     </figure>` : '';
+
+  const urlPlanol = vigent && vigent.idf ? 'planols/' + vigent.idf + '.webp'
+                  : (vigent && vigent.img ? drivePdf(vigent.img) : '');
+  const miniPlanol = vigent && vigent.idf ? `<button type="button" class="fact mini" id="mini-planol">
+      <img src="${esc(urlPlanol)}" alt="" loading="lazy"><span>Veure el plànol</span></button>` : '';
 
   const pdfBopa = vigent && vigent.pdf ? drivePdf(vigent.pdf) : '';
 
@@ -1124,6 +1245,7 @@ function vistaUA(id, mantenirScroll){
   const compta = h => (h.match(/class="(?:point|clau)"/g) || []).length
                    || (h.match(/<li\b/g) || []).length;
   let obertes = 0;
+  const HUES = ['verd', 'blau', 'lila', 'rosa', 'taronja'];
   const cossos = D.blocs.map(b => {
     let cos;
     if (b.id === 'B1') return '';          // fos amb la capçalera de la fitxa
@@ -1137,7 +1259,8 @@ function vistaUA(id, mantenirScroll){
     const quants = compta(cos);
     // el primer apartat obert, la resta plegats: la fitxa arrenca com un índex
     const obert = obertes++ === 0 ? ' open' : '';
-    return `<details class="bloc"${obert}>
+    const h = HUES[(obertes - 1) % HUES.length];
+    return `<details class="bloc"${obert} style="--h:var(--${h});--hs:var(--${h}-s)">
       <summary class="blochead">
         <span class="fl" aria-hidden="true">›</span>
         <div class="tt"><h2>${esc(b.t)}</h2><span class="sub">${esc(b.s)}</span></div>
@@ -1151,10 +1274,9 @@ function vistaUA(id, mantenirScroll){
     <button type="button" id="obre-tot">Obre-ho tot</button></div>` : '';
 
   app.innerHTML = `
-    <a class="back" href="#/">← Totes les unitats</a>
     <div class="uahead">
       <div class="uatop">
-        <h1>${esc(u.n)}</h1>
+        <a class="back" href="#/">← Totes les unitats</a>
         <div class="uaacts">
           ${pdfBopa ? `<a class="btn2" href="${esc(pdfBopa)}" target="_blank" rel="noopener"
              >${esc(T.btn_fitxa_bopa || 'Fitxa del BOPA')} ↗</a>` : ''}
@@ -1175,11 +1297,13 @@ function vistaUA(id, mantenirScroll){
         ? ' · part de ' + esc(CLS[S(P.cls)] || S(P.cls) || S(P.np)) : ''} · ${esc(filtreActiu(u))}<br>
         ${esc(T.avis_legal || '')} ${esc(T.avis_bopa || '')}</p>
       <div class="facts">
-        ${P.clau ? `<span class="fact clau"><i>Clau</i><b>${esc(P.clau)}</b></span>` : ''}
-        ${P.cls ? `<span class="fact">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
-        ${P.sup ? `<span class="fact"><b>${esc(P.sup)}</b> m²</span>` : ''}
-        <span class="fact">${esc(TIP[S(P.tf)] || S(P.tf) || TIP[S(u.tf)] || S(u.tf))}</span>
-        ${P.cob ? `<span class="fact">${esc(COB[S(P.cob)] || S(P.cob))}</span>` : ''}
+        ${P.clau && !calSel ? `<span class="fact clau"><i>Clau</i><b>${
+          esc(String(P.clau).replace(/\s*\/\s*/g, '/'))}</b></span>` : ''}
+        ${P.cls && !ambParts ? `<span class="fact sol">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
+        ${P.sup && !ambParts ? `<span class="fact mida"><b>${esc(P.sup)}</b> m²</span>` : ''}
+        <span class="fact ordre">${esc(TIP[S(P.tf)] || S(P.tf) || TIP[S(u.tf)] || S(u.tf))}</span>
+        ${P.cob ? `<span class="fact sostre">${esc(COB[S(P.cob)] || S(P.cob))}</span>` : ''}
+        ${miniPlanol}
       </div>
       ${selector}
       ${planol}
@@ -1199,6 +1323,21 @@ function vistaUA(id, mantenirScroll){
       <p><a href="esquema.html">Qui regula què</a> — quin nivell del pla decideix cada paràmetre,
         amb el text de l'article.</p>
     </footer>`;
+
+  // la miniatura obre el plànol gran en una finestra flotant
+  const mini = document.getElementById('mini-planol');
+  if (mini){
+    const img = mini.querySelector('img');
+    img.addEventListener('error', () => mini.remove());
+    mini.addEventListener('click', () => {
+      const d = document.getElementById('lupa');
+      document.getElementById('lupa-img').src = urlPlanol;
+      document.getElementById('lupa-img').alt = 'Plànol de ' + u.n;
+      document.getElementById('lupa-peu').textContent = T.planol_nota || '';
+      document.getElementById('lupa-obre').href = urlPlanol;
+      d.showModal();
+    });
+  }
 
   const pim = document.getElementById('planol-img');
   if (pim) pim.addEventListener('error', () => {
@@ -1273,6 +1412,55 @@ function ruta(){
   if (m){ vistaUA(decodeURIComponent(m[1])); window.scrollTo(0, 0); }
   else { sel = {zona:'', subzona:'', variant:{}, part:0}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
 }
+/* ------------------------------------------------------------------- el menú
+   Serveix sobretot per saltar d'una unitat a una altra sense tornar a la
+   portada: és el que més es fa quan mires fitxes de veïns. */
+(function(){
+  const bot = document.getElementById('hamb');
+  const capsa = document.getElementById('menuwrap');
+  const camp = document.getElementById('menu-q');
+  const llista = document.getElementById('menu-llista');
+  if (!bot || !capsa) return;
+  let obert = false;
+
+  function pinta(){
+    const q = nrm(camp.value.trim());
+    const l = (q ? D.ua.filter(u => nrm(u.n).includes(q)) : []).slice(0, 12);
+    llista.innerHTML = l.map((u, i) => `<li role="option"><a href="#/ua/${encodeURIComponent(u.id)}"
+      class="${i === 0 ? 'on' : ''}">${esc(u.n)}<span class="chip">${
+        esc(S((u.parts[0] || {}).cls) || '')}</span></a></li>`).join('');
+    camp.setAttribute('aria-expanded', String(l.length > 0));
+  }
+  function obre(){
+    obert = true; capsa.hidden = false; bot.setAttribute('aria-expanded', 'true');
+    camp.value = ''; pinta();
+    setTimeout(() => camp.focus(), 30);
+  }
+  function tanca(){
+    obert = false; capsa.hidden = true; bot.setAttribute('aria-expanded', 'false');
+    llista.innerHTML = '';
+  }
+  bot.addEventListener('click', () => obert ? tanca() : obre());
+  document.getElementById('menu-tanca').addEventListener('click', tanca);
+  capsa.addEventListener('click', e => { if (e.target === capsa) tanca(); });
+  capsa.addEventListener('keydown', e => { if (e.key === 'Escape') { tanca(); bot.focus(); } });
+  camp.addEventListener('input', pinta);
+  camp.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const primer = llista.querySelector('a');
+    if (primer){ e.preventDefault(); location.hash = primer.getAttribute('href').slice(1); tanca(); }
+  });
+  capsa.addEventListener('click', e => { if (e.target.closest('a')) tanca(); });
+})();
+
+// tancar el plànol flotant
+(function(){
+  const d = document.getElementById('lupa');
+  if (!d) return;
+  document.getElementById('lupa-x').addEventListener('click', () => d.close());
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+})();
+
 // Imprimir sempre treu la fitxa sencera, també amb Ctrl+P: el PDF no ha de dependre
 // de quins apartats tinguis plegats a la pantalla.
 window.addEventListener('beforeprint', () => {
