@@ -187,11 +187,19 @@ for (const c of F.claus) {
 const valors = {};
 for (const v of F.claus_parametres) {
   if (v.visible !== 'SÍ' || !params[v.parametre_bd]) continue;
-  (valors[String(v.clau)] ||= []).push({ p: v.parametre_bd, pl: v.text_planer, no: v.valor_original, a: v.article });
+  (valors[String(v.clau)] ||= []).push({ p: v.parametre_bd, pl: v.text_planer, no: v.valor_original,
+                                         a: v.article, r: (v.remet_a || '').trim() });
 }
 
+
 const arts = {};
-for (const a of F.articles) arts[(a.article || '').trim()] = { t: a.titol, d: a.document, u: a.url || '' };
+// «pagina» encara no hi és a la pestanya: el dia que hi sigui, l'enllaç deixa
+// d'anar a la portada del BOPA i va a parar a la pàgina del PDF de la normativa.
+for (const a of F.articles) arts[(a.article || '').trim()] = {
+  t: a.titol, d: a.document, b: a.bopa || '',
+  u: /^https?:\/\/(www\.)?bopa\.ad\/?$/i.test((a.url || '').trim()) ? '' : (a.url || '').trim(),
+  p: (a.pagina || '').toString().trim(),
+};
 
 const avisos = Object.fromEntries(C.avisos.filter(a => a.visible === 'SÍ')
   .map(a => [a.id_avis, { to: a.to, x: a.text }]));
@@ -217,6 +225,28 @@ const uesDe = r => String(r.id_ua || '').split(';').map(x => x.trim()).filter(Bo
 const ids = new Set(F.unitats.map(u => u.id_ua));
 const docs = new Set(F.documents.map(d => d.id_document));
 const problemes = [];
+/* ------------------------------------------- els articles que només remeten
+
+   L'article de la subzona sovint no diu res pel seu compte: «s'admeten els
+   cossos volats d'acord amb el que s'estableix a l'article 32». Ensenyar
+   aquesta frase no serveix de res —el que vols saber és què diu el 32—, o
+   sigui que dels articles citats així se'n guarda el text sencer.            */
+const apartatsPer = {};
+for (const r of F.apartats) (apartatsPer[(r.article || '').trim()] ||= []).push(r);
+const citatsRemesos = new Set(F.claus_parametres
+  .filter(v => (v.remet_a || '').trim())
+  .map(v => 'Article ' + String(v.remet_a).trim()));
+let ambText = 0;
+for (const nom of citatsRemesos) {
+  if (!arts[nom]) { problemes.push(`un valor remet a «${nom}», que no és a la pestanya articles`); continue; }
+  const ll = (apartatsPer[nom] || [])
+    .slice().sort((a, b) => (parseFloat(a.apartat) || 0) - (parseFloat(b.apartat) || 0));
+  if (!ll.length) continue;
+  arts[nom].x = ll.map(r => ({ n: r.apartat, t: r.text }));
+  ambText++;
+}
+if (ambText) console.log(`Remissions: ${ambText} articles citats hi van amb el text sencer`);
+
 for (const f of F.fitxes) {
   // una fitxa sense unitat només s'admet si és un document normatiu: un volum sencer
   if (!f.id_ua) {

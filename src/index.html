@@ -385,6 +385,15 @@ details.bloc[open] summary.blochead{background:var(--hs,var(--accent-soft))}
   border:1px solid var(--line-2);border-radius:4px;padding:1px 5px}
 .ptext{margin:0;font-size:16px;line-height:1.6;max-width:62ch}
 .phelp{margin:5px 0 0;font-size:13.5px;color:var(--ink-3)}
+.botons-font{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
+.srcbtn.rem{color:var(--lila)}
+.src.rem{border-left-color:var(--lila);background:var(--lila-s)}
+.src.rem .k{color:var(--lila);opacity:.85}
+.src q.ap{display:block;margin-top:9px;quotes:none}
+.src q.ap:first-of-type{margin-top:2px}
+.src q.ap b{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-3);
+  margin-right:5px;vertical-align:1px}
+.src .bopa{font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;color:var(--ink-3)}
 .srcbtn{margin-top:9px;appearance:none;border:0;background:transparent;padding:0;cursor:pointer;
   font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--accent);
   border-bottom:1px dotted currentColor}
@@ -475,6 +484,7 @@ dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;curs
   .bloccos{padding:0}
   .blochead h2{font-size:15pt}
   .src{background:#f6f6f4;border-left:2px solid #666}
+  .src.rem,.srcbtn.rem{display:none!important}
   figure.planol{display:block!important;max-width:16cm;margin:0 0 14px}
   .fact.mini,.hamb{display:none!important}
   details.glos{border-top:1px solid #999}
@@ -787,7 +797,7 @@ function itemsDe(u){
     const font = D.valors[reg] ? reg : (String(z.c).match(/^\d+/) || [''])[0];
     (D.valors[font] || []).forEach(v => {
       const pp = D.params[v.p]; if (!pp) return;
-      posa({b: pp.b, o: pp.o, et: pp.et, aj: pp.aj, pl: v.pl, no: v.no, art: v.a,
+      posa({b: pp.b, o: pp.o, et: pp.et, aj: pp.aj, pl: v.pl, no: v.no, art: v.a, rem: v.r,
             c: z.c, niv: niv, nomClau: (D.claus[reg] || D.claus[z.c] || {}).n || z.n});
     });
   }));
@@ -806,21 +816,49 @@ function visible(it){
   return true;
 }
 
+// On es pot anar a llegir un article: al PDF de la normativa per la seva pàgina,
+// si el full ja la diu; si no, no s'inventa cap enllaç i es diu d'on surt.
+function ferEnllacArticle(a){
+  if (!a) return '';
+  if (D.cfg && D.cfg.normativa_pdf && a.p)
+    return esc(D.cfg.normativa_pdf) + '#page=' + esc(a.p);
+  return a.u ? esc(a.u) : '';
+}
+function fontArticle(nom, a){
+  if (!a) return '';
+  const href = ferEnllacArticle(a);
+  return `<p class="meta">${esc(nom)} · ${esc(a.t)}<br>${esc(a.d)}${
+    href ? `<br><a href="${href}" target="_blank" rel="noopener">${esc(T.veure_article)} ↗</a>`
+         : (a.b ? `<br><span class="bopa">Publicat al ${esc(a.b)}</span>` : '')}</p>`;
+}
+
 function punt(it, i){
   const a = D.arts[it.art] || null;
+  // Quan l'article de la subzona només remet a un altre, el que interessa és el
+  // que diu l'altre: el portem aquí, sencer, en comptes de la frase que hi remet.
+  const rem = it.rem ? (D.arts['Article ' + it.rem] || null) : null;
+  const remN = rem ? 'Article ' + it.rem : '';
   const teFont = it.no || a;
   return `<div class="point">
     <div class="ptop"><span class="plab">${esc(it.et)}</span>${
       it.nomClau ? `<span class="pctx">${esc(it.nomClau)}</span>` : ''}</div>
     <p class="ptext">${esc(it.pl || it.no || T.sense_text)}</p>
     ${it.aj ? `<p class="phelp">${esc(it.aj)}</p>` : ''}
-    ${teFont ? `<button class="srcbtn" data-src="${i}" aria-expanded="false" aria-controls="src-${i}">${
-      esc(T.font_literal)} ${it.art ? '· ' + esc(it.art) : ''}</button>` : ''}
+    <div class="botons-font">
+      ${teFont ? `<button class="srcbtn" data-src="${i}" aria-expanded="false" aria-controls="src-${i}">${
+        esc(T.font_literal)} ${it.art ? '· ' + esc(it.art) : ''}</button>` : ''}
+      ${rem && rem.x ? `<button class="srcbtn rem" data-src="rem-${i}" aria-expanded="false"
+        aria-controls="src-rem-${i}">El que diu l'article ${esc(it.rem)}</button>` : ''}
+    </div>
     ${teFont ? `<div class="src" id="src-${i}" hidden>
       ${it.no ? `<span class="k">${esc(T.font_literal)}</span><q>${esc(it.no)}</q>` : ''}
-      ${a ? `<p class="meta">${esc(it.art)} · ${esc(a.t)}<br>${esc(a.d)}${
-        a.u ? `<br><a href="${esc(a.u)}" target="_blank" rel="noopener">${esc(T.veure_article)} ↗</a>` : ''}</p>`
+      ${a ? fontArticle(it.art, a)
         : (it.fitxa ? `<p class="meta">Text de la fitxa urbanística d'aquesta unitat.</p>` : '')}
+    </div>` : ''}
+    ${rem && rem.x ? `<div class="src rem" id="src-rem-${i}" hidden>
+      <span class="k">${esc(remN)} · ${esc(rem.t)}</span>
+      ${rem.x.map(ap => `<q class="ap"><b>${esc(ap.n)}</b> ${esc(ap.t)}</q>`).join('')}
+      ${fontArticle(remN, rem)}
     </div>` : ''}
   </div>`;
 }
@@ -1456,10 +1494,6 @@ function vistaUA(id, mantenirScroll){
           esc(String(P.clau).replace(/\s*\/\s*/g, '/'))}</b></span>` : ''}
         ${P.cls && !ambParts ? `<span class="fact sol">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
         ${P.sup && !ambParts ? `<span class="fact mida"><b>${esc(P.sup)}</b> m²</span>` : ''}
-        <span class="fact ordre"><i>Ordenació</i><span>${
-          esc(TIPB[S(P.tf)] || TIP[S(P.tf)] || S(P.tf) || TIPB[S(u.tf)] || S(u.tf))}</span></span>
-        ${P.cob ? `<span class="fact sostre"><i>Sostre</i><span>${
-          esc(COBB[S(P.cob)] || COB[S(P.cob)] || S(P.cob))}</span></span>` : ''}
         ${miniPlanol}
       </div>
       ${selector}
@@ -1539,7 +1573,7 @@ function vistaUA(id, mantenirScroll){
 
   const imp = document.getElementById('btn-imprimeix');
   if (imp) imp.addEventListener('click', () => {
-    const tancats = [...app.querySelectorAll('.src[hidden]')];
+    const tancats = [...app.querySelectorAll('.src[hidden]:not(.rem)')];
     const glos = app.querySelector('details.glos');
     const glosTancat = glos && !glos.open;
     // la fitxa impresa és sempre sencera, tant si a la pantalla hi tens apartats plegats com si no
