@@ -188,7 +188,9 @@ const valors = {};
 for (const v of F.claus_parametres) {
   if (v.visible !== 'SÍ' || !params[v.parametre_bd]) continue;
   (valors[String(v.clau)] ||= []).push({ p: v.parametre_bd, pl: v.text_planer, no: v.valor_original,
-                                         a: v.article, r: (v.remet_a || '').trim() });
+                                         a: v.article, r: (v.remet_a || '').trim(),
+                                         // dibuixos de l'annex: camins dins de public/, separats per «;»
+                                         im: (v.imatge || '').split(';').map(x => x.trim()).filter(Boolean) });
 }
 
 
@@ -225,6 +227,21 @@ const uesDe = r => String(r.id_ua || '').split(';').map(x => x.trim()).filter(Bo
 const ids = new Set(F.unitats.map(u => u.id_ua));
 const docs = new Set(F.documents.map(d => d.id_document));
 const problemes = [];
+// Cada apartat ha de tenir un identificador seu: si n'hi ha de repetits, la pàgina
+// pot acabar ensenyant el text d'un altre article sense que se'n vegi el rastre.
+{
+  const vistos = new Map();
+  const repes = [];
+  for (const r of F.apartats) {
+    const k = (r.id_apartat || '').trim();
+    if (!k) continue;
+    if (vistos.has(k)) repes.push(`${k} (${vistos.get(k)} i ${r.article})`);
+    else vistos.set(k, r.article);
+  }
+  if (repes.length)
+    console.log(`\nAtenció: ${repes.length} identificadors d'apartat repetits — ${repes.slice(0, 4).join(', ')}`
+      + (repes.length > 4 ? `, i ${repes.length - 4} més` : ''));
+}
 /* ------------------------------------------- els articles que només remeten
 
    L'article de la subzona sovint no diu res pel seu compte: «s'admeten els

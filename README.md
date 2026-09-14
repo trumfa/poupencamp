@@ -233,6 +233,24 @@ Es miren els textos planers, el text literal de la norma, els articles citats i 
 de les claus. Per canviar com es diuen els fitxers, posa una fila `figures_patro` a la pestanya
 `config` amb el patró, on `{n}` és el número: per defecte, `figures/annex 01_figura {n}.png`.
 
+### La carta de colors i els dibuixos dels annexos
+
+Igual que amb les figures, allà on un text cita la **carta de colors** («seguint els colors
+establerts a la Carta de Colors de l'Annex 03») hi surt un botó que l'obre. La imatge va a
+`public/colors/annex 03_carta colors.png`; per canviar-ne el nom, fila `carta_colors` a `config`.
+
+Els dibuixos que no es poden endevinar del text —els detalls de l'annex 04, per exemple— s'enganxen
+a mà amb la columna **`imatge`** de `claus_parametres`: hi va el camí dins de `public/`, i se'n
+poden posar uns quants separats per `;`. Cada un pot dur la seva etiqueta després d'una barra
+vertical, que és el que llegirà la gent:
+
+```
+annex04/annex 04_rafec-350.png|ràfecs de menys de 3,50 m;annex04/annex 04_rafec+350.png|ràfecs de 3,50 m o més
+```
+
+Els PNG s'obren en la finestra flotant; els PDF, en una pestanya nova. Si el fitxer no hi és, en
+clicar-hi ho diu.
+
 ### Posar-hi capes
 
 El plànol de la portada pot ensenyar més coses que les unitats: equipaments, zones de risc,

@@ -375,6 +375,7 @@ details.bloc[open] summary.blochead{background:var(--hs,var(--accent-soft))}
   align-items:center;gap:6px;border:1px solid var(--blau);background:var(--blau-s);
   color:var(--blau);border-radius:999px;padding:4px 12px}
 .fig::before{content:'▣';font-size:11px;opacity:.8}
+a.fig{text-decoration:none}
 .fig:hover{background:var(--paper)}
 .fig:focus-visible{outline:2px solid var(--blau);outline-offset:2px}
 dialog.lupa .nofig{padding:40px 24px;text-align:center;color:var(--ink-3);font-size:14px}
@@ -690,7 +691,7 @@ function itemsDe(u){
     const font = D.valors[reg] ? reg : (String(z.c).match(/^\d+/) || [''])[0];
     (D.valors[font] || []).forEach(v => {
       const pp = D.params[v.p]; if (!pp) return;
-      posa({b: pp.b, o: pp.o, et: pp.et, aj: pp.aj, pl: v.pl, no: v.no, art: v.a, rem: v.r,
+      posa({b: pp.b, o: pp.o, et: pp.et, aj: pp.aj, pl: v.pl, no: v.no, art: v.a, rem: v.r, im: v.im,
             c: z.c, niv: niv, nomClau: (D.claus[reg] || D.claus[z.c] || {}).n || z.n});
     });
   }));
@@ -742,11 +743,30 @@ function figuresDe(text){
   return [...nums].sort((a, b) => a - b);
 }
 const figNom = n => String(n).padStart(2, '0');
-function chipsFigures(text){
+// La carta de colors de l'annex 03: la norma la cita pel nom, sense número
+const citaColors = t => /carta\s+de\s+colors/i.test(String(t || ''));
+// Un dibuix es diu «camí» o «camí|com se n'ha de dir». Si no porta etiqueta, se'n
+// treu una del nom del fitxer: «annex 04_baranes.png» -> «baranes».
+const camiDibuix = v => String(v).split('|')[0].trim();
+function nomDibuix(v){
+  const parts = String(v).split('|');
+  if (parts[1] && parts[1].trim()) return parts[1].trim();
+  const f = parts[0].trim().split('/').pop().replace(/\.[a-z0-9]+$/i, '');
+  return (f.includes('_') ? f.slice(f.indexOf('_') + 1) : f).replace(/_/g, ' ').trim();
+}
+function chipsFigures(text, imatges){
   const ns = figuresDe(text);
-  if (!ns.length) return '';
-  return `<p class="figs">${ns.map(n => `<button type="button" class="fig" data-fig="${
-    figNom(n)}">Veure figura ${figNom(n)}</button>`).join('')}</p>`;
+  const cols = citaColors(text);
+  const ims = imatges || [];
+  if (!ns.length && !cols && !ims.length) return '';
+  return `<p class="figs">${
+    ns.map(n => `<button type="button" class="fig" data-fig="${figNom(n)}">Veure figura ${figNom(n)}</button>`).join('')
+  }${cols ? `<button type="button" class="fig colors">Veure la carta de colors</button>` : ''
+  }${ims.map(c => /\.pdf$/i.test(camiDibuix(c))
+      ? `<a class="fig" href="${esc(encodeURI(camiDibuix(c)))}" target="_blank" rel="noopener">Obrir ${
+          esc(nomDibuix(c))} ↗</a>`
+      : `<button type="button" class="fig" data-dib="${esc(c)}">Veure el dibuix: ${esc(nomDibuix(c))}</button>`
+    ).join('')}</p>`;
 }
 
 function punt(it, i){
@@ -760,7 +780,7 @@ function punt(it, i){
     <div class="ptop"><span class="plab">${esc(it.et)}</span>${
       it.nomClau ? `<span class="pctx">${esc(it.nomClau)}</span>` : ''}</div>
     <p class="ptext">${esc(it.pl || it.no || T.sense_text)}</p>
-    ${chipsFigures(it.pl || it.no)}
+    ${chipsFigures((it.pl || '') + ' ' + (it.no || ''), it.im)}
     ${it.aj ? `<p class="phelp">${esc(it.aj)}</p>` : ''}
     <div class="botons-font">
       ${teFont ? `<button class="srcbtn" data-src="${i}" aria-expanded="false" aria-controls="src-${i}">${
@@ -1419,12 +1439,22 @@ function vistaUA(id, mantenirScroll){
   }
 
   // les figures de l'annex, a la mateixa finestra flotant que el plànol
-  app.querySelectorAll('.fig').forEach(b => b.addEventListener('click', () => {
-    const n = b.dataset.fig;
-    const patro = (D.cfg && D.cfg.figures_patro) || 'figures/annex 01_figura {n}.png';
-    obreLupa(encodeURI(patro.replace('{n}', n)),
-             'Annex 01 · Figura ' + n + ' — POUPE, normes urbanístiques',
-             'Figura ' + n + " de l'annex 01");
+  app.querySelectorAll('button.fig').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.fig){
+      const n = b.dataset.fig;
+      const patro = (D.cfg && D.cfg.figures_patro) || 'figures/annex 01_figura {n}.png';
+      obreLupa(encodeURI(patro.replace('{n}', n)),
+               'Annex 01 · Figura ' + n + ' — POUPE, normes urbanístiques',
+               'Figura ' + n + " de l'annex 01");
+    } else if (b.dataset.dib){
+      obreLupa(encodeURI(camiDibuix(b.dataset.dib)),
+               'Annex 04 · ' + nomDibuix(b.dataset.dib) + ' — POUPE, normes urbanístiques',
+               nomDibuix(b.dataset.dib));
+    } else {
+      const c = (D.cfg && D.cfg.carta_colors) || 'colors/annex 03_carta colors.png';
+      obreLupa(encodeURI(c), 'Annex 03 · Carta de colors — POUPE, normes urbanístiques',
+               'Carta de colors de l\u2019annex 03');
+    }
   }));
 
   const pim = document.getElementById('planol-img');
