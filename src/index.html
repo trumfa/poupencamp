@@ -173,23 +173,6 @@ header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--g
 .cblist a:hover,.cblist a.on{background:var(--accent-soft);color:var(--accent)}
 .cblist .buit{padding:14px;color:var(--ink-3);font-size:14px}
 .cbcount{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
-/* Els filtres de la portada: manen alhora sobre la llista i sobre el plànol. */
-.filtra{margin:14px 0 0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
-  padding:13px 15px 14px}
-.filtra .grup{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
-.filtra .grup+.grup{margin-top:10px}
-.filtra .et{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
-  color:var(--ink-3);flex:none;width:74px}
-.filtra select{font:inherit;font-size:13.5px;padding:6px 11px;border-radius:999px;cursor:pointer;
-  border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);max-width:100%}
-.filtra select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.filtra .res{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;padding-top:11px;
-  border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
-.filtra .res b{font-family:var(--f-mono);font-weight:500;color:var(--verd)}
-.filtra .neteja{appearance:none;font:inherit;font-size:12.5px;background:none;border:0;padding:0;
-  cursor:pointer;color:var(--ink-3);text-decoration:underline;margin-left:auto}
-.filtra .neteja:hover{color:var(--verd)}
-@media (max-width:560px){.filtra .et{width:100%}}
 .chip{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
 .cblist a .chip{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
@@ -385,6 +368,16 @@ details.bloc[open] summary.blochead{background:var(--hs,var(--accent-soft))}
   border:1px solid var(--line-2);border-radius:4px;padding:1px 5px}
 .ptext{margin:0;font-size:16px;line-height:1.6;max-width:62ch}
 .phelp{margin:5px 0 0;font-size:13.5px;color:var(--ink-3)}
+/* Les figures de l'annex 01: la norma les cita pel número i fins ara t'havies
+   d'anar a buscar el PDF. Ara cada citació porta el dibuix a sobre. */
+.figs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.fig{appearance:none;font:inherit;font-size:12px;cursor:pointer;display:inline-flex;
+  align-items:center;gap:6px;border:1px solid var(--blau);background:var(--blau-s);
+  color:var(--blau);border-radius:999px;padding:4px 12px}
+.fig::before{content:'▣';font-size:11px;opacity:.8}
+.fig:hover{background:var(--paper)}
+.fig:focus-visible{outline:2px solid var(--blau);outline-offset:2px}
+dialog.lupa .nofig{padding:40px 24px;text-align:center;color:var(--ink-3);font-size:14px}
 .botons-font{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
 .srcbtn.rem{color:var(--lila)}
 .src.rem{border-left-color:var(--lila);background:var(--lila-s)}
@@ -587,16 +580,6 @@ function vistaLlista(){
         <ul class="cblist" id="llista" role="listbox" hidden></ul>
       </div>
       <p class="cbcount">Tria-la a la llista o escriu-ne el nom.</p>
-      <div class="filtra" id="filtra">
-        <div class="grup"><span class="et">Classificació</span>
-          <span class="tries" id="f-cls" style="display:flex;flex-wrap:wrap;gap:7px"></span></div>
-        <div class="grup"><span class="et">Zona</span>
-          <select id="f-zona" aria-label="Zona"></select></div>
-        <div class="grup"><span class="et">Subzona</span>
-          <select id="f-sub" aria-label="Subzona"></select></div>
-        <p class="res"><span id="f-res"></span>
-          <button type="button" class="neteja" id="f-neteja" hidden>Treu els filtres</button></p>
-      </div>
       <p class="cbcount">${esc(T.cerca_ajuda)}</p>
       ${D.mapa ? `<div class="plan">
         <div class="cap"><h2>O tria-la al plànol</h2>
@@ -649,102 +632,13 @@ function vistaLlista(){
 
   arrencaPla();
 
-  /* --------------------------------------------------------------- els filtres
-     Classificació, zona i subzona. El que trien val alhora per a la llista i per
-     al plànol: si una unitat no hi passa, no surt ni a un lloc ni a l'altre. */
-  const capsaCls = document.getElementById('f-cls');
-  const selZona = document.getElementById('f-zona'), selSub = document.getElementById('f-sub');
-  const resFil = document.getElementById('f-res'), netFil = document.getElementById('f-neteja');
-  const fCls = new Set();
-  let fZona = '', fSub = '';
-
-  // què té cada unitat, mirant totes les seves parts
-  const trets = u => {
-    if (!u.__f){
-      const cls = new Set(), z = new Set(), sz = new Set();
-      for (const pt of (u.parts || [])){
-        const c = S(pt.cls);
-        if (c) cls.add(CLS[c] || c);
-        for (const x of (pt.z || [])) z.add(x.c);
-        for (const x of (pt.sz || [])) sz.add(x.c);
-      }
-      u.__f = { cls, z, sz };
-    }
-    return u.__f;
-  };
-  const nomClau = c => ((D.claus || {})[c] || {}).n || c;
-  const passa = u => {
-    const t = trets(u);
-    if (fCls.size && ![...t.cls].some(x => fCls.has(x))) return false;
-    if (fZona && !t.z.has(fZona)) return false;
-    if (fSub && !t.sz.has(fSub)) return false;
-    return true;
-  };
-
-  // les opcions surten de les dades, no d'una llista escrita a mà
-  const totCls = [...new Set(D.ua.flatMap(u => [...trets(u).cls]))].sort((a, b) => a.localeCompare(b, 'ca'));
-  const totZ = [...new Set(D.ua.flatMap(u => [...trets(u).z]))]
-    .sort((a, b) => nomClau(a).localeCompare(nomClau(b), 'ca'));
-  const totSz = [...new Set(D.ua.flatMap(u => [...trets(u).sz]))]
-    .sort((a, b) => nomClau(a).localeCompare(nomClau(b), 'ca', {numeric: true}));
-
-  capsaCls.innerHTML = totCls.map(c =>
-    `<button type="button" class="pick" data-cls="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join('');
-  // Cada opció diu quantes unitats hi ha darrere amb la resta de filtres posats, i
-  // les que no en tenen cap surten apagades: així no es tria un carreró sense sortida.
-  function opcions(sel, llista, cap, quin){
-    const ara = sel.value;
-    const compta = c => D.ua.filter(u => {
-      const t = trets(u);
-      if (fCls.size && ![...t.cls].some(x => fCls.has(x))) return false;
-      if (quin !== 'z' && fZona && !t.z.has(fZona)) return false;
-      if (quin !== 'sz' && fSub && !t.sz.has(fSub)) return false;
-      return t[quin].has(c);
-    }).length;
-    sel.innerHTML = `<option value="">${cap}</option>` + llista.map(c => {
-      const n = compta(c);
-      return `<option value="${esc(c)}"${n ? '' : ' disabled'}>${esc(nomClau(c))} (${n})</option>`;
-    }).join('');
-    sel.value = ara;
-  }
-
-  function aplica(){
-    const passades = D.ua.filter(passa);
-    VISIBLES = (fCls.size || fZona || fSub) ? new Set(passades.map(u => u.id)) : null;
-    const hiHaFiltre = VISIBLES !== null;
-    netFil.hidden = !hiHaFiltre;
-    resFil.innerHTML = hiHaFiltre
-      ? `Es veuen <b>${passades.length}</b> de ${D.ua.length} unitats, a la llista i al plànol.`
-      : `Totes les <b>${D.ua.length}</b> unitats.`;
-    for (const b of capsaCls.querySelectorAll('[data-cls]'))
-      b.setAttribute('aria-pressed', String(fCls.has(b.dataset.cls)));
-    opcions(selZona, totZ, 'Totes', 'z');
-    opcions(selSub, totSz, 'Totes', 'sz');
-    repintaPla(VISIBLES ? 'ajusta' : 'inici');
-    if (obert) pinta();
-  }
-  capsaCls.addEventListener('click', e => {
-    const b = e.target.closest('[data-cls]');
-    if (!b) return;
-    fCls.has(b.dataset.cls) ? fCls.delete(b.dataset.cls) : fCls.add(b.dataset.cls);
-    aplica();
-  });
-  selZona.addEventListener('change', () => { fZona = selZona.value; aplica(); });
-  selSub.addEventListener('change', () => { fSub = selSub.value; aplica(); });
-  netFil.addEventListener('click', () => {
-    fCls.clear(); fZona = ''; fSub = '';
-    selZona.value = ''; selSub.value = '';
-    aplica();
-  });
-
   const q = document.getElementById('q'), ul = document.getElementById('llista'), tg = document.getElementById('tg');
   let obert = false, idx = -1, vis = [];
 
   function pinta(){
     const t = nrm(q.value.trim());
-    vis = D.ua.filter(u => passa(u) && (!t || nrm(u.n).includes(t) || nrm(u.id).includes(t)));
-    if (!vis.length){ ul.innerHTML = '<li class="buit">'
-      + esc(VISIBLES ? 'Cap unitat amb aquests filtres.' : T.cerca_sense_resultats) + '</li>'; return; }
+    vis = D.ua.filter(u => !t || nrm(u.n).includes(t) || nrm(u.id).includes(t));
+    if (!vis.length){ ul.innerHTML = '<li class="buit">' + esc(T.cerca_sense_resultats) + '</li>'; return; }
     let lletra = '', h = '';
     vis.forEach((u, i) => {
       const l = (u.n[0] || '').toUpperCase();
@@ -772,7 +666,6 @@ function vistaLlista(){
     else if (e.key === 'Escape') tanca();
   });
   document.addEventListener('click', e => { if (!e.target.closest('.cb')) tanca(); }, {once:false});
-  aplica();
 }
 
 /* ------------------------------------------------------------------- fitxa */
@@ -832,6 +725,30 @@ function fontArticle(nom, a){
          : (a.b ? `<br><span class="bopa">Publicat al ${esc(a.b)}</span>` : '')}</p>`;
 }
 
+/* Els números de figura que cita un text, amb els rangs oberts: «figures 10-13»
+   vol dir la 10, la 11, la 12 i la 13. Compte amb «configuració» i amb «que
+   figuren a l'apartat 3», que no són cap figura. */
+function figuresDe(text){
+  const nums = new Set();
+  const rx = /(?:^|[^0-9A-Za-zÀ-ÿ])figur(?:a|es)\s+(?:núm\.?\s*)?(\d{1,2}(?:\s*(?:,|\si\s|[-–]|\sa\s)\s*\d{1,2})*)/gi;
+  let m;
+  while ((m = rx.exec(String(text || '')))){
+    for (const tros of m[1].split(/\s*(?:,|\si\s)\s*/)){
+      const r = tros.match(/^(\d{1,2})\s*(?:[-–]|\sa\s)\s*(\d{1,2})$/);
+      if (r){ for (let k = +r[1]; k <= +r[2]; k++) nums.add(k); }
+      else { const n = parseInt(tros, 10); if (n) nums.add(n); }
+    }
+  }
+  return [...nums].sort((a, b) => a - b);
+}
+const figNom = n => String(n).padStart(2, '0');
+function chipsFigures(text){
+  const ns = figuresDe(text);
+  if (!ns.length) return '';
+  return `<p class="figs">${ns.map(n => `<button type="button" class="fig" data-fig="${
+    figNom(n)}">Veure figura ${figNom(n)}</button>`).join('')}</p>`;
+}
+
 function punt(it, i){
   const a = D.arts[it.art] || null;
   // Quan l'article de la subzona només remet a un altre, el que interessa és el
@@ -843,6 +760,7 @@ function punt(it, i){
     <div class="ptop"><span class="plab">${esc(it.et)}</span>${
       it.nomClau ? `<span class="pctx">${esc(it.nomClau)}</span>` : ''}</div>
     <p class="ptext">${esc(it.pl || it.no || T.sense_text)}</p>
+    ${chipsFigures(it.pl || it.no)}
     ${it.aj ? `<p class="phelp">${esc(it.aj)}</p>` : ''}
     <div class="botons-font">
       ${teFont ? `<button class="srcbtn" data-src="${i}" aria-expanded="false" aria-controls="src-${i}">${
@@ -851,13 +769,13 @@ function punt(it, i){
         aria-controls="src-rem-${i}">El que diu l'article ${esc(it.rem)}</button>` : ''}
     </div>
     ${teFont ? `<div class="src" id="src-${i}" hidden>
-      ${it.no ? `<span class="k">${esc(T.font_literal)}</span><q>${esc(it.no)}</q>` : ''}
+      ${it.no ? `<span class="k">${esc(T.font_literal)}</span><q>${esc(it.no)}</q>${chipsFigures(it.no)}` : ''}
       ${a ? fontArticle(it.art, a)
         : (it.fitxa ? `<p class="meta">Text de la fitxa urbanística d'aquesta unitat.</p>` : '')}
     </div>` : ''}
     ${rem && rem.x ? `<div class="src rem" id="src-rem-${i}" hidden>
       <span class="k">${esc(remN)} · ${esc(rem.t)}</span>
-      ${rem.x.map(ap => `<q class="ap"><b>${esc(ap.n)}</b> ${esc(ap.t)}</q>`).join('')}
+      ${rem.x.map(ap => `<q class="ap"><b>${esc(ap.n)}</b> ${esc(ap.t)}</q>${chipsFigures(ap.t)}`).join('')}
       ${fontArticle(remN, rem)}
     </div>` : ''}
   </div>`;
@@ -901,10 +819,6 @@ const FONS = {
 };
 const MERCATOR = 20037508.342789244;
 let PLA = null;
-// Quines unitats es veuen ara mateix: null vol dir totes. Ho fixen els filtres de
-// la portada i ho miren tant la llista com el plànol, perquè diguin el mateix.
-let VISIBLES = null;
-let repintaPla = () => {};
 
 function muntaPla(){
   if (PLA || !D.mapa) return PLA;
@@ -1110,7 +1024,7 @@ function arrencaPla(){
       pintaFons();
       pintaCapes(true);
       for (const u of M.ua){
-        if (!veu(u.bb) || (VISIBLES && !VISIBLES.has(u.id))) continue;
+        if (!veu(u.bb)) continue;
         traça(u.p);
         ctx.fillStyle = u.c + (u === sobre ? '73' : (ambFons ? '3A' : '2E'));
         ctx.fill();
@@ -1127,7 +1041,7 @@ function arrencaPla(){
         ctx.lineWidth = 3; ctx.lineJoin = 'round';
         const posats = [];
         for (const u of M.ua){
-          if (u === sobre || !veu(u.bb) || (VISIBLES && !VISIBLES.has(u.id))) continue;
+          if (u === sobre || !veu(u.bb)) continue;
           if ((u.bb[2] - u.bb[0]) * escala < 80) continue;
           const [px, py] = aPant((u.bb[0] + u.bb[2]) / 2, (u.bb[1] + u.bb[3]) / 2);
           if (posats.some(q => Math.abs(q[0] - px) < 70 && Math.abs(q[1] - py) < 15)) continue;
@@ -1155,10 +1069,8 @@ function arrencaPla(){
   }
 
   function unitatA(x, y){
-    for (const u of M.ua){
-      if (VISIBLES && !VISIBLES.has(u.id)) continue;
+    for (const u of M.ua)
       if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
-    }
     return null;
   }
   // A prop d'una línia o d'un punt: les unitats es cliquen per dins, però una
@@ -1300,23 +1212,6 @@ function arrencaPla(){
         o.setAttribute('aria-pressed', String(o.dataset.fons === capa));
       posaCredit(); pinta();
     });
-  // Filtrar i quedar-te mirant una altra banda del mapa no serveix de res: quan
-  // els filtres canvien, la vista va a parar on són les unitats que queden.
-  repintaPla = mode => {
-    if (mode === 'ajusta'){
-      const uv = M.ua.filter(u => !VISIBLES || VISIBLES.has(u.id));
-      if (uv.length){
-        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-        for (const u of uv){
-          if (u.bb[0] < x0) x0 = u.bb[0]; if (u.bb[1] < y0) y0 = u.bb[1];
-          if (u.bb[2] > x1) x1 = u.bb[2]; if (u.bb[3] > y1) y1 = u.bb[3];
-        }
-        const m = Math.max(x1 - x0, y1 - y0) * 0.08 + 60;
-        encaixa([x0 - m, y0 - m, x1 + m, y1 + m]);
-      }
-    } else if (mode === 'inici') inici();
-    pinta();
-  };
   const obreCapes = document.getElementById('capes-obre');
   if (obreCapes){
     const llista = document.getElementById('capes-llista');
@@ -1348,7 +1243,6 @@ function arrencaPla(){
 }
 
 function vistaUA(id, mantenirScroll){
-  VISIBLES = null;                     // els filtres són cosa de la portada
   const u = D.ua.find(x => x.id === id);
   if (!u){ location.hash = '#/'; return; }
   if (!mantenirScroll) sel.part = 0;
@@ -1388,7 +1282,7 @@ function vistaUA(id, mantenirScroll){
       const a = D.arts[c.a] || null;
       return `<div class="clau">
         <h3>${esc(c.n || z.n || z.c)} <span class="chip">${esc(tipus)} ${esc(z.c)}</span></h3>
-        ${c.f ? `<p>${esc(c.f)}</p>` : `<p>Clau ${esc(z.c)} del POUPE.</p>`}
+        ${c.f ? `<p>${esc(c.f)}</p>${chipsFigures(c.f)}` : `<p>Clau ${esc(z.c)} del POUPE.</p>`}
         ${c.co ? `<p style="margin-top:5px">Coeficient d'edificabilitat: <b>${esc(c.co)}</b> m² de sostre per m² de terreny.</p>` : ''}
         ${c.a ? `<div class="art">${esc(c.a)}${a ? ' · ' + esc(a.t) : ''}${
           a && a.u ? ` — <a href="${esc(a.u)}" target="_blank" rel="noopener">${esc(T.veure_article)} ↗</a>` : ''}</div>` : ''}
@@ -1520,15 +1414,18 @@ function vistaUA(id, mantenirScroll){
   if (mini){
     const img = mini.querySelector('img');
     img.addEventListener('error', () => mini.remove());
-    mini.addEventListener('click', () => {
-      const d = document.getElementById('lupa');
-      document.getElementById('lupa-img').src = urlPlanol;
-      document.getElementById('lupa-img').alt = 'Plànol de ' + u.n;
-      document.getElementById('lupa-peu').textContent = T.planol_nota || '';
-      document.getElementById('lupa-obre').href = urlPlanol;
-      d.showModal();
-    });
+    mini.addEventListener('click', () =>
+      obreLupa(urlPlanol, T.planol_nota || '', 'Plànol de ' + u.n));
   }
+
+  // les figures de l'annex, a la mateixa finestra flotant que el plànol
+  app.querySelectorAll('.fig').forEach(b => b.addEventListener('click', () => {
+    const n = b.dataset.fig;
+    const patro = (D.cfg && D.cfg.figures_patro) || 'figures/annex 01_figura {n}.png';
+    obreLupa(encodeURI(patro.replace('{n}', n)),
+             'Annex 01 · Figura ' + n + ' — POUPE, normes urbanístiques',
+             'Figura ' + n + " de l'annex 01");
+  }));
 
   const pim = document.getElementById('planol-img');
   if (pim) pim.addEventListener('error', () => {
@@ -1645,10 +1542,35 @@ function ruta(){
   capsa.addEventListener('click', e => { if (e.target.closest('a')) tanca(); });
 })();
 
-// tancar el plànol flotant
+/* La finestra flotant, per al plànol de la fitxa i per a les figures de l'annex.
+   Si la imatge no hi és, val més dir-ho que deixar-hi una icona trencada. */
+function obreLupa(url, peu, alt){
+  const d = document.getElementById('lupa');
+  if (!d) return;
+  const img = document.getElementById('lupa-img');
+  const cos = d.querySelector('.cos');
+  const vell = cos.querySelector('.nofig');
+  if (vell) vell.remove();
+  img.hidden = false;
+  img.src = url;
+  img.alt = alt || '';
+  document.getElementById('lupa-peu').textContent = peu || '';
+  document.getElementById('lupa-obre').href = url;
+  d.showModal();
+}
 (function(){
   const d = document.getElementById('lupa');
   if (!d) return;
+  const img = document.getElementById('lupa-img');
+  img.addEventListener('error', () => {
+    img.hidden = true;
+    if (!d.querySelector('.nofig')){
+      const p = document.createElement('p');
+      p.className = 'nofig';
+      p.textContent = 'Aquesta imatge encara no hi és.';
+      img.after(p);
+    }
+  });
   document.getElementById('lupa-x').addEventListener('click', () => d.close());
   d.addEventListener('click', e => { if (e.target === d) d.close(); });
 })();

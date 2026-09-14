@@ -217,6 +217,22 @@ Del que en surt, els quatre fitxers —`recintes.csv`, `geometria.json`, `recint
 `etiquetes.json`— van a `data/`. Les assignacions que ja hi havia es conserven totes: el guió mai no toca l'`id_ua` d'una
 fila que ja en té.
 
+### Les figures de l'annex 01
+
+Les normes citen els dibuixos de l'annex 01 pel número —«segons la figura 14 de l'Annex 01»— i
+fins ara t'havies d'anar a buscar el PDF. Ara la pàgina els ensenya: les imatges van a
+`public/figures/` amb el nom **`annex 01_figura NN.png`** (dos dígits: `01`, `09`, `14`) i, allà on
+un text cita una figura, hi surt un botó **«Veure figura NN»** que l'obre en una finestra flotant.
+
+Els números els troba la pàgina sola llegint el text, i entén les tres maneres que fa servir la
+norma: una de sola («figura 14»), una llista («figures 01, 02, 03 i 04») i un interval («figures
+10-13», que obre la 10, la 11, la 12 i la 13). No es confon amb «configuració» ni amb «els edificis
+que figuren a l'apartat 3». Si una figura encara no és a la carpeta, en clicar-hi ho diu.
+
+Es miren els textos planers, el text literal de la norma, els articles citats i les descripcions
+de les claus. Per canviar com es diuen els fitxers, posa una fila `figures_patro` a la pestanya
+`config` amb el patró, on `{n}` és el número: per defecte, `figures/annex 01_figura {n}.png`.
+
 ### Posar-hi capes
 
 El plànol de la portada pot ensenyar més coses que les unitats: equipaments, zones de risc,
