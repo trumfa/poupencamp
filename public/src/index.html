@@ -1,0 +1,1600 @@
+<title>POUPE Encamp en clar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..115,500..700&family=Petrona:ital,wght@0,500;1,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Els neutres van tirats cap al verd de la vall, que és l'únic color fort de la
+   casa. La serif només parla quan parla la norma: el text literal dels articles. */
+:root{
+  --ground:#FFFFFF; --paper:#FFFFFF; --surface:#F4F7F5;
+  --ink:#0F1714; --ink-2:#4B5853; --ink-3:#79857F;
+  --line:#E2E7E1; --line-2:#C7CFC7;
+  --accent:#0C6B4F; --accent-soft:#E2F0E9;
+  --warn:#9A5426; --warn-soft:#F7EBE1;
+  --shadow:0 1px 2px rgba(15,23,20,.04);
+  --lift:0 1px 2px rgba(15,23,20,.04),0 14px 30px -16px rgba(15,23,20,.22);
+  --pop:0 10px 34px -8px rgba(15,23,20,.22);
+  --r:14px; --r-s:10px;
+  /* Els colors de les bombolles i les caixes. Cadascun vol dir una cosa: el verd
+     és la clau, el blau la mida, el lila com s'ordena, el rosa d'on surt el
+     sostre, i el taronja avisa. */
+  --damunt:#FFFFFF;                        /* el text que va damunt d'un color ple */
+  --verd:#0B6B4F;    --verd-s:#DCF2E8;
+  --blau:#15609E;    --blau-s:#E0EEFA;
+  --taronja:#B4541A; --taronja-s:#FCEADB;
+  --lila:#6A3EA1;    --lila-s:#EDE6FA;
+  --rosa:#A82A63;    --rosa-s:#FBE4EF;
+  --f-display:'Archivo','Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --f-body:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --f-cita:'Petrona',Georgia,'Times New Roman',serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1211; --paper:#151D19; --surface:#1B2420;
+    --damunt:#0D1211;
+    --verd:#6FD2A8;    --verd-s:#123026;
+    --blau:#7FBDEE;    --blau-s:#11293D;
+    --taronja:#E7A277; --taronja-s:#33231A;
+    --lila:#BFA3EE;    --lila-s:#241B39;
+    --rosa:#EE9BBF;    --rosa-s:#331A26;
+    --ink:#E9EEEA; --ink-2:#A8B3AD; --ink-3:#7C8882;
+    --line:#242E29; --line-2:#38433C;
+    --accent:#6FD2A8; --accent-soft:#142D24;
+    --warn:#E0A077; --warn-soft:#2B2019;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    --lift:0 1px 2px rgba(0,0,0,.4),0 14px 30px -16px rgba(0,0,0,.8);
+    --pop:0 10px 34px -8px rgba(0,0,0,.75);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1211; --paper:#151D19; --surface:#1B2420;
+  --damunt:#0D1211;
+  --verd:#6FD2A8;  --verd-s:#123026;
+  --blau:#7FBDEE;  --blau-s:#11293D;
+  --taronja:#E7A277; --taronja-s:#33231A;
+  --lila:#BFA3EE;  --lila-s:#241B39;
+  --rosa:#EE9BBF;  --rosa-s:#331A26;
+  --ink:#E9EEEA; --ink-2:#A8B3AD; --ink-3:#7C8882;
+  --line:#242E29; --line-2:#38433C;
+  --accent:#6FD2A8; --accent-soft:#142D24;
+  --warn:#E0A077; --warn-soft:#2B2019;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --lift:0 1px 2px rgba(0,0,0,.4),0 14px 30px -16px rgba(0,0,0,.8);
+  --pop:0 10px 34px -8px rgba(0,0,0,.75);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:740px;margin:0 auto;padding:0 20px}
+
+header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--ground) 86%,transparent);
+  backdrop-filter:blur(10px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:58px}
+.brand{font-family:var(--f-display);font-size:17px;font-weight:700;letter-spacing:-.02em;
+  text-decoration:none;color:var(--ink);display:flex;align-items:baseline;gap:7px}
+.brand small{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:400}
+.spacer{flex:1}
+/* El menú: la manera de tornar a l'inici, de saltar a una altra unitat sense
+   passar per la portada, i d'arribar a «Qui regula què». */
+.hamb{flex:none;appearance:none;width:38px;height:38px;border-radius:11px;cursor:pointer;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);display:grid;
+  place-items:center;gap:0;padding:0;box-shadow:var(--shadow)}
+.hamb:hover{border-color:var(--accent);color:var(--accent)}
+.hamb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hamb i{display:block;width:17px;height:1.6px;background:currentColor;border-radius:2px;
+  transition:transform .18s ease,opacity .15s ease}
+.hamb i+i{margin-top:4px}
+
+.menuwrap{position:fixed;inset:0;z-index:40;background:rgba(15,23,20,.28);
+  backdrop-filter:blur(2px);display:flex;justify-content:center;align-items:flex-start;
+  padding:66px 20px 20px}
+.menu{width:min(440px,100%);max-height:100%;overflow:auto;background:var(--paper);
+  border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--pop);padding:16px}
+.menu h2{font-family:var(--f-display);font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.menu h2+h2{margin-top:18px}
+.menu .gran{display:block;text-decoration:none;color:var(--ink);
+  border:1px solid var(--line);border-radius:var(--r-s);padding:12px 14px;font-size:15px;font-weight:600;
+  background:var(--verd-s)}
+.menu .gran:hover{border-color:var(--verd)}
+.menu .gran span{font-size:12.5px;font-weight:400;color:var(--ink-2);display:block;margin-top:1px}
+.menu .gran+.gran{margin-top:8px;background:var(--lila-s)}
+.menu .gran+.gran:hover{border-color:var(--lila)}
+.menu input{width:100%;font:inherit;font-size:15.5px;padding:11px 14px;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink)}
+.menu input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.menu ul{list-style:none;margin:8px 0 0;padding:0;max-height:min(44vh,320px);overflow:auto;
+  border:1px solid var(--line);border-radius:var(--r-s)}
+.menu ul:empty{display:none}
+.menu li a{display:flex;align-items:center;gap:9px;padding:9px 13px;text-decoration:none;
+  color:var(--ink);font-size:14.5px;border-bottom:1px solid var(--line)}
+.menu li:last-child a{border-bottom:0}
+.menu li a:hover,.menu li a.on{background:var(--verd-s);color:var(--verd)}
+.menu li a .chip{margin-left:auto}
+.menu .cap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.menu .cap b{font-family:var(--f-display);font-size:16px;letter-spacing:-.02em}
+.menu .tanca{margin-left:auto;appearance:none;border:0;background:none;font-size:19px;line-height:1;
+  color:var(--ink-3);cursor:pointer;padding:4px 6px;border-radius:8px}
+.menu .tanca:hover{color:var(--ink)}
+.topline{min-height:50px;gap:10px}
+.brand{flex:none}
+.ubar-nom{font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.025em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:2ch;flex:1 1 auto;
+  padding-left:10px;border-left:1px solid var(--line-2)}
+.chips{display:flex;gap:5px;flex:none;margin-left:auto}
+.topline .brand{margin-left:2px}
+.chips:empty{display:none}
+.chips .chip{font-size:10px;padding:2px 6px}
+.chips .chip.cls{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
+@media (max-width:400px){
+  .brand small{display:none}
+  .chips .chip.cls{display:none}
+}
+
+.uatop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.uatop .back{padding:0;flex:1 1 auto}
+.uaacts{display:flex;flex-wrap:wrap;gap:7px;flex:none;margin-left:auto}
+.nomes-imprimir{display:none}
+.btn2{appearance:none;font:inherit;font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;
+  display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border-radius:999px;cursor:pointer;
+  text-decoration:none;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);
+  box-shadow:var(--shadow);transition:border-color .15s,color .15s,transform .15s}
+.btn2:hover{border-color:var(--accent);color:var(--accent)}
+.btn2:active{transform:translateY(1px)}
+.btn2.ple{background:var(--verd);border-color:var(--verd);color:var(--damunt)}
+.btn2:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.hero{padding:54px 0 22px}
+.hero h1{font-family:var(--f-display);font-size:clamp(32px,7.4vw,50px);line-height:1.04;font-weight:700;
+  font-stretch:112%;letter-spacing:-.035em;margin:0 0 14px}
+.hero p{margin:0;color:var(--ink-2);max-width:58ch;font-size:17px}
+
+/* combobox */
+.cb{position:relative;margin:26px 0 8px}
+.cbfield{display:flex;align-items:center;background:var(--paper);border:1px solid var(--line-2);
+  border-radius:999px;box-shadow:var(--lift);overflow:hidden}
+.cbfield:focus-within{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.cb input{flex:1;min-width:0;font:inherit;font-size:16.5px;padding:14px 20px;color:var(--ink);
+  background:transparent;border:0;outline:0}
+.cb .toggle{appearance:none;border:0;background:transparent;color:var(--ink-2);cursor:pointer;
+  padding:0 14px;align-self:stretch;font-size:12px}
+.cb .toggle:hover{color:var(--accent)}
+.cblist{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:25;max-height:min(60vh,420px);
+  overflow-y:auto;background:var(--paper);border:1px solid var(--line-2);border-radius:var(--r);
+  box-shadow:var(--pop);margin:0;padding:4px 0;list-style:none}
+.cblist li{margin:0}
+.cblist .grup{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3);
+  padding:9px 18px 3px;position:sticky;top:0;background:var(--paper)}
+.cblist a{display:flex;align-items:center;gap:10px;padding:10px 18px;text-decoration:none;color:var(--ink);font-size:15px}
+.cblist a:hover,.cblist a.on{background:var(--accent-soft);color:var(--accent)}
+.cblist .buit{padding:14px;color:var(--ink-3);font-size:14px}
+.cbcount{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
+.chip{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.cblist a .chip{background:transparent;border:1px solid var(--line-2);color:var(--ink-3)}
+.soon{margin:24px 0 0;padding:13px 15px;border:1px dashed var(--line-2);border-radius:10px;
+  font-size:14px;color:var(--ink-2);display:flex;gap:11px;align-items:flex-start}
+.soon svg{flex:none;margin-top:2px;color:var(--ink-3)}
+
+/* el plànol */
+.plan{margin:28px 0 0}
+.plan .cap{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;margin-bottom:10px}
+.plan h2{font-family:var(--f-display);font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em;flex:none}
+.plan .cap p{margin:0;font-size:13.5px;color:var(--ink-3);flex:1 1 24ch;min-width:0;max-width:72ch}
+.planbox{position:relative;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;
+  background:var(--surface);height:min(62vh,520px);touch-action:none}
+.planbox canvas{display:block;width:100%;height:100%;cursor:grab}
+.planbox canvas.arrossega{cursor:grabbing}
+@media (min-width:900px){        /* el plànol se surt de la columna de text */
+  .plan{position:relative;left:50%;transform:translateX(-50%);width:min(1280px,94vw)}
+  .planbox{height:min(74vh,660px)}
+}
+.fons{position:absolute;left:10px;top:10px;display:flex;gap:0;border-radius:8px;overflow:hidden;
+  border:1px solid var(--line-2);box-shadow:var(--shadow)}
+.fons button{appearance:none;font:inherit;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;
+  padding:6px 10px;border:0;border-left:1px solid var(--line-2);background:var(--paper);
+  color:var(--ink-2);cursor:pointer}
+.fons button:first-child{border-left:0}
+.fons button[aria-pressed="true"]{background:var(--accent);color:var(--paper)}
+.fons button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* el selector de capes */
+.capes{position:absolute;right:10px;top:10px;max-width:min(240px,56%);z-index:3}
+.capes .cap{appearance:none;font:inherit;font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;
+  padding:6px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--paper);
+  color:var(--ink-2);cursor:pointer;box-shadow:var(--shadow);display:block;margin-left:auto}
+.capes .cap[aria-expanded="true"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.capes .llista{margin-top:6px;background:var(--paper);border:1px solid var(--line-2);border-radius:8px;
+  box-shadow:var(--pop);padding:7px 9px;display:grid;gap:5px;max-height:46vh;overflow:auto}
+.capes label{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2);cursor:pointer;
+  line-height:1.25}
+.capes label i{width:12px;height:12px;border-radius:3px;border:1px solid;flex:none}
+.capes input{flex:none;accent-color:var(--accent)}
+.capainfo{position:absolute;left:10px;bottom:10px;max-width:min(330px,72%);background:var(--paper);
+  border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--pop);padding:10px 12px;z-index:3}
+.capainfo h3{margin:0 0 2px;font-family:var(--f-display);font-size:15px;font-weight:600}
+.capainfo .de{font-family:var(--f-mono);font-size:10px;letter-spacing:.04em;color:var(--ink-3);
+  text-transform:uppercase;margin:0 0 5px}
+.capainfo dl{display:grid;grid-template-columns:auto 1fr;gap:1px 10px;margin:0;font-size:12px}
+.capainfo dt{color:var(--ink-3)}
+.capainfo dd{margin:0;word-break:break-word}
+.capainfo .font{margin:6px 0 0;font-size:11px;color:var(--ink-3)}
+.capainfo .x{position:absolute;right:6px;top:5px;border:0;background:none;font-size:15px;line-height:1;
+  color:var(--ink-3);cursor:pointer;padding:2px 5px}
+@media (max-width:620px){.capainfo{max-width:calc(100% - 20px)}}
+
+.credit{position:absolute;left:10px;top:44px;margin:0;font-size:10px;line-height:1.3;color:var(--ink-3);
+  background:color-mix(in srgb,var(--paper) 80%,transparent);padding:2px 6px;border-radius:4px;
+  max-width:60%}
+.zoom{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+.zoom button{appearance:none;width:34px;height:34px;border-radius:8px;cursor:pointer;font:inherit;
+  font-size:16px;line-height:1;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);
+  box-shadow:var(--shadow)}
+.zoom button:hover{border-color:var(--accent);color:var(--accent)}
+.zoom button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.zoom button.re{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.04em}
+.llegenda{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:var(--ink-3)}
+.llegenda span{display:inline-flex;align-items:center;gap:6px}
+.llegenda i{width:13px;height:13px;border-radius:3px;display:inline-block;border:1px solid}
+.plan .ajuda{margin-top:8px;font-size:12.5px;color:var(--ink-3)}
+
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-2);
+  text-decoration:none;padding:20px 0 0}
+.uahead{padding-top:20px}
+.back:hover{color:var(--accent)}
+.uahead{padding:14px 0 4px}
+/* Les bombolles: text centrat, cada color vol dir una cosa, i el plànol n'és una
+   més —petita— que en clicar-la s'obre gran. El nom de la unitat no hi és: ja el
+   porta la barra de dalt, que va enganxada a la pantalla. */
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;align-items:stretch}
+.fact{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center;
+  min-height:38px;font-size:13px;line-height:1.25;color:var(--ink-2);background:var(--surface);
+  border:1px solid transparent;border-radius:999px;padding:6px 15px}
+.fact b{font-family:var(--f-mono);font-weight:500;color:inherit;font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em}
+.fact i{font-style:normal;font-size:10px;letter-spacing:.11em;text-transform:uppercase;opacity:.7}
+.fact.clau{background:var(--verd);border-color:var(--verd);color:var(--damunt);padding:6px 16px}
+.fact.mida{background:var(--blau-s);color:var(--blau)}
+.fact.sol{background:var(--verd-s);color:var(--verd)}
+.fact.ordre{background:var(--lila-s);color:var(--lila)}
+.fact.sostre{background:var(--rosa-s);color:var(--rosa)}
+.fact.mini{padding:4px 15px 4px 5px;gap:10px;background:var(--paper);border-color:var(--line-2);
+  cursor:pointer;font:inherit;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow);
+  border-radius:999px}
+.fact.mini:hover{border-color:var(--verd);color:var(--verd)}
+.fact.mini:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fact.mini img{width:54px;height:36px;object-fit:cover;object-position:center;border-radius:999px;
+  display:block;background:var(--surface);border:1px solid var(--line)}
+.lede{font-size:18px;line-height:1.5;margin:0;color:var(--ink-2)}
+.lede p{margin:0 0 10px;max-width:60ch}
+.lede p:first-child{color:var(--ink);font-size:19px}
+.notices{display:flex;flex-direction:column;gap:8px;margin:18px 0 4px}
+.notice{display:flex;gap:10px;font-size:14px;line-height:1.5;padding:12px 15px;border-radius:var(--r-s);
+  background:var(--paper);border:1px solid var(--line);color:var(--ink-2);box-shadow:var(--shadow)}
+.notice.atencio{background:var(--taronja-s);border-color:var(--taronja);color:var(--ink)}
+.notice.info{background:var(--blau-s);border-color:transparent}
+.notice i{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--taronja);letter-spacing:.08em;
+  text-transform:uppercase;flex:none;padding-top:2px}
+.notice.info i{color:var(--blau)}
+
+.picker{margin:0 0 18px;padding:16px 18px 17px;border:1px solid var(--verd);border-radius:var(--r);
+  background:var(--verd-s)}
+.parts{margin:0 0 16px;padding:15px 17px 16px;border:1px solid var(--taronja);
+  border-radius:var(--r);background:var(--taronja-s)}
+.parts .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--damunt);background:var(--taronja);
+  padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.parts p{margin:0 0 11px;font-size:13.5px;color:var(--ink-2)}
+.parts .tria{display:flex;flex-wrap:wrap;gap:7px}
+.parts button{appearance:none;font:inherit;font-size:13.5px;padding:7px 13px;border-radius:999px;
+  cursor:pointer;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);
+  display:inline-flex;align-items:baseline;gap:7px}
+.parts button b{font-weight:600}
+.parts button small{font-family:var(--f-mono);font-size:10.5px;opacity:.75}
+.parts button[aria-pressed="true"]{background:var(--taronja);border-color:var(--taronja);color:var(--damunt)}
+.parts button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.picker .flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--damunt);background:var(--verd);
+  padding:3px 8px;border-radius:999px;margin-bottom:9px}
+.picker h2{font-family:var(--f-display);font-size:19px;margin:0 0 3px;font-weight:600;letter-spacing:-.02em}
+.picker p{margin:0 0 12px;font-size:13.5px;color:var(--ink-2)}
+.pgroup{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
+.pgroup:last-child{margin-bottom:0}
+.plabel{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);width:100%;margin-bottom:1px}
+.pick{appearance:none;font:inherit;font-size:13.5px;padding:7px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);transition:all .15s}
+.pick[aria-pressed="true"]{background:var(--verd);border-color:var(--verd);color:var(--damunt);font-weight:500}
+.pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.picker .estat{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;padding-top:11px;
+  border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.picker .estat b{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.picker .neteja{appearance:none;font:inherit;font-size:12.5px;background:none;border:0;padding:0;
+  cursor:pointer;color:var(--ink-3);text-decoration:underline;margin-left:auto}
+.picker .neteja:hover{color:var(--accent)}
+
+/* Una fitxa sencera són nou mil píxels de norma. Plegada, és un índex: es veu
+   de què va cada apartat i quants punts té, i s'obre el que fa falta. */
+.eines-bloc{display:flex;align-items:center;gap:12px;margin:30px 0 12px}
+.eines-bloc .t{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3)}
+.eines-bloc button{appearance:none;font:inherit;font-size:12.5px;margin-left:auto;cursor:pointer;
+  border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);border-radius:999px;
+  padding:5px 13px;box-shadow:var(--shadow)}
+.eines-bloc button:hover{border-color:var(--accent);color:var(--accent)}
+.eines-bloc button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.blocs{display:flex;flex-direction:column;gap:10px}
+details.bloc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow)}
+details.bloc[open]{box-shadow:var(--lift);border-color:var(--line-2)}
+summary.blochead{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
+  list-style:none;border-radius:var(--r)}
+summary.blochead::-webkit-details-marker{display:none}
+summary.blochead:hover{background:var(--hs,var(--accent-soft))}
+summary.blochead:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+details.bloc[open] summary.blochead{border-radius:var(--r) var(--r) 0 0;
+  border-bottom:1px solid var(--line)}
+.blochead .tt{min-width:0}
+.blochead h2{font-family:var(--f-display);font-size:19.5px;font-weight:600;margin:0;letter-spacing:-.025em}
+.blochead .sub{display:block;font-size:13px;color:var(--ink-3);margin-top:1px}
+.blochead .nb{margin-left:auto;flex:none;font-family:var(--f-mono);font-size:11px;
+  font-variant-numeric:tabular-nums;color:var(--h,var(--ink-3));background:var(--hs,var(--surface));
+  border-radius:999px;padding:3px 9px}
+.blochead .fl{flex:none;color:var(--h,var(--ink-3));font-size:19px;line-height:1;
+  transition:transform .18s ease}
+details.bloc[open] .blochead .fl{transform:rotate(90deg)}
+details.bloc[open] .blochead h2{color:var(--h,var(--accent))}
+details.bloc[open]{border-color:var(--h,var(--line-2))}
+summary.blochead:hover .nb{background:var(--paper)}
+details.bloc[open] summary.blochead{background:var(--hs,var(--accent-soft))}
+.bloccos{padding:2px 18px 8px}
+@media (max-width:520px){
+  summary.blochead{padding:14px;gap:10px;align-items:flex-start}
+  .blochead .fl{margin-top:2px}
+  .blochead .nb{margin-top:2px}
+  .bloccos{padding:2px 14px 6px}
+  .blochead h2{font-size:18px}
+}
+
+.point{padding:16px 0;border-bottom:1px solid var(--line)}
+.point:last-child{border-bottom:0}
+.ptop{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
+.plab{font-size:13px;font-weight:600}
+.pctx{font-family:var(--f-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
+  border:1px solid var(--line-2);border-radius:4px;padding:1px 5px}
+.ptext{margin:0;font-size:16px;line-height:1.6;max-width:62ch}
+.phelp{margin:5px 0 0;font-size:13.5px;color:var(--ink-3)}
+/* Les figures de l'annex 01: la norma les cita pel número i fins ara t'havies
+   d'anar a buscar el PDF. Ara cada citació porta el dibuix a sobre. */
+.figs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.fig{appearance:none;font:inherit;font-size:12px;cursor:pointer;display:inline-flex;
+  align-items:center;gap:6px;border:1px solid var(--blau);background:var(--blau-s);
+  color:var(--blau);border-radius:999px;padding:4px 12px}
+.fig::before{content:'▣';font-size:11px;opacity:.8}
+.fig:hover{background:var(--paper)}
+.fig:focus-visible{outline:2px solid var(--blau);outline-offset:2px}
+dialog.lupa .nofig{padding:40px 24px;text-align:center;color:var(--ink-3);font-size:14px}
+.botons-font{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
+.srcbtn.rem{color:var(--lila)}
+.src.rem{border-left-color:var(--lila);background:var(--lila-s)}
+.src.rem .k{color:var(--lila);opacity:.85}
+.src q.ap{display:block;margin-top:9px;quotes:none}
+.src q.ap:first-of-type{margin-top:2px}
+.src q.ap b{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-3);
+  margin-right:5px;vertical-align:1px}
+.src .bopa{font-family:var(--f-mono);font-size:11px;letter-spacing:.03em;color:var(--ink-3)}
+.srcbtn{margin-top:9px;appearance:none;border:0;background:transparent;padding:0;cursor:pointer;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--accent);
+  border-bottom:1px dotted currentColor}
+.srcbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.src{margin-top:10px;padding:13px 15px;border-left:2px solid var(--accent);background:var(--surface);
+  border-radius:0 var(--r-s) var(--r-s) 0;font-size:13.5px;color:var(--ink-2)}
+.src .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:4px}
+.src q{font-family:var(--f-cita);font-size:15px;line-height:1.55;color:var(--ink);quotes:'«' '»'}
+.src .meta{margin:10px 0 0;padding-top:9px;border-top:1px solid var(--line);font-size:12.5px}
+.src .meta a{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;display:inline-block;margin-top:5px}
+
+.claus{display:flex;flex-direction:column;gap:0;margin-top:4px}
+.clau{padding:15px 0;border-bottom:1px solid var(--line)}
+.clau:last-child{border-bottom:0}
+.clau h3{margin:0 0 3px;font-size:16px;font-weight:600;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.clau h3 .chip{font-weight:400}
+.clau p{margin:0;font-size:15px;color:var(--ink-2);max-width:62ch}
+.clau .art{margin-top:7px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
+
+figure.planol{margin:0 0 18px;padding:0;display:none}       /* a pantalla, la miniatura */
+figure.planol a{display:block;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  background:var(--paper);box-shadow:var(--shadow)}
+figure.planol img{display:block;width:100%;height:auto}
+figure.planol figcaption{margin-top:7px;font-size:12.5px;color:var(--ink-3)}
+.planolbox{padding:26px 18px;text-align:center}
+.planolbox p{margin:0 0 12px;font-size:13.5px;color:var(--ink-3)}
+.planolbox .btn{display:inline-block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;
+  text-decoration:none;color:var(--paper);background:var(--accent);padding:9px 15px;border-radius:7px}
+
+.dl{margin:6px 0 0;display:grid;grid-template-columns:minmax(130px,auto) 1fr}
+.dl dt{font-size:12.5px;color:var(--ink-3);padding:11px 14px 11px 0;border-bottom:1px solid var(--line)}
+.dl dd{margin:0;font-size:15px;padding:11px 0;border-bottom:1px solid var(--line)}
+.dl dd b{font-family:var(--f-mono);font-weight:500;font-variant-numeric:tabular-nums}
+.docs{list-style:none;margin:6px 0 0;padding:0}
+.docs li{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+.docs .v{font-family:var(--f-mono);font-size:11.5px;padding:3px 9px;border-radius:999px;flex:none;
+  background:var(--accent-soft);color:var(--accent)}
+.docs .v.old{background:transparent;color:var(--ink-3);border:1px solid var(--line-2)}
+.docs .m{flex:1;min-width:0}
+.docs .m b{display:block;font-size:14.5px;font-weight:600}
+.docs .m span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:1px}
+.docs .m a{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;display:inline-block;margin-top:6px}
+details.glos{margin:26px 0 0;border:1px solid var(--line);background:var(--paper);
+  border-radius:var(--r);padding:14px 18px}
+details.glos summary{cursor:pointer;font-size:14px;font-weight:600;list-style:none}
+details.glos summary::-webkit-details-marker{display:none}
+details.glos summary::before{content:'+ ';font-family:var(--f-mono);color:var(--ink-3)}
+details.glos[open] summary::before{content:'− '}
+footer{margin:40px 0 56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3)}
+footer p{margin:0 0 6px;max-width:64ch}
+/* el plànol gran, flotant */
+dialog.lupa{border:0;padding:0;background:transparent;max-width:min(1100px,94vw);width:auto;
+  max-height:94vh;overflow:visible}
+dialog.lupa::backdrop{background:rgba(15,23,20,.72);backdrop-filter:blur(3px)}
+dialog.lupa .cos{background:var(--paper);border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--pop);position:relative}
+dialog.lupa img{display:block;width:100%;height:auto;max-height:80vh;object-fit:contain;
+  background:var(--surface)}
+dialog.lupa .peu{display:flex;align-items:center;gap:12px;padding:10px 15px;font-size:12.5px;
+  color:var(--ink-3);border-top:1px solid var(--line)}
+dialog.lupa .peu a{margin-left:auto;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em}
+dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;cursor:pointer;
+  width:32px;height:32px;border-radius:999px;background:rgba(15,23,20,.62);color:#fff;font-size:17px;
+  line-height:1}
+[hidden]{display:none!important}
+@media (max-width:520px){
+  .dl{grid-template-columns:1fr}
+  .dl dt{border-bottom:0;padding-bottom:0}
+  .dl dd{padding-top:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media print{
+  header.top,.back,.picker,.uaacts,details.glos summary{display:none!important}
+  .nomes-imprimir{display:block;font-size:8.5pt;line-height:1.45;color:#444;margin:0 0 14px;
+    padding-bottom:8px;border-bottom:1px solid #bbb}
+  body{background:#fff;color:#000;font-size:11pt}
+  .wrap{max-width:none;padding:0}
+  a{color:#000;text-decoration:none}
+  .point,.clau,.docs li{break-inside:avoid}
+  .eines-bloc{display:none!important}
+  .blocs{display:block}
+  details.bloc{break-inside:auto;margin-top:18px;border:0;border-radius:0;box-shadow:none;background:none}
+  summary.blochead{padding:10px 0 0;border-top:1.5px solid #000;border-bottom:0!important;
+    border-radius:0;background:none!important}
+  .blochead .nb,.blochead .fl{display:none}
+  .bloccos{padding:0}
+  .blochead h2{font-size:15pt}
+  .src{background:#f6f6f4;border-left:2px solid #666}
+  .src.rem,.srcbtn.rem{display:none!important}
+  figure.planol{display:block!important;max-width:16cm;margin:0 0 14px}
+  .fact.mini,.hamb{display:none!important}
+  details.glos{border-top:1px solid #999}
+  details.glos[open]{display:block}
+  footer{border-top:1px solid #999;font-size:9pt}
+  @page{margin:16mm 14mm}
+}
+</style>
+
+<header class="top">
+  <div class="wrap topline">
+    <button type="button" class="hamb" id="hamb" aria-expanded="false" aria-controls="menu"
+      aria-label="Menú"><i></i><i></i><i></i></button>
+    <a class="brand" href="#/">POUP <small>Encamp</small></a>
+    <b class="ubar-nom" id="ubar-nom" hidden></b>
+    <span class="chips" id="ubar-claus"></span>
+  </div>
+</header>
+
+<div class="menuwrap" id="menuwrap" hidden>
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="cap"><b>POUP Encamp</b>
+      <button type="button" class="tanca" id="menu-tanca" aria-label="Tancar">×</button></div>
+    <h2>Anar a</h2>
+    <a class="gran" href="#/">Pàgina inicial<span>Buscar entre totes les unitats, o triar-la al plànol</span></a>
+    <a class="gran" href="esquema.html">Qui regula què<span>Quin nivell del pla decideix cada paràmetre, amb el text de l'article</span></a>
+    <h2>Canviar d'unitat</h2>
+    <input id="menu-q" type="text" autocomplete="off" placeholder="escriu el nom d'una unitat…"
+      role="combobox" aria-expanded="false" aria-controls="menu-llista" aria-autocomplete="list">
+    <ul id="menu-llista" role="listbox"></ul>
+  </div>
+</div>
+
+<main id="app" class="wrap"></main>
+
+<dialog class="lupa" id="lupa">
+  <div class="cos">
+    <button type="button" class="x" id="lupa-x" aria-label="Tancar">×</button>
+    <img id="lupa-img" alt="">
+    <p class="peu"><span id="lupa-peu"></span>
+      <a id="lupa-obre" href="#" target="_blank" rel="noopener">obrir a mida completa ↗</a></p>
+  </div>
+</dialog>
+
+<script id="dades" type="application/json">__DADES__</script>
+<script>
+function arrenca(D){
+const app = document.getElementById('app');
+const T = D.T, P = D.pool;
+const S = v => (typeof v === 'number' ? (P[v] || '') : (v || ''));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nrm = s => (s||'').toLowerCase().normalize('NFD').replace(new RegExp('[\u0300-\u036f]','g'),'');
+const CLS = {SUC:'Sòl urbà consolidat', SUCc:'Sòl urbà consolidat', SUNC:'Sòl urbà no consolidat',
+             SUBLE:'Sòl urbanitzable', SNU:'Sòl no urbanitzable', SNUBLE:'Sòl no urbanitzable'};
+const TIP = {'UA per subzona':'Ordenada per subzones','UA per zona':'Ordenada per zones',
+             'UA definició volumètrica':'Definició volumètrica','àrea diferenciada':'Àrea diferenciada',
+             'document normatiu':'Document normatiu'};
+// El mateix, dit curt: a la bombolla hi va l'etiqueta («Sostre») i després el valor,
+// que és el que no s'entenia quan la frase anava sola.
+const TIPB = {'UA per subzona':'per subzones', 'UA per zona':'per zones',
+              'UA definició volumètrica':'pel volum que fixa el pla',
+              'àrea diferenciada':'àrea diferenciada', 'document normatiu':'document normatiu'};
+const COBB = {'coeficient de zona':'del coeficient de la zona',
+              'coeficient de zona + sistema':'del coeficient; una part és sistema',
+              'sostre assignat a la fitxa':'el fixa la fitxa',
+              'volumètric (nucli tradicional)':'pel volum de l’edifici',
+              'àrea diferenciada':'té règim propi',
+              'només sistema: sense aprofitament privat':'no en té: és sòl de sistemes',
+              'a determinar pel tècnic':'l’ha de dir el tècnic'};
+const COB = {'coeficient de zona':'Surt del coeficient de la zona',
+             'coeficient de zona + sistema':'Surt del coeficient de la zona; una part és sòl de sistemes',
+             'sostre assignat a la fitxa':'La fitxa l’assigna directament',
+             'volumètric (nucli tradicional)':'Ve donat pel volum de l’edifici',
+             'àrea diferenciada':'Règim propi d’àrea diferenciada',
+             'només sistema: sense aprofitament privat':'No en genera: és sòl de sistemes',
+             'a determinar pel tècnic':'L’ha de determinar el tècnic'};
+const drivePdf = id => 'https://drive.google.com/file/d/' + id + '/view';
+const driveImg = id => 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1400';
+
+let sel = {zona:'', subzona:'', variant:{}, part:0};
+// Una unitat pot tenir dues fitxes vigents alhora, una per volum del pla: la part urbana
+// i la de sòl no urbanitzable. Cada part té la seva superfície, els seus paràmetres i el
+// seu plànol; la pàgina en mostra una i deixa triar.
+const partDe = u => (u.parts || [])[Math.min(sel.part, (u.parts || []).length - 1)] || {};
+
+/* ------------------------------------------------------------------ portada */
+function vistaLlista(){
+  document.title = 'POUPE Encamp en clar';
+  app.innerHTML = `
+    <div class="hero">
+      <h1>${esc(T.home_titol)}</h1>
+      <p>${esc(T.home_subtitol)}</p>
+      <div class="cb">
+        <div class="cbfield">
+          <input id="q" type="text" role="combobox" aria-expanded="false" aria-controls="llista"
+                 aria-autocomplete="list" autocomplete="off" placeholder="${esc(T.cerca_placeholder)}"
+                 aria-label="Unitat d'actuació">
+          <button class="toggle" id="tg" aria-label="Veure totes les unitats">▼</button>
+        </div>
+        <ul class="cblist" id="llista" role="listbox" hidden></ul>
+      </div>
+      <p class="cbcount">Tria-la a la llista o escriu-ne el nom.</p>
+      <p class="cbcount">${esc(T.cerca_ajuda)}</p>
+      ${D.mapa ? `<div class="plan">
+        <div class="cap"><h2>O tria-la al plànol</h2>
+          <p>${matchMedia('(hover: hover)').matches
+            ? "Arrossega per moure't, fes servir la roda per acostar-t'hi, passa per sobre d'una unitat per veure'n el nom i clica-la per obrir la fitxa."
+            : "Arrossega per moure't i pessiga per acostar-t'hi. Toca una unitat per veure'n el nom, i torna-la a tocar per obrir la fitxa."}</p></div>
+        <div class="planbox">
+          <canvas id="plan-cv"></canvas>
+          <div class="fons" role="group" aria-label="Mapa de fons">
+            <button type="button" data-fons="orto">Ortofoto</button>
+            <button type="button" data-fons="mapa">Mapa</button>
+            <button type="button" data-fons="cap">Cap</button>
+          </div>
+          ${(D.capes || []).length ? `<div class="capes">
+            <button type="button" class="cap" id="capes-obre" aria-expanded="false">Capes</button>
+            <div class="llista" id="capes-llista" hidden>${D.capes.map(c => `<label>
+              <input type="checkbox" data-capa="${esc(c.i)}"${c.p ? ' checked' : ''}>
+              <i style="background:${esc(c.c)}33;border-color:${esc(c.c)}"></i>
+              <span>${esc(c.n)}</span></label>`).join('')}</div>
+          </div>` : ''}
+          <div class="capainfo" id="capa-info" hidden></div>
+          <p class="credit" id="plan-credit"></p>
+          <div class="zoom">
+            <button type="button" id="plan-mes" aria-label="Acostar">+</button>
+            <button type="button" id="plan-menys" aria-label="Allunyar">−</button>
+            <button type="button" class="re" id="plan-tot" aria-label="Veure-ho tot">TOT</button>
+          </div>
+        </div>
+        <div class="llegenda">
+          <span><i style="background:#1F5C4A33;border-color:#1F5C4A">&nbsp;</i>Sòl urbà consolidat</span>
+          <span><i style="background:#B4540033;border-color:#B45400">&nbsp;</i>Sòl urbà no consolidat</span>
+          <span><i style="background:#2E6E8633;border-color:#2E6E86">&nbsp;</i>Sòl urbanitzable</span>
+          <span><i style="background:#78837D26;border-color:#78837D">&nbsp;</i>Sòl no urbanitzable</span>
+        </div>
+        <p class="ajuda">${D.mapa.n} de les ${D.ua.length} unitats tenen el perímetre dibuixat; la resta
+          es troben pel nom.</p>
+      </div>` : `<div class="soon">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M1 4.5 5.5 2.5 10.5 4.5 15 2.5v9L10.5 13.5 5.5 11.5 1 13.5z"/><path d="M5.5 2.5v9M10.5 4.5v9"/>
+        </svg><span>${esc(T.mapa_promesa)}</span>
+      </div>`}
+    </div>
+    <footer>
+      <p><strong>${esc(T.avis_legal)}</strong></p>
+      <p>${esc(T.avis_bopa)}</p>
+      <p>${esc(T.peu_credits)}</p>
+      <p><a href="esquema.html">Qui regula què</a> — quin nivell del pla decideix cada paràmetre,
+        amb el text de l'article.</p>
+    </footer>`;
+
+  arrencaPla();
+
+  const q = document.getElementById('q'), ul = document.getElementById('llista'), tg = document.getElementById('tg');
+  let obert = false, idx = -1, vis = [];
+
+  function pinta(){
+    const t = nrm(q.value.trim());
+    vis = D.ua.filter(u => !t || nrm(u.n).includes(t) || nrm(u.id).includes(t));
+    if (!vis.length){ ul.innerHTML = '<li class="buit">' + esc(T.cerca_sense_resultats) + '</li>'; return; }
+    let lletra = '', h = '';
+    vis.forEach((u, i) => {
+      const l = (u.n[0] || '').toUpperCase();
+      if (l !== lletra){ lletra = l; h += `<li class="grup" aria-hidden="true">${esc(l)}</li>`; }
+      h += `<li role="option"><a href="#/ua/${esc(u.id)}" data-i="${i}">
+        <span style="flex:1">${esc(u.n)}</span><span class="chip">${esc(S((u.parts[0]||{}).cls) || '—')}</span></a></li>`;
+    });
+    ul.innerHTML = h; idx = -1;
+  }
+  function obre(){ obert = true; ul.hidden = false; q.setAttribute('aria-expanded','true'); pinta(); }
+  function tanca(){ obert = false; ul.hidden = true; q.setAttribute('aria-expanded','false'); }
+  function marca(n){
+    const as = ul.querySelectorAll('a'); if (!as.length) return;
+    idx = (n + as.length) % as.length;
+    as.forEach(a => a.classList.remove('on'));
+    as[idx].classList.add('on'); as[idx].scrollIntoView({block:'nearest'});
+  }
+  q.addEventListener('focus', obre);
+  q.addEventListener('input', () => { if (!obert) obre(); else pinta(); });
+  tg.addEventListener('click', () => { if (obert) tanca(); else { q.focus(); obre(); } });
+  q.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown'){ e.preventDefault(); if (!obert) obre(); marca(idx + 1); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); marca(idx - 1); }
+    else if (e.key === 'Enter' && idx >= 0){ e.preventDefault(); ul.querySelectorAll('a')[idx].click(); }
+    else if (e.key === 'Escape') tanca();
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.cb')) tanca(); }, {once:false});
+}
+
+/* ------------------------------------------------------------------- fitxa */
+// Una clau pot tenir règims alternatius (la subzona 11: 11-A o 11B). Mentre l'usuari no en
+// triï cap, val el primer, que és el règim general.
+function regims(codi){ return (D.variants || {})[codi] || null; }
+function regimActiu(codi){
+  const r = regims(codi);
+  if (!r) return codi;
+  return r.includes(sel.variant[codi]) ? sel.variant[codi] : r[0];
+}
+
+function itemsDe(u){
+  const P = partDe(u);
+  const out = [], vist = new Set();
+  const posa = (it) => {
+    const k = it.b + '|' + it.et + '|' + (it.c || '');
+    if (vist.has(k)) return; vist.add(k); out.push(it);
+  };
+  [[P.z, 'zona'], [P.sz, 'subzona']].forEach(([grup, niv]) => (grup || []).forEach(z => {
+    const reg = regimActiu(z.c);
+    const font = D.valors[reg] ? reg : (String(z.c).match(/^\d+/) || [''])[0];
+    (D.valors[font] || []).forEach(v => {
+      const pp = D.params[v.p]; if (!pp) return;
+      posa({b: pp.b, o: pp.o, et: pp.et, aj: pp.aj, pl: v.pl, no: v.no, art: v.a, rem: v.r,
+            c: z.c, niv: niv, nomClau: (D.claus[reg] || D.claus[z.c] || {}).n || z.n});
+    });
+  }));
+  (P.pr || []).forEach(it => posa({b: it.b, o: it.o, et: S(it.et), aj: S(it.aj), pl: S(it.pl),
+    no: it.nk ? S((P.raw || {})[it.nk]) : '', art: it.art || '', c: it.c, niv: it.niv,
+    nomClau: it.c ? ((D.claus[it.c] || {}).n || it.c) : 'Aquesta unitat', fitxa: true}));
+  // si la fitxa ja dona l'alçada, no repetim el «ho diu la fitxa» de la subzona
+  if (out.some(i => i.fitxa && i.et === 'Alçada màxima'))
+    return out.filter(i => !(i.et === 'Alçada màxima' && i.niv === 'subzona'));
+  return out;
+}
+
+function visible(it){
+  if (it.niv === 'zona' && sel.zona && it.c !== sel.zona) return false;
+  if (it.niv === 'subzona' && sel.subzona && it.c !== sel.subzona) return false;
+  return true;
+}
+
+// On es pot anar a llegir un article: al PDF de la normativa per la seva pàgina,
+// si el full ja la diu; si no, no s'inventa cap enllaç i es diu d'on surt.
+function ferEnllacArticle(a){
+  if (!a) return '';
+  if (D.cfg && D.cfg.normativa_pdf && a.p)
+    return esc(D.cfg.normativa_pdf) + '#page=' + esc(a.p);
+  return a.u ? esc(a.u) : '';
+}
+function fontArticle(nom, a){
+  if (!a) return '';
+  const href = ferEnllacArticle(a);
+  return `<p class="meta">${esc(nom)} · ${esc(a.t)}<br>${esc(a.d)}${
+    href ? `<br><a href="${href}" target="_blank" rel="noopener">${esc(T.veure_article)} ↗</a>`
+         : (a.b ? `<br><span class="bopa">Publicat al ${esc(a.b)}</span>` : '')}</p>`;
+}
+
+/* Els números de figura que cita un text, amb els rangs oberts: «figures 10-13»
+   vol dir la 10, la 11, la 12 i la 13. Compte amb «configuració» i amb «que
+   figuren a l'apartat 3», que no són cap figura. */
+function figuresDe(text){
+  const nums = new Set();
+  const rx = /(?:^|[^0-9A-Za-zÀ-ÿ])figur(?:a|es)\s+(?:núm\.?\s*)?(\d{1,2}(?:\s*(?:,|\si\s|[-–]|\sa\s)\s*\d{1,2})*)/gi;
+  let m;
+  while ((m = rx.exec(String(text || '')))){
+    for (const tros of m[1].split(/\s*(?:,|\si\s)\s*/)){
+      const r = tros.match(/^(\d{1,2})\s*(?:[-–]|\sa\s)\s*(\d{1,2})$/);
+      if (r){ for (let k = +r[1]; k <= +r[2]; k++) nums.add(k); }
+      else { const n = parseInt(tros, 10); if (n) nums.add(n); }
+    }
+  }
+  return [...nums].sort((a, b) => a - b);
+}
+const figNom = n => String(n).padStart(2, '0');
+function chipsFigures(text){
+  const ns = figuresDe(text);
+  if (!ns.length) return '';
+  return `<p class="figs">${ns.map(n => `<button type="button" class="fig" data-fig="${
+    figNom(n)}">Veure figura ${figNom(n)}</button>`).join('')}</p>`;
+}
+
+function punt(it, i){
+  const a = D.arts[it.art] || null;
+  // Quan l'article de la subzona només remet a un altre, el que interessa és el
+  // que diu l'altre: el portem aquí, sencer, en comptes de la frase que hi remet.
+  const rem = it.rem ? (D.arts['Article ' + it.rem] || null) : null;
+  const remN = rem ? 'Article ' + it.rem : '';
+  const teFont = it.no || a;
+  return `<div class="point">
+    <div class="ptop"><span class="plab">${esc(it.et)}</span>${
+      it.nomClau ? `<span class="pctx">${esc(it.nomClau)}</span>` : ''}</div>
+    <p class="ptext">${esc(it.pl || it.no || T.sense_text)}</p>
+    ${chipsFigures(it.pl || it.no)}
+    ${it.aj ? `<p class="phelp">${esc(it.aj)}</p>` : ''}
+    <div class="botons-font">
+      ${teFont ? `<button class="srcbtn" data-src="${i}" aria-expanded="false" aria-controls="src-${i}">${
+        esc(T.font_literal)} ${it.art ? '· ' + esc(it.art) : ''}</button>` : ''}
+      ${rem && rem.x ? `<button class="srcbtn rem" data-src="rem-${i}" aria-expanded="false"
+        aria-controls="src-rem-${i}">El que diu l'article ${esc(it.rem)}</button>` : ''}
+    </div>
+    ${teFont ? `<div class="src" id="src-${i}" hidden>
+      ${it.no ? `<span class="k">${esc(T.font_literal)}</span><q>${esc(it.no)}</q>${chipsFigures(it.no)}` : ''}
+      ${a ? fontArticle(it.art, a)
+        : (it.fitxa ? `<p class="meta">Text de la fitxa urbanística d'aquesta unitat.</p>` : '')}
+    </div>` : ''}
+    ${rem && rem.x ? `<div class="src rem" id="src-rem-${i}" hidden>
+      <span class="k">${esc(remN)} · ${esc(rem.t)}</span>
+      ${rem.x.map(ap => `<q class="ap"><b>${esc(ap.n)}</b> ${esc(ap.t)}</q>${chipsFigures(ap.t)}`).join('')}
+      ${fontArticle(remN, rem)}
+    </div>` : ''}
+  </div>`;
+}
+
+const ara = () => new Date().toLocaleDateString('ca-ES', {day:'numeric', month:'long', year:'numeric'});
+
+// Què s'està mostrant ara mateix, per deixar-ho escrit a la fitxa impresa.
+function filtreActiu(u){
+  const parts = [];
+  if (sel.zona) parts.push('zona ' + ((D.claus[sel.zona] || {}).n || sel.zona));
+  if (sel.subzona) parts.push('subzona ' + ((D.claus[sel.subzona] || {}).n || sel.subzona));
+  const P = partDe(u);
+  for (const z of [...(P.z || []), ...(P.sz || [])])
+    if (regims(z.c)) parts.push((D.claus[regimActiu(z.c)] || {}).n || regimActiu(z.c));
+  return parts.length ? 'Filtrada per: ' + parts.join(' · ')
+                      : "Mostra tot el que afecta la unitat, sense filtrar per zona ni subzona.";
+}
+
+function barraUA(u){
+  const nom = document.getElementById('ubar-nom'), claus = document.getElementById('ubar-claus');
+  if (!u){ nom.hidden = true; nom.textContent = ''; claus.innerHTML = ''; return; }
+  nom.textContent = u.n;
+  nom.hidden = false;
+  const P = partDe(u);
+  claus.innerHTML = (P.clau ? `<span class="chip">${esc(P.clau)}</span>` : '') +
+                    (P.cls ? `<span class="chip cls">${esc(S(P.cls))}</span>` : '');
+}
+
+/* ------------------------------------------------------------------ el plànol
+   La geometria ve del DWG cadastral, projectada a Web Mercator (els metres dels
+   mapes de fons) i desada com a deltes entre vèrtexs perquè ocupi poc. */
+const COLORS = {SUC:'#1F5C4A', SUCc:'#1F5C4A', SUNC:'#B45400', SUBLE:'#2E6E86',
+                SNU:'#78837D', SNUBLE:'#78837D'};
+const FONS = {
+  orto: {u: z => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z.z}/${z.y}/${z.x}`,
+         c: 'Imatges: Esri, Maxar, Earthstar Geographics', fosc: true, max: 19},
+  mapa: {u: z => `https://tile.openstreetmap.org/${z.z}/${z.x}/${z.y}.png`,
+         c: '© col·laboradors d\'OpenStreetMap', fosc: false, max: 19},
+  cap:  null,
+};
+const MERCATOR = 20037508.342789244;
+let PLA = null;
+
+function muntaPla(){
+  if (PLA || !D.mapa) return PLA;
+  const desfes = d => {
+    const p = new Float64Array(d.length);
+    p[0] = d[0]; p[1] = d[1];
+    for (let i = 2; i < d.length; i += 2){ p[i] = p[i-2] + d[i]; p[i+1] = p[i-1] + d[i+1]; }
+    return p;
+  };
+  const caixa = p => {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let i = 0; i < p.length; i += 2){
+      if (p[i] < x0) x0 = p[i]; if (p[i] > x1) x1 = p[i];
+      if (p[i+1] < y0) y0 = p[i+1]; if (p[i+1] > y1) y1 = p[i+1];
+    }
+    return [x0, y0, x1, y1];
+  };
+  const nom = {}, cls = {};
+  for (const u of D.ua){ nom[u.id] = u.n; cls[u.id] = S((u.parts[0] || {}).cls); }
+  const ua = [];
+  for (const id in D.mapa.ua)
+    for (const anell of D.mapa.ua[id]){
+      const p = desfes(anell);
+      ua.push({id, n: nom[id] || id, c: COLORS[cls[id]] || COLORS.SNU, p, bb: caixa(p)});
+    }
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const u of ua){
+    if (u.bb[0] < x0) x0 = u.bb[0]; if (u.bb[1] < y0) y0 = u.bb[1];
+    if (u.bb[2] > x1) x1 = u.bb[2]; if (u.bb[3] > y1) y1 = u.bb[3];
+  }
+  // La parròquia té dos nuclis molt separats (la vall i el Pas de la Casa). La vista
+  // inicial encaixa el que té més unitats; el botó TOT els ensenya tots dos.
+  const cents = ua.map(u => [(u.bb[0] + u.bb[2]) / 2, u]).sort((a, b) => a[0] - b[0]);
+  const grups = [[cents[0][1]]];
+  for (let i = 1; i < cents.length; i++){
+    if (cents[i][0] - cents[i-1][0] > 2500) grups.push([]);
+    grups[grups.length - 1].push(cents[i][1]);
+  }
+  const gran = grups.reduce((a, b) => (b.length > a.length ? b : a), grups[0]);
+  let n0 = Infinity, m0 = Infinity, n1 = -Infinity, m1 = -Infinity;
+  for (const u of gran){
+    if (u.bb[0] < n0) n0 = u.bb[0]; if (u.bb[1] < m0) m0 = u.bb[1];
+    if (u.bb[2] > n1) n1 = u.bb[2]; if (u.bb[3] > m1) m1 = u.bb[3];
+  }
+  // Les capes que s'afegeixen al plànol: van al mateix sistema que les unitats, o
+  // sigui que només cal desfer les deltes i calcular-ne la caixa.
+  const capes = (D.capes || []).map(c => ({
+    i: c.i, n: c.n, c: c.c, ordre: c.o, clicable: c.k !== false, font: c.f, defecte: !!c.p,
+    fs: c.g.map(f => {
+      const anells = f.a.map(desfes);
+      let a0 = Infinity, b0 = Infinity, a1 = -Infinity, b1 = -Infinity;
+      for (const p of anells){
+        const b = caixa(p);
+        if (b[0] < a0) a0 = b[0]; if (b[1] < b0) b0 = b[1];
+        if (b[2] > a1) a1 = b[2]; if (b[3] > b1) b1 = b[3];
+      }
+      return {t: f.t, n: f.n, d: f.d, a: anells, bb: [a0, b0, a1, b1]};
+    }),
+  }));
+  PLA = {ua, capes, o: D.mapa.o, bb: [x0, y0, x1, y1], nucli: [n0, m0, n1, m1]};
+  return PLA;
+}
+
+function dinsAnell(x, y, p){
+  let dins = false;
+  for (let i = 0, j = p.length - 2; i < p.length; j = i, i += 2){
+    const yi = p[i+1], yj = p[j+1];
+    if ((yi > y) !== (yj > y) && x < (p[j] - p[i]) * (y - yi) / (yj - yi) + p[i]) dins = !dins;
+  }
+  return dins;
+}
+
+function arrencaPla(){
+  const M = muntaPla();
+  const cv = document.getElementById('plan-cv');
+  if (!M || !cv) return;
+  const ctx = cv.getContext('2d');
+  const credit = document.getElementById('plan-credit');
+  let escala = 1, cx = 0, cy = 0, sobre = null, w = 0, h = 0;
+  // Amb ratolí, el nom surt en passar-hi per sobre i el clic obre la fitxa. Sense
+  // ratolí no hi ha «passar per sobre»: el primer toc ensenya el nom i el segon obre.
+  const ambRatoli = matchMedia('(hover: hover)').matches;
+  let capa = localStorage.getItem('poupe-fons') || 'orto';
+
+  /* ---- quines capes es veuen. La tria es recorda; si mai no n'has triat cap,
+         valen les que el full marca com a «per defecte». */
+  const actives = new Set(M.capes.filter(c => c.defecte).map(c => c.i));
+  try {
+    const desat = JSON.parse(localStorage.getItem('poupe-capes') || 'null');
+    if (Array.isArray(desat)){
+      actives.clear();
+      for (const i of desat) if (M.capes.some(c => c.i === i)) actives.add(i);
+    }
+  } catch (err) { /* tant se val: valen les per defecte */ }
+  let triat = null;                       // la forma d'una capa que s'ha clicat
+
+  /* ---- mosaics del mapa de fons */
+  const rajoles = new Map();
+  function rajola(z, x, y){
+    const n = 1 << z;
+    if (x < 0 || y < 0 || x >= n || y >= n) return null;
+    const k = capa + '/' + z + '/' + x + '/' + y;
+    if (rajoles.has(k)) return rajoles.get(k);
+    const im = new Image();
+    im.crossOrigin = 'anonymous';
+    im.onload = () => pinta();
+    im.onerror = () => { im.fallat = true; };
+    im.src = FONS[capa].u({z, x, y});
+    rajoles.set(k, im);
+    if (rajoles.size > 400) for (const vell of [...rajoles.keys()].slice(0, 120)) rajoles.delete(vell);
+    return im;
+  }
+  function pintaFons(){
+    const f = FONS[capa];
+    if (!f) return;
+    const z = Math.max(0, Math.min(f.max, Math.round(Math.log2(escala * 2 * MERCATOR / 256))));
+    const n = 1 << z, mida = 2 * MERCATOR / n;            // metres per rajola
+    const [X0, Y1] = aMon(0, 0), [X1, Y0] = aMon(w, h);   // cantonades del que es veu
+    const tx0 = Math.floor((X0 + M.o[0] + MERCATOR) / mida);
+    const tx1 = Math.floor((X1 + M.o[0] + MERCATOR) / mida);
+    const ty0 = Math.floor((MERCATOR - (Y1 + M.o[1])) / mida);
+    const ty1 = Math.floor((MERCATOR - (Y0 + M.o[1])) / mida);
+    if ((tx1 - tx0 + 1) * (ty1 - ty0 + 1) > 200) return;  // massa: no val la pena
+    for (let tx = tx0; tx <= tx1; tx++)
+      for (let ty = ty0; ty <= ty1; ty++){
+        const im = rajola(z, tx, ty);
+        if (!im || !im.complete || im.fallat || !im.naturalWidth) continue;
+        const X = tx * mida - MERCATOR - M.o[0], Y = MERCATOR - ty * mida - M.o[1];
+        const [px, py] = aPant(X, Y);
+        const costat = mida * escala;
+        ctx.drawImage(im, px, py, costat + 1, costat + 1);
+      }
+  }
+
+  function mida(){
+    const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function encaixa(bb){
+    const [x0, y0, x1, y1] = bb;
+    escala = Math.min(w / Math.max(x1 - x0, 1), h / Math.max(y1 - y0, 1)) * 0.92;
+    cx = (x0 + x1) / 2; cy = (y0 + y1) / 2;
+  }
+  const tot = () => encaixa(M.bb);
+  const inici = () => encaixa(M.nucli);
+  const aPant = (x, y) => [(x - cx) * escala + w / 2, h / 2 - (y - cy) * escala];
+  const aMon = (px, py) => [(px - w / 2) / escala + cx, cy - (py - h / 2) / escala];
+
+  function pintaForma(c, f, destacada){
+    if (f.t === 'x'){
+      const [px, py] = aPant(f.a[0][0], f.a[0][1]);
+      ctx.beginPath(); ctx.arc(px, py, destacada ? 7 : 4.5, 0, 6.2832);
+      ctx.fillStyle = c.c; ctx.fill();
+      ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1.6; ctx.stroke();
+      return;
+    }
+    ctx.beginPath();
+    for (const p of f.a){
+      const [sx, sy] = aPant(p[0], p[1]);
+      ctx.moveTo(sx, sy);
+      for (let i = 2; i < p.length; i += 2){ const q = aPant(p[i], p[i+1]); ctx.lineTo(q[0], q[1]); }
+      if (f.t === 'p') ctx.closePath();
+    }
+    if (f.t === 'p'){ ctx.fillStyle = c.c + (destacada ? '66' : '2E'); ctx.fill('evenodd'); }
+    ctx.strokeStyle = c.c;
+    ctx.lineWidth = destacada ? 3 : (f.t === 'l' ? 2 : 1.3);
+    ctx.stroke();
+  }
+  function pintaCapes(sota){
+    for (const c of M.capes){
+      if (!actives.has(c.i)) continue;
+      if (sota ? c.ordre >= 10 : c.ordre < 10) continue;
+      for (const f of c.fs){
+        if (!veu(f.bb)) continue;
+        pintaForma(c, f, triat && triat.f === f);
+      }
+    }
+  }
+
+  function traça(p){
+    ctx.beginPath();
+    const [sx, sy] = aPant(p[0], p[1]);
+    ctx.moveTo(sx, sy);
+    for (let i = 2; i < p.length; i += 2){ const q = aPant(p[i], p[i+1]); ctx.lineTo(q[0], q[1]); }
+    ctx.closePath();
+  }
+  const veu = bb => {
+    const a = aPant(bb[0], bb[3]), b = aPant(bb[2], bb[1]);
+    return b[0] > -40 && a[0] < w + 40 && b[1] > -40 && a[1] < h + 40;
+  };
+
+  let pendent = false;
+  function pinta(){
+    if (pendent) return;
+    pendent = true;
+    requestAnimationFrame(() => {
+      pendent = false;
+      const est = getComputedStyle(document.documentElement);
+      const ambFons = !!FONS[capa];
+      ctx.clearRect(0, 0, w, h);
+      pintaFons();
+      pintaCapes(true);
+      for (const u of M.ua){
+        if (!veu(u.bb)) continue;
+        traça(u.p);
+        ctx.fillStyle = u.c + (u === sobre ? '73' : (ambFons ? '3A' : '2E'));
+        ctx.fill();
+        ctx.strokeStyle = u.c;
+        ctx.lineWidth = u === sobre ? 2.4 : 1.1;
+        ctx.stroke();
+      }
+      pintaCapes(false);
+      const fons = ambFons ? 'rgba(0,0,0,.65)' : (est.getPropertyValue('--paper').trim() || '#fff');
+      const tinta = ambFons ? '#FFFFFF' : (est.getPropertyValue('--ink-2').trim() || '#333');
+      if (escala > 0.8){                        // noms, quan hi caben
+        ctx.font = "500 12px 'Public Sans', sans-serif";
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 3; ctx.lineJoin = 'round';
+        const posats = [];
+        for (const u of M.ua){
+          if (u === sobre || !veu(u.bb)) continue;
+          if ((u.bb[2] - u.bb[0]) * escala < 80) continue;
+          const [px, py] = aPant((u.bb[0] + u.bb[2]) / 2, (u.bb[1] + u.bb[3]) / 2);
+          if (posats.some(q => Math.abs(q[0] - px) < 70 && Math.abs(q[1] - py) < 15)) continue;
+          posats.push([px, py]);
+          ctx.strokeStyle = fons; ctx.strokeText(u.n, px, py);
+          ctx.fillStyle = tinta; ctx.fillText(u.n, px, py);
+        }
+      }
+      if (sobre){                               // el nom de la unitat assenyalada
+        const text = ambRatoli ? sobre.n : sobre.n + '  ›  obre la fitxa';
+        const [px, py] = aPant((sobre.bb[0] + sobre.bb[2]) / 2, (sobre.bb[1] + sobre.bb[3]) / 2);
+        ctx.font = "600 14px 'Public Sans', sans-serif";
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        const am = ctx.measureText(text).width + 16;
+        const x = Math.max(am / 2 + 4, Math.min(w - am / 2 - 4, px));
+        const y = Math.max(16, Math.min(h - 12, py));
+        ctx.fillStyle = ambFons ? 'rgba(0,0,0,.72)' : (est.getPropertyValue('--ink').trim() || '#000');
+        ctx.beginPath();
+        ctx.roundRect(x - am / 2, y - 12, am, 24, 6);
+        ctx.fill();
+        ctx.fillStyle = ambFons ? '#FFFFFF' : (est.getPropertyValue('--paper').trim() || '#fff');
+        ctx.fillText(text, x, y);
+      }
+    });
+  }
+
+  function unitatA(x, y){
+    for (const u of M.ua)
+      if (x >= u.bb[0] && x <= u.bb[2] && y >= u.bb[1] && y <= u.bb[3] && dinsAnell(x, y, u.p)) return u;
+    return null;
+  }
+  // A prop d'una línia o d'un punt: les unitats es cliquen per dins, però una
+  // línia no té dins, i per tocar-la amb el dit cal una mica de marge.
+  function aProp(x, y, f, marge){
+    const m2 = marge * marge;
+    for (const p of f.a){
+      if (p.length === 2){
+        const dx = x - p[0], dy = y - p[1];
+        if (dx * dx + dy * dy < m2) return true;
+        continue;
+      }
+      for (let i = 0; i + 3 < p.length; i += 2){
+        const ax = p[i], ay = p[i+1], dx = p[i+2] - ax, dy = p[i+3] - ay;
+        const l2 = dx * dx + dy * dy;
+        let t = l2 ? ((x - ax) * dx + (y - ay) * dy) / l2 : 0;
+        t = Math.max(0, Math.min(1, t));
+        const ex = ax + t * dx - x, ey = ay + t * dy - y;
+        if (ex * ex + ey * ey < m2) return true;
+      }
+    }
+    return false;
+  }
+  function formaA(x, y){
+    const marge = 9 / escala;
+    for (let k = M.capes.length - 1; k >= 0; k--){     // guanya la de més amunt
+      const c = M.capes[k];
+      if (!actives.has(c.i) || !c.clicable) continue;
+      for (const f of c.fs){
+        const b = f.bb;
+        if (x < b[0] - marge || x > b[2] + marge || y < b[1] - marge || y > b[3] + marge) continue;
+        if (f.t === 'p'){
+          let dins = false;                            // parell-senar: els forats compten
+          for (const p of f.a) if (dinsAnell(x, y, p)) dins = !dins;
+          if (dins) return {c, f};
+        } else if (aProp(x, y, f, marge)) return {c, f};
+      }
+    }
+    return null;
+  }
+
+  const boxInfo = document.getElementById('capa-info');
+  function mostraInfo(){
+    if (!boxInfo) return;
+    if (!triat){ boxInfo.hidden = true; boxInfo.innerHTML = ''; return; }
+    const {c, f} = triat;
+    const files = Object.entries(f.d || {})
+      .filter(([k]) => !/^(id|gid|fid|objectid|shape_\w+)$/i.test(k));
+    boxInfo.innerHTML = `<button type="button" class="x" aria-label="Tancar">×</button>
+      <p class="de">${esc(c.n)}</p>
+      ${f.n ? `<h3>${esc(f.n)}</h3>` : ''}
+      ${files.length
+        ? `<dl>${files.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`
+        : (f.n ? '' : '<p style="margin:0;font-size:12.5px;color:var(--ink-3)">Aquesta forma no porta cap dada.</p>')}
+      ${c.font ? `<p class="font">${esc(c.font)}</p>` : ''}`;
+    boxInfo.hidden = false;
+  }
+
+  function trien(px, py, toc){
+    const [x, y] = aMon(px, py);
+    const u = unitatA(x, y);
+    if (u){
+      if (triat){ triat = null; mostraInfo(); }
+      if (!toc || sobre === u) location.hash = '#/ua/' + encodeURIComponent(u.id);
+      else { sobre = u; pinta(); }
+      return;
+    }
+    const f = formaA(x, y);
+    if (f){ triat = f; sobre = null; mostraInfo(); pinta(); return; }
+    if (triat || sobre){ triat = null; sobre = null; mostraInfo(); pinta(); }
+  }
+
+  /* ---- gestos */
+  const punters = new Map();
+  let arrossegant = false, mogut = 0, ultim = null, distIni = 0, escIni = 1;
+  const limita = k => Math.max(0.02, Math.min(40, k));
+  cv.addEventListener('pointerdown', e => {
+    cv.setPointerCapture(e.pointerId);
+    punters.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (punters.size === 1){ arrossegant = true; mogut = 0; ultim = [e.offsetX, e.offsetY]; cv.classList.add('arrossega'); }
+    else if (punters.size === 2){
+      const [a, b] = [...punters.values()];
+      distIni = Math.hypot(a[0] - b[0], a[1] - b[1]); escIni = escala;
+    }
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!punters.has(e.pointerId)){
+      const [x, y] = aMon(e.offsetX, e.offsetY);
+      const u = unitatA(x, y);
+      if (u !== sobre){ sobre = u; pinta(); }
+      cv.style.cursor = (u || (!u && M.capes.length && formaA(x, y))) ? 'pointer' : 'grab';
+      return;
+    }
+    punters.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (punters.size === 2){
+      const [a, b] = [...punters.values()];
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (distIni > 0) escala = limita(escIni * d / distIni);
+      pinta(); return;
+    }
+    if (!arrossegant) return;
+    const dx = e.offsetX - ultim[0], dy = e.offsetY - ultim[1];
+    mogut += Math.abs(dx) + Math.abs(dy);
+    cx -= dx / escala; cy += dy / escala;
+    ultim = [e.offsetX, e.offsetY];
+    pinta();
+  });
+  function solta(e){
+    punters.delete(e.pointerId);
+    if (punters.size === 0){
+      if (arrossegant && mogut < 6) trien(e.offsetX, e.offsetY, e.pointerType !== 'mouse' || !ambRatoli);
+      arrossegant = false; cv.classList.remove('arrossega');
+    }
+  }
+  cv.addEventListener('pointerup', solta);
+  cv.addEventListener('pointercancel', solta);
+  cv.addEventListener('wheel', e => {
+    e.preventDefault();
+    const [mx, my] = aMon(e.offsetX, e.offsetY);
+    escala = limita(escala * (e.deltaY < 0 ? 1.2 : 1 / 1.2));
+    const [nx, ny] = aMon(e.offsetX, e.offsetY);
+    cx += mx - nx; cy += my - ny;
+    pinta();
+  }, {passive: false});
+
+  const puja = k => { escala = limita(escala * k); pinta(); };
+  document.getElementById('plan-mes').addEventListener('click', () => puja(1.5));
+  document.getElementById('plan-menys').addEventListener('click', () => puja(1 / 1.5));
+  document.getElementById('plan-tot').addEventListener('click', () => { tot(); pinta(); });
+  function posaCredit(){
+    credit.textContent = FONS[capa] ? FONS[capa].c : '';
+    credit.hidden = !FONS[capa];
+  }
+  for (const b of document.querySelectorAll('.fons button'))
+    b.addEventListener('click', () => {
+      capa = b.dataset.fons;
+      try { localStorage.setItem('poupe-fons', capa); } catch (err) {}
+      for (const o of document.querySelectorAll('.fons button'))
+        o.setAttribute('aria-pressed', String(o.dataset.fons === capa));
+      posaCredit(); pinta();
+    });
+  const obreCapes = document.getElementById('capes-obre');
+  if (obreCapes){
+    const llista = document.getElementById('capes-llista');
+    obreCapes.addEventListener('click', () => {
+      const obert = obreCapes.getAttribute('aria-expanded') === 'true';
+      obreCapes.setAttribute('aria-expanded', String(!obert));
+      llista.hidden = obert;
+    });
+    for (const inp of llista.querySelectorAll('input[data-capa]')){
+      inp.checked = actives.has(inp.dataset.capa);
+      inp.addEventListener('change', () => {
+        if (inp.checked) actives.add(inp.dataset.capa); else actives.delete(inp.dataset.capa);
+        if (triat && !actives.has(triat.c.i)){ triat = null; mostraInfo(); }
+        try { localStorage.setItem('poupe-capes', JSON.stringify([...actives])); } catch (err) {}
+        pinta();
+      });
+    }
+  }
+  if (boxInfo) boxInfo.addEventListener('click', e => {
+    if (e.target.classList.contains('x')){ triat = null; mostraInfo(); pinta(); }
+  });
+
+  addEventListener('resize', () => { mida(); pinta(); }, {passive: true});
+
+  for (const b of document.querySelectorAll('.fons button'))
+    b.setAttribute('aria-pressed', String(b.dataset.fons === capa));
+  posaCredit();
+  mida(); inici(); pinta();
+}
+
+function vistaUA(id, mantenirScroll){
+  const u = D.ua.find(x => x.id === id);
+  if (!u){ location.hash = '#/'; return; }
+  if (!mantenirScroll) sel.part = 0;
+  const y = window.scrollY;
+  document.title = u.n + ' · POUPE Encamp';
+  barraUA(u);
+  const P = partDe(u);
+  const zs = P.z || [], szs = P.sz || [];
+  const ambRegims = [...zs, ...szs].filter(z => regims(z.c));
+  // Filtrar només quan hi ha alguna cosa per triar: una zona i una subzona no
+  // són cap tria —són el que toca a tota la unitat— i llavors val més la bombolla.
+  const calFiltre = zs.length > 1 || szs.length > 1;
+  const calSel = calFiltre || ambRegims.length > 0;
+  const ambParts = (u.parts || []).length > 1;
+  let n = 0;
+
+  const vigent = (u.fx || []).find(f => f.idf === P.idf)
+              || (u.fx || []).find(f => f.vig) || (u.fx || [])[0];
+  const planol = vigent && (vigent.idf || vigent.img) ? `
+    <figure class="planol">
+      <a href="${esc(vigent.idf ? 'planols/' + vigent.idf + '.webp' : drivePdf(vigent.img))}" target="_blank" rel="noopener">
+        <img id="planol-img" src="planols/${esc(vigent.idf)}.webp" alt="Plànol de ${esc(u.n)}" loading="lazy">
+      </a>
+      <figcaption>${esc(T.planol_nota)}</figcaption>
+    </figure>` : '';
+
+  const urlPlanol = vigent && vigent.idf ? 'planols/' + vigent.idf + '.webp'
+                  : (vigent && vigent.img ? drivePdf(vigent.img) : '');
+  const miniPlanol = vigent && vigent.idf ? `<button type="button" class="fact mini" id="mini-planol">
+      <img src="${esc(urlPlanol)}" alt="" loading="lazy"><span>Veure el plànol</span></button>` : '';
+
+  const pdfBopa = vigent && vigent.pdf ? drivePdf(vigent.pdf) : '';
+
+  const clausHtml = `<div class="claus">${
+    [...zs.map(z => [z, 'Zona']), ...szs.map(z => [z, 'Subzona'])].map(([z, tipus]) => {
+      const c = D.claus[regimActiu(z.c)] || D.claus[z.c] || {};
+      const a = D.arts[c.a] || null;
+      return `<div class="clau">
+        <h3>${esc(c.n || z.n || z.c)} <span class="chip">${esc(tipus)} ${esc(z.c)}</span></h3>
+        ${c.f ? `<p>${esc(c.f)}</p>${chipsFigures(c.f)}` : `<p>Clau ${esc(z.c)} del POUPE.</p>`}
+        ${c.co ? `<p style="margin-top:5px">Coeficient d'edificabilitat: <b>${esc(c.co)}</b> m² de sostre per m² de terreny.</p>` : ''}
+        ${c.a ? `<div class="art">${esc(c.a)}${a ? ' · ' + esc(a.t) : ''}${
+          a && a.u ? ` — <a href="${esc(a.u)}" target="_blank" rel="noopener">${esc(T.veure_article)} ↗</a>` : ''}</div>` : ''}
+      </div>`;
+    }).join('') || '<p style="color:var(--ink-3);font-size:15px">Aquesta unitat no té zones ni subzones assignades a la fitxa.</p>'}</div>`;
+
+  const documents = `<ul class="docs">${(u.fx || []).map(f => `<li>
+      <span class="v ${f.vig ? '' : 'old'}">${esc(f.m)}</span>
+      <span class="m">
+        <b>${f.vig ? 'Fitxa vigent' : 'Versió anterior'} · Volum ${esc(f.v)}</b>
+        <span>${esc(S(f.fase))} — ${esc(S(f.b))}${f.pg ? ', pàg. ' + esc(f.pg) : ''}</span>
+        ${f.pdf ? `<a href="${esc(drivePdf(f.pdf))}" target="_blank" rel="noopener">${esc(T.descarrega_pdf)} ↗</a>` : ''}
+      </span></li>`).join('')}</ul>
+    <p class="phelp" style="margin-top:12px">${esc(T.historic_nota)}</p>`;
+
+  const tots = itemsDe(u);
+  const items = tots.filter(visible);
+  const filtrat = !!(sel.zona || sel.subzona);
+
+  const selector = !calSel ? '' : `<div class="picker">
+      <span class="flag">Tria una opció</span>
+      <h2>${(zs.length + szs.length) > 1 ? 'La teva parcel·la, on és?' : 'Quin tipus et toca?'}</h2>
+      <p>${(zs.length + szs.length) > 1
+        ? "Aquesta unitat té més d'una zona o subzona, i no diuen el mateix. Tria la teva i la fitxa es quedarà només amb el que t'afecta."
+        : "La fitxa no concreta de quin tipus és aquesta subzona. Tria el que et toca i la fitxa es quedarà només amb el que t'afecta."}</p>
+      ${calFiltre && zs.length ? `<div class="pgroup"><span class="plabel">Zona</span>
+        <button class="pick" data-t="zona" data-v="" aria-pressed="${!sel.zona}">Totes</button>
+        ${zs.map(z => `<button class="pick" data-t="zona" data-v="${esc(z.c)}" aria-pressed="${sel.zona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
+      ${calFiltre && szs.length ? `<div class="pgroup"><span class="plabel">Subzona</span>
+        <button class="pick" data-t="subzona" data-v="" aria-pressed="${!sel.subzona}">Totes</button>
+        ${szs.map(z => `<button class="pick" data-t="subzona" data-v="${esc(z.c)}" aria-pressed="${sel.subzona === z.c}">${esc((D.claus[z.c]||{}).n || z.n)}</button>`).join('')}</div>` : ''}
+      ${ambRegims.map(z => `<div class="pgroup"><span class="plabel">Tipus de ${
+        esc((D.claus[z.c]||{}).n || 'clau ' + z.c)}</span>
+        ${regims(z.c).map(r => `<button class="pick" data-t="regim" data-mare="${esc(z.c)}" data-v="${esc(r)}" aria-pressed="${
+          regimActiu(z.c) === r}">${esc((D.claus[r]||{}).n || r)}</button>`).join('')}</div>`).join('')}
+      ${calFiltre ? `<p class="estat">
+        <span>${filtrat
+          ? `Es veuen <b>${items.length}</b> dels <b>${tots.length}</b> punts de la fitxa.`
+          : `Ara es veuen els <b>${tots.length}</b> punts de la fitxa, de totes les zones i subzones.`}${
+          zs.length > 1 && szs.length > 1 && !(sel.zona && sel.subzona)
+            ? ' La zona i la subzona es trien per separat: cal marcar-ne una de cada per acabar d\'afinar.'
+            : ''}</span>
+        ${filtrat ? `<button type="button" class="neteja" id="plan-neteja">Treu els filtres</button>` : ''}
+      </p>` : ''}
+    </div>`;
+
+  // Quantes coses hi ha a dins: és el que fa que un títol plegat digui alguna cosa
+  const compta = h => (h.match(/class="(?:point|clau)"/g) || []).length
+                   || (h.match(/<li\b/g) || []).length;
+  let obertes = 0;
+  const HUES = ['verd', 'blau', 'lila', 'rosa', 'taronja'];
+  const cossos = D.blocs.map(b => {
+    let cos;
+    if (b.id === 'B1') return '';          // fos amb la capçalera de la fitxa
+    else if (b.id === 'B15') cos = clausHtml;
+    else if (b.id === 'B9') cos = documents;
+    else {
+      const its = items.filter(i => i.b === b.id).sort((x, y) => (x.o - y.o) || x.et.localeCompare(y.et));
+      if (!its.length) return '';
+      cos = its.map(it => punt(it, n++)).join('');
+    }
+    const quants = compta(cos);
+    // el primer apartat obert, la resta plegats: la fitxa arrenca com un índex
+    const h = HUES[obertes++ % HUES.length];
+    return `<details class="bloc" style="--h:var(--${h});--hs:var(--${h}-s)">
+      <summary class="blochead">
+        <span class="fl" aria-hidden="true">›</span>
+        <div class="tt"><h2>${esc(b.t)}</h2><span class="sub">${esc(b.s)}</span></div>
+        ${quants ? `<span class="nb">${quants}</span>` : ''}
+      </summary>
+      <div class="bloccos">${cos}</div>
+    </details>`;
+  }).join('');
+  const eines = obertes > 1 ? `<div class="eines-bloc">
+    <span class="t">${obertes} apartats</span>
+    <button type="button" id="obre-tot">Obre-ho tot</button></div>` : '';
+
+  app.innerHTML = `
+    <div class="uahead">
+      <div class="uatop">
+        <a class="back" href="#/">← Totes les unitats</a>
+        <div class="uaacts">
+          ${pdfBopa ? `<a class="btn2" href="${esc(pdfBopa)}" target="_blank" rel="noopener"
+             >${esc(T.btn_fitxa_bopa || 'Fitxa del BOPA')} ↗</a>` : ''}
+          <button class="btn2 ple" id="btn-imprimeix" type="button"
+            title="S'obre el diàleg d'impressió: tria «Desa com a PDF»"
+            >${esc(T.btn_fitxa_completa || 'Fitxa completa')} ↓</button>
+        </div>
+      </div>
+      ${(u.parts || []).length > 1 ? `<div class="parts">
+        <span class="flag">Aquesta unitat té ${u.parts.length} fitxes</span>
+        <p>El pla la reparteix en ${u.parts.length} parts, cadascuna amb la seva classificació,
+          la seva superfície i el seu plànol. Tria on és la teva parcel·la.</p>
+        <div class="tria">${u.parts.map((pt, i) => `<button type="button" class="part" data-i="${i}"
+          aria-pressed="${i === Math.min(sel.part, u.parts.length - 1)}"><b>${
+          esc(CLS[S(pt.cls)] || S(pt.cls) || S(pt.np))}</b><small>${esc(pt.sup || '—')} m²</small></button>`).join('')}</div>
+      </div>` : ''}
+      <p class="nomes-imprimir">Fitxa generada el ${esc(ara())}${(u.parts || []).length > 1
+        ? ' · part de ' + esc(CLS[S(P.cls)] || S(P.cls) || S(P.np)) : ''} · ${esc(filtreActiu(u))}<br>
+        ${esc(T.avis_legal || '')} ${esc(T.avis_bopa || '')}</p>
+      <div class="facts">
+        ${P.clau && !calSel ? `<span class="fact clau"><i>Clau</i><b>${
+          esc(String(P.clau).replace(/\s*\/\s*/g, '/'))}</b></span>` : ''}
+        ${P.cls && !ambParts ? `<span class="fact sol">${esc(CLS[S(P.cls)] || S(P.cls))}</span>` : ''}
+        ${P.sup && !ambParts ? `<span class="fact mida"><b>${esc(P.sup)}</b> m²</span>` : ''}
+        ${miniPlanol}
+      </div>
+      ${selector}
+      ${planol}
+      <div class="lede">${(P.res || []).map(S).filter(Boolean).map(r => `<p>${esc(r)}</p>`).join('')}</div>
+      ${(P.av || []).length ? `<div class="notices">${P.av.map(a => `
+        <div class="notice ${esc(a.to)}"><i>${a.to === 'atencio' ? 'Atenció' : 'Nota'}</i><span>${esc(S(a.x))}</span></div>`).join('')}</div>` : ''}
+    </div>
+    ${eines}
+    <div class="blocs">${cossos}</div>
+    <details class="glos"><summary>Paraules que surten en aquesta pàgina</summary>
+      <dl class="dl">${D.glossari.map(g => `<dt>${esc(g.t)}</dt><dd>${esc(g.d)}</dd>`).join('')}</dl>
+    </details>
+    <footer>
+      <p><strong>${esc(T.avis_legal)}</strong></p>
+      <p>${esc(T.avis_bopa)}</p>
+      <p>${esc(T.peu_credits)}</p>
+      <p><a href="esquema.html">Qui regula què</a> — quin nivell del pla decideix cada paràmetre,
+        amb el text de l'article.</p>
+    </footer>`;
+
+  // la miniatura obre el plànol gran en una finestra flotant
+  const mini = document.getElementById('mini-planol');
+  if (mini){
+    const img = mini.querySelector('img');
+    img.addEventListener('error', () => mini.remove());
+    mini.addEventListener('click', () =>
+      obreLupa(urlPlanol, T.planol_nota || '', 'Plànol de ' + u.n));
+  }
+
+  // les figures de l'annex, a la mateixa finestra flotant que el plànol
+  app.querySelectorAll('.fig').forEach(b => b.addEventListener('click', () => {
+    const n = b.dataset.fig;
+    const patro = (D.cfg && D.cfg.figures_patro) || 'figures/annex 01_figura {n}.png';
+    obreLupa(encodeURI(patro.replace('{n}', n)),
+             'Annex 01 · Figura ' + n + ' — POUPE, normes urbanístiques',
+             'Figura ' + n + " de l'annex 01");
+  }));
+
+  const pim = document.getElementById('planol-img');
+  if (pim) pim.addEventListener('error', () => {
+    const box = pim.parentNode.parentNode;
+    const url = vigent && vigent.img ? drivePdf(vigent.img) : '';
+    box.innerHTML = `<div class="planolbox"><p>${esc(url ? T.planol_error
+      : (T.planol_cap || 'Aquesta fitxa no porta plànol.'))}</p>${
+      url ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener">Obrir el plànol ↗</a>` : ''}</div>
+      <figcaption>${esc(T.planol_nota)}</figcaption>`;
+  });
+  app.querySelectorAll('.pick').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.t === 'regim') sel.variant[b.dataset.mare] = b.dataset.v;
+    else sel[b.dataset.t] = b.dataset.v;
+    vistaUA(id, true);
+  }));
+  app.querySelectorAll('.parts .part').forEach(b => b.addEventListener('click', () => {
+    sel.part = Number(b.dataset.i);
+    sel.zona = ''; sel.subzona = '';        // les zones són d'una part, no de l'altra
+    vistaUA(id, true);
+  }));
+
+  const net = document.getElementById('plan-neteja');
+  if (net) net.addEventListener('click', () => {
+    sel.zona = ''; sel.subzona = '';
+    vistaUA(id, true);
+  });
+
+  const obreTot = document.getElementById('obre-tot');
+  if (obreTot){
+    const blocs = () => [...app.querySelectorAll('details.bloc')];
+    const posa = () => {
+      obreTot.textContent = blocs().every(d => d.open) ? 'Plega-ho tot' : 'Obre-ho tot';
+    };
+    obreTot.addEventListener('click', () => {
+      const totObert = blocs().every(d => d.open);
+      blocs().forEach(d => { d.open = !totObert; });
+      posa();
+    });
+    app.addEventListener('toggle', e => { if (e.target.classList.contains('bloc')) posa(); }, true);
+    posa();
+  }
+
+  const imp = document.getElementById('btn-imprimeix');
+  if (imp) imp.addEventListener('click', () => {
+    const tancats = [...app.querySelectorAll('.src[hidden]:not(.rem)')];
+    const glos = app.querySelector('details.glos');
+    const glosTancat = glos && !glos.open;
+    // la fitxa impresa és sempre sencera, tant si a la pantalla hi tens apartats plegats com si no
+    const plegats = [...app.querySelectorAll('details.bloc:not([open])')];
+    plegats.forEach(d => { d.open = true; });
+    tancats.forEach(p => { p.hidden = false; });
+    if (glos) glos.open = true;
+    const desfes = () => {
+      plegats.forEach(d => { d.open = false; });
+      tancats.forEach(p => { p.hidden = true; });
+      if (glosTancat) glos.open = false;
+      window.removeEventListener('afterprint', desfes);
+    };
+    window.addEventListener('afterprint', desfes);
+    window.print();
+    setTimeout(desfes, 3000);          // navegadors que no llancen afterprint
+  });
+  app.querySelectorAll('.srcbtn').forEach(b => b.addEventListener('click', () => {
+    const p = document.getElementById('src-' + b.dataset.src);
+    const obert = !p.hidden; p.hidden = obert; b.setAttribute('aria-expanded', String(!obert));
+  }));
+  if (mantenirScroll) window.scrollTo(0, y);
+}
+
+function ruta(){
+  const m = (location.hash || '#/').match(/^#\/ua\/(.+)$/);
+  if (m){ vistaUA(decodeURIComponent(m[1])); window.scrollTo(0, 0); }
+  else { sel = {zona:'', subzona:'', variant:{}, part:0}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
+}
+/* ------------------------------------------------------------------- el menú
+   Serveix sobretot per saltar d'una unitat a una altra sense tornar a la
+   portada: és el que més es fa quan mires fitxes de veïns. */
+(function(){
+  const bot = document.getElementById('hamb');
+  const capsa = document.getElementById('menuwrap');
+  const camp = document.getElementById('menu-q');
+  const llista = document.getElementById('menu-llista');
+  if (!bot || !capsa) return;
+  let obert = false;
+
+  function pinta(){
+    const q = nrm(camp.value.trim());
+    // sense escriure res, hi són totes: de vegades no saps el nom i el vols veure
+    const l = q ? D.ua.filter(u => nrm(u.n).includes(q)).slice(0, 25) : D.ua;
+    llista.innerHTML = l.map((u, i) => `<li role="option"><a href="#/ua/${encodeURIComponent(u.id)}"
+      class="${i === 0 ? 'on' : ''}">${esc(u.n)}<span class="chip">${
+        esc(S((u.parts[0] || {}).cls) || '')}</span></a></li>`).join('');
+    camp.setAttribute('aria-expanded', String(l.length > 0));
+  }
+  function obre(){
+    obert = true; capsa.hidden = false; bot.setAttribute('aria-expanded', 'true');
+    camp.value = ''; pinta();
+    setTimeout(() => camp.focus(), 30);
+  }
+  function tanca(){
+    obert = false; capsa.hidden = true; bot.setAttribute('aria-expanded', 'false');
+    llista.innerHTML = '';
+  }
+  bot.addEventListener('click', () => obert ? tanca() : obre());
+  document.getElementById('menu-tanca').addEventListener('click', tanca);
+  capsa.addEventListener('click', e => { if (e.target === capsa) tanca(); });
+  capsa.addEventListener('keydown', e => { if (e.key === 'Escape') { tanca(); bot.focus(); } });
+  camp.addEventListener('input', pinta);
+  camp.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const primer = llista.querySelector('a');
+    if (primer){ e.preventDefault(); location.hash = primer.getAttribute('href').slice(1); tanca(); }
+  });
+  capsa.addEventListener('click', e => { if (e.target.closest('a')) tanca(); });
+})();
+
+/* La finestra flotant, per al plànol de la fitxa i per a les figures de l'annex.
+   Si la imatge no hi és, val més dir-ho que deixar-hi una icona trencada. */
+function obreLupa(url, peu, alt){
+  const d = document.getElementById('lupa');
+  if (!d) return;
+  const img = document.getElementById('lupa-img');
+  const cos = d.querySelector('.cos');
+  const vell = cos.querySelector('.nofig');
+  if (vell) vell.remove();
+  img.hidden = false;
+  img.src = url;
+  img.alt = alt || '';
+  document.getElementById('lupa-peu').textContent = peu || '';
+  document.getElementById('lupa-obre').href = url;
+  d.showModal();
+}
+(function(){
+  const d = document.getElementById('lupa');
+  if (!d) return;
+  const img = document.getElementById('lupa-img');
+  img.addEventListener('error', () => {
+    img.hidden = true;
+    if (!d.querySelector('.nofig')){
+      const p = document.createElement('p');
+      p.className = 'nofig';
+      p.textContent = 'Aquesta imatge encara no hi és.';
+      img.after(p);
+    }
+  });
+  document.getElementById('lupa-x').addEventListener('click', () => d.close());
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+})();
+
+// Imprimir sempre treu la fitxa sencera, també amb Ctrl+P: el PDF no ha de dependre
+// de quins apartats tinguis plegats a la pantalla.
+window.addEventListener('beforeprint', () => {
+  for (const d of document.querySelectorAll('details.bloc:not([open])')){ d.open = true; d.dataset.plegat = '1'; }
+});
+window.addEventListener('afterprint', () => {
+  for (const d of document.querySelectorAll('details.bloc[data-plegat]')){ d.open = false; delete d.dataset.plegat; }
+});
+
+window.addEventListener('hashchange', ruta);
+ruta();
+}
+
+(function(){
+  const el = document.getElementById('dades');
+  const cru = el ? el.textContent.trim() : '';
+  if (cru && cru !== '__DAD' + 'ES__') { arrenca(JSON.parse(cru)); return; }
+  fetch('data.json').then(r => r.json()).then(arrenca).catch(() => {
+    document.getElementById('app').innerHTML =
+      '<p style="padding:40px 0;color:var(--ink-3)">No s\'han pogut carregar les dades.</p>';
+  });
+})();
+</script>
