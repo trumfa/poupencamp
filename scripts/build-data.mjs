@@ -185,7 +185,9 @@ for (const c of F.claus) {
 }
 
 const valors = {};
+const valorsCrus = {};        // totes les files, publicades o no, per clau
 for (const v of F.claus_parametres) {
+  if (v.clau) valorsCrus[String(v.clau)] = (valorsCrus[String(v.clau)] || 0) + 1;
   if (v.visible !== 'SÍ' || !params[v.parametre_bd]) continue;
   (valors[String(v.clau)] ||= []).push({ p: v.parametre_bd, pl: v.text_planer, no: v.valor_original,
                                          a: v.article, r: (v.remet_a || '').trim(),
@@ -315,6 +317,8 @@ const VOLUM = { III: "Vall d'Encamp", IV: 'Els Cortals', V: 'Pas de la Casa',
 
 const UA = [];
 const clausMal = [];      // claus escrites a una fitxa que no existeixen a «claus»
+const clausBuides = new Set();   // hi són, però no tenen cap paràmetre visible
+const D_VARIANTS = variants || {};
 for (const u of F.unitats) {
   const idu = (u.id_ua || '').trim();
   if (!idu || !(u.nom_oficial || '').trim()) continue;
@@ -335,9 +339,16 @@ for (const u of F.unitats) {
     const z = parseClaus(p.zones), sz = parseClaus(p.subzones);
     // Una clau escrita a la fitxa que no és a «claus» no falla enlloc: simplement
     // la unitat es queda sense aquell paràmetre i ningú se n'adona. Millor dir-ho.
-    for (const x of [...z, ...sz])
+    for (const x of [...z, ...sz]) {
       if (!claus[x.c]) clausMal.push(
         `la fitxa ${p.id_fitxa} fa servir la clau «${x.c}», que no és a la pestanya claus`);
+      // Files que hi són però que no es publiquen cap: és el mateix que no tenir
+      // la clau —la unitat es queda muda— i sol voler dir que a «claus_parametres»
+      // les files han quedat desplaçades de columna i «visible» ha perdut el SÍ.
+      else if (valorsCrus[x.c] && !(valors[x.c] || []).length
+               && !(D_VARIANTS[x.c] || []).some(v => (valors[v] || []).length))
+        clausBuides.add(x.c);
+    }
 
     const part = {
       vol, idf: p.id_fitxa, np: VOLUM[vol] || ('Volum ' + vol),
@@ -441,6 +452,12 @@ for (const u of F.unitats) {
                   pg: d.bopa_pagina, pdf: f.pdf_drive_id, img: f.planol_drive_id || '' });
   }
   UA.push(rec);
+}
+if (clausBuides.size) {
+  console.log(`\nAtenció: ${[...clausBuides].join(', ')} ${clausBuides.size === 1 ? 'té files' : 'tenen files'}`
+    + ' a «claus_parametres» però cap no es publica.'
+    + '\n  Les unitats que facin servir aquestes claus no en mostraran cap regla. Mira que les files'
+    + '\n  tinguin «visible» = SÍ i que no s\u2019hagin desplaçat de columna en enganxar-les.');
 }
 if (clausMal.length) {
   // Avís, no error: la web surt igual, però aquelles unitats es queden sense els
