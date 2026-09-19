@@ -165,6 +165,8 @@ const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
 // afecta el sitemap, el robots.txt i les etiquetes canonical/OG de cada pàgina.
 const SITE_URL = (cfg.site_url || 'https://poupencamp.vercel.app').replace(/\/+$/, '');
 cfg.site_url = SITE_URL;
+// El codi que Google Search Console dona per verificar que la web és nostra.
+const GSC = 'm1JT_tYLSNe8D89NeUJS8_EbtFD4OOxd0ptXz24ElNg';
 const T = Object.fromEntries(C.textos.map(r => [r.id_text, r.text_ca]));
 const fmt = (id, vars) => Object.entries(vars)
   .reduce((s, [k, v]) => s.split('{' + k + '}').join(String(v)), T[id] || '');
@@ -705,6 +707,7 @@ const embolcalla = (brut, desc, desti = '/') => {
 <head>
 <meta charset="utf-8">
 <base href="/">
+<meta name="google-site-verification" content="${GSC}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="${desc}" id="meta-desc">
 <meta name="robots" content="index,follow">
