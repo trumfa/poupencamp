@@ -1,5 +1,7 @@
 node_modules/
 public/index.html
 public/data.json
+public/sitemap.xml
+public/robots.txt
 .DS_Store
 .vercel
