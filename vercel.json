@@ -15,6 +15,6 @@
   ],
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/((?!planols|figures|colors|annex04|dwg|data\\.json|sitemap\\.xml|robots\\.txt|favicon\\.svg|esquema\\.html|recintes\\.html).*)", "destination": "/index.html" }
+    { "source": "/((?!planols|figures|colors|annex04|dwg|data\\.json|sitemap\\.xml|robots\\.txt|favicon\\.svg|esquema\\.html|recintes\\.html|google[^/]*\\.html).*)", "destination": "/index.html" }
   ]
 }
