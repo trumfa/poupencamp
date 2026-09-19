@@ -12,5 +12,9 @@
       "source": "/data.json",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     }
+  ],
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/((?!planols|figures|colors|annex04|dwg|data\\.json|sitemap\\.xml|robots\\.txt|favicon\\.svg|esquema\\.html|recintes\\.html).*)", "destination": "/index.html" }
   ]
 }

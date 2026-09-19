@@ -1,4 +1,4 @@
-<title>POUPE Encamp en clar</title>
+<title>POUP Encamp</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..115,500..700&family=Petrona:ital,wght@0,500;1,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -492,7 +492,7 @@ dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;curs
   <div class="wrap topline">
     <button type="button" class="hamb" id="hamb" aria-expanded="false" aria-controls="menu"
       aria-label="Menú"><i></i><i></i><i></i></button>
-    <a class="brand" href="#/">POUP <small>Encamp</small></a>
+    <a class="brand" href="/">POUP <small>Encamp</small></a>
     <b class="ubar-nom" id="ubar-nom" hidden></b>
     <span class="chips" id="ubar-claus"></span>
   </div>
@@ -503,7 +503,7 @@ dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;curs
     <div class="cap"><b>POUP Encamp</b>
       <button type="button" class="tanca" id="menu-tanca" aria-label="Tancar">×</button></div>
     <h2>Anar a</h2>
-    <a class="gran" href="#/">Pàgina inicial<span>Buscar entre totes les unitats, o triar-la al plànol</span></a>
+    <a class="gran" href="/">Pàgina inicial<span>Buscar entre totes les unitats, o triar-la al plànol</span></a>
     <a class="gran" href="esquema.html">Qui regula què<span>Quin nivell del pla decideix cada paràmetre, amb el text de l'article</span></a>
     <h2>Canviar d'unitat</h2>
     <input id="menu-q" type="text" autocomplete="off" placeholder="escriu el nom d'una unitat…"
@@ -525,6 +525,11 @@ dialog.lupa .x{position:absolute;top:9px;right:9px;appearance:none;border:0;curs
 
 <script id="dades" type="application/json">__DADES__</script>
 <script>
+// A la web de debò cada unitat viu a la seva URL (/ua/xxx). A l'artifact —on les
+// dades ja van incrustades i la pàgina no controla el seu propi domini— seguim
+// navegant per hash, que és l'única manera de canviar de "pàgina" sense sortir-ne.
+// El booteig, més avall, decideix quin dels dos és aquest cas.
+let CAMI = true;
 function arrenca(D){
 const app = document.getElementById('app');
 const T = D.T, P = D.pool;
@@ -566,7 +571,8 @@ const partDe = u => (u.parts || [])[Math.min(sel.part, (u.parts || []).length - 
 
 /* ------------------------------------------------------------------ portada */
 function vistaLlista(){
-  document.title = 'POUPE Encamp en clar';
+  metaSEO(T.home_titol ? T.home_titol + ' · POUP Encamp' : 'POUP Encamp',
+    T.home_subtitol || "Consulta del POUPE d'Encamp per unitat d'actuació, en llenguatge planer.", '/');
   app.innerHTML = `
     <div class="hero">
       <h1>${esc(T.home_titol)}</h1>
@@ -644,7 +650,7 @@ function vistaLlista(){
     vis.forEach((u, i) => {
       const l = (u.n[0] || '').toUpperCase();
       if (l !== lletra){ lletra = l; h += `<li class="grup" aria-hidden="true">${esc(l)}</li>`; }
-      h += `<li role="option"><a href="#/ua/${esc(u.id)}" data-i="${i}">
+      h += `<li role="option"><a href="/ua/${esc(u.id)}" data-i="${i}">
         <span style="flex:1">${esc(u.n)}</span><span class="chip">${esc(S((u.parts[0]||{}).cls) || '—')}</span></a></li>`;
     });
     ul.innerHTML = h; idx = -1;
@@ -1154,7 +1160,7 @@ function arrencaPla(){
     const u = unitatA(x, y);
     if (u){
       if (triat){ triat = null; mostraInfo(); }
-      if (!toc || sobre === u) location.hash = '#/ua/' + encodeURIComponent(u.id);
+      if (!toc || sobre === u) va('/ua/' + encodeURIComponent(u.id));
       else { sobre = u; pinta(); }
       return;
     }
@@ -1264,12 +1270,13 @@ function arrencaPla(){
 
 function vistaUA(id, mantenirScroll){
   const u = D.ua.find(x => x.id === id);
-  if (!u){ location.hash = '#/'; return; }
+  if (!u){ va('/'); return; }
   if (!mantenirScroll) sel.part = 0;
   const y = window.scrollY;
-  document.title = u.n + ' · POUPE Encamp';
   barraUA(u);
   const P = partDe(u);
+  metaSEO(u.n + ' · POUP Encamp', (P.res || []).filter(Boolean).join(' ').slice(0, 300)
+    || T.home_subtitol || '', '/ua/' + encodeURIComponent(u.id));
   const zs = P.z || [], szs = P.sz || [];
   const ambRegims = [...zs, ...szs].filter(z => regims(z.c));
   // Filtrar només quan hi ha alguna cosa per triar: una zona i una subzona no
@@ -1383,7 +1390,7 @@ function vistaUA(id, mantenirScroll){
   app.innerHTML = `
     <div class="uahead">
       <div class="uatop">
-        <a class="back" href="#/">← Totes les unitats</a>
+        <a class="back" href="/">← Totes les unitats</a>
         <div class="uaacts">
           ${pdfBopa ? `<a class="btn2" href="${esc(pdfBopa)}" target="_blank" rel="noopener"
              >${esc(T.btn_fitxa_bopa || 'Fitxa del BOPA')} ↗</a>` : ''}
@@ -1525,11 +1532,45 @@ function vistaUA(id, mantenirScroll){
   if (mantenirScroll) window.scrollTo(0, y);
 }
 
+/* ------------------------------------------------------------ rutes i SEO
+   Cada unitat viu a la seva pròpia URL (/ua/xxx) perquè es pugui indexar i
+   compartir a part —no tan sols la portada. vercel.json fa que qualsevol
+   d'aquestes URL serveixi aquest mateix document; és aquí on es decideix,
+   segons el camí, què hi ha de sortir. */
+function metaSEO(titol, desc, cami){
+  document.title = titol;
+  const base = (D.cfg && D.cfg.site_url) || location.origin;
+  const url = base + cami;
+  const posa = (id, atr, v) => { const e = document.getElementById(id); if (e) e[atr] = v; };
+  posa('meta-desc', 'content', desc);
+  posa('og-title', 'content', titol);
+  posa('og-desc', 'content', desc);
+  posa('og-url', 'content', url);
+  posa('canonical', 'href', url);
+}
+function va(cami){
+  if (CAMI){ if (location.pathname !== cami) history.pushState(null, '', cami); }
+  else if (location.hash !== '#' + cami) location.hash = '#' + cami;
+  ruta();
+}
 function ruta(){
-  const m = (location.hash || '#/').match(/^#\/ua\/(.+)$/);
+  const m = CAMI ? (location.pathname || '/').match(/^\/ua\/(.+)$/)
+                 : (location.hash || '#/').match(/^#\/ua\/(.+)$/);
   if (m){ vistaUA(decodeURIComponent(m[1])); window.scrollTo(0, 0); }
   else { sel = {zona:'', subzona:'', variant:{}, part:0}; barraUA(null); vistaLlista(); window.scrollTo(0, 0); }
 }
+// Enllaços interns (camí que comença per «/»): naveguem sense recarregar. Els
+// externs, els que obren finestra nova i els que ja s'aturen (preventDefault)
+// segueixen el seu curs normal.
+document.addEventListener('click', e => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]');
+  if (!a || a.target || a.hasAttribute('download')) return;
+  const href = a.getAttribute('href');
+  if (!href || href.charAt(0) !== '/') return;
+  e.preventDefault();
+  va(href);
+});
 /* ------------------------------------------------------------------- el menú
    Serveix sobretot per saltar d'una unitat a una altra sense tornar a la
    portada: és el que més es fa quan mires fitxes de veïns. */
@@ -1545,7 +1586,7 @@ function ruta(){
     const q = nrm(camp.value.trim());
     // sense escriure res, hi són totes: de vegades no saps el nom i el vols veure
     const l = q ? D.ua.filter(u => nrm(u.n).includes(q)).slice(0, 25) : D.ua;
-    llista.innerHTML = l.map((u, i) => `<li role="option"><a href="#/ua/${encodeURIComponent(u.id)}"
+    llista.innerHTML = l.map((u, i) => `<li role="option"><a href="/ua/${encodeURIComponent(u.id)}"
       class="${i === 0 ? 'on' : ''}">${esc(u.n)}<span class="chip">${
         esc(S((u.parts[0] || {}).cls) || '')}</span></a></li>`).join('');
     camp.setAttribute('aria-expanded', String(l.length > 0));
@@ -1567,7 +1608,7 @@ function ruta(){
   camp.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const primer = llista.querySelector('a');
-    if (primer){ e.preventDefault(); location.hash = primer.getAttribute('href').slice(1); tanca(); }
+    if (primer){ e.preventDefault(); va(primer.getAttribute('href')); tanca(); }
   });
   capsa.addEventListener('click', e => { if (e.target.closest('a')) tanca(); });
 })();
@@ -1614,6 +1655,7 @@ window.addEventListener('afterprint', () => {
   for (const d of document.querySelectorAll('details.bloc[data-plegat]')){ d.open = false; delete d.dataset.plegat; }
 });
 
+window.addEventListener('popstate', ruta);
 window.addEventListener('hashchange', ruta);
 ruta();
 }
@@ -1621,7 +1663,7 @@ ruta();
 (function(){
   const el = document.getElementById('dades');
   const cru = el ? el.textContent.trim() : '';
-  if (cru && cru !== '__DAD' + 'ES__') { arrenca(JSON.parse(cru)); return; }
+  if (cru && cru !== '__DAD' + 'ES__') { CAMI = false; arrenca(JSON.parse(cru)); return; }
   fetch('data.json').then(r => r.json()).then(arrenca).catch(() => {
     document.getElementById('app').innerHTML =
       '<p style="padding:40px 0;color:var(--ink-3)">No s\'han pogut carregar les dades.</p>';

@@ -133,6 +133,46 @@ El JSON es genera a cada desplegament, o sigui que n'hi ha prou amb tornar a des
 El mateix workflow comprova, a cada push, que el full es llegeix i que en surten més de 100
 unitats. Si algú trenca una capçalera del full, salta abans d'arribar a producció.
 
+## Posicionament i indexació (SEO)
+
+Cada unitat viu ara a la seva pròpia adreça, per exemple `poupencamp.vercel.app/ua/BONS_1`,
+en lloc d'un hash (`#/ua/BONS_1`) que Google no indexa mai com a pàgina a part. `vercel.json`
+fa que qualsevol d'aquestes adreces serveixi el mateix `index.html`, i el JavaScript ja sap,
+mirant el camí, quina unitat ha de pintar. Dins la pàgina, clicar un enllaç no recarrega res
+—és el navegador qui, si algú hi entra directament o el comparteix, rep la unitat correcta.
+
+A cada build també es generen sols:
+
+- **`public/sitemap.xml`** — una URL per unitat publicada, més la portada i «Qui regula què».
+- **`public/robots.txt`** — permet indexar-ho tot menys `recintes.html` (l'eina interna), i
+  apunta al sitemap.
+- **Títol, descripció, `canonical` i etiquetes Open Graph** propis de cada pàgina —el títol
+  d'una fitxa és el nom de la unitat, la descripció surt del seu resum en llenguatge planer.
+
+Res d'això cal tocar-ho a mà. L'única fila opcional és `site_url` a la pestanya `config`: si
+mai la web es trasllada a un domini propi, n'hi ha prou de posar-hi la nova adreça (per
+exemple `https://poupencamp.ad`) i el sitemap, el robots.txt i les etiquetes canonical ho
+recullen soles al següent build. Sense aquesta fila, es fa servir `poupencamp.vercel.app`.
+
+### Donar-la d'alta a Google i Bing
+
+Això sí que ho ha de fer algú amb el compte de Google del domini —jo no hi tinc accés:
+
+1. **[Google Search Console](https://search.google.com/search-console)** → afegeix una
+   propietat de tipus «Prefix d'URL» amb `https://poupencamp.vercel.app`. Per verificar-la, la
+   manera més senzilla és **«Etiqueta HTML»**: et donarà una línia com
+   `<meta name="google-site-verification" content="xxxxx">`. Passa-me'n el valor de `content`
+   i te l'afegeixo al `<head>` de la pàgina.
+2. Un cop verificada, a **Sitemaps** (al menú de l'esquerra), enganxa `sitemap.xml` i
+   **Enviar**. Google la rellegirà periòdicament sola.
+3. **[Bing Webmaster Tools](https://www.bing.com/webmasters)** — l'opció «Importar des de
+   Google Search Console» fa tota la feina (dóna d'alta el lloc i el sitemap) en un parell de
+   clics, un cop tinguis fet el pas 1.
+
+Indexar-ho tot no és immediat: Google sol trigar dies o setmanes a rastrejar les 400 i escaig
+unitats. Des de Search Console (*Inspecció d'URL*) es pot demanar la indexació d'una pàgina
+concreta si convé que surti abans.
+
 ## Els plànols
 
 **Ja hi són tots**, convertits: 492 plànols del Drive passats a WebP (1600 px d'amplada,

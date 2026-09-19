@@ -160,6 +160,11 @@ console.log('Llegint les pestanyes de contingut…');
 const C = await llegeixFull(FULL, PESTANYES.contingut);
 
 const cfg = Object.fromEntries(C.config.map(r => [r.clau, r.valor]));
+// El domini on viu la web: per defecte el de Vercel, però es pot sobreescriure amb
+// una fila «site_url» a la pestanya config si mai es passa a un domini propi —
+// afecta el sitemap, el robots.txt i les etiquetes canonical/OG de cada pàgina.
+const SITE_URL = (cfg.site_url || 'https://poupencamp.vercel.app').replace(/\/+$/, '');
+cfg.site_url = SITE_URL;
 const T = Object.fromEntries(C.textos.map(r => [r.id_text, r.text_ca]));
 const fmt = (id, vars) => Object.entries(vars)
   .reduce((s, [k, v]) => s.split('{' + k + '}').join(String(v)), T[id] || '');
@@ -653,20 +658,66 @@ const data = { pool, cfg, T, blocs, params, claus, variants, valors, arts, ua: U
 await mkdir(ARREL + 'public', { recursive: true });
 await writeFile(ARREL + 'public/data.json', JSON.stringify(data));
 
+// El sitemap i el robots.txt: cada unitat publicada hi surt amb la seva pròpia
+// URL (/ua/xxx), perquè Google la pugui indexar i posicionar per separat —no
+// només la portada. Es regeneren a cada build, així una unitat nova o retirada
+// hi queda al dia sense haver-hi de pensar.
+const avui = data.generat.slice(0, 10);
+const urlXml = (loc, prioritat) =>
+  `  <url><loc>${loc}</loc><lastmod>${avui}</lastmod><priority>${prioritat}</priority></url>`;
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlXml(SITE_URL + '/', '1.0')}
+${urlXml(SITE_URL + '/esquema.html', '0.6')}
+${UA.map(u => urlXml(SITE_URL + '/ua/' + encodeURIComponent(u.id), '0.8')).join('\n')}
+</urlset>
+`;
+await writeFile(ARREL + 'public/sitemap.xml', sitemap);
+
+const robots = `User-agent: *
+Allow: /
+Disallow: /recintes.html
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`;
+await writeFile(ARREL + 'public/robots.txt', robots);
+console.log(`Sitemap: ${UA.length + 2} URL a public/sitemap.xml`);
+
 // src/*.html són només el cos de la pàgina; aquí els emboliquem en un document complet.
 // Les primeres línies (<title>, <link> de tipografies, <style>) van al <head>.
-const embolcalla = (brut, desc) => {
+// Com que és una SPA amb rutes per camí (/ua/xxx) servides totes pel mateix fitxer
+// (vegeu vercel.json), <base href="/"> fa que qualsevol ruta relativa —planols/,
+// figures/, colors/, annex04/, data.json…— es resolgui sempre des de l'arrel, tant
+// se val a quina profunditat estigui la URL que ha demanat el navegador.
+const embolcalla = (brut, desc, desti = '/') => {
   const tall = brut.indexOf('</style>');
   const cap = tall < 0 ? '' : brut.slice(0, tall + 8);
   const cos = tall < 0 ? brut : brut.slice(tall + 8).replace(/^\n/, '');
+  const titolM = cap.match(/<title>([^<]*)<\/title>/);
+  const titol = titolM ? titolM[1] : 'POUP Encamp';
+  const url = SITE_URL + desti;
+  const jsonLd = desti === '/' ? `<script type="application/ld+json">${
+    JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite',
+      name: 'POUP Encamp', url: SITE_URL + '/', description: desc, inLanguage: 'ca' })
+  }</script>\n` : '';
   return `<!doctype html>
 <html lang="ca">
 <head>
 <meta charset="utf-8">
+<base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="${desc}">
+<meta name="description" content="${desc}" id="meta-desc">
 <meta name="robots" content="index,follow">
-<style>*{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="canonical" href="${url}" id="canonical">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="POUP Encamp">
+<meta property="og:locale" content="ca_AD">
+<meta property="og:title" content="${titol}" id="og-title">
+<meta property="og:description" content="${desc}" id="og-desc">
+<meta property="og:url" content="${url}" id="og-url">
+<meta name="twitter:card" content="summary">
+${jsonLd}<style>*{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 ${cap}
 </head>
 <body>
@@ -677,7 +728,8 @@ ${cos}
 };
 
 const doc = embolcalla(await readFile(ARREL + 'src/index.html', 'utf8'),
-  "Consulta del POUPE d'Encamp per unitat d'actuació, en llenguatge planer i amb la font de cada punt. Web independent.");
+  "Consulta del POUPE d'Encamp per unitat d'actuació, en llenguatge planer i amb la font de cada punt. Web independent.",
+  '/');
 await writeFile(ARREL + 'public/index.html', doc);
 /* --------- la pàgina de l'esquema: qui regula què, amb el text dels articles
    El cos és src/esquema.html; d'allà se'n treuen els articles que cita i s'hi
@@ -705,7 +757,8 @@ await writeFile(ARREL + 'public/esquema.html',
   embolcalla(brutEsq.replace('__CLAUS__', () => JSON.stringify(clausArt).replace(/</g, '\\u003c'))
     .replace('__ARTICLES__',
     () => JSON.stringify(artsEsq).replace(/</g, '\\u003c')),
-    "Quin nivell del POUPE d'Encamp decideix cada paràmetre: la fitxa, la subzona, la zona o les normes genèriques."));
+    "Quin nivell del POUPE d'Encamp decideix cada paràmetre: la fitxa, la subzona, la zona o les normes genèriques.",
+    '/esquema.html'));
 console.log(`Esquema: ${Object.keys(artsEsq).length} articles incrustats a public/esquema.html`);
 
 /* --------- la pàgina per assignar recintes a unitats
@@ -748,7 +801,7 @@ try {
   await writeFile(ARREL + 'public/recintes.html',
     embolcalla(brutRec.replace('__RECINTES__',
       () => JSON.stringify(dadesRec).replace(/</g, '\\u003c')),
-      'Eina interna per assignar els recintes del plànol a les unitats.')
+      'Eina interna per assignar els recintes del plànol a les unitats.', '/recintes.html')
       .replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex">'));
   const falten = dadesRec.r.filter(r => !r.u.length).length;
   console.log(`Recintes: ${dadesRec.r.length} a public/recintes.html`
